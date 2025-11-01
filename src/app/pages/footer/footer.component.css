@@ -1,0 +1,45 @@
+/*
+  GUÍA DE ESTILOS APLICADA:
+  - Tipografía: 'Roboto' para todo el texto.
+  - Colores: Gris oscuro (#333333) para el fondo y gris claro (#F0F0F0) para el texto,
+    asegurando alto contraste y legibilidad.
+*/
+
+/* Importar fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 40px;
+  background-color: #333333; /* Color de texto principal usado como fondo */
+  color: #F0F0F0; /* Texto claro para contraste */
+  font-family: 'Roboto', sans-serif;
+  flex-wrap: wrap; /* Para que se adapte en pantallas pequeñas */
+  gap: 20px;
+}
+
+.links-footer {
+  display: flex;
+  gap: 25px;
+}
+
+.links-footer a {
+  text-decoration: none;
+  color: #F0F0F0;
+  transition: color 0.3s ease;
+}
+
+.links-footer a:hover {
+  color: #D4AF37; /* Color de Acento (Dorado) para el hover */
+}
+
+/* --- Diseño Responsivo --- */
+@media (max-width: 768px) {
+  footer {
+    flex-direction: column; /* Apilar elementos verticalmente */
+    justify-content: center;
+    text-align: center;
+  }
+}

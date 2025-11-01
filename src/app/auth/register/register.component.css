@@ -1,0 +1,154 @@
+/*
+  GUÍA DE ESTILO APLICADA:
+  - Fuentes: 'Montserrat' para títulos, 'Roboto' para UI/cuerpo.
+  - Paleta de Colores:
+    - Fondo Secundario: #FAF0E6 (Beige Lino) para el contenedor.
+    - Texto Principal: #333333 (Gris Oscuro) para títulos y etiquetas.
+    - Texto Secundario: #666666 (Gris Medio) para placeholders y enlaces.
+    - Acento: #D4AF37 (Dorado Suave) para botones primarios y estado 'focus'.
+*/
+
+/* Importar las fuentes de la guía de estilo */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap');
+
+/* Contenedor principal que centra la tarjeta */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  /* Fondo Secundario: #FAF0E6 (Beige Lino) */
+  background-color: #FAF0E6;
+  min-height: calc(100vh - 120px); /* Ajusta según la altura de tu header/footer */
+}
+
+/* Tarjeta principal del formulario */
+.register-card {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 8px; /* Bordes redondeados consistentes */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Título de la Tarjeta */
+/* Aplicar fuente de Títulos (Montserrat) y color de Texto Principal */
+::ng-deep .register-card .mat-mdc-card-title {
+  font-family: 'Montserrat', sans-serif;
+  color: #333333;
+  text-align: center;
+  font-weight: 700;
+  padding-bottom: 20px;
+}
+
+/* Contenedor para cada paso del stepper */
+.step-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Hace que los mat-form-field ocupen el ancho completo */
+mat-form-field {
+  width: 100%;
+}
+
+/*
+  Aplicar estilos de la guía a los campos de formulario
+*/
+
+/* Color de la etiqueta (Label) y del borde en estado 'focus' */
+::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: #D4AF37; /* Color de Acento (Dorado) */
+}
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-line-ripple::after {
+  border-bottom-color: #D4AF37 !important; /* Color de Acento (Dorado) */
+}
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline-leading,
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline-notch,
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline-trailing {
+  border-color: #D4AF37 !important; /* Color de Acento (Dorado) */
+  border-width: 2px !important;
+}
+
+/* Color del texto del input y placeholder */
+::ng-deep .mat-mdc-form-field .mat-mdc-input-element {
+  font-family: 'Roboto', sans-serif;
+  color: #333333; /* Texto Principal */
+}
+::ng-deep .mat-mdc-form-field input::placeholder {
+  color: #666666; /* Texto Secundario (Gris Medio) */
+  opacity: 0.7;
+}
+
+/*
+  Aplicar estilos de la guía a los Botones
+*/
+
+/* Botón Principal (CTA) - Siguiente / Registrarse */
+::ng-deep .mat-mdc-raised-button.mat-primary {
+  background-color: #D4AF37; /* Color de Acento (Dorado) */
+  color: #FFFFFF; /* Texto blanco para contraste */
+  font-family: 'Roboto', sans-serif;
+  border-radius: 4px; /* Bordes redondeados */
+}
+::ng-deep .mat-mdc-raised-button.mat-primary:hover {
+  background-color: #c7a130; /* Tono más oscuro para hover */
+}
+
+/* Botón Secundario (Atrás) - Estilo de Enlace de Texto */
+::ng-deep .mat-mdc-button.mat-button {
+  color: #666666; /* Texto Secundario */
+  font-family: 'Roboto', sans-serif;
+}
+::ng-deep .mat-mdc-button.mat-button:hover {
+  background-color: rgba(102, 102, 102, 0.05); /* Fondo sutil al pasar el ratón */
+}
+
+
+/* Alinea los botones de acción del stepper */
+.step-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* Estilos para el checkbox de términos */
+.terms-checkbox {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+::ng-deep .terms-checkbox .mdc-label {
+  font-family: 'Roboto', sans-serif;
+  color: #666666;
+}
+
+/* Mensaje de error para el checkbox (debe ser visible) */
+.terms-error {
+  color: #f44336; /* Color de error de Material */
+  font-size: 0.75em;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Enlace inferior para iniciar sesión */
+.login-link {
+  padding: 16px;
+  text-align: center;
+  background-color: #FAF0E6; /* Color de fondo secundario */
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.login-link p {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  color: #666666; /* Texto Secundario */
+}
+.login-link a {
+  color: #D4AF37; /* Color de Acento (Dorado) */
+  font-weight: 700;
+  text-decoration: none;
+}
+.login-link a:hover {
+  text-decoration: underline;
+}
+

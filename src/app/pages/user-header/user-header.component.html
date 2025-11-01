@@ -1,0 +1,42 @@
+  <!-- Este HTML es similar al header público, pero adaptado -->
+  <header>
+    <div class="logo">
+      <a routerLink="/">
+        <img src="assets/images/asdf.png" alt="Distribuidora Panamericana">
+      </a>
+    </div>
+
+    <nav class="links-header">
+      <a routerLink="/productos">Productos</a>
+      <a routerLink="/cabello">Cabello</a>
+      <!-- Puedes añadir más enlaces aquí, como "Mis Pedidos" -->
+    </nav>
+
+    <div class="acciones">
+      <!-- Mensaje de bienvenida -->
+      <span class="welcome-message">
+        <!-- Usamos el pipe 'async' para mostrar el nombre del observable -->
+        Bienvenido, {{ userName$ | async }}
+      </span>
+
+      <a mat-button routerLink="/carrito" class="carrito-btn">
+        <mat-icon>shopping_cart</mat-icon>
+        <span>Carrito</span>
+      </a>
+
+      <!-- Menú de usuario LOGUEADO -->
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario">
+        <mat-icon>account_circle</mat-icon> <!-- Icono de usuario logueado -->
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <a mat-menu-item routerLink="/perfil"> <!-- Futura ruta de perfil -->
+          <mat-icon>settings</mat-icon>
+          <span>Editar Perfil</span>
+        </a>
+        <button mat-menu-item (click)="logout()"> <!-- Botón de cerrar sesión -->
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar Sesión</span>
+        </button>
+      </mat-menu>
+    </div>
+  </header>

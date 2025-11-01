@@ -1,0 +1,156 @@
+/* GUÍA DE ESTILOS APLICADA:
+  - Tipografía: 'Montserrat' para títulos, 'Roboto' para cuerpo de texto.
+  - Colores: Rosa pálido (#F8D8D8) y Gris claro (#F0F0F0) para fondos de sección.
+  - Colores de Acento: Verde menta (#66CDAA) para botones de llamada a la acción (CTA).
+  - Componentes: Estilos para tarjetas de producto y botones primarios.
+  - Diseño Responsivo: Uso de CSS Grid para una cuadrícula fluida.
+*/
+
+/* Importar fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap');
+
+/* Estilo general para el contenedor principal */
+.index-main {
+  font-family: 'Roboto', sans-serif;
+  color: #333333; /* Color de Texto Principal */
+}
+
+/* --- Hero Section --- */
+.hero {
+  background-color: #FAF0E6; /* Color Secundario (Beige) */
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.8rem;
+  color: #333333; /* Color de Texto Principal */
+  margin-bottom: 16px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #666666; /* Color de Texto Secundario */
+  margin-bottom: 32px;
+}
+
+/* --- Estilos para Secciones --- */
+.productos-destacados,
+.beneficios,
+.testimonios {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* Fondo alterno para secciones */
+.productos-destacados,
+.testimonios {
+  background-color: #F0F0F0; /* Color Secundario (Gris Claro) */
+}
+
+.beneficios {
+    background-color: #F8D8D8; /* Color Primario (Rosa Pálido) */
+}
+
+h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.2rem;
+  color: #333333;
+  margin-bottom: 40px;
+}
+
+/* --- Tarjetas de Productos Destacados --- */
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Cuadrícula fluida */
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.producto {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.producto:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.producto img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.producto h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  color: #333333;
+}
+
+.producto p {
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+/* --- Botones (Componente UI) --- */
+button {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 12px 28px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #66CDAA; /* Color de Acento (Verde Menta) */
+  color: #FFFFFF;
+}
+
+button:hover {
+  background-color: #57b396; /* Tono más oscuro para hover */
+  transform: scale(1.05);
+}
+
+/* --- Sección de Beneficios --- */
+.beneficios ul {
+  list-style: none;
+  padding: 0;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.beneficios li {
+  font-size: 1.1rem;
+  color: #333333;
+  margin-bottom: 12px;
+}
+
+/* --- Sección de Testimonios --- */
+.testimonios blockquote {
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+  padding: 20px;
+  border-left: 4px solid #D4AF37; /* Color de Acento (Dorado) */
+  background-color: #FFFFFF;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #666666;
+}
+
+.testimonios cite {
+  display: block;
+  margin-top: 10px;
+  font-weight: 700;
+  color: #333333;
+  font-style: normal;
+}

@@ -1,0 +1,112 @@
+/* Contenedor principal que centra la tarjeta */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 120px); /* Ajusta según la altura de tu header/footer */
+}
+
+/* Tarjeta principal del formulario */
+.login-card {
+  width: 100%;
+  max-width: 450px;
+}
+
+/* El formulario usa flex-column para apilar los campos */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Hace que los mat-form-field ocupen el ancho completo */
+mat-form-field {
+  width: 100%;
+}
+
+/* Botón de envío con margen superior */
+button[type="submit"] {
+  margin-top: 10px;
+}
+
+/* Enlaces inferiores para registrarse o recuperar contraseña */
+.register-link {
+  padding: 16px;
+  text-align: center;
+  background-color: #fafafa;
+  font-size: 0.9em;
+}
+
+.register-link p {
+  margin: 8px 0;
+}
+/* Contenedor principal que centra la tarjeta */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 120px);
+}
+
+/* Tarjeta principal del formulario */
+.login-card {
+  width: 100%;
+  max-width: 450px;
+}
+
+/* El formulario usa flex-column para apilar los campos */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Hace que los mat-form-field ocupen el ancho completo */
+mat-form-field {
+  width: 100%;
+}
+
+/* Botón de envío con margen superior */
+button[type="submit"] {
+  margin-top: 10px;
+}
+
+/* Enlaces inferiores para registrarse o recuperar contraseña */
+.register-link {
+  padding: 16px;
+  text-align: center;
+  background-color: #fafafa;
+  font-size: 0.9em;
+}
+
+.register-link p {
+  margin: 8px 0;
+}
+
+/* --- ESTILOS NUEVOS PARA 2FA --- */
+
+/* Texto de información en el paso 2 */
+.step-2-info {
+  font-family: 'Roboto', sans-serif;
+  color: #666666;
+  font-size: 0.9em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Contenedor de botones en el paso 2 */
+.step-2-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Spinner de carga dentro del botón */
+.button-spinner {
+  margin-right: 8px;
+}

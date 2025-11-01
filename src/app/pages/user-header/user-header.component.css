@@ -1,0 +1,154 @@
+/* Importar fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap');
+
+/*
+  ESTILOS COPIADOS DE header.component.css para mantener la misma estructura
+*/
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #FAF0E6; /* Color Secundario (Beige) */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Logo --- */
+.logo {
+  max-width: 100px;
+  flex-shrink: 0;
+  transition: max-width 0.3s ease;
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Regla para quitar las líneas moradas/rojas del enlace del logo */
+.logo a,
+.logo a:link,
+.logo a:visited,
+.logo a:hover,
+.logo a:active {
+  border: none;
+  outline: none;
+  text-decoration: none;
+  line-height: 0;
+}
+
+/* --- Navegación --- */
+.links-header {
+  display: flex;
+  gap: 30px;
+}
+
+.links-header a {
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  color: #666666; /* Color de Texto Secundario */
+  padding-bottom: 5px;
+  position: relative;
+  transition: color 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.links-header a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #E6E6FA; /* Color Primario (Lavanda) */
+  transition: width 0.3s ease;
+}
+
+.links-header a:hover {
+  color: #483D8B;
+}
+
+.links-header a:hover::after,
+.links-header a.active::after {
+  width: 100%;
+}
+
+/* --- Acciones (Búsqueda y Carrito) --- */
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/*
+  NUEVO ESTILO para el mensaje de bienvenida
+*/
+.welcome-message {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+  color: #666666; /* Color de texto secundario */
+  white-space: nowrap; /* Evita que el nombre se parta en dos líneas */
+}
+
+/*
+  Estilos para el botón de menú de usuario (copiados del header anterior)
+*/
+.auth-menu-btn {
+  color: #666666;
+}
+
+.auth-menu-btn:hover {
+  color: #333333;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+
+/*
+  Estilos para el botón de carrito (copiados del header anterior)
+*/
+.carrito a.mat-mdc-stroked-button {
+  border-color: #D4AF37;
+  color: #333333;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  border-radius: 20px;
+  /* Ajustes para que el icono y texto se vean bien */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px;
+  line-height: 34px; /* Altura del botón */
+}
+
+.carrito a.mat-mdc-stroked-button:hover {
+  background-color: #D4AF37;
+  color: #FFFFFF;
+}
+
+/* --- Diseño Responsivo --- */
+@media (max-width: 992px) {
+  .links-header {
+    display: none;
+  }
+  header {
+    padding: 15px 20px;
+  }
+  .logo {
+    max-width: 80px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo {
+    max-width: 50px;
+  }
+  /* Ocultamos el carrito en móvil pero dejamos el menú de usuario */
+  .carrito {
+    display: none;
+  }
+  .welcome-message {
+    display: none; /* Opcional: ocultar el texto de bienvenida en móviles */
+  }
+}
+

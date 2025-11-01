@@ -1,0 +1,73 @@
+<div class="login-container">
+  <mat-card class="login-card">
+
+    <div *ngIf="step === 1; else step2Block">
+      <mat-card-header>
+        <mat-card-title>Iniciar Sesión</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitEmailPassword()">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="ejemplo@correo.com" formControlName="email">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="email?.hasError('required')">El email es requerido</mat-error>
+            <mat-error *ngIf="email?.hasError('email')">El formato del email no es válido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Contraseña</mat-label>
+            <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+              <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="password?.hasError('required')">La contraseña es requerida</mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
+            <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
+            <span *ngIf="!isLoading">Siguiente</span>
+          </button>
+        </form>
+      </mat-card-content>
+    </div>
+
+    <ng-template #step2Block>
+      <mat-card-header>
+        <mat-card-title>Verificar Código</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="step-2-info">
+          Se ha enviado un código de 6 dígitos a <strong>{{ email?.value }}</strong>.
+        </p>
+
+        <form [formGroup]="codeForm" (ngSubmit)="onSubmitCode()">
+          <mat-form-field appearance="outline">
+            <mat-label>Código de Seguridad</mat-label>
+            <input matInput type="text" placeholder="123456" formControlName="code" maxlength="6">
+            <mat-icon matSuffix>key</mat-icon>
+            <mat-error *ngIf="code?.hasError('required')">El código es requerido</mat-error>
+          </mat-form-field>
+
+          <div class="step-2-actions">
+            <button mat-button type="button" (click)="step = 1" [disabled]="isLoading">
+              Atrás
+            </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="codeForm.invalid || isLoading">
+              <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
+              <span *ngIf="!isLoading">Iniciar Sesión</span>
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </ng-template>
+
+    <mat-card-footer class="register-link">
+      <p>¿Olvidaste tu contraseña? <a routerLink="/password-recovery">Recupérala aquí</a></p>
+      <p>¿No tienes una cuenta? <a routerLink="/register">Regístrate</a></p>
+    </mat-card-footer>
+  </mat-card>
+</div>

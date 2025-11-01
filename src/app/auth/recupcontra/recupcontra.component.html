@@ -1,0 +1,105 @@
+<div class="recovery-container">
+  <mat-card class="recovery-card">
+    <mat-card-header>
+      <mat-card-title>Recuperar Contraseña</mat-card-title>
+    </mat-card-header>
+
+    <!-- Barra de progreso para indicar carga -->
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+    <mat-card-content>
+      <!-- Usamos un solo form group para todos los pasos -->
+      <form [formGroup]="recoveryForm" class="recovery-form">
+
+        <!--
+          PASO 0: Ingresar Correo
+        -->
+        <div *ngIf="step === 0" class="step-container">
+          <p class="step-description">Ingresa tu correo para verificar tu cuenta.</p>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="email?.hasError('required')">El email es requerido</mat-error>
+            <mat-error *ngIf="email?.hasError('email')">Email no válido</mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="button" (click)="verificarCorreo()" [disabled]="isLoading">
+            Siguiente
+          </button>
+        </div>
+
+        <!--
+          PASO 1: Responder Pregunta Secreta
+        -->
+        <div *ngIf="step === 1" class="step-container">
+          <p class="step-description">Responde a tu pregunta secreta:</p>
+
+          <!-- Mostramos la pregunta obtenida del backend -->
+          <label class="secret-question">{{ preguntaSecreta }}</label>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Tu Respuesta</mat-label>
+            <input matInput type="text" formControlName="respuestaSecreta">
+            <mat-icon matSuffix>forum</mat-icon>
+            <mat-error *ngIf="respuestaSecreta?.hasError('required')">La respuesta es requerida</mat-error>
+          </mat-form-field>
+
+          <div class="button-group">
+            <button mat-button type="button" (click)="goBack(0)" [disabled]="isLoading">Atrás</button>
+            <button mat-raised-button color="primary" type="button" (click)="verificarRespuesta()" [disabled]="isLoading">
+              Verificar
+            </button>
+          </div>
+        </div>
+
+        <!--
+          PASO 2: Nueva Contraseña
+        -->
+        <div *ngIf="step === 2" class="step-container">
+          <p class="step-description">Ingresa tu nueva contraseña.</p>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Nueva Contraseña</mat-label>
+            <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="nuevaPassword">
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+              <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="nuevaPassword?.hasError('required')">Requerido</mat-error>
+            <mat-error *ngIf="nuevaPassword?.hasError('pattern')">12+ caracteres, 1 mayúscula, 1 núm, 1 símb.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Confirmar Contraseña</mat-label>
+            <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="confirmarPassword">
+            <mat-error *ngIf="confirmarPassword?.hasError('required')">Requerido</mat-error>
+            <mat-error *ngIf="recoveryForm.hasError('passwordsDoNotMatch')">Las contraseñas no coinciden</mat-error>
+          </mat-form-field>
+
+          <div class="button-group">
+            <button mat-button type="button" (click)="goBack(1)" [disabled]="isLoading">Atrás</button>
+            <button mat-raised-button color="primary" type="button" (click)="cambiarContrasena()" [disabled]="isLoading">
+              Cambiar Contraseña
+            </button>
+          </div>
+        </div>
+
+        <!--
+          PASO 3: Éxito
+        -->
+        <div *ngIf="step === 3" class="step-container success-message">
+          <mat-icon class="success-icon">check_circle</mat-icon>
+          <h3>¡Contraseña Actualizada!</h3>
+          <p>Tu contraseña ha sido cambiada con éxito. Ya puedes iniciar sesión.</p>
+          <a mat-raised-button color="primary" routerLink="/login">Ir a Iniciar Sesión</a>
+        </div>
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer class="footer-link" *ngIf="step < 3">
+      <a routerLink="/login">Volver a Iniciar Sesión</a>
+    </mat-card-footer>
+  </mat-card>
+</div>

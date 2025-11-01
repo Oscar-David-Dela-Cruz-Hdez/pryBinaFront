@@ -1,0 +1,12 @@
+<!-- ESTE ES TU "IF" (si el usuario NO ha iniciado sesión, muestra el header normal) -->
+<app-header *ngIf="!(isLoggedIn$ | async)"></app-header>
+
+<!-- ESTE ES TU "ELSE" (si el usuario SÍ ha iniciado sesión, muestra el user-header) -->
+<app-user-header *ngIf="isLoggedIn$ | async"></app-user-header>
+
+<!-- El resto de tu página (el router-outlet y el footer) quedan estáticos -->
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer></app-footer>

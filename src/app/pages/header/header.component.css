@@ -1,0 +1,151 @@
+/* Importar fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap');
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #FAF0E6; /* Color Secundario (Beige) */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Logo --- */
+.logo {
+  max-width: 100px;
+  flex-shrink: 0;
+  transition: max-width 0.3s ease;
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.logo a,
+.logo a:link,
+.logo a:visited,
+.logo a:hover,
+.logo a:active {
+  border: none;
+  outline: none;
+  text-decoration: none;
+  /* Esto también soluciona un bug visual en algunos navegadores */
+  line-height: 0;
+}
+
+
+/* --- Navegación --- */
+.links-header {
+  display: flex;
+  gap: 30px;
+}
+
+.links-header a {
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  color: #666666; /* Color de Texto Secundario */
+  padding-bottom: 5px;
+  position: relative;
+  transition: color 0.3s ease;
+  /* CAMBIO: Se aumentó el tamaño de la fuente */
+  font-size: 1.1rem;
+}
+
+.links-header a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #E6E6FA; /* Color Primario (Lavanda) */
+  transition: width 0.3s ease;
+}
+
+.links-header a:hover {
+  /* CAMBIO: El color del texto ahora es un morado oscuro que complementa la línea lavanda */
+  color: #483D8B;
+}
+
+.links-header a:hover::after,
+.links-header a.active::after { /* Suponiendo que se añade una clase 'active' */
+  width: 100%;
+}
+
+/* --- Acciones (Búsqueda y Carrito) --- */
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Estilo de Campo de Formulario (Búsqueda) */
+.buscar {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #F0F0F0; /* Fondo Neutro */
+}
+
+.buscar input {
+  border: none;
+  padding: 8px 15px;
+  background-color: transparent;
+  font-family: 'Roboto', sans-serif;
+  color: #666666;
+  outline: none;
+}
+
+.buscar input:focus {
+  box-shadow: 0 0 0 2px #E6E6FA; /* Color de borde al seleccionar */
+}
+
+.buscar button {
+  border: none;
+  background-color: transparent;
+  padding: 0 12px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.carrito a {
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  font-weight: 700;
+  color: #333333;
+  padding: 8px 16px;
+  border: 2px solid #D4AF37; /* Botón secundario con borde de acento */
+  border-radius: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.carrito a:hover {
+  background-color: #D4AF37; /* Color de Acento (Dorado) */
+  color: #FFFFFF;
+}
+
+/* --- Diseño Responsivo --- */
+@media (max-width: 992px) {
+  .links-header {
+    display: none;
+  }
+  header {
+    padding: 15px 20px;
+  }
+  .logo {
+    max-width: 80px; /* Tamaño del logo para tablets */
+  }
+}
+
+@media (max-width: 576px) {
+  .buscar {
+    display: none; /* Ocultar búsqueda en móviles pequeños */
+  }
+  .logo {
+    max-width: 50px; /* Tamaño del logo para móviles */
+  }
+}
+
