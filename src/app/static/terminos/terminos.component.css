@@ -1,0 +1,73 @@
+/* Importar las fuentes de la guía de estilo */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap');
+
+/* Contenedor principal que centra la tarjeta */
+.privacy-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #FAF0E6; /* Color Secundario (Beige Lino) */
+}
+
+/* Tarjeta principal del contenido */
+.privacy-card {
+  width: 100%;
+  max-width: 900px; /* Más ancho para que sea fácil de leer */
+  background-color: #FFFFFF;
+}
+
+/* Título de la Tarjeta */
+::ng-deep .privacy-card .mat-mdc-card-title {
+  font-family: 'Montserrat', sans-serif;
+  color: #333333; /* Texto Oscuro */
+  font-size: 1.8rem;
+}
+
+/* Estilos para el contenido de texto */
+mat-card-content {
+  font-family: 'Roboto', sans-serif;
+  color: #666666; /* Texto Secundario */
+  line-height: 1.7;
+}
+
+mat-card-content h2 {
+  font-family: 'Montserrat', sans-serif;
+  color: #333333;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #F0F0F0; /* Separador Gris Claro */
+  padding-bottom: 8px;
+}
+
+mat-card-content h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: #333333;
+  margin-top: 20px;
+}
+
+mat-card-content h4 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  color: #333333;
+  margin-top: 16px;
+}
+
+mat-card-content p,
+mat-card-content li {
+  color: #666666; /* Texto Secundario */
+  margin-bottom: 16px;
+}
+
+mat-card-content ul {
+  padding-left: 20px;
+  list-style-position: outside;
+}
+
+mat-card-content li {
+  margin-bottom: 10px;
+}
+
+mat-card-content strong {
+  color: #333333; /* Texto Principal */
+}

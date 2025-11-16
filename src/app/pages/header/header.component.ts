@@ -7,19 +7,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  // CAMBIOS: Añadir los nuevos módulos al array 'imports'
-  imports: [
+  selector: 'app-header',
+  standalone: true,
+  // CAMBIOS: Añadir los nuevos módulos al array 'imports'
+  imports: [
     RouterModule,
     MatMenuModule,
     MatIconModule,
     MatButtonModule
   ],
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
 })
 
 export class HeaderComponent {
-  // No se necesita lógica de TS para el MatMenu, ¡se maneja solo!
+  // No se necesita lógica de TS para el MatMenu, ¡se maneja solo!
 }

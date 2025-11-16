@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core'; // Añadir OnDestroy
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs'; // Importar Subscription
+import { HttpClient } from '@angular/common/http'; // Importar HttpClient
 
 // Importaciones de Angular Material
 import { MatCardModule } from '@angular/material/card';
@@ -10,10 +11,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Para 'cargando'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Importar SweetAlert2
 import Swal from 'sweetalert2';
+
+// 1. Importar el servicio de Google
+import {
+  SocialAuthService,
+  GoogleLoginProvider,
+  GoogleSigninButtonModule // El módulo del botón
+} from '@abacritt/angularx-social-login';
 
 // Importar el Servicio de Auth
 import { AuthService } from '../auth.service';
@@ -30,38 +38,81 @@ import { AuthService } from '../auth.service';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatProgressSpinnerModule // Añadir spinner
+    MatProgressSpinnerModule,
+    GoogleSigninButtonModule // <-- Módulo del botón de Google
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy { // Implementar OnDestroy
 
-  // --- NUEVA LÓGICA ---
-  step = 1; // 1 = email/pass, 2 = código 2FA
-  loginForm!: FormGroup; // Formulario para Paso 1
-  codeForm!: FormGroup;  // Formulario para Paso 2
+  step = 1;
+  loginForm!: FormGroup;
+  codeForm!: FormGroup;
   isLoading = false;
   showPassword = false;
-  // --------------------
+
+  // Suscripción para el login de Google
+  private authSubscription!: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService // Usamos el servicio
+    private authService: AuthService,
+    // Inyectar el servicio social
+    private socialAuthService: SocialAuthService
   ) {}
 
   ngOnInit(): void {
-    // Formulario para Paso 1: Email y Contraseña
+    // Formulario de Email/Pass
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
 
-    // Formulario para Paso 2: Código 2FA
+    // Formulario de Código 2FA
     this.codeForm = this.fb.group({
       code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
     });
+
+    // Suscribirse a los cambios de estado de Google
+    this.authSubscription = this.socialAuthService.authState.subscribe(user => {
+
+      // --- ¡¡¡AQUÍ ESTÁ LA CORRECIÓN!!! ---
+      // Comprobamos que 'user' Y 'user.idToken' existan
+      if (user && user.idToken) {
+      // ------------------------------------
+
+        // ¡El usuario inició sesión en Google!
+        // Enviamos el 'idToken' de Google a nuestro backend
+        this.isLoading = true; // Activar spinner
+        this.authService.loginWithGoogle(user.idToken).subscribe({
+          next: (data) => {
+            // ¡Nuestro backend respondió con NUESTRO token!
+            this.isLoading = false;
+            this.authService.login(data.token, data.rol, data.nombre);
+
+            // Redirigimos
+            if (data.rol === 'admin') {
+              this.router.navigate(['/admin']);
+            } else {
+              this.router.navigate(['/']);
+            }
+          },
+          error: (err) => {
+            this.isLoading = false;
+            Swal.fire({ icon: 'error', title: 'Error de Google', text: err.error?.error || 'No se pudo iniciar sesión con Google' });
+          }
+        });
+      }
+    });
+  }
+
+  // Limpiar la suscripción
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
   // --- Getters para los formularios ---
@@ -75,21 +126,18 @@ export class LoginComponent implements OnInit {
       this.loginForm.markAllAsTouched();
       return;
     }
-
     this.isLoading = true;
 
-    // Llamamos al Paso 1 del servicio
     this.authService.loginStep1_requestEmailCode(this.loginForm.value)
       .subscribe({
         next: (response) => {
           this.isLoading = false;
-          // Mostramos alerta de éxito y pasamos al siguiente paso
           Swal.fire({
             icon: 'success',
             title: 'Verifica tu correo',
             text: response.mensaje || 'Te hemos enviado un código de 6 dígitos.'
           });
-          this.step = 2; // Cambiamos al formulario de código
+          this.step = 2;
         },
         error: (err) => {
           this.isLoading = false;
@@ -107,25 +155,21 @@ export class LoginComponent implements OnInit {
     }
 
     this.isLoading = true;
-    const email = this.email.value; // Obtenemos el email del primer formulario
-    const code = this.code!.value;   // Obtenemos el código del segundo formulario
+    const email = this.email.value;
+    const code = this.code!.value;
 
-    // Llamamos al Paso 2 del servicio
     this.authService.loginStep2_verifyCode(email, code)
       .subscribe({
         next: (data) => {
-          // ¡ÉXITO! El backend devolvió el token y los datos
           this.isLoading = false;
           Swal.fire({ icon: 'success', title: 'Inicio de sesión exitoso' });
 
-          // Usamos la función de login local del servicio para guardar todo
           this.authService.login(data.token, data.rol, data.nombre);
 
-          // Redirigimos
           if (data.rol === 'admin') {
             this.router.navigate(['/admin']);
           } else {
-            this.router.navigate(['/']); // Redirigir a la página principal
+            this.router.navigate(['/']);
           }
         },
         error: (err) => {

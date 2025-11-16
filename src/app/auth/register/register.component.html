@@ -5,10 +5,7 @@
     </mat-card-header>
 
     <mat-card-content>
-      <!--
-        El formulario principal (registerForm) ahora envuelve al stepper
-        para manejar la validación y el envío de datos.
-      -->
+
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
         <mat-stepper [linear]="true" #stepper>
@@ -18,16 +15,16 @@
           <mat-step [stepControl]="registerForm.get('step1')!">
             <ng-template matStepLabel>Datos Personales</ng-template>
             <div [formGroupName]="'step1'" class="step-container">
-              <!-- Campo de Nombre -->
               <mat-form-field appearance="outline">
                 <mat-label>Nombre/s</mat-label>
                 <input matInput placeholder="Ej. Ana" formControlName="nombre">
                 <mat-icon matSuffix>person</mat-icon>
-                <mat-error *ngIf="getControl('step1', 'nombre')?.hasError('required')">El nombre es requerido</mat-error>
-                <mat-error *ngIf="getControl('step1', 'nombre')?.hasError('pattern')">Solo debe contener letras</mat-error>
+                <mat-error *ngIf="getControl('step1', 'nombre')?.hasError('required')">El nombre es
+                  requerido</mat-error>
+                <mat-error *ngIf="getControl('step1', 'nombre')?.hasError('pattern')">Solo debe contener
+                  letras</mat-error>
               </mat-form-field>
 
-              <!-- Campo de Apellido Paterno -->
               <mat-form-field appearance="outline">
                 <mat-label>Apellido Paterno</mat-label>
                 <input matInput placeholder="Ej. Pérez" formControlName="ap">
@@ -35,7 +32,6 @@
                 <mat-error *ngIf="getControl('step1', 'ap')?.hasError('pattern')">Solo debe contener letras</mat-error>
               </mat-form-field>
 
-              <!-- Campo de Apellido Materno -->
               <mat-form-field appearance="outline">
                 <mat-label>Apellido Materno</mat-label>
                 <input matInput placeholder="Ej. García" formControlName="am">
@@ -43,8 +39,11 @@
                 <mat-error *ngIf="getControl('step1', 'am')?.hasError('pattern')">Solo debe contener letras</mat-error>
               </mat-form-field>
 
-              <div class="step-actions">
+              <!-- <div class="step-actions">
                 <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+              </div> -->
+              <div class="step-actions">
+                <button mat-raised-button color="primary" matStepperNext type="button" (click)="validateStep('step1')"> Siguiente </button>
               </div>
             </div>
           </mat-step>
@@ -56,16 +55,16 @@
             <ng-template matStepLabel>Datos de la Cuenta</ng-template>
             <div [formGroupName]="'step2'" class="step-container">
 
-              <!-- Campo de Nombre de Usuario -->
               <mat-form-field appearance="outline">
                 <mat-label>Nombre de Usuario</mat-label>
                 <input matInput formControlName="username">
                 <mat-icon matSuffix>account_circle</mat-icon>
-                <mat-error *ngIf="getControl('step2', 'username')?.hasError('required')">El usuario es requerido</mat-error>
-                <mat-error *ngIf="getControl('step2', 'username')?.hasError('pattern')">Solo letras y números</mat-error>
+                <mat-error *ngIf="getControl('step2', 'username')?.hasError('required')">El usuario es
+                  requerido</mat-error>
+                <mat-error *ngIf="getControl('step2', 'username')?.hasError('pattern')">Solo letras y
+                  números</mat-error>
               </mat-form-field>
 
-              <!-- Campo de Email -->
               <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" placeholder="ejemplo@correo.com" formControlName="email">
@@ -74,29 +73,44 @@
                 <mat-error *ngIf="getControl('step2', 'email')?.hasError('email')">Email no válido</mat-error>
               </mat-form-field>
 
-              <!-- Campo de Contraseña -->
               <mat-form-field appearance="outline">
                 <mat-label>Contraseña</mat-label>
                 <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
                 <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
                   <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
-                <mat-error *ngIf="getControl('step2', 'password')?.hasError('required')">La contraseña es requerida</mat-error>
-                <mat-error *ngIf="getControl('step2', 'password')?.hasError('pattern')">Debe tener 12+ caracteres, 1 mayúscula, 1 número y 1 símbolo.</mat-error>
+                <mat-error *ngIf="getControl('step2', 'password')?.hasError('required')">La contraseña es
+                  requerida</mat-error>
+                <mat-error *ngIf="getControl('step2', 'password')?.hasError('pattern')">Debe tener 12+ caracteres, 1
+                  mayúscula, 1 número y 1 símbolo.</mat-error>
               </mat-form-field>
 
-              <!-- Campo de Confirmar Contraseña -->
               <mat-form-field appearance="outline">
                 <mat-label>Confirmar Contraseña</mat-label>
                 <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword">
-                <mat-error *ngIf="getControl('step2', 'confirmPassword')?.hasError('required')">La confirmación es requerida</mat-error>
-                <mat-error *ngIf="registerForm.get('step2')?.hasError('passwordsDoNotMatch')">Las contraseñas no coinciden</mat-error>
+                <mat-error *ngIf="getControl('step2', 'confirmPassword')?.hasError('required')">La confirmación es
+                  requerida</mat-error>
+                <mat-error *ngIf="registerForm.get('step2')?.hasError('passwordsDoNotMatch')">Las contraseñas no
+                  coinciden</mat-error>
               </mat-form-field>
 
-              <div class="step-actions">
+              <!-- <div class="step-actions">
                 <button mat-button matStepperPrevious type="button">Atrás</button>
                 <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+              </div> -->
+              <div class="step-actions">
+                <button mat-button matStepperPrevious type="button">Atrás</button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  matStepperNext
+                  type="button"
+                  (click)="validateStep('step2')"
+                >
+                  Siguiente
+                </button>
               </div>
+
             </div>
           </mat-step>
 
@@ -107,16 +121,16 @@
             <ng-template matStepLabel>Seguridad</ng-template>
             <div [formGroupName]="'step3'" class="step-container">
 
-              <!-- Campo de Teléfono -->
               <mat-form-field appearance="outline">
                 <mat-label>Teléfono</mat-label>
                 <input matInput type="tel" placeholder="10 dígitos" formControlName="telefono">
                 <mat-icon matSuffix>phone</mat-icon>
-                <mat-error *ngIf="getControl('step3', 'telefono')?.hasError('required')">El teléfono es requerido</mat-error>
-                <mat-error *ngIf="getControl('step3', 'telefono')?.hasError('pattern')">Debe tener 10 dígitos</mat-error>
+                <mat-error *ngIf="getControl('step3', 'telefono')?.hasError('required')">El teléfono es
+                  requerido</mat-error>
+                <mat-error *ngIf="getControl('step3', 'telefono')?.hasError('pattern')">Debe tener 10
+                  dígitos</mat-error>
               </mat-form-field>
 
-              <!-- Campo de Pregunta Secreta -->
               <mat-form-field appearance="outline">
                 <mat-label>Pregunta Secreta</mat-label>
                 <mat-select formControlName="preguntaSecreta">
@@ -127,29 +141,45 @@
                   <mat-option value="nombre-mascota">¿Cuál es el nombre de tu mascota?</mat-option>
                   <mat-option value="deporte-favorito">¿Cuál es tu deporte favorito?</mat-option>
                 </mat-select>
-                <mat-error *ngIf="getControl('step3', 'preguntaSecreta')?.hasError('required')">Selecciona una pregunta</mat-error>
+                <mat-error *ngIf="getControl('step3', 'preguntaSecreta')?.hasError('required')">Selecciona una
+                  pregunta</mat-error>
               </mat-form-field>
 
-              <!-- Campo de Respuesta Secreta -->
               <mat-form-field appearance="outline">
                 <mat-label>Respuesta Secreta</mat-label>
                 <input matInput formControlName="respuestaSecreta">
                 <mat-icon matSuffix>forum</mat-icon>
-                <mat-error *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('required')">La respuesta es requerida</mat-error>
-                <mat-error *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('pattern')">Solo debe contener letras</mat-error>
+                <mat-error *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('required')">La respuesta es
+                  requerida</mat-error>
+                <mat-error *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('pattern')">Solo debe contener
+                  letras</mat-error>
               </mat-form-field>
 
-              <!-- Checkbox de Términos y Condiciones -->
               <mat-checkbox formControlName="terminos" class="terms-checkbox">
-                Acepto los términos y condiciones
+                <span>
+                  Acepto los <a routerLink="/terminos" target="_blank">Términos y Condiciones</a>
+                  y he leído el <a routerLink="/privacidad" target="_blank">Aviso de Privacidad</a>
+                </span>
               </mat-checkbox>
-              <mat-error class="terms-error" *ngIf="getControl('step3', 'terminos')?.hasError('requiredTrue') && getControl('step3', 'terminos')?.touched">
+              <mat-error class="terms-error"
+                *ngIf="getControl('step3', 'terminos')?.hasError('requiredTrue') && getControl('step3', 'terminos')?.touched">
                 Debes aceptar los términos
               </mat-error>
 
-              <div class="step-actions">
+              <!-- <div class="step-actions">
                 <button mat-button matStepperPrevious type="button">Atrás</button>
                 <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">
+                  Registrarse
+                </button>
+              </div> -->
+              <div class="step-actions">
+                <button mat-button matStepperPrevious type="button">Atrás</button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  [disabled]="!registerForm.valid"
+                >
                   Registrarse
                 </button>
               </div>
@@ -165,4 +195,3 @@
     </mat-card-footer>
   </mat-card>
 </div>
-

@@ -1,35 +1,35 @@
 <header>
-  <div class="logo">
-    <a routerLink="/">
-      <img src="assets/images/asdf.png" alt="Distribuidora Panamericana">
-    </a>
-  </div>
+  <div class="logo">
+    <a routerLink="/">
+      <img src="assets/images/asdf.png" alt="Distribuidora Panamericana" />
+    </a>
+  </div>
 
-  <nav class="links-header">
-    <a routerLink="/productos">Productos</a>
-    <a routerLink="/cabello">Cabello</a>
-    <a routerLink="/cosmeticos">Cosméticos</a>
-    <a routerLink="/ofertas">Ofertas</a>
-    <a routerLink="/contacto">Contacto</a>
-  </nav>
-
-  <div class="acciones">
-    <div class="buscar">
-      <input type="text" placeholder="Buscar productos..." />
+  <nav class="links-header">
+    <a routerLink="/productos">Productos</a>
+    <a routerLink="/cabello">Cabello</a>
+    <a routerLink="/cosmeticos">Cosméticos</a>
+    <a routerLink="/ofertas">Ofertas</a>
+    <a routerLink="/contacto">Contacto</a>
+  </nav>
+  <div class="acciones">
+    <div class="buscar">
+      <input type="text" placeholder="Buscar productos..." />
       <!-- CAMBIO: Botón de emoji reemplazado por MatIcon -->
-      <button mat-icon-button aria-label="Icono de búsqueda">
+      <button mat-icon-button aria-label="Icono de búsqueda">
         <mat-icon>search</mat-icon>
       </button>
-    </div>
-   
+    </div>
     <!-- CAMBIO: Enlace de carrito simple reemplazado por un botón con icono -->
-    <a mat-button routerLink="/carrito" class="carrito-btn">
+    <a mat-button routerLink="/carrito" class="carrito-btn">
       <mat-icon>shopping_cart</mat-icon>
       <span>Carrito</span>
     </a>
-
     <!-- NUEVO: Menú de usuario con los enlaces de autenticación -->
-    <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="userMenu"
+      aria-label="Menú de usuario">
       <mat-icon>person_outline</mat-icon>
     </button>
     <mat-menu #userMenu="matMenu">
@@ -46,5 +46,5 @@
         <span>Recuperar Contraseña</span>
       </a>
     </mat-menu>
-  </div>
+  </div>
 </header>

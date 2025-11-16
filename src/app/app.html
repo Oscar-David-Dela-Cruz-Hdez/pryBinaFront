@@ -1,4 +1,5 @@
 <!-- ESTE ES TU "IF" (si el usuario NO ha iniciado sesión, muestra el header normal) -->
+
 <app-header *ngIf="!(isLoggedIn$ | async)"></app-header>
 
 <!-- ESTE ES TU "ELSE" (si el usuario SÍ ha iniciado sesión, muestra el user-header) -->
@@ -10,3 +11,4 @@
 </main>
 
 <app-footer></app-footer>
+

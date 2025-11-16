@@ -1,6 +1,7 @@
 <div class="login-container">
   <mat-card class="login-card">
 
+    <!-- PASO 1: Formulario de Email/Password -->
     <div *ngIf="step === 1; else step2Block">
       <mat-card-header>
         <mat-card-title>Iniciar Sesión</mat-card-title>
@@ -9,6 +10,7 @@
       <mat-card-content>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmitEmailPassword()">
 
+          <!-- Campo de Email -->
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput type="email" placeholder="ejemplo@correo.com" formControlName="email">
@@ -17,6 +19,7 @@
             <mat-error *ngIf="email?.hasError('email')">El formato del email no es válido</mat-error>
           </mat-form-field>
 
+          <!-- Campo de Contraseña -->
           <mat-form-field appearance="outline">
             <mat-label>Contraseña</mat-label>
             <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
@@ -26,14 +29,34 @@
             <mat-error *ngIf="password?.hasError('required')">La contraseña es requerida</mat-error>
           </mat-form-field>
 
+          <!-- Botón de Envío (Paso 1) -->
           <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
             <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
             <span *ngIf="!isLoading">Siguiente</span>
           </button>
         </form>
+
+        <!-- Contenedor del Botón de Google -->
+        <div class="google-signin-container">
+          <p>O inicia sesión con:</p>
+
+          <!--
+            --- ¡¡¡AQUÍ ESTÁ LA CORRECCIÓN!!! ---
+            Cambiamos 'width="300px"' por '[width]="300"'
+          -->
+          <asl-google-signin-button
+            type="standard"
+            theme="outline"
+            size="large"
+            shape="rectangular"
+            [width]="300">
+          </asl-google-signin-button>
+        </div>
+
       </mat-card-content>
     </div>
 
+    <!-- PASO 2: Formulario de Código 2FA -->
     <ng-template #step2Block>
       <mat-card-header>
         <mat-card-title>Verificar Código</mat-card-title>
@@ -45,6 +68,7 @@
         </p>
 
         <form [formGroup]="codeForm" (ngSubmit)="onSubmitCode()">
+          <!-- Campo de Código -->
           <mat-form-field appearance="outline">
             <mat-label>Código de Seguridad</mat-label>
             <input matInput type="text" placeholder="123456" formControlName="code" maxlength="6">
@@ -52,6 +76,7 @@
             <mat-error *ngIf="code?.hasError('required')">El código es requerido</mat-error>
           </mat-form-field>
 
+          <!-- Botones (Paso 2) -->
           <div class="step-2-actions">
             <button mat-button type="button" (click)="step = 1" [disabled]="isLoading">
               Atrás
@@ -65,6 +90,7 @@
       </mat-card-content>
     </ng-template>
 
+    <!-- Footer con enlaces (siempre visible) -->
     <mat-card-footer class="register-link">
       <p>¿Olvidaste tu contraseña? <a routerLink="/password-recovery">Recupérala aquí</a></p>
       <p>¿No tienes una cuenta? <a routerLink="/register">Regístrate</a></p>

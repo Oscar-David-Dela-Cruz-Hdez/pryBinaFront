@@ -3,27 +3,24 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // --- BehaviorSubjects para el estado ---
   private isLoggedInSubject: BehaviorSubject<boolean>;
   private userNameSubject: BehaviorSubject<string | null>;
-
-  // URL de tu API de backend
   private apiUrl = 'http://localhost:4000/api/usuarios';
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private socialAuthService: SocialAuthService
   ) {
-    // Leemos de localStorage AL INICIAR
     const token = localStorage.getItem('user_token');
+    console.log("Token en constructor:", token);
     const nombre = localStorage.getItem('user_name');
-
-    // Inicializamos los subjects con el estado guardado
     this.isLoggedInSubject = new BehaviorSubject<boolean>(!!token);
     this.userNameSubject = new BehaviorSubject<string | null>(nombre);
   }
@@ -37,31 +34,22 @@ export class AuthService {
     return this.userNameSubject.asObservable();
   }
 
-  // --- LÓGICA DE LOGIN AHORA EN 3 PARTES ---
-
-  /**
-   * PASO 1: Pide al backend que verifique las credenciales y envíe un código 2FA.
-   * (Esta es la función que te faltaba)
-   */
+  // --- Lógica de 2FA ---
   public loginStep1_requestEmailCode(credentials: any): Observable<any> {
-    // Llama a tu endpoint de login existente
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
 
-  /**
-   * PASO 2: Envía el código 2FA para verificar.
-   * (Esta también te faltaba)
-   */
   public loginStep2_verifyCode(email: string, code: string): Observable<any> {
-    // Llama al nuevo endpoint que creamos en el backend
     return this.http.post(`${this.apiUrl}/verify-2fa`, { email, code });
   }
 
-  /**
-   * PASO 3: Función local.
-   * Se llama DESPUÉS de que loginStep2_verifyCode tiene éxito.
-   * Guarda el token y actualiza el estado de la UI.
-   */
+  // --- NUEVA FUNCIÓN PARA GOOGLE ---
+  public loginWithGoogle(idToken: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/google-login`, { idToken: idToken });
+  }
+  // ---------------------------------
+
+  // --- Funciones Locales de Auth ---
   login(token: string, rol: string, nombre: string): void {
     localStorage.setItem('user_token', token);
     localStorage.setItem('user_rol', rol);
@@ -70,18 +58,18 @@ export class AuthService {
     this.userNameSubject.next(nombre);
   }
 
-  // --- Lógica de Logout ---
   logout(): void {
+    console.log("Cerrando sesión...");
     localStorage.removeItem('user_token');
     localStorage.removeItem('user_rol');
     localStorage.removeItem('user_name');
+    this.socialAuthService.signOut();
     this.isLoggedInSubject.next(false);
     this.userNameSubject.next(null);
     this.router.navigate(['/login']);
   }
 
-  // --- MÉTODOS PARA EL PERFIL (Estos ya los tenías) ---
-
+  // --- Métodos de Perfil ---
   public getToken(): string | null {
     return localStorage.getItem('user_token');
   }

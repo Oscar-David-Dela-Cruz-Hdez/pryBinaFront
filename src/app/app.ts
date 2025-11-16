@@ -1,36 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common'; // Importar CommonModule para *ngIf
+import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-
+import { ChangeDetectorRef } from '@angular/core'; // <-- Importa ChangeDetectorRef
 // Importar AMBOS headers
 import { HeaderComponent } from './pages/header/header.component';
 import { UserHeaderComponent } from './pages/user-header/user-header.component';
 import { FooterComponent } from './pages/footer/footer.component';
-
 // Importar el servicio
 import { AuthService } from './auth/auth.service';
 
 @Component({
-  selector: 'app-root', // Este es el selector que está en tu index.html
+  selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, // Añadir CommonModule (para *ngIf y async)
+    CommonModule,
     RouterOutlet,
     HeaderComponent,
-    UserHeaderComponent, // Añadir el nuevo header
+    UserHeaderComponent,
     FooterComponent
   ],
-  templateUrl: './app.html', // Apuntar al archivo app.html
-  styleUrls: ['./app.css']  // Apuntar al archivo app.css
+  templateUrl: './app.html',
+  styleUrls: ['./app.css']
 })
-export class App { // Mantenemos tu nombre de clase 'App'
-  // Crear un observable para el estado de login
+export class App implements OnInit { // <-- Implementa OnInit
   isLoggedIn$: Observable<boolean>;
 
-  constructor(private authService: AuthService) {
-    // Asignar el observable desde el servicio
+  constructor(
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef // <-- Inyecta ChangeDetectorRef
+  ) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
   }
-}
 
+  ngOnInit(): void {
+    // Depuración: Suscríbete al observable para ver los cambios
+    this.isLoggedIn$.subscribe(isLoggedIn => {
+      console.log("Estado de login en App:", isLoggedIn);
+      this.cdr.detectChanges(); // <-- Fuerza la detección de cambios
+    });
+  }
+}

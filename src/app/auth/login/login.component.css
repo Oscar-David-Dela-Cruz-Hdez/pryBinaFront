@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
-  background-color: #f5f5f5;
+  background-color: #FAF0E6;
   min-height: calc(100vh - 120px); /* Ajusta según la altura de tu header/footer */
 }
 

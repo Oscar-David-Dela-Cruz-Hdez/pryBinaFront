@@ -1,25 +1,34 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
-
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-
-//import { provideGoogleSso } from '@angular/google-signin';
+import { SocialAuthService, GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+// Importa el InjectionToken correcto
+import { SOCIAL_AUTH_CONFIG } from '@abacritt/angularx-social-login';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
     provideRouter(routes),
     provideAnimations(),
-    provideHttpClient(
-      withFetch()
-    ),
-
-  /*  provideGoogleSso({
-      provider: '610797077240-hd26f06tg0k68v7hhtuoi5fdl76a50rf.apps.googleusercontent.com'
-    })*/
-
+    provideHttpClient(withFetch()),
+    // 🔹 Configuración de SocialAuthService con el InjectionToken correcto
+    {
+      provide: SOCIAL_AUTH_CONFIG, // <-- Usa el InjectionToken oficial
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '610797077240-hd26f06tg0k68v7hhtuoi5fdl76a50rf.apps.googleusercontent.com'
+            ),
+          },
+        ],
+        onError: (err: any) => console.error(err),
+      } as SocialAuthServiceConfig,
+    },
+    // Servicio
+    SocialAuthService
   ]
 };

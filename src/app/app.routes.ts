@@ -6,6 +6,8 @@ import { authGuard } from './auth/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { RecupcontraComponent } from './auth/recupcontra/recupcontra.component';
+import { PrivacidadComponent } from './static/privacidad/privacidad.component';
+import { TerminosComponent } from './static/terminos/terminos.component';
 
 import { ProfileComponent } from './pages/profile/profile.component';
 
@@ -35,5 +37,15 @@ export const routes: Routes = [
     component: ProfileComponent,
     canActivate: [authGuard]
   },
+
+  {
+    path: 'privacidad',
+    component: PrivacidadComponent
+  },
+
+  {
+    path: 'terminos',
+    component: TerminosComponent
+  }
 
 ];
