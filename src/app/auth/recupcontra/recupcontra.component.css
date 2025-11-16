@@ -1,83 +1,99 @@
-/* Estilos generales (similares a login/register) */
+/* === CONTENEDOR GENERAL === */
 .recovery-container {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
-  background-color: #f5f5f5;
+  background: linear-gradient(to bottom, #ffffff, #f7f7fb);
   min-height: calc(100vh - 120px);
 }
 
+/* === TARJETA PRINCIPAL === */
 .recovery-card {
   width: 100%;
-  max-width: 450px;
+  max-width: 430px;
+  border-radius: 16px;
+  padding-top: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.07);
 }
 
-/* Barra de progreso (se esconde si no está .isLoading) */
-mat-progress-bar {
-  margin-bottom: 16px;
+/* === TÍTULO === */
+.recovery-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-/* Contenedor de formulario y de cada paso */
-.recovery-form {
-  display: flex;
-  flex-direction: column;
+/* === DESCRIPCIÓN === */
+.recovery-description {
+  font-size: 1em;
+  color: #666;
+  margin-bottom: 18px;
+  text-align: left;
 }
 
-.step-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
+/* === FORM FIELD === */
 mat-form-field {
   width: 100%;
+  margin-bottom: 8px; /* separa el input del error */
 }
 
-/* Párrafo de descripción de cada paso */
-.step-description {
-  font-size: 0.9em;
-  color: #555;
-  margin-bottom: 5px;
+/* Padding interno del input */
+::ng-deep .mat-mdc-text-field-wrapper {
+  padding: 10px 16px !important;
 }
 
-/* Estilo para la pregunta secreta */
-.secret-question {
-  font-size: 1em;
-  font-weight: 500;
-  color: #333;
-  padding: 10px;
-  background-color: #fafafa;
-  border-radius: 4px;
-  border-left: 4px solid #E6E6FA; /* Usando un color de la paleta */
+::ng-deep .mdc-notched-outline__notch {
+  padding-left: 8px !important;
 }
 
-/* Grupo de botones (Atrás / Siguiente) */
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
+::ng-deep .mat-mdc-input-element {
+  color: #222 !important;
 }
 
-/* Mensaje de éxito (Paso 3) */
-.success-message {
-  align-items: center;
-  text-align: center;
+/* === MENSAJE DE ERROR === */
+.error-message {
+  font-size: 0.85em;
+  color: #c0392b;
+  margin-bottom: 14px; /* más aire antes del botón */
 }
 
-.success-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
-  color: #4CAF50; /* Verde éxito */
-  margin-bottom: 16px;
+/* === BOTÓN PRINCIPAL === */
+button[mat-raised-button][color="primary"] {
+  background-color: #d4af37 !important; /* tu dorado */
+  color: white !important;
+  height: 44px;
+  border-radius: 8px !important;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  transition: 0.2s ease;
+  margin-top: 10px; /* espacio entre error y botón */
 }
 
-/* Enlace inferior del footer */
+button[mat-raised-button][color="primary"]:hover {
+  background-color: #c39a2e !important;
+}
+
+/* === FOOTER LINK === */
 .footer-link {
-  padding: 16px;
+  margin-top: 25px; /* lo baja */
   text-align: center;
-  background-color: #fafafa;
-  font-size: 0.9em;
+}
+
+.footer-link a {
+  font-weight: 600;
+  color: #d4af37;
+  text-decoration: none;
+}
+
+.footer-link a:hover {
+  text-decoration: underline;
+}
+
+/* === ESTILO DEL ÁREA DEL FORM === */
+mat-card-content {
+  padding: 20px 30px 30px 30px !important;
 }
