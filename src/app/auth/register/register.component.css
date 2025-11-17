@@ -122,6 +122,13 @@ mat-form-field {
   font-family: 'Roboto', sans-serif;
   color: #666666;
 }
+::ng-deep .terms-checkbox a {
+  color: #D4AF37; /* Color de Acento (Dorado) */
+  text-decoration: none;
+}
+::ng-deep .terms-checkbox a:hover {
+  text-decoration: underline;
+}
 
 /* Mensaje de error para el checkbox (debe ser visible) */
 .terms-error {
@@ -152,3 +159,23 @@ mat-form-field {
   text-decoration: underline;
 }
 
+/* --- ¡¡¡AQUÍ ESTÁ LA SOLUCIÓN COMPLETA!!! --- */
+
+/* 1. Arregla el problema de "recorte" (clipping)
+   Permite que el panel se "desborde" de sus contenedores.
+*/
+::ng-deep .mat-card-content,
+::ng-deep .mat-stepper-horizontal,
+::ng-deep .mat-step-content {
+  overflow: visible !important;
+}
+
+/* 2. Arregla el problema de "transparencia" y "capas" (z-index)
+   Le da un fondo blanco sólido y lo pone en una capa superior.
+*/
+::ng-deep .mat-mdc-select-panel.mat-mdc-select-panel {
+  z-index: 999 !important;
+  background-color: #FAF0E6; /* <-- ¡Arregla la transparencia! */
+  border: 1px solid #ccc; /* Opcional: añade un borde sutil */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Opcional: añade una sombra */
+}
