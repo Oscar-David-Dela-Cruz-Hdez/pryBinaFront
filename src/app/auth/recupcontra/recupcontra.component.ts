@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -50,7 +50,8 @@ export class RecupcontraComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -67,36 +68,37 @@ export class RecupcontraComponent implements OnInit {
   get nuevaPassword() { return this.recoveryForm.get('nuevaPassword'); }
   get confirmarPassword() { return this.recoveryForm.get('confirmarPassword'); }
 
-verificarCorreo(): void {
-  if (this.email?.invalid) {
-    this.email?.markAsTouched();
-    return;
+  verificarCorreo(): void {
+    if (this.email?.invalid) {
+      this.email?.markAsTouched();
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.http.post<any>(`${this.apiUrl}/verificar-correo`, { email: this.email?.value })
+      .subscribe({
+        next: (res) => {
+          this.http.post<any>(`${this.apiUrl}/obtener-pregunta`, { email: this.email?.value })
+            .subscribe({
+              next: (preguntaRes) => {
+                this.preguntaSecreta = preguntaRes.preguntaSecreta;
+                this.isLoading = false;
+                this.step = 1;
+                this.cdr.detectChanges();
+              },
+              error: (err) => {
+                this.isLoading = false;
+                this.handleError(err, 'No se pudo obtener la pregunta secreta.');
+              }
+            });
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.handleError(err, 'El correo no fue encontrado.');
+        }
+      });
   }
-
-  this.isLoading = true;
-
-  this.http.post<any>(`${this.apiUrl}/verificar-correo`, { email: this.email?.value })
-    .subscribe({
-      next: (res) => {
-        this.http.post<any>(`${this.apiUrl}/obtener-pregunta`, { email: this.email?.value })
-          .subscribe({
-            next: (preguntaRes) => {
-              this.preguntaSecreta = preguntaRes.preguntaSecreta;
-              this.isLoading = false;
-              this.step = 1;
-            },
-            error: (err) => {
-              this.isLoading = false; // Asegúrate de establecer isLoading en false
-              this.handleError(err, 'No se pudo obtener la pregunta secreta.');
-            }
-          });
-      },
-      error: (err) => {
-        this.isLoading = false; // Asegúrate de establecer isLoading en false
-        this.handleError(err, 'El correo no fue encontrado.');
-      }
-    });
-}
 
 
   verificarRespuesta(): void {
