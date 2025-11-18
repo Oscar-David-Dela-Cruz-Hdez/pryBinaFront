@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-header',
   standalone: true,
-  // CAMBIOS: Añadir los nuevos módulos al array 'imports'
+
   imports: [
     RouterModule,
     MatMenuModule,
@@ -21,5 +21,5 @@ import { MatButtonModule } from '@angular/material/button';
 })
 
 export class HeaderComponent {
-  // No se necesita lógica de TS para el MatMenu, ¡se maneja solo!
+
 }

@@ -4,7 +4,6 @@ import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { SocialAuthService, GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
-// Importa el InjectionToken correcto
 import { SOCIAL_AUTH_CONFIG } from '@abacritt/angularx-social-login';
 
 export const appConfig: ApplicationConfig = {
@@ -12,9 +11,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(withFetch()),
-    // 🔹 Configuración de SocialAuthService con el InjectionToken correcto
+
     {
-      provide: SOCIAL_AUTH_CONFIG, // <-- Usa el InjectionToken oficial
+      provide: SOCIAL_AUTH_CONFIG,
       useValue: {
         autoLogin: false,
         providers: [
@@ -28,7 +27,6 @@ export const appConfig: ApplicationConfig = {
         onError: (err: any) => console.error(err),
       } as SocialAuthServiceConfig,
     },
-    // Servicio
     SocialAuthService
   ]
 };

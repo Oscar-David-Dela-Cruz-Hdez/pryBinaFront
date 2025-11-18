@@ -11,7 +11,8 @@ import { SocialAuthService } from '@abacritt/angularx-social-login';
 export class AuthService {
   private isLoggedInSubject: BehaviorSubject<boolean>;
   private userNameSubject: BehaviorSubject<string | null>;
-  private apiUrl = 'http://localhost:4000/api/usuarios';
+  //private apiUrl = 'http://localhost:4000/api/usuarios';
+  private apiUrl = 'https://prybinaback.onrender.com/api/usuarios';
 
   constructor(
     private router: Router,

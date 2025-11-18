@@ -1,4 +1,4 @@
-  <!-- Este HTML es similar al header público, pero adaptado -->
+
   <header>
     <div class="logo">
       <a routerLink="/">
@@ -9,13 +9,13 @@
     <nav class="links-header">
       <a routerLink="/productos">Productos</a>
       <a routerLink="/cabello">Cabello</a>
-      <!-- Puedes añadir más enlaces aquí, como "Mis Pedidos" -->
+
     </nav>
 
     <div class="acciones">
       <!-- Mensaje de bienvenida -->
       <span class="welcome-message">
-        <!-- Usamos el pipe 'async' para mostrar el nombre del observable -->
+
         Bienvenido, {{ userName$ | async }}
       </span>
 
