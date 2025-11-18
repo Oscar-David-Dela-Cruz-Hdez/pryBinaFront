@@ -98,4 +98,15 @@ export class AuthService {
     localStorage.setItem('user_name', newName);
     this.userNameSubject.next(newName);
   }
+
+  updatePassword(data: { currentPassword: string, newPassword: string }): Observable<any> {
+  return this.http.put(`${this.apiUrl}/update-password`, data, { headers: this.getAuthHeaders() });
 }
+
+updateSecret(data: { preguntaSecreta: string, respuestaSecreta: string }): Observable<any> {
+  return this.http.put(`${this.apiUrl}/update-secret`, data, { headers: this.getAuthHeaders() });
+}
+
+}
+
+

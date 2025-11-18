@@ -1,74 +1,23 @@
-<!--
-  Este componente mostrará un formulario con los datos del usuario
-  y permitirá actualizarlos.
--->
 <div class="profile-container">
-  <mat-card class="profile-card" *ngIf="profileForm">
-    <mat-card-header>
-      <mat-card-title>Editar mi Perfil</mat-card-title>
-      <mat-card-subtitle>Actualiza tu información personal</mat-card-subtitle>
-    </mat-card-header>
-
-    <mat-card-content>
-      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-        <div class="form-container">
-          <!-- Campo de Nombre -->
-          <mat-form-field appearance="outline">
-            <mat-label>Nombre/s</mat-label>
-            <input matInput formControlName="nombre">
-            <mat-icon matSuffix>person</mat-icon>
-            <mat-error *ngIf="profileForm.get('nombre')?.hasError('required')">El nombre es requerido</mat-error>
-          </mat-form-field>
-
-          <!-- Campo de Apellido Paterno -->
-          <mat-form-field appearance="outline">
-            <mat-label>Apellido Paterno</mat-label>
-            <input matInput formControlName="ap">
-          </mat-form-field>
-
-          <!-- Campo de Apellido Materno -->
-          <mat-form-field appearance="outline">
-            <mat-label>Apellido Materno</mat-label>
-            <input matInput formControlName="am">
-          </mat-form-field>
-
-          <!-- Campo de Nombre de Usuario -->
-          <mat-form-field appearance="outline">
-            <mat-label>Nombre de Usuario</mat-label>
-            <input matInput formControlName="username">
-            <mat-icon matSuffix>account_circle</mat-icon>
-            <mat-error *ngIf="profileForm.get('username')?.hasError('required')">El usuario es requerido</mat-error>
-          </mat-form-field>
-
-          <!-- Campo de Email (Solo lectura) -->
-          <mat-form-field appearance="outline">
-            <mat-label>Email (No se puede cambiar)</mat-label>
-            <input matInput formControlName="email">
-            <mat-icon matSuffix>email</mat-icon>
-          </mat-form-field>
-
-          <!-- Campo de Teléfono -->
-          <mat-form-field appearance="outline">
-            <mat-label>Teléfono</mat-label>
-            <input matInput type="tel" formControlName="telefono">
-            <mat-icon matSuffix>phone</mat-icon>
-            <mat-error *ngIf="profileForm.get('telefono')?.hasError('required')">El teléfono es requerido</mat-error>
-          </mat-form-field>
-
-          <div class="form-actions">
-            <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid || !profileForm.dirty">
-              Guardar Cambios
-            </button>
-            <a mat-button routerLink="/">Cancelar</a>
-          </div>
-
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
-
-  <!-- Muestra un indicador de carga mientras se obtienen los datos -->
-  <mat-spinner *ngIf="!profileForm" diameter="50"></mat-spinner>
-
+  <div class="profile-sidebar">
+    <mat-nav-list>
+      <a mat-list-item (click)="selectSection('userdata')" [class.active]="selectedSection === 'userdata'">
+        <mat-icon>person</mat-icon>
+        <span>Datos Personales</span>
+      </a>
+      <a mat-list-item (click)="selectSection('password')" [class.active]="selectedSection === 'password'">
+        <mat-icon>lock</mat-icon>
+        <span>Contraseña</span>
+      </a>
+      <a mat-list-item (click)="selectSection('pregunta')" [class.active]="selectedSection === 'pregunta'">
+        <mat-icon>security</mat-icon>
+        <span>Pregunta Secreta</span>
+      </a>
+    </mat-nav-list>
+  </div>
+  <div class="profile-content">
+    <app-userdata *ngIf="selectedSection === 'userdata'"></app-userdata>
+    <app-password *ngIf="selectedSection === 'password'"></app-password>
+    <app-pregunta *ngIf="selectedSection === 'pregunta'"></app-pregunta>
+  </div>
 </div>
-

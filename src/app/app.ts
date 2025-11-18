@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { ChangeDetectorRef } from '@angular/core'; // <-- Importa ChangeDetectorRef
+import { ChangeDetectorRef } from '@angular/core'; 
 // Importar AMBOS headers
 import { HeaderComponent } from './pages/header/header.component';
 import { UserHeaderComponent } from './pages/user-header/user-header.component';

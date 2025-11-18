@@ -1,0 +1,31 @@
+<mat-card class="profile-card">
+  <mat-card-header>
+    <mat-card-title>Pregunta Secreta</mat-card-title>
+    <mat-card-subtitle>Actualiza tu pregunta y respuesta secreta</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="secretForm" (ngSubmit)="onSubmit()">
+      <div class="form-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Pregunta Secreta</mat-label>
+          <mat-select formControlName="preguntaSecreta">
+            <mat-option value="personaje-favorito">¿Cuál es tu personaje favorito?</mat-option>
+            <mat-option value="pelicula-favorita">¿Cuál es tu película favorita?</mat-option>
+            <mat-option value="mejor-amigo">¿Quién es tu mejor amigo?</mat-option>
+            <mat-option value="nombre-mascota">¿Cuál es el nombre de tu mascota?</mat-option>
+            <mat-option value="deporte-favorito">¿Cuál es tu deporte favorito?</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Respuesta Secreta</mat-label>
+          <input matInput formControlName="respuestaSecreta">
+        </mat-form-field>
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!secretForm.valid">
+            Guardar Cambios
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

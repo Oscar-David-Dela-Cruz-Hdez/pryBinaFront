@@ -1,0 +1,95 @@
+/* Importar fuentes de la guía de estilos */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap');
+
+/* Tarjeta principal del formulario */
+.profile-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: #FFFFFF;
+}
+
+/* Título de la tarjeta */
+.profile-card mat-card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.profile-card mat-card-subtitle {
+  font-family: 'Roboto', sans-serif;
+  color: #666666;
+}
+
+/* Contenedor del formulario */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Estilos para los campos del formulario */
+::ng-deep .mat-mdc-form-field {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Color de la etiqueta y el borde cuando está enfocado */
+::ng-deep .profile-card .mat-mdc-form-field.mat-focused .mdc-floating-label {
+  color: #D4AF37;
+}
+
+::ng-deep .profile-card .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+::ng-deep .profile-card .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+::ng-deep .profile-card .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #D4AF37 !important;
+  border-width: 2px;
+}
+
+/* Iconos dentro de los campos */
+.profile-card mat-icon {
+  color: #666666;
+}
+
+/* Estilos para los botones */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Botón Principal (Guardar) */
+::ng-deep .form-actions .mdc-button.mat-mdc-raised-button.mat-primary {
+  background-color: #D4AF37;
+  color: #333333;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+/* Estilo para mat-select */
+::ng-deep .mat-mdc-select {
+  width: 100%;
+}
+
+/* Estilo para el panel de opciones del mat-select */
+::ng-deep .mat-mdc-select-panel {
+  background-color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Asegurar que el panel de opciones no sea transparente */
+::ng-deep .cdk-overlay-pane {
+  background-color: white;
+}
+
+/* Asegurar que el backdrop (fondo oscuro detrás del panel) cubra todo */
+::ng-deep .cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(2px);
+}
+
+/* Estilo para las opciones del mat-select */
+::ng-deep .mat-mdc-option {
+  font-family: 'Roboto', sans-serif;
+}

@@ -8,6 +8,9 @@ import { RegisterComponent } from './auth/register/register.component';
 import { RecupcontraComponent } from './auth/recupcontra/recupcontra.component';
 import { PrivacidadComponent } from './static/privacidad/privacidad.component';
 import { TerminosComponent } from './static/terminos/terminos.component';
+import {UserdataComponent} from "./usuario/userdata/userdata.component";
+import {PasswordComponent} from "./usuario/password/password.component";
+import {PreguntaComponent} from "./usuario/pregunta/pregunta.component";
 
 import { ProfileComponent } from './pages/profile/profile.component';
 
@@ -46,6 +49,19 @@ export const routes: Routes = [
   {
     path: 'terminos',
     component: TerminosComponent
+  },
+
+  {
+    path: 'datos',
+    component: UserdataComponent,
+  },
+  {
+    path: 'password',
+    component: PasswordComponent,
+  },
+  {
+    path: 'pregunta',
+    component: PreguntaComponent,
   }
 
 ];
