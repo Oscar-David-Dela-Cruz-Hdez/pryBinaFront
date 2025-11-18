@@ -13,17 +13,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-// Importar SweetAlert2
 import Swal from 'sweetalert2';
 
-// 1. Importar el servicio de Google
 import {
   SocialAuthService,
   GoogleLoginProvider,
-  GoogleSigninButtonModule // El módulo del botón
+  GoogleSigninButtonModule
 } from '@abacritt/angularx-social-login';
 
-// Importar el Servicio de Auth
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -39,12 +36,12 @@ import { AuthService } from '../auth.service';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    GoogleSigninButtonModule // <-- Módulo del botón de Google
+    GoogleSigninButtonModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy { // Implementar OnDestroy
+export class LoginComponent implements OnInit, OnDestroy {
 
   step = 1;
   loginForm!: FormGroup;
@@ -52,43 +49,35 @@ export class LoginComponent implements OnInit, OnDestroy { // Implementar OnDest
   isLoading = false;
   showPassword = false;
 
-  // Suscripción para el login de Google
   private authSubscription!: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    // Inyectar el servicio social
     private socialAuthService: SocialAuthService
   ) {}
 
   ngOnInit(): void {
-    // Formulario de Email/Pass
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
 
-    // Formulario de Código 2FA
     this.codeForm = this.fb.group({
       code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
     });
 
-    // Suscribirse a los cambios de estado de Google
     this.authSubscription = this.socialAuthService.authState.subscribe(user => {
 
-      // --- ¡¡¡AQUÍ ESTÁ LA CORRECIÓN!!! ---
-      // Comprobamos que 'user' Y 'user.idToken' existan
       if (user && user.idToken) {
       // ------------------------------------
 
-        // ¡El usuario inició sesión en Google!
-        // Enviamos el 'idToken' de Google a nuestro backend
-        this.isLoading = true; // Activar spinner
+        this.isLoading = true;
         this.authService.loginWithGoogle(user.idToken).subscribe({
           next: (data) => {
-            // ¡Nuestro backend respondió con NUESTRO token!
+
             this.isLoading = false;
             this.authService.login(data.token, data.rol, data.nombre);
 
@@ -115,12 +104,10 @@ export class LoginComponent implements OnInit, OnDestroy { // Implementar OnDest
     }
   }
 
-  // --- Getters para los formularios ---
   get email() { return this.loginForm.get('email'); }
   get password() { return this.loginForm.get('password'); }
   get code() { return this.codeForm.get('code'); }
 
-  // --- PASO 1: Enviar Email y Contraseña ---
   onSubmitEmailPassword(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
