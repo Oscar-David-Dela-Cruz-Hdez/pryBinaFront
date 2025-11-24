@@ -73,14 +73,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       if (user && user.idToken) {
       // ------------------------------------
-
         this.isLoading = true;
         this.authService.loginWithGoogle(user.idToken).subscribe({
           next: (data) => {
-
             this.isLoading = false;
             this.authService.login(data.token, data.rol, data.nombre);
-
             // Redirigimos
             if (data.rol === 'admin') {
               this.router.navigate(['/admin']);
