@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private socialAuthService: SocialAuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authSubscription = this.socialAuthService.authState.subscribe(user => {
 
       if (user && user.idToken) {
-      // ------------------------------------
+        // ------------------------------------
         this.isLoading = true;
         this.authService.loginWithGoogle(user.idToken).subscribe({
           next: (data) => {
@@ -105,7 +105,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   get password() { return this.loginForm.get('password'); }
   get code() { return this.codeForm.get('code'); }
 
-  onSubmitEmailPassword(): void {
+  //codigo 1, sirve
+  /* onSubmitEmailPassword(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -129,27 +130,90 @@ export class LoginComponent implements OnInit, OnDestroy {
           Swal.fire({ icon: 'error', title: 'Error', text: errorMessage });
         }
       });
+  } */
+  //codigo 2, experimental
+  onSubmitEmailPassword(): void {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+    this.isLoading = true;
+    this.authService.loginStep1_requestEmailCode(this.loginForm.value)
+      .subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'success',
+            title: 'Verifica tu correo',
+            text: response.mensaje || 'Te hemos enviado un código de 6 dígitos.'
+          });
+          this.step = 2;
+        },
+        error: (err) => {
+          this.isLoading = false;
+          if (err.status === 429) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Demasiados intentos fallidos',
+              text: err.error?.error || 'Demasiados intentos fallidos. Por favor, intenta de nuevo más tarde.'
+            });
+          } else {
+            const errorMessage = err.error?.error || 'Credenciales incorrectas';
+            Swal.fire({ icon: 'error', title: 'Error', text: errorMessage });
+          }
+        }
+      });
   }
 
+
   // --- PASO 2: Enviar el Código 2FA ---
+  //codigo 1, sirve
+  /*   onSubmitCode(): void {
+      if (this.codeForm.invalid || !this.email?.value) {
+        this.codeForm.markAllAsTouched();
+        return;
+      }
+  
+      this.isLoading = true;
+      const email = this.email.value;
+      const code = this.code!.value;
+  
+      this.authService.loginStep2_verifyCode(email, code)
+        .subscribe({
+          next: (data) => {
+            this.isLoading = false;
+            Swal.fire({ icon: 'success', title: 'Inicio de sesión exitoso' });
+  
+            this.authService.login(data.token, data.rol, data.nombre);
+  
+            if (data.rol === 'admin') {
+              this.router.navigate(['/admin']);
+            } else {
+              this.router.navigate(['/']);
+            }
+          },
+          error: (err) => {
+            this.isLoading = false;
+            const errorMessage = err.error?.error || 'Código incorrecto o expirado';
+            Swal.fire({ icon: 'error', title: 'Error', text: errorMessage });
+          }
+        });
+    } */
+  //codigo 2, experimental
   onSubmitCode(): void {
     if (this.codeForm.invalid || !this.email?.value) {
       this.codeForm.markAllAsTouched();
       return;
     }
-
     this.isLoading = true;
     const email = this.email.value;
     const code = this.code!.value;
-
     this.authService.loginStep2_verifyCode(email, code)
       .subscribe({
         next: (data) => {
           this.isLoading = false;
           Swal.fire({ icon: 'success', title: 'Inicio de sesión exitoso' });
-
           this.authService.login(data.token, data.rol, data.nombre);
-
           if (data.rol === 'admin') {
             this.router.navigate(['/admin']);
           } else {
@@ -160,9 +224,13 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           const errorMessage = err.error?.error || 'Código incorrecto o expirado';
           Swal.fire({ icon: 'error', title: 'Error', text: errorMessage });
+          if (errorMessage === 'Token inválido.') {
+            this.authService.logout();
+          }
         }
       });
   }
+
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;

@@ -38,16 +38,13 @@
                 <mat-error *ngIf="getControl('step1', 'am')?.hasError('required')">El apellido es requerido</mat-error>
                 <mat-error *ngIf="getControl('step1', 'am')?.hasError('pattern')">Solo debe contener letras</mat-error>
               </mat-form-field>
-
-              <!-- <div class="step-actions">
-                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
-              </div> -->
               <div class="step-actions">
-                <button mat-raised-button color="primary" matStepperNext type="button" (click)="validateStep('step1')"> Siguiente </button>
+                <button mat-raised-button color="primary" matStepperNext type="button"
+                  (click)="validateStep('step1', stepper)">
+                  Siguiente </button>
               </div>
             </div>
           </mat-step>
-
           <!--
             PASO 2: Datos de la Cuenta
           -->
@@ -63,6 +60,8 @@
                   requerido</mat-error>
                 <mat-error *ngIf="getControl('step2', 'username')?.hasError('pattern')">Solo letras y
                   números</mat-error>
+                <mat-error *ngIf="getControl('step2', 'username')?.hasError('usernameTaken')">El nombre de usuario ya
+                  está en uso</mat-error>
               </mat-form-field>
 
               <mat-form-field appearance="outline">
@@ -71,6 +70,8 @@
                 <mat-icon matSuffix>email</mat-icon>
                 <mat-error *ngIf="getControl('step2', 'email')?.hasError('required')">El email es requerido</mat-error>
                 <mat-error *ngIf="getControl('step2', 'email')?.hasError('email')">Email no válido</mat-error>
+                <mat-error *ngIf="getControl('step2', 'email')?.hasError('emailTaken')">El email ya está en
+                  uso</mat-error>
               </mat-form-field>
 
               <mat-form-field appearance="outline">
@@ -83,6 +84,14 @@
                   requerida</mat-error>
                 <mat-error *ngIf="getControl('step2', 'password')?.hasError('pattern')">Debe tener 12+ caracteres, 1
                   mayúscula, 1 número y 1 símbolo.</mat-error>
+                <mat-error *ngIf="registerForm.get('step2')?.hasError('passwordsDoNotMatch')">Las contraseñas no
+                  coinciden</mat-error>
+                <mat-error *ngIf="getControl('step2', 'password')?.hasError('sequentialNumbers')">La contraseña no puede
+                  contener secuencias numéricas obvias.</mat-error>
+                <mat-error *ngIf="getControl('step2', 'password')?.hasError('containsPersonalData')">La contraseña no
+                  puede contener tus datos personales.</mat-error>
+                <mat-error *ngIf="getControl('step2', 'password')?.hasError('containsCommonPassword')">La contraseña no
+                  puede ser una contraseña común.</mat-error>
               </mat-form-field>
 
               <mat-form-field appearance="outline">
@@ -93,27 +102,13 @@
                 <mat-error *ngIf="registerForm.get('step2')?.hasError('passwordsDoNotMatch')">Las contraseñas no
                   coinciden</mat-error>
               </mat-form-field>
-
-              <!-- <div class="step-actions">
-                <button mat-button matStepperPrevious type="button">Atrás</button>
-                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
-              </div> -->
               <div class="step-actions">
                 <button mat-button matStepperPrevious type="button">Atrás</button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  matStepperNext
-                  type="button"
-                  (click)="validateStep('step2')"
-                >
-                  Siguiente
-                </button>
+                <button mat-raised-button color="primary" type="button" (click)="validateStep('step2', stepper)">
+                  Siguiente </button>
               </div>
-
             </div>
           </mat-step>
-
           <!--
             PASO 3: Seguridad y Términos
           -->
@@ -129,6 +124,8 @@
                   requerido</mat-error>
                 <mat-error *ngIf="getControl('step3', 'telefono')?.hasError('pattern')">Debe tener 10
                   dígitos</mat-error>
+                <mat-error *ngIf="getControl('step3', 'telefono')?.hasError('phoneTaken')">El teléfono ya está en
+                  uso</mat-error>
               </mat-form-field>
 
               <mat-form-field appearance="outline">
@@ -165,21 +162,9 @@
                 *ngIf="getControl('step3', 'terminos')?.hasError('requiredTrue') && getControl('step3', 'terminos')?.touched">
                 Debes aceptar los términos
               </mat-error>
-
-              <!-- <div class="step-actions">
-                <button mat-button matStepperPrevious type="button">Atrás</button>
-                <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">
-                  Registrarse
-                </button>
-              </div> -->
               <div class="step-actions">
                 <button mat-button matStepperPrevious type="button">Atrás</button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  type="submit"
-                  [disabled]="!registerForm.valid"
-                >
+                <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">
                   Registrarse
                 </button>
               </div>
