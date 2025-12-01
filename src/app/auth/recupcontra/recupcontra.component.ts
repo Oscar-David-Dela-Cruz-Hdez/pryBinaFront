@@ -45,8 +45,8 @@ export class RecupcontraComponent implements OnInit {
 
   private passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{12,}$/;
 
-  //private apiUrl = 'https://prybinaback.onrender.com/api/usuarios';
-  private apiUrl = 'http://localhost:4000/api/usuarios';
+  private apiUrl = 'https://prybinaback.onrender.com/api/usuarios';
+  //private apiUrl = 'http://localhost:4000/api/usuarios';
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,

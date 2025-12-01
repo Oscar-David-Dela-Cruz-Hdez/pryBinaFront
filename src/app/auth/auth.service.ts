@@ -13,8 +13,8 @@ import Swal from 'sweetalert2';
 export class AuthService {
   private isLoggedInSubject: BehaviorSubject<boolean>;
   private userNameSubject: BehaviorSubject<string | null>;
-  private apiUrl = 'http://localhost:4000/api/usuarios';
-  //private apiUrl = 'https://prybinaback.onrender.com/api/usuarios';
+  //private apiUrl = 'http://localhost:4000/api/usuarios';
+  private apiUrl = 'https://prybinaback.onrender.com/api/usuarios';
 
   //se agrega aqui eso de la expiracion de inicio de sesion
   private inactivityTimer: Subscription | null = null;

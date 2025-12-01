@@ -149,8 +149,8 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   showPassword = false;
 
-  private apiUrl = 'http://localhost:4000/api/usuarios/register';
-  //private apiUrl = 'https://prybinaback.onrender.com/api/usuarios/register';
+  //private apiUrl = 'http://localhost:4000/api/usuarios/register';
+  private apiUrl = 'https://prybinaback.onrender.com/api/usuarios/register';
 
   // Regex de tu código de React
   private soloLetras = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/;
