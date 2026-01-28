@@ -13,8 +13,8 @@ import Swal from 'sweetalert2';
 export class AuthService {
   private isLoggedInSubject: BehaviorSubject<boolean>;
   private userNameSubject: BehaviorSubject<string | null>;
-  //private apiUrl = 'http://localhost:4000/api/usuarios';
-  private apiUrl = 'https://prybinaback.onrender.com/api/usuarios';
+  private apiUrl = 'http://localhost:4000/api/usuarios';
+  //private apiUrl = 'https://prybinaback.onrender.com/api/usuarios';
 
   //se agrega aqui eso de la expiracion de inicio de sesion
   private inactivityTimer: Subscription | null = null;
@@ -37,15 +37,7 @@ export class AuthService {
       this.startInactivityTimer();
     }
   }
-  //controlar los tiempos de inicio de sesion
-  //codigo 2
-  /* private startInactivityTimer(): void {
-    this.stopInactivityTimer();
 
-    this.inactivityTimer = timer(this.INACTIVITY_TIMEOUT).subscribe(() => {
-      this.logout();
-    });
-  } */
   //codigo 3
   private startInactivityTimer(): void {
     this.stopInactivityTimer();
@@ -64,9 +56,9 @@ export class AuthService {
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-          this.resetInactivityTimer(); // Reiniciar el temporizador si el usuario quiere mantener la sesión activa
+          this.resetInactivityTimer();
         } else {
-          this.logout(); // Cerrar sesión si el usuario no responde o elige cerrar sesión
+          this.logout();
         }
       });
     });
@@ -99,18 +91,13 @@ export class AuthService {
   }
 
   //controlar los tiempos de inicio de sesion
-
-
-  // el username nombre de usuario, me da flojera escribir todo pero todo lo que dice check()availability es que verifica si el username, correo o telefono esta disponible
   public checkUsernameAvailability(username: string): Observable<{ available: boolean }> {
     return this.http.post<{ available: boolean }>(`${this.apiUrl}/check-username`, { username });
   }
-
   // correo
   public checkEmailAvailability(email: string): Observable<{ available: boolean }> {
     return this.http.post<{ available: boolean }>(`${this.apiUrl}/check-email`, { email });
   }
-
   // telefono
   public checkPhoneAvailability(telefono: string): Observable<{ available: boolean }> {
     return this.http.post<{ available: boolean }>(`${this.apiUrl}/check-phone`, { telefono });
@@ -123,13 +110,6 @@ export class AuthService {
   public get currentUserName$(): Observable<string | null> {
     return this.userNameSubject.asObservable();
   }
-
-  // --- Lógica de 2FA ---
-  //codigo 1, sirve
-  /* public loginStep1_requestEmailCode(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
-  } */
-
   //codigo 2, experimental
 
   public loginStep1_requestEmailCode(credentials: any): Observable<any> {
@@ -143,11 +123,6 @@ export class AuthService {
     );
   }
 
-  //sirve, codigo 1
-  /* public loginStep2_verifyCode(email: string, code: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/verify-2fa`, { email, code });
-  } */
-
   //codigo 2, experimental
   public loginStep2_verifyCode(email: string, code: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/verify-2fa`, { email, code }).pipe(
@@ -159,7 +134,6 @@ export class AuthService {
       })
     );
   }
-
 
   // --- NUEVA FUNCIÓN PARA GOOGLE ---
   public loginWithGoogle(idToken: string): Observable<any> {
@@ -196,20 +170,33 @@ export class AuthService {
   public getToken(): string | null {
     return localStorage.getItem('user_token');
   }
-
+//se agrego Bearer en authorization
   private getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `${token}`
+      'Authorization': `Bearer ${token}`
     });
   }
 
-  public getProfile(): Observable<any> {
+  
+/*   public getProfile(): Observable<any> {
     return this.http.get(`${this.apiUrl}/perfil`, {
       headers: this.getAuthHeaders()
     });
+  } */
+ 
+  public getProfile(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    console.log("Token enviado:", headers.get('Authorization'));
+    return this.http.get(`${this.apiUrl}/perfil`, { headers }).pipe(
+      catchError((err) => {
+        console.error("Error al obtener perfil:", err);
+        return throwError(() => new Error(err.error?.error || 'Error al obtener perfil'));
+      })
+    );
   }
+//////////////////////////////////////
 
   public updateProfile(userData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/perfil`, userData, {
@@ -231,5 +218,3 @@ export class AuthService {
   }
 
 }
-
-

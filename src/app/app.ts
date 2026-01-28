@@ -24,25 +24,10 @@ import { AuthService } from './auth/auth.service';
 export class App implements OnInit {
   isLoggedIn$: Observable<boolean>;
 
-  //codigo 1 - funcional
-  /*   constructor(
-      private authService: AuthService,
-      private cdr: ChangeDetectorRef
-    ) {
-      this.isLoggedIn$ = this.authService.isLoggedIn$;
-    } */
-
   //codigo 2 experimental
   constructor(private authService: AuthService) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
   }
-  //codigo 1
-  /*   ngOnInit(): void {
-      this.isLoggedIn$.subscribe(isLoggedIn => {
-        console.log("Estado de login en App:", isLoggedIn);
-        this.cdr.detectChanges();
-      });
-    } */
 
   //codigo 2 experimental
   ngOnInit(): void {

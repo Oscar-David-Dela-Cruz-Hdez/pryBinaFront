@@ -1,11 +1,5 @@
-/*
-  GUÍA DE ESTILOS APLICADA:
-  - Tipografía: 'Roboto' para todo el texto.
-  - Colores: Gris oscuro (#333333) para el fondo y gris claro (#F0F0F0) para el texto,
-    asegurando alto contraste y legibilidad.
-*/
+/* ... (Tus importaciones y estilos generales anteriores se mantienen igual) ... */
 
-/* Importar fuentes desde Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
 
 footer {
@@ -13,11 +7,18 @@ footer {
   justify-content: space-between;
   align-items: center;
   padding: 25px 40px;
-  background-color: #333333; /* Color de texto principal usado como fondo */
-  color: #F0F0F0; /* Texto claro para contraste */
+  background-color: #333333;
+  color: #F0F0F0;
   font-family: 'Roboto', sans-serif;
-  flex-wrap: wrap; /* Para que se adapte en pantallas pequeñas */
+  flex-wrap: wrap;
   gap: 20px;
+}
+
+/* Nuevo contenedor para agrupar links e imagen */
+.footer-actions {
+  display: flex;
+  align-items: center; /* Centra verticalmente los links con el QR */
+  gap: 25px; /* Espacio entre los links y el QR */
 }
 
 .links-footer {
@@ -32,14 +33,35 @@ footer {
 }
 
 .links-footer a:hover {
-  color: #D4AF37; /* Color de Acento (Dorado) para el hover */
+  color: #D4AF37;
+}
+
+/* --- ESTILOS DE LA IMAGEN QR --- */
+.qr-code {
+  height: 60px;        /* Altura fija para que no sea enorme */
+  width: auto;         /* El ancho se ajusta automáticamente */
+  border-radius: 8px;  /* Bordes redondeados para estética suave */
+  background-color: white; /* Fondo blanco por si el QR es transparente */
+  padding: 5px;        /* Un pequeño margen interno */
+  transition: transform 0.3s ease; /* Efecto suave al pasar el mouse */
+}
+
+/* Efecto opcional: el QR crece un poquito al pasar el mouse */
+.qr-code:hover {
+    transform: scale(1.1);
+    cursor: pointer;
 }
 
 /* --- Diseño Responsivo --- */
 @media (max-width: 768px) {
   footer {
-    flex-direction: column; /* Apilar elementos verticalmente */
+    flex-direction: column;
     justify-content: center;
     text-align: center;
+  }
+
+  .footer-actions {
+    flex-direction: column; /* En celular, pone el QR debajo de los links */
+    gap: 20px;
   }
 }
