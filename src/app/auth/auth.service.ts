@@ -170,33 +170,20 @@ export class AuthService {
   public getToken(): string | null {
     return localStorage.getItem('user_token');
   }
-//se agrego Bearer en authorization
+
   private getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `${token}`
     });
   }
 
-  
-/*   public getProfile(): Observable<any> {
+  public getProfile(): Observable<any> {
     return this.http.get(`${this.apiUrl}/perfil`, {
       headers: this.getAuthHeaders()
     });
-  } */
- 
-  public getProfile(): Observable<any> {
-    const headers = this.getAuthHeaders();
-    console.log("Token enviado:", headers.get('Authorization'));
-    return this.http.get(`${this.apiUrl}/perfil`, { headers }).pipe(
-      catchError((err) => {
-        console.error("Error al obtener perfil:", err);
-        return throwError(() => new Error(err.error?.error || 'Error al obtener perfil'));
-      })
-    );
   }
-//////////////////////////////////////
 
   public updateProfile(userData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/perfil`, userData, {
