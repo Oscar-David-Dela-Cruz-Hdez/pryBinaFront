@@ -18,6 +18,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 
 import { Error400Component } from './pages/errores/error400/error400.component';
 import { Error404Component } from './pages/errores/error404/error404.component';
+import { UbicacionComponent } from './pages/ubicacion/ubicacion.component';
 
 export const routes: Routes = [
   {
@@ -73,6 +74,12 @@ export const routes: Routes = [
     path: 'pregunta',
     component: PreguntaComponent,
     data: { breadcrumb: 'Pregunta de Seguridad' }
+  },
+
+  {
+    path: 'ubicacion',
+    component: UbicacionComponent,
+    data: { breadcrumb: 'Ubicación' }
   },
 
   // Ruta Wildcard para manejar 404 (Debe ir siempre al final)
