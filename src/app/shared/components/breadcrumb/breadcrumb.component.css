@@ -1,5 +1,5 @@
 .breadcrumb-container {
-  background-color: transparent;
+  background-color: #FAF0E6; /* Beige Lino */
   padding: 10px 20px;
   margin-bottom: 0px;
   max-width: 1200px;
@@ -46,6 +46,6 @@
 
 .separator {
   margin: 0 8px;
-  color: #FAF0E6;
+  color: #ccc;
   font-size: 0.8rem;
 }
