@@ -6,6 +6,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { HeaderComponent } from './pages/header/header.component';
 import { UserHeaderComponent } from './pages/user-header/user-header.component';
 import { FooterComponent } from './pages/footer/footer.component';
+import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 import { AuthService } from './auth/auth.service';
 
 @Component({
@@ -16,7 +17,8 @@ import { AuthService } from './auth/auth.service';
     RouterOutlet,
     HeaderComponent,
     UserHeaderComponent,
-    FooterComponent
+    FooterComponent,
+    BreadcrumbComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']

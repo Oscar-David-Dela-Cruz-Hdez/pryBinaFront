@@ -6,7 +6,6 @@ import { PasswordComponent } from '../../usuario/password/password.component';
 import { PreguntaComponent } from '../../usuario/pregunta/pregunta.component';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-profile',
@@ -18,8 +17,7 @@ import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcru
     PasswordComponent,
     PreguntaComponent,
     MatListModule,
-    MatIconModule,
-    BreadcrumbComponent
+    MatIconModule
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']

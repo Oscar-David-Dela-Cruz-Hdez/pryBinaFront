@@ -48,9 +48,16 @@ export class BreadcrumbComponent implements OnInit {
 
       const label = child.snapshot.data['breadcrumb'];
       
-      // Solo agregar si tiene etiqueta y no es duplicado (para evitar problemas con rutas vacías)
-      if (label && !breadcrumbs.some(b => b.label === label)) {
-        breadcrumbs.push({ label, url });
+      // Lógica para evitar duplicados y "Inicio" redundante
+      if (label) {
+        // Si es "Inicio" y ya estamos en la raíz o ya existe, no lo agregamos de nuevo si ya está explícito
+        // En este caso, como "Inicio" es el primer hardcoded en HTML, podemos decidir no agregarlo al array dinámico
+        // O si preferimos manejarlo todo dinámico, quitamos el hardcoded del HTML.
+        // Vamos a mantener el hardcoded del HTML como "base" y aquí solo agregamos hijos.
+        
+        if (label !== 'Inicio' && !breadcrumbs.some(b => b.label === label)) {
+           breadcrumbs.push({ label, url });
+        }
       }
 
       return this.buildBreadcrumb(child, url, breadcrumbs);
