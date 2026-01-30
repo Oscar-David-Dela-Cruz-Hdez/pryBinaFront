@@ -10,28 +10,17 @@
 }
 
 .error-content {
-  max-width: 300px;
+  max-width: 600px;
   animation: fadeIn 0.8s ease-out;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.error-image {
-  max-width: 300px; /* Tamaño controlado */
-  width: 100%;
-  height: auto;
-  margin-bottom: 20px;
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
 }
 
 .error-code {
   font-family: 'Montserrat', sans-serif;
-  font-size: 6rem; /* Reducido un poco para equilibrar con la imagen */
+  font-size: 10rem; /* Restaurado a tamaño original */
   font-weight: 800;
   color: #D4AF37;
   line-height: 0.9;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   text-shadow: 3px 3px 0px rgba(0,0,0,0.05);
 }
 
