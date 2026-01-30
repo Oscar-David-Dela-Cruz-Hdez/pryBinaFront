@@ -6,6 +6,10 @@
             <a routerLink="/">Politica de privacidad</a>
             <a routerLink="/">Terminos de servicio</a>
             <a routerLink="/">Ayuda</a>
+            
+            <!-- Botones temporales para probar errores -->
+            <button (click)="testError400()" style="background: none; border: none; color: #ff9800; cursor: pointer;">Test 400</button>
+            <button (click)="testError500()" style="background: none; border: none; color: #f44336; cursor: pointer;">Test 500</button>
         </nav>
         
         <img src="assets/images/qr.jpeg" alt="QR" class="qr-code" />
