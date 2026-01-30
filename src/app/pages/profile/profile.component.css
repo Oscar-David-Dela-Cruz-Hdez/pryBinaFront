@@ -4,9 +4,10 @@
   gap: 30px; /* Separación entre sidebar y contenido */
   padding: 40px;
   background-color: #FAF0E6; /* Beige Lino */
-  min-height: calc(100vh - 80px); /* Fill screen */
+  min-height: calc(100vh - 80px); /* Ajusta según header/footer */
   max-width: 1200px;
   margin: 0 auto;
+  flex-wrap: wrap; /* Permitir que el breadcrumb ocupe todo el ancho */
 }
 
 /* Sidebar Styling */

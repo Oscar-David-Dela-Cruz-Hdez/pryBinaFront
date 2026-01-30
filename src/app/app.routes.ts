@@ -22,26 +22,31 @@ import { Error404Component } from './pages/errores/error404/error404.component';
 export const routes: Routes = [
   {
     path: '',
-    component: IndexComponent
+    component: IndexComponent,
+    data: { breadcrumb: 'Inicio' }
   },
 
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    data: { breadcrumb: 'Iniciar Sesión' }
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    data: { breadcrumb: 'Registro' }
   },
   {
     path: 'password-recovery',
-    component: RecupcontraComponent
+    component: RecupcontraComponent,
+    data: { breadcrumb: 'Recuperar Contraseña' }
   },
 
   {
     path: 'perfil',
     component: ProfileComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Mi Perfil' }
   },
 
   {
@@ -57,14 +62,17 @@ export const routes: Routes = [
   {
     path: 'datos',
     component: UserdataComponent,
+    data: { breadcrumb: 'Mis Datos' }
   },
   {
     path: 'password',
     component: PasswordComponent,
+    data: { breadcrumb: 'Cambiar Contraseña' }
   },
   {
     path: 'pregunta',
     component: PreguntaComponent,
+    data: { breadcrumb: 'Pregunta de Seguridad' }
   },
 
   // Ruta Wildcard para manejar 404 (Debe ir siempre al final)

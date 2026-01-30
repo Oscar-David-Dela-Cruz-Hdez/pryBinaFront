@@ -1,0 +1,20 @@
+<nav class="breadcrumb-container" *ngIf="breadcrumbs.length > 0">
+  <ol class="breadcrumb-list">
+    <!-- Item de inicio siempre estático -->
+    <li class="breadcrumb-item">
+      <a routerLink="/">Inicio</a>
+    </li>
+
+    <!-- Items dinámicos -->
+    <li class="breadcrumb-item" *ngFor="let crumb of breadcrumbs">
+      <span class="separator">/</span>
+      <!-- Si es el último item, solo texto, si no, es enlace -->
+      <a *ngIf="crumb !== breadcrumbs[breadcrumbs.length - 1]" [routerLink]="crumb.url">
+        {{ crumb.label }}
+      </a>
+      <span *ngIf="crumb === breadcrumbs[breadcrumbs.length - 1]" class="active">
+        {{ crumb.label }}
+      </span>
+    </li>
+  </ol>
+</nav>
