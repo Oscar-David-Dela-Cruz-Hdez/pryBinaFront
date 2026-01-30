@@ -1,21 +1,25 @@
+/* --- CAMBIO PRINCIPAL --- */
+/* El contenedor abarca el 100% del ancho de la pantalla para extender el color */
 .breadcrumb-container {
   background-color: #FAF0E6; /* Beige Lino */
-  padding: 10px 20px;
-  margin-bottom: 0px;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
   width: 100%;
+  padding: 10px 0;           /* Solo padding vertical aquí */
+  margin-bottom: 0px;
   box-sizing: border-box;
+  display: block;            /* Asegura comportamiento de bloque */
 }
 
+/* La lista interna se encarga de centrar el contenido y limitarlo a 1200px */
 .breadcrumb-list {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding: 0;
-  margin: 0;
+  margin: 0 auto;            /* ESTO centra el contenido horizontalmente */
+  max-width: 1200px;         /* Limita el ancho del texto para que cuadre con tu sitio */
+  width: 100%;
+  padding: 0 20px;           /* Padding horizontal para que no pegue a los bordes en móviles */
+  box-sizing: border-box;
 }
 
 .breadcrumb-item {
