@@ -16,6 +16,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 
 
 
+import { Error404Component } from './pages/errores/error404/error404.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -62,6 +64,11 @@ export const routes: Routes = [
   {
     path: 'pregunta',
     component: PreguntaComponent,
-  }
+  },
 
+  // Ruta Wildcard para manejar 404 (Debe ir siempre al final)
+  {
+    path: '**',
+    component: Error404Component
+  }
 ];

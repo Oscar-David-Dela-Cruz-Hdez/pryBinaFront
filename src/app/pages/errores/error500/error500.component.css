@@ -1,0 +1,63 @@
+/* Estilos para página de error 500 - Consistente */
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px);
+  background-color: #FAF0E6;
+  padding: 20px;
+  text-align: center;
+}
+
+.error-content {
+  max-width: 600px;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.error-code {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8rem;
+  font-weight: 800;
+  color: #D4AF37;
+  line-height: 1;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+}
+
+.error-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.error-message {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.error-actions a {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  background-color: #D4AF37 !important;
+  color: white !important;
+  padding: 8px 32px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.error-actions a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
