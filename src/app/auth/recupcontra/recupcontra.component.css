@@ -1,94 +1,72 @@
 /*
-  GUÍA DE ESTILO UNIFICADA (Estilo Login aplicado a Recuperación)
-  - Fuentes: 'Montserrat' (Títulos), 'Roboto' (Cuerpo)
-  - Colores:
-    - Fondo: #FAF0E6 (Beige)
-    - Acento: #D4AF37 (Dorado)
-    - Texto: #333333 / #666666
+  GUÍA DE ESTILO UNIFICADA - RECUPERACIÓN DE CONTRASEÑA
+  Modernizada y Profesional
 */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500;700&display=swap');
 
 /* --- 1. CONTENEDOR Y TARJETA --- */
-
 .recovery-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
-  background-color: #FAF0E6;
-  /* Mismo beige que Login */
-  min-height: calc(100vh - 120px);
+  padding: 60px 20px;
+  background-color: #FAF0E6; /* Beige original */
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .recovery-card {
   width: 100%;
   max-width: 450px;
-  /* Mismo ancho que el Login (es más angosto que registro) */
-  margin: 0 auto;
   background-color: #fff;
-  border-radius: 8px;
-  /* Igual que Login */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  /* Sombra suave idéntica al Login */
-  padding: 0;
+  border-radius: 12px; /* Más redondeado y moderno */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra suave */
   overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.02);
 }
 
 /* --- 2. HEADER Y TÍTULO --- */
-
 ::ng-deep .recovery-card .mat-mdc-card-header {
-  padding: 24px 24px 8px 24px;
-  display: block;
+  padding: 32px 32px 10px 32px;
+  display: flex;
+  justify-content: center;
   text-align: center;
 }
 
 ::ng-deep .recovery-card .mat-mdc-card-title {
   font-family: 'Montserrat', sans-serif;
-  color: #333333;
+  color: #333;
   font-size: 1.75rem;
-  /* Tamaño igualado al Login */
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
   margin-bottom: 0;
 }
 
 ::ng-deep .recovery-card .mat-mdc-card-content {
-  padding: 16px 32px 32px 32px;
+  padding: 20px 40px 40px 40px;
 }
 
-/* Barra de progreso ajustada */
+/* Barra de progreso */
 mat-progress-bar {
   margin-top: -10px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   border-radius: 2px;
+  height: 4px !important;
 }
 
-/* --- 3. INPUTS (Adaptación a Estilo Login - MDC) --- */
-
+/* --- 3. INPUTS --- */
 mat-form-field {
   width: 100%;
-  margin-bottom: 10px;
-  /* Un poco de aire extra */
+  margin-bottom: 15px;
 }
 
-/* Forzar bordes redondeados de 6px en los inputs modernos (MDC) */
+/* Bordes y foco */
 ::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading,
 ::ng-deep .mat-mdc-form-field .mdc-notched-outline__notch,
 ::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
   border-width: 1px;
 }
 
-::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading {
-  border-top-left-radius: 6px !important;
-  border-bottom-left-radius: 6px !important;
-}
-
-::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
-  border-top-right-radius: 6px !important;
-  border-bottom-right-radius: 6px !important;
-}
-
-/* Color del borde al enfocar (Dorado) */
 ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
 ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
 ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
@@ -96,28 +74,22 @@ mat-form-field {
   border-width: 2px !important;
 }
 
-/* Color del Label y Texto */
 ::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
   color: #D4AF37 !important;
 }
 
-::ng-deep .mat-mdc-form-field .mat-mdc-input-element {
-  color: #333333;
-  font-family: 'Roboto', sans-serif;
-}
-
-/* Iconos */
-::ng-deep .mat-mdc-form-field .mat-icon {
-  color: rgba(0, 0, 0, 0.54);
-}
-
-/* --- 4. BOTONES (Igualando al Login) --- */
-
+/* --- 4. BOTONES --- */
 .button-group {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 16px;
+  flex-direction: column-reverse; /* En móvil, botón principal arriba (o abajo según preferencia UX, aquí lo dejamos estándar flex pero con gap) */
+  gap: 15px;
+  margin-top: 25px;
+}
+@media(min-width: 480px) {
+    .button-group {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
 /* Botón Principal */
@@ -126,109 +98,93 @@ mat-form-field {
   color: #FFFFFF !important;
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
-  border-radius: 6px;
-  /* 6px como en el login */
-  height: 42px;
-  /* Altura idéntica al login */
-  box-shadow: none;
-  width: 100%;
-  /* Botones anchos se ven mejor en móviles */
+  font-size: 1rem;
+  border-radius: 8px;
+  height: 45px;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+  flex: 1;
+  transition: all 0.2s ease;
 }
 
 ::ng-deep .mat-mdc-raised-button.mat-primary:hover {
-  background-color: #c7a130 !important;
+  background-color: #c5a028 !important;
+  box-shadow: 0 6px 15px rgba(212, 175, 55, 0.35);
+  transform: translateY(-1px);
 }
 
-/* Botón Secundario (Atrás) */
+/* Botón Secundario */
 ::ng-deep .mat-mdc-button {
   font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  color: #666666 !important;
-  height: 42px;
-  border-radius: 6px;
-  width: 100%;
+  font-weight: 600;
+  color: #777 !important;
+  height: 45px;
+  border-radius: 8px;
+  flex: 1;
 }
 
 ::ng-deep .mat-mdc-button:hover {
-  background-color: rgba(102, 102, 102, 0.08);
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333 !important;
 }
 
-/* --- 5. ELEMENTOS ESPECÍFICOS DE RECUPERACIÓN --- */
-
+/* --- 5. EXTRAS --- */
 .step-description {
   font-family: 'Roboto', sans-serif;
-  color: #666;
-  font-size: 0.95rem;
+  color: #555;
+  font-size: 1rem;
   text-align: center;
-  margin-bottom: 24px;
-  line-height: 1.5;
+  margin-bottom: 25px;
+  line-height: 1.6;
 }
 
-/* Pregunta Secreta Estilizada */
+/* Pregunta secreta */
 .secret-question {
   display: block;
   font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  padding: 16px;
-  background-color: #f9f9f9;
-  border: 1px solid #eee;
+  font-size: 1.05rem;
+  color: #2c2c2c;
+  padding: 15px 20px;
+  background-color: #fff9e6; /* Fondo amarillo muy sutil */
   border-left: 4px solid #D4AF37;
-  /* Detalle dorado */
-  border-radius: 4px;
-  margin-bottom: 24px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* Mensaje de éxito */
+/* Mensaje Éxito */
 .success-message {
   text-align: center;
-  padding: 20px 0;
+  padding: 30px 10px;
 }
-
 .success-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
-  color: #66CDAA;
-  /* Verde menta para éxito */
-  margin-bottom: 16px;
+  font-size: 70px;
+  width: 70px;
+  height: 70px;
+  color: #66CDAA; /* Verde menta del tema */
+  margin-bottom: 20px;
 }
-
 .success-message h3 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  color: #333;
-  font-size: 1.5rem;
-  margin-bottom: 8px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
 }
 
-.success-message p {
-  color: #666;
-  margin-bottom: 24px;
-}
-
-/* --- 6. FOOTER (Igual al Login) --- */
-
+/* --- 6. FOOTER LOGIN --- */
 .footer-link {
-  padding: 20px 16px;
-  background-color: #fafafa;
-  /* Fondo gris claro */
-  border-top: 1px solid #ddd;
-  /* Borde superior */
+  padding: 20px;
+  background-color: #fcfcfc;
+  border-top: 1px solid #f0f0f0;
   text-align: center;
-  margin: 0;
 }
-
 .footer-link a {
-  color: #D4AF37;
-  font-weight: 600;
-  text-decoration: none;
-  font-family: 'Roboto', sans-serif;
-  transition: color 0.3s ease;
+    color: #D4AF37;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-family: 'Roboto', sans-serif;
 }
-
 .footer-link a:hover {
-  text-decoration: underline;
-  color: #c7a130;
+    text-decoration: underline;
+    color: #b08d26;
 }

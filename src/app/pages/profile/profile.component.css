@@ -1,35 +1,82 @@
+/* Layout Profile Dashboard */
 .profile-container {
   display: flex;
-  height: 100%;
-  padding: 20px;
-  background-color: #FAF0E6; /* Color Secundario (Beige Lino) */
-  min-height: calc(100vh - 120px); /* Ajusta según header/footer */
+  gap: 30px; /* Separación entre sidebar y contenido */
+  padding: 40px;
+  background-color: #FAF0E6; /* Beige Lino */
+  min-height: calc(100vh - 80px); /* Fill screen */
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* Sidebar Styling */
 .profile-sidebar {
-  width: 25%;
-  background-color: #f5f5f5;
-  padding: 20px;
-  border-right: 1px solid #ddd;
+  width: 280px; /* Ancho fijo para sidebar */
+  flex-shrink: 0;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  padding: 20px 0;
+  height: fit-content;
+  overflow: hidden;
 }
 
-.profile-content {
-  width: 75%;
-  padding: 20px;
+/* Items de navegación del sidebar */
+.mat-nav-list {
+  padding-top: 0;
 }
 
 .mat-nav-list a {
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 16px 24px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  color: #555;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border-left: 4px solid transparent; /* Indicador */
+}
+
+.mat-nav-list a:hover {
+  background-color: #f9f9f9;
+  color: #333;
 }
 
 .mat-nav-list a.active {
-  background-color: rgba(0, 0, 0, 0.04);
-  font-weight: bold;
+  background-color: rgba(212, 175, 55, 0.08); /* Fondo dorado muy suave */
+  font-weight: 500;
+  color: #D4AF37;
+  border-left-color: #D4AF37;
 }
 
 .mat-nav-list a mat-icon {
-  margin-right: 10px;
+  margin-right: 15px;
+  color: #888;
+}
+
+.mat-nav-list a.active mat-icon {
+  color: #D4AF37;
+}
+
+/* Área de contenido principal */
+.profile-content {
+  flex-grow: 1;
+  background-color: transparent; /* El contenido interno traerá su propia tarjeta */
+  min-width: 0; /* Prevenir overflow en flex items */
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .profile-sidebar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }

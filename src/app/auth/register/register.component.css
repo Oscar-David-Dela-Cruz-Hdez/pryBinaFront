@@ -1,275 +1,197 @@
 /*
-  GUÍA DE ESTILO UNIFICADA (Estilo Login aplicado a Registro MDC)
-  - Fuentes: 'Montserrat' (Títulos), 'Roboto' (Cuerpo)
-  - Colores:
-    - Fondo: #FAF0E6 (Beige)
-    - Acento: #D4AF37 (Dorado)
-    - Texto: #333333 / #666666
+  GUÍA DE ESTILO UNIFICADA - REGISTRO
+  Diseño Professional & Limpio
 */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500;700&display=swap');
 
-/* --- 1. CONTENEDOR Y TARJETA --- */
-
+/* --- 1. LAYOUT --- */
 .register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
   background-color: #FAF0E6;
-  /* Mismo beige que Login */
-  min-height: calc(100vh - 120px);
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .register-card {
   width: 100%;
-  max-width: 700px;
-  /* Más ancho que el login porque tiene más campos */
-  margin: 0 auto;
+  max-width: 650px; /* Un poco más ancho para el stepper */
   background-color: #fff;
-  border-radius: 8px;
-  /* Igual que Login */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  /* Sombra suave idéntica al Login */
-  padding: 0;
-  /* Quitamos padding del host para manejarlo en header/content */
-  overflow: hidden;
-  /* Para que el footer no se salga de los bordes */
+  border-radius: 16px; /* Bordes suaves */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  overflow: hidden; /* Importante para el radio del borde en header/footer */
 }
 
-/* --- 2. HEADER Y TÍTULO --- */
-
+/* --- 2. HEADER --- */
 ::ng-deep .register-card .mat-mdc-card-header {
-  padding: 24px 24px 8px 24px;
-  display: block;
-  /* Para centrar correctamente */
-  text-align: center;
+  padding: 30px 0 10px 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 ::ng-deep .register-card .mat-mdc-card-title {
   font-family: 'Montserrat', sans-serif;
-  color: #333333;
-  font-size: 1.75rem;
-  /* Tamaño aumentado para igualar al Login */
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  margin-bottom: 0;
+  color: #333;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
 }
 
 ::ng-deep .register-card .mat-mdc-card-content {
-  padding: 16px 32px 32px 32px;
-  /* Espaciado interno cómodo */
+  padding: 10px 40px 40px 40px;
 }
 
-/* --- 3. STEPPER (Pasos) --- */
-
+/* --- 3. STEPPER (Modernizando los pasos) --- */
 ::ng-deep .mat-horizontal-stepper-header-container {
-  margin-bottom: 20px;
-  /* Espacio entre bolitas y formulario */
+    margin-bottom: 25px;
 }
-
-::ng-deep .mat-step-label {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  color: #666;
+/* Iconos del stepper seleccionados */
+::ng-deep .mat-step-header .mat-step-icon-selected,
+::ng-deep .mat-step-header .mat-step-icon-state-done,
+::ng-deep .mat-step-header .mat-step-icon-state-edit {
+    background-color: #D4AF37 !important; /* Dorado */
+    color: white !important;
 }
 
 .step-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  /* Espacio vertical entre inputs */
-  padding-top: 10px;
+  gap: 20px; /* Mejor espaciado vertical */
+  margin-top: 10px;
 }
 
-/* --- 4. INPUTS (Adaptación a Estilo Login) --- */
-
+/* --- 4. INPUTS --- */
 mat-form-field {
   width: 100%;
 }
 
-/* Forzar bordes redondeados de 6px en los inputs modernos (MDC) */
 ::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading,
 ::ng-deep .mat-mdc-form-field .mdc-notched-outline__notch,
 ::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
-  border-width: 1px;
+    border-width: 1px;
+    border-color: #e0e0e0;
 }
 
-/* Redondeado del borde (Login tiene 6px) */
-::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading {
-  border-top-left-radius: 6px !important;
-  border-bottom-left-radius: 6px !important;
-}
-
-::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
-  border-top-right-radius: 6px !important;
-  border-bottom-right-radius: 6px !important;
-}
-
-/* Color del borde al enfocar (Dorado) */
 ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
 ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
 ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
-  border-color: #D4AF37 !important;
-  border-width: 2px !important;
+    border-color: #D4AF37 !important;
+    border-width: 2px !important;
 }
 
-/* Color del Label (Etiqueta flotante) */
 ::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
-  color: #D4AF37 !important;
+    color: #D4AF37 !important;
 }
 
-/* Iconos dentro de los inputs */
-::ng-deep .mat-mdc-form-field .mat-icon {
-  color: rgba(0, 0, 0, 0.54);
-}
-
-/* Mensajes de error */
-::ng-deep .mat-mdc-form-field-subscript-wrapper {
-  font-family: 'Roboto', sans-serif;
-}
-
-/* --- 5. BOTONES (Igualando al Login) --- */
-
+/* --- 5. BOTONES Y ACCIONES --- */
 .step-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 16px;
-  margin-top: 24px;
+  gap: 15px;
+  margin-top: 35px;
+  padding-top: 20px;
+  border-top: 1px solid #f5f5f5; /* Separador sutil */
 }
 
-/* Botón Principal (Siguiente/Registrar) */
 ::ng-deep .mat-mdc-raised-button.mat-primary {
   background-color: #D4AF37 !important;
-  /* Dorado */
-  color: #FFFFFF !important;
-  font-family: 'Roboto', sans-serif;
+  color: white !important;
+  border-radius: 8px;
+  padding: 0 32px;
+  height: 48px;
   font-weight: 600;
-  border-radius: 6px;
-  /* Igual que Login */
-  height: 42px;
-  /* Igual que Login */
-  padding: 0 24px;
-  box-shadow: none;
-  /* Login tiene diseño plano en reposo */
-  transition: background-color 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  transition: all 0.3s ease;
 }
 
 ::ng-deep .mat-mdc-raised-button.mat-primary:hover {
-  background-color: #c7a130 !important;
-  /* Dorado un poco más oscuro */
+    background-color: #c5a028 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
 }
 
-::ng-deep .mat-mdc-raised-button.mat-primary:disabled {
-  background-color: rgba(0, 0, 0, 0.12) !important;
-  color: rgba(0, 0, 0, 0.38) !important;
-}
-
-/* Botón Secundario (Atrás) */
 ::ng-deep .mat-mdc-button {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  color: #666666 !important;
-  height: 42px;
-  border-radius: 6px;
+    color: #777 !important;
+    font-weight: 500;
 }
-
 ::ng-deep .mat-mdc-button:hover {
-  background-color: rgba(102, 102, 102, 0.08);
+    color: #333 !important;
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* --- 6. CHECKBOX DE TÉRMINOS --- */
+/* --- CHECKBOX Y LEGAL --- */
 .terms-checkbox {
-  margin: 10px 0 20px 0;
+  margin-top: 15px;
   display: block;
 }
-
 ::ng-deep .terms-checkbox .mdc-label {
-  font-family: 'Roboto', sans-serif;
-  color: #555;
-  font-size: 0.9rem;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
 }
-
 ::ng-deep .terms-checkbox a {
-  color: #D4AF37;
-  text-decoration: none;
-  font-weight: 600;
+    color: #D4AF37;
+    font-weight: 700;
+    text-decoration: none;
 }
-
 ::ng-deep .terms-checkbox a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
-/* Checkbox color checked */
+/* Checked state color */
 ::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
 ::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background {
-  border-color: #D4AF37 !important;
-  background-color: #D4AF37 !important;
+    border-color: #D4AF37 !important;
+    background-color: #D4AF37 !important;
 }
 
 .terms-error {
-  color: #f44336;
-  font-size: 0.75rem;
-  margin-top: -15px;
-  margin-bottom: 15px;
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  margin-left: 10px;
   display: block;
 }
 
-/* --- 7. FOOTER (Enlace Login) - Igual al Login --- */
-
+/* --- FOOTER LINK --- */
 .login-link {
-  padding: 20px 16px;
-  background-color: #fafafa;
-  /* Fondo gris claro igual que Login */
-  border-top: 1px solid #ddd;
-  /* Borde superior igual que Login */
+  background-color: #fcfcfc;
+  padding: 25px;
   text-align: center;
-  margin: 0;
-  /* Resetear margin del componente */
+  border-top: 1px solid #eee;
 }
-
 .login-link p {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  color: #444;
-  font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    font-size: 0.95rem;
 }
-
 .login-link a {
-  color: #D4AF37;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.3s ease;
+    color: #D4AF37;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 5px;
 }
-
 .login-link a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
+    color: #b08d26;
 }
 
-/* --- 8. FIX PARA EL SELECT (Overlay) --- */
-/* Mantenemos el fix que hicimos antes para que no sea transparente */
-
+/* Overlay para Select */
 ::ng-deep .mat-mdc-select-panel {
-  background-color: #FFFFFF !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
-
-::ng-deep .cdk-overlay-pane {
-  z-index: 1000 !important;
+::ng-deep .mat-mdc-option:hover:not(.mat-mdc-option-disabled) {
+    background-color: rgba(212, 175, 55, 0.1); /* Dorado muy suave */
 }
-
-::ng-deep .mat-mdc-option {
-  color: #333333 !important;
-  background: #FFFFFF;
-}
-
-::ng-deep .mat-mdc-option:hover:not(.mat-mdc-option-disabled),
-::ng-deep .mat-mdc-option.mat-mdc-option-active {
-  background-color: rgba(212, 175, 55, 0.1) !important;
-  color: #333333;
-}
-
 ::ng-deep .mat-mdc-option.mat-mdc-option-selected:not(.mat-mdc-option-multiple) {
-  background-color: rgba(212, 175, 55, 0.2) !important;
-  color: #D4AF37 !important;
+    color: #D4AF37;
+    background-color: rgba(212, 175, 55, 0.15);
 }

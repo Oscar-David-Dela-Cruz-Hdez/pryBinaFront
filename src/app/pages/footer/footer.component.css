@@ -1,67 +1,99 @@
-/* ... (Tus importaciones y estilos generales anteriores se mantienen igual) ... */
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+/* ... (Importaciones generales) ... */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 40px;
+  padding: 40px 60px; /* Más espacio */
   background-color: #333333;
   color: #F0F0F0;
   font-family: 'Roboto', sans-serif;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 30px;
+  border-top: 4px solid #D4AF37; /* Línea dorada superior para detalle premium */
 }
 
-/* Nuevo contenedor para agrupar links e imagen */
+/* Derechos de autor */
+p {
+  font-size: 0.95rem;
+  color: #aaa;
+  margin: 0;
+}
+
+/* Contenedor acciones derecha */
 .footer-actions {
   display: flex;
-  align-items: center; /* Centra verticalmente los links con el QR */
-  gap: 25px; /* Espacio entre los links y el QR */
+  align-items: center;
+  gap: 40px;
 }
 
+/* Enlaces */
 .links-footer {
   display: flex;
-  gap: 25px;
+  gap: 30px;
 }
 
 .links-footer a {
   text-decoration: none;
-  color: #F0F0F0;
-  transition: color 0.3s ease;
+  color: #ddd;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Efecto hover subrayado animado */
+.links-footer a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #D4AF37;
+  transition: width 0.3s ease;
 }
 
 .links-footer a:hover {
   color: #D4AF37;
 }
 
-/* --- ESTILOS DE LA IMAGEN QR --- */
-.qr-code {
-  height: 60px;        /* Altura fija para que no sea enorme */
-  width: auto;         /* El ancho se ajusta automáticamente */
-  border-radius: 8px;  /* Bordes redondeados para estética suave */
-  background-color: white; /* Fondo blanco por si el QR es transparente */
-  padding: 5px;        /* Un pequeño margen interno */
-  transition: transform 0.3s ease; /* Efecto suave al pasar el mouse */
+.links-footer a:hover::after {
+  width: 100%;
 }
 
-/* Efecto opcional: el QR crece un poquito al pasar el mouse */
+/* QR Code */
+.qr-code {
+  height: 70px;
+  width: auto;
+  border-radius: 8px;
+  background-color: white;
+  padding: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Sombra para que resalte del fondo oscuro */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 .qr-code:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(2deg);
     cursor: pointer;
 }
 
-/* --- Diseño Responsivo --- */
+/* Responsive */
 @media (max-width: 768px) {
   footer {
     flex-direction: column;
-    justify-content: center;
     text-align: center;
+    padding: 40px 20px;
   }
 
   .footer-actions {
-    flex-direction: column; /* En celular, pone el QR debajo de los links */
-    gap: 20px;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  .links-footer {
+    flex-direction: column;
+    gap: 15px;
   }
 }
