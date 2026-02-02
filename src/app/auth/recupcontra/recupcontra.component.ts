@@ -68,39 +68,7 @@ export class RecupcontraComponent implements OnInit {
   get nuevaPassword() { return this.recoveryForm.get('nuevaPassword'); }
   get confirmarPassword() { return this.recoveryForm.get('confirmarPassword'); }
 
-  //opcion 1 la actual
-  /*   verificarCorreo(): void {
-      if (this.email?.invalid) {
-        this.email?.markAsTouched();
-        return;
-      }
-      this.isLoading = true;
-      this.http.post<any>(`${this.apiUrl}/verificar-correo`, { email: this.email?.value })
-        .subscribe({
-          next: (res) => {
-            //se simula?
-            this.http.post<any>(`${this.apiUrl}/obtener-pregunta`, { email: this.email?.value })
-              .subscribe({
-                next: (preguntaRes) => {
-                  this.preguntaSecreta = preguntaRes.preguntaSecreta;
-                  this.isLoading = false;
-                  this.step = 1;
-                  this.cdr.detectChanges();
-                },
-                error: (err) => {
-                  this.isLoading = false;
-                  this.handleError(err, 'No se pudo obtener la pregunta secreta.');
-                }
-              });
-          },
-          error: (err) => {
-            this.isLoading = false;
-            this.handleError(err, 'Se ha enviado un mensaje de recuperacion');
-          }
-        });
-    } */
 
-  //opcion 2 la nueva que tiene el numero de intentos
   verificarCorreo(): void {
     if (this.email?.invalid) {
       this.email?.markAsTouched();
@@ -162,11 +130,6 @@ export class RecupcontraComponent implements OnInit {
       });
   }
 
-
-
-
-
-
   verificarRespuesta(): void {
     if (this.respuestaSecreta?.invalid) {
       this.respuestaSecreta?.markAsTouched();
@@ -185,7 +148,6 @@ export class RecupcontraComponent implements OnInit {
       error: (err) => this.handleError(err, 'La respuesta secreta es incorrecta.')
     });
   }
-
 
   cambiarContrasena(): void {
     const passControl = this.recoveryForm.get('nuevaPassword');
@@ -213,17 +175,6 @@ export class RecupcontraComponent implements OnInit {
     });
   }
 
-  //codigo 1
-  /*   private handleError(err: any, defaultMessage: string): void {
-      this.isLoading = false;
-      //const errorMessage = err.error?.error || err.message || defaultMessage;
-      Swal.fire({
-        icon: 'success',
-        title: 'Exito',
-        text: 'Se envio un correo con instrucciones para cambiar tu contraseña'
-      });
-    } */
-
   //nuevo codigo
   private handleError(err: any, defaultMessage: string): void {
     this.isLoading = false;
@@ -241,7 +192,6 @@ export class RecupcontraComponent implements OnInit {
       });
     }
   }
-
 
   goBack(step: number): void {
     this.step = step;

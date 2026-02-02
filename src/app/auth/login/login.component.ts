@@ -99,7 +99,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   get password() { return this.loginForm.get('password'); }
   get code() { return this.codeForm.get('code'); }
 
-  //codigo 2, experimental
   onSubmitEmailPassword(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -132,7 +131,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       });
   }
-  //codigo 2, experimental
+
   onSubmitCode(): void {
     if (this.codeForm.invalid || !this.email?.value) {
       this.codeForm.markAllAsTouched();
@@ -163,7 +162,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       });
   }
-
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;

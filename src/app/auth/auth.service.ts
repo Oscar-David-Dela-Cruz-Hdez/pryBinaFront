@@ -20,7 +20,7 @@ export class AuthService {
   private inactivityTimer: Subscription | null = null;
   //////////////////////////////////////////////////////////////////
   //mover a 15 cuando lo suba a vercel
-  private readonly INACTIVITY_TIMEOUT = 1 * 60 * 1000; //15 minutos, para pruebas poner 1 a un minuto
+  private readonly INACTIVITY_TIMEOUT = 15 * 60 * 1000; //15 minutos, para pruebas poner 1 a un minuto
 
   constructor(
     private router: Router,
