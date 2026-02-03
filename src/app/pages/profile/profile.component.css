@@ -3,69 +3,81 @@
 :host {
   display: block;
   width: 100%;
-  background-color: #FAF0E6; /* Beige Lino (Aquí va el color de fondo) */
+  background-color: #FAF0E6; /* Beige Lino (Base color) */
   min-height: calc(100vh - 80px); /* Asegura que el color baje hasta el footer */
 }
 
 /* Layout Profile Dashboard */
 .profile-container {
   display: flex;
-  gap: 30px; 
-  padding: 40px;
-  /* background-color: #FAF0E6;  <-- ELIMINADO DE AQUÍ (ya lo pusimos en :host) */
-  /* min-height: ... <-- ELIMINADO DE AQUÍ (ya lo pusimos en :host) */
+  gap: 40px; 
+  padding: 60px 40px;
   max-width: 1200px;
-  margin: 0 auto; /* Esto mantiene tus cajas centradas */
+  margin: 0 auto; 
+  align-items: flex-start; /* Alineación superior para que no se estiren */
   flex-wrap: wrap; 
-  box-sizing: border-box; /* Importante para que el padding no desborde */
+  box-sizing: border-box; 
 }
 
 /* Sidebar Styling */
 .profile-sidebar {
-  width: 280px; 
+  width: 300px; 
   flex-shrink: 0;
   background-color: #FFFFFF;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-  padding: 20px 0;
+  border-radius: 24px; /* Bordes más redondeados */
+  border: none;
+  box-shadow: 0 20px 40px -4px rgba(0,0,0,0.06); /* Sombra suave y moderna */
+  padding: 30px 20px;
   height: fit-content;
   overflow: hidden;
+  position: sticky;
+  top: 100px; /* Si hay header sticky, esto ayuda */
 }
 
 /* Items de navegación del sidebar */
 .mat-nav-list {
   padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espacio entre items */
 }
 
 .mat-nav-list a {
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 16px 24px;
+  padding: 14px 20px;
+  margin: 0 5px; /* Margen lateral para efecto flotante */
+  border-radius: 16px; /* Forma de píldora */
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
-  color: #555;
-  transition: all 0.2s ease;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   text-decoration: none;
-  border-left: 4px solid transparent; 
+  border-left: none; 
 }
 
 .mat-nav-list a:hover {
-  background-color: #f9f9f9;
+  background-color: #f7f7f7;
   color: #333;
+  transform: translateX(4px); /* Pequeño desplazamiento al hover */
 }
 
 .mat-nav-list a.active {
-  background-color: rgba(212, 175, 55, 0.08); /* Fondo dorado muy suave */
-  font-weight: 500;
+  background-color: #FAF0E6; /* Usamos el color base pero en el item activo */
   color: #D4AF37;
-  border-left-color: #D4AF37;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
 }
 
 .mat-nav-list a mat-icon {
-  margin-right: 15px;
-  color: #888;
+  margin-right: 16px;
+  color: #999;
+  transition: color 0.3s;
+}
+
+.mat-nav-list a:hover mat-icon {
+  color: #555;
 }
 
 .mat-nav-list a.active mat-icon {
@@ -75,19 +87,36 @@
 /* Área de contenido principal */
 .profile-content {
   flex-grow: 1;
-  background-color: transparent; 
+  background-color: #FFFFFF; /* Convertimos el contenido en tarjeta también */
+  border-radius: 24px;
+  box-shadow: 0 20px 40px -4px rgba(0,0,0,0.06);
+  padding: 40px;
   min-width: 0; 
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Responsivo */
 @media (max-width: 768px) {
   .profile-container {
     flex-direction: column;
-    padding: 20px;
+    padding: 24px;
+    gap: 24px;
   }
   
   .profile-sidebar {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 0;
+    position: relative;
+    top: 0;
+    padding: 20px;
+  }
+  
+  .profile-content {
+    padding: 24px;
   }
 }
