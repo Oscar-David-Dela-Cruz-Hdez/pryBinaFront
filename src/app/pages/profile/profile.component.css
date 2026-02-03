@@ -1,18 +1,28 @@
+/* --- CAMBIO CLAVE --- */
+/* Aplicamos el color al componente entero (:host) para que llene la pantalla de lado a lado */
+:host {
+  display: block;
+  width: 100%;
+  background-color: #FAF0E6; /* Beige Lino (Aquí va el color de fondo) */
+  min-height: calc(100vh - 80px); /* Asegura que el color baje hasta el footer */
+}
+
 /* Layout Profile Dashboard */
 .profile-container {
   display: flex;
-  gap: 30px; /* Separación entre sidebar y contenido */
+  gap: 30px; 
   padding: 40px;
-  background-color: #FAF0E6; /* Beige Lino */
-  min-height: calc(100vh - 80px); /* Ajusta según header/footer */
+  /* background-color: #FAF0E6;  <-- ELIMINADO DE AQUÍ (ya lo pusimos en :host) */
+  /* min-height: ... <-- ELIMINADO DE AQUÍ (ya lo pusimos en :host) */
   max-width: 1200px;
-  margin: 0 auto;
-  flex-wrap: wrap; /* Permitir que el breadcrumb ocupe todo el ancho */
+  margin: 0 auto; /* Esto mantiene tus cajas centradas */
+  flex-wrap: wrap; 
+  box-sizing: border-box; /* Importante para que el padding no desborde */
 }
 
 /* Sidebar Styling */
 .profile-sidebar {
-  width: 280px; /* Ancho fijo para sidebar */
+  width: 280px; 
   flex-shrink: 0;
   background-color: #FFFFFF;
   border-radius: 12px;
@@ -38,7 +48,7 @@
   color: #555;
   transition: all 0.2s ease;
   text-decoration: none;
-  border-left: 4px solid transparent; /* Indicador */
+  border-left: 4px solid transparent; 
 }
 
 .mat-nav-list a:hover {
@@ -65,8 +75,8 @@
 /* Área de contenido principal */
 .profile-content {
   flex-grow: 1;
-  background-color: transparent; /* El contenido interno traerá su propia tarjeta */
-  min-width: 0; /* Prevenir overflow en flex items */
+  background-color: transparent; 
+  min-width: 0; 
 }
 
 /* Responsivo */
