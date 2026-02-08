@@ -1,10 +1,8 @@
-/* --- CAMBIO CLAVE --- */
-/* Aplicamos el color al componente entero (:host) para que llene la pantalla de lado a lado */
 :host {
   display: block;
   width: 100%;
-  background-color: #FAF0E6; /* Beige Lino (Base color) */
-  min-height: calc(100vh - 80px); /* Asegura que el color baje hasta el footer */
+  background-color: #FAF0E6; 
+  min-height: calc(100vh - 80px);
 }
 
 /* Layout Profile Dashboard */

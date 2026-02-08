@@ -1,0 +1,81 @@
+<header>
+  <div class="logo">
+    <a routerLink="/admin/dashboard">
+      <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana Admin">
+    </a>
+  </div>
+
+  <nav class="links-header">
+
+    <!-- Ventas -->
+    <button mat-button [matMenuTriggerFor]="ventasMenu">Ventas</button>
+    <mat-menu #ventasMenu="matMenu">
+      <button mat-menu-item>Reporte de ventas</button>
+      <button mat-menu-item>Estadísticas</button>
+      <button mat-menu-item>Control de caja/ingresos</button>
+      <button mat-menu-item>Gestión de métodos de pago</button>
+    </mat-menu>
+
+    <!-- Inventario -->
+    <button mat-button [matMenuTriggerFor]="inventarioMenu">Inventario</button>
+    <mat-menu #inventarioMenu="matMenu">
+      <button mat-menu-item>Verificar stock</button>
+      <button mat-menu-item>Gestión de productos</button>
+      <button mat-menu-item>Proveedores y contratos</button>
+    </mat-menu>
+
+    <!-- Pedidos y Logística -->
+    <button mat-button [matMenuTriggerFor]="pedidosMenu">Pedidos y Logística</button>
+    <mat-menu #pedidosMenu="matMenu">
+      <button mat-menu-item>Estatus de envío</button>
+      <button mat-menu-item>Devoluciones</button>
+      <button mat-menu-item>Gestión de paquetería</button>
+    </mat-menu>
+
+    <!-- Usuarios -->
+    <button mat-button [matMenuTriggerFor]="usuariosMenu">Usuarios</button>
+    <mat-menu #usuariosMenu="matMenu">
+      <button mat-menu-item>Gestión de usuarios</button>
+      <button mat-menu-item>Roles y permisos</button>
+    </mat-menu>
+
+    <!-- Reportes -->
+    <a mat-button class="simple-link">Reportes</a>
+
+    <!-- FAQS / Info -->
+    <button mat-button [matMenuTriggerFor]="faqsMenu">FAQS</button>
+    <mat-menu #faqsMenu="matMenu">
+      <button mat-menu-item>Misión</button>
+      <button mat-menu-item>Visión</button>
+      <button mat-menu-item>Preguntas frecuentes</button>
+      <button mat-menu-item>Ubicación</button>
+      <button mat-menu-item>Contactos</button>
+      <button mat-menu-item>Políticas de privacidad</button>
+      <button mat-menu-item>Términos de servicio</button>
+    </mat-menu>
+
+  </nav>
+
+  <div class="acciones">
+    <!-- Mensaje de bienvenida -->
+    <span class="welcome-text">
+      Hola, {{ adminName$ | async }}
+    </span>
+
+    <!-- Menú de usuario Admin -->
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de administrador">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Perfil</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar Sesión</span>
+      </button>
+    </mat-menu>
+  </div>
+</header>
+

@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { HeaderComponent } from './pages/header/header.component';
-import { UserHeaderComponent } from './pages/user-header/user-header.component';
+import { UserHeaderComponent } from './usuario/user-header/user-header.component';
+import { AdminHeaderComponent } from './administrador/admin-header/admin-header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 import { AuthService } from './auth/auth.service';
@@ -17,6 +18,7 @@ import { AuthService } from './auth/auth.service';
     RouterOutlet,
     HeaderComponent,
     UserHeaderComponent,
+    AdminHeaderComponent,
     FooterComponent,
     BreadcrumbComponent
   ],
@@ -25,10 +27,12 @@ import { AuthService } from './auth/auth.service';
 })
 export class App implements OnInit {
   isLoggedIn$: Observable<boolean>;
+  userRole$: Observable<string | null>;
 
   //codigo 2 experimental
   constructor(private authService: AuthService) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
+    this.userRole$ = this.authService.userRole$;
   }
 
   //codigo 2 experimental

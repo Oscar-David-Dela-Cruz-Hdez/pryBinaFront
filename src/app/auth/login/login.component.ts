@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.authService.login(data.token, data.rol, data.nombre);
             // Redirigimos
             if (data.rol === 'admin') {
-              this.router.navigate(['/admin']);
+              this.router.navigate(['/']); // Por ahora redirige a home, donde se mostrará el admin-header
             } else {
               this.router.navigate(['/']);
             }
@@ -147,7 +147,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           Swal.fire({ icon: 'success', title: 'Inicio de sesión exitoso' });
           this.authService.login(data.token, data.rol, data.nombre);
           if (data.rol === 'admin') {
-            this.router.navigate(['/admin']);
+            this.router.navigate(['/']); // Por ahora redirige a home
           } else {
             this.router.navigate(['/']);
           }

@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 export class AuthService {
   private isLoggedInSubject: BehaviorSubject<boolean>;
   private userNameSubject: BehaviorSubject<string | null>;
+  private userRoleSubject: BehaviorSubject<string | null>;
   //private apiUrl = 'http://localhost:4000/api/usuarios';
   private apiUrl = 'https://prybinaback.onrender.com/api/usuarios';
 
@@ -30,13 +31,17 @@ export class AuthService {
     const token = localStorage.getItem('user_token');
     //console.log("Token en constructor:", token);
     const nombre = localStorage.getItem('user_name');
+    const rol = localStorage.getItem('user_rol');
     this.isLoggedInSubject = new BehaviorSubject<boolean>(!!token);
     this.userNameSubject = new BehaviorSubject<string | null>(nombre);
+    this.userRoleSubject = new BehaviorSubject<string | null>(rol);
 
     if (token) {
       this.startInactivityTimer();
     }
   }
+
+  // ... (código del timer sin cambios)
 
   //codigo 3
   private startInactivityTimer(): void {
@@ -110,6 +115,10 @@ export class AuthService {
   public get currentUserName$(): Observable<string | null> {
     return this.userNameSubject.asObservable();
   }
+
+  public get userRole$(): Observable<string | null> {
+    return this.userRoleSubject.asObservable();
+  }
   //codigo 2, experimental
 
   public loginStep1_requestEmailCode(credentials: any): Observable<any> {
@@ -148,6 +157,7 @@ export class AuthService {
     localStorage.setItem('user_name', nombre);
     this.isLoggedInSubject.next(true);
     this.userNameSubject.next(nombre);
+    this.userRoleSubject.next(rol);
     //control de tiempo
     this.resetInactivityTimer();
   }
@@ -163,6 +173,7 @@ export class AuthService {
     this.socialAuthService.signOut();
     this.isLoggedInSubject.next(false);
     this.userNameSubject.next(null);
+    this.userRoleSubject.next(null);
     this.router.navigate(['/login']);
   }
 
