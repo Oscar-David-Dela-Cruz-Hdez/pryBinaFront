@@ -19,6 +19,14 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { Error400Component } from './pages/errores/error400/error400.component';
 import { Error404Component } from './pages/errores/error404/error404.component';
 import { UbicacionComponent } from './pages/ubicacion/ubicacion.component';
+import { InfoGeneralComponent } from './administrador/sitio/informacion/info-general.component';
+import { FaqsComponent } from './administrador/sitio/faqs/faqs.component';
+import { ContactosComponent } from './administrador/sitio/contactos/contactos.component';
+import { UserListComponent } from './administrador/usuarios/user-list/user-list.component';
+import { MetodosPagoComponent } from './administrador/ventas/metodos-pago/metodos-pago.component';
+import { OfertasComponent } from './administrador/ventas/ofertas/ofertas.component';
+import { ProveedoresComponent } from './administrador/inventario/proveedores/proveedores.component';
+import { MetodosEnvioComponent } from './administrador/pedidos/metodos-envio/metodos-envio.component';
 
 export const routes: Routes = [
   {
@@ -80,6 +88,56 @@ export const routes: Routes = [
     path: 'ubicacion',
     component: UbicacionComponent,
     data: { breadcrumb: 'Ubicación' }
+  },
+
+  // --- RUTAS DE ADMINISTRADOR ---
+  {
+    path: 'admin/sitio/informacion',
+    component: InfoGeneralComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Información General' }
+  },
+  {
+    path: 'admin/sitio/faqs',
+    component: FaqsComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / FAQs' }
+  },
+  {
+    path: 'admin/sitio/contactos',
+    component: ContactosComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Contactos' }
+  },
+  {
+    path: 'admin/usuarios',
+    component: UserListComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Usuarios' }
+  },
+  {
+    path: 'admin/ventas/metodos-pago',
+    component: MetodosPagoComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Métodos de Pago' }
+  },
+  {
+    path: 'admin/ventas/ofertas',
+    component: OfertasComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Ofertas' }
+  },
+  {
+    path: 'admin/inventario/proveedores',
+    component: ProveedoresComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Proveedores' }
+  },
+  {
+    path: 'admin/pedidos/metodos-envio',
+    component: MetodosEnvioComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Métodos de Envío' }
   },
 
   // Ruta Wildcard para manejar 404 (Debe ir siempre al final)

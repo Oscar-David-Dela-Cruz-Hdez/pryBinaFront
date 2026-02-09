@@ -83,3 +83,24 @@ button[mat-icon-button]:hover {
   .logo { max-width: 70px; }
   .welcome-text { display: none; }
 }
+
+/* Iconos dentro de los botones del nav */
+.nav-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Subtexto dentro de los items del menú */
+button[mat-menu-item] {
+  line-height: 1.2;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+button[mat-menu-item] .sub-text {
+  display: block;
+  font-size: 0.75rem;
+  color: #777;
+  margin-top: 2px;
+}
