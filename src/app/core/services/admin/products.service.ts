@@ -44,8 +44,24 @@ export class ProductsService {
     return this.http.delete(`${this.apiProductos}/${id}`, { headers: this.getAuthHeaders() });
   }
 
-  // --- CATEGORÍAS (Para el selector de productos) ---
+  // --- CATEGORÍAS (Para el selector de productos y CRUD) ---
   getCategorias(): Observable<any[]> {
     return this.http.get<any[]>(this.apiCategorias);
+  }
+
+  getCategoriaById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiCategorias}/${id}`);
+  }
+
+  createCategoria(data: any): Observable<any> {
+    return this.http.post(this.apiCategorias, data, { headers: this.getAuthHeaders() });
+  }
+
+  updateCategoria(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiCategorias}/${id}`, data, { headers: this.getAuthHeaders() });
+  }
+
+  deleteCategoria(id: string): Observable<any> {
+    return this.http.delete(`${this.apiCategorias}/${id}`, { headers: this.getAuthHeaders() });
   }
 }

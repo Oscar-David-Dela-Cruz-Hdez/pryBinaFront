@@ -26,6 +26,7 @@ import { UserListComponent } from './administrador/usuarios/user-list/user-list.
 import { MetodosPagoComponent } from './administrador/ventas/metodos-pago/metodos-pago.component';
 import { OfertasComponent } from './administrador/ventas/ofertas/ofertas.component';
 import { ProductsComponent } from './administrador/inventario/productos/products.component';
+import { CategoriasComponent } from './administrador/inventario/categorias/categorias.component';
 import { ProveedoresComponent } from './administrador/inventario/proveedores/proveedores.component';
 import { MetodosEnvioComponent } from './administrador/pedidos/metodos-envio/metodos-envio.component';
 
@@ -133,6 +134,12 @@ export const routes: Routes = [
     component: ProductsComponent,
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Productos' }
+  },
+  {
+    path: 'admin/inventario/categorias',
+    component: CategoriasComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Categorías' }
   },
   {
     path: 'admin/inventario/proveedores',
