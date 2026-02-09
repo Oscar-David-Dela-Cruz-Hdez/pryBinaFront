@@ -1,75 +1,99 @@
 <header>
   <div class="logo">
     <a routerLink="/admin/dashboard">
-      <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana Admin">
+      <img src="assets/images/Panamericana.png" alt="Admin Dashboard">
     </a>
   </div>
 
   <nav class="links-header">
-
-    <!-- Ventas -->
-    <button mat-button [matMenuTriggerFor]="ventasMenu">Ventas</button>
+    
+    <!-- 1. VENTAS Y MARKETING -->
+    <button mat-button [matMenuTriggerFor]="ventasMenu">
+      <mat-icon class="nav-icon">point_of_sale</mat-icon> Ventas
+    </button>
     <mat-menu #ventasMenu="matMenu">
-      <button mat-menu-item>Reporte de ventas</button>
-      <button mat-menu-item>Estadísticas</button>
-      <button mat-menu-item>Control de caja/ingresos</button>
-      <button mat-menu-item>Gestión de métodos de pago</button>
+      <button mat-menu-item routerLink="/admin/ventas/reportes">
+        <mat-icon>bar_chart</mat-icon> Reportes y Estadísticas
+      </button>
+      <button mat-menu-item routerLink="/admin/ventas/metodos-pago">
+        <mat-icon>payments</mat-icon> Métodos de Pago (CRUD)
+      </button>
+      <button mat-menu-item routerLink="/admin/ventas/ofertas">
+        <mat-icon>local_offer</mat-icon> Ofertas y Carrusel (CRUD)
+      </button>
     </mat-menu>
 
-    <!-- Inventario -->
-    <button mat-button [matMenuTriggerFor]="inventarioMenu">Inventario</button>
+    <!-- 2. INVENTARIO -->
+    <button mat-button [matMenuTriggerFor]="inventarioMenu">
+      <mat-icon class="nav-icon">inventory_2</mat-icon> Inventario
+    </button>
     <mat-menu #inventarioMenu="matMenu">
-      <button mat-menu-item>Verificar stock</button>
-      <button mat-menu-item>Gestión de productos</button>
-      <button mat-menu-item>Proveedores y contratos</button>
+      <button mat-menu-item routerLink="/admin/inventario/productos">
+        <mat-icon>category</mat-icon> Productos (CRUD)
+      </button>
+      <button mat-menu-item routerLink="/admin/inventario/proveedores">
+        <mat-icon>local_shipping</mat-icon> Proveedores (CRUD)
+      </button>
+      <button mat-menu-item routerLink="/admin/inventario/stock">
+        <mat-icon>warning</mat-icon> Alertas de Stock
+      </button>
     </mat-menu>
 
-    <!-- Pedidos y Logística -->
-    <button mat-button [matMenuTriggerFor]="pedidosMenu">Pedidos y Logística</button>
+    <!-- 3. PEDIDOS Y LOGÍSTICA -->
+    <button mat-button [matMenuTriggerFor]="pedidosMenu">
+      <mat-icon class="nav-icon">local_shipping</mat-icon> Logística
+    </button>
     <mat-menu #pedidosMenu="matMenu">
-      <button mat-menu-item>Estatus de envío</button>
-      <button mat-menu-item>Devoluciones</button>
-      <button mat-menu-item>Gestión de paquetería</button>
+      <button mat-menu-item routerLink="/admin/pedidos/listado">
+        <mat-icon>list_alt</mat-icon> Gestionar Pedidos
+      </button>
+      <button mat-menu-item routerLink="/admin/pedidos/metodos-envio">
+        <mat-icon>flight_takeoff</mat-icon> Paquetería / Envíos (CRUD)
+      </button>
     </mat-menu>
 
-    <!-- Usuarios -->
-    <button mat-button [matMenuTriggerFor]="usuariosMenu">Usuarios</button>
+    <!-- 4. USUARIOS -->
+    <button mat-button [matMenuTriggerFor]="usuariosMenu">
+      <mat-icon class="nav-icon">group</mat-icon> Usuarios
+    </button>
     <mat-menu #usuariosMenu="matMenu">
-      <button mat-menu-item>Gestión de usuarios</button>
-      <button mat-menu-item>Roles y permisos</button>
+      <button mat-menu-item routerLink="/admin/usuarios">
+        <mat-icon>manage_accounts</mat-icon> Gestión de Usuarios (CRUD)
+      </button>
     </mat-menu>
 
-    <!-- Reportes -->
-    <a mat-button class="simple-link">Reportes</a>
-
-    <!-- FAQS / Info -->
-    <button mat-button [matMenuTriggerFor]="faqsMenu">FAQS</button>
-    <mat-menu #faqsMenu="matMenu">
-      <button mat-menu-item>Misión</button>
-      <button mat-menu-item>Visión</button>
-      <button mat-menu-item>Preguntas frecuentes</button>
-      <button mat-menu-item>Ubicación</button>
-      <button mat-menu-item>Contactos</button>
-      <button mat-menu-item>Políticas de privacidad</button>
-      <button mat-menu-item>Términos de servicio</button>
+    <!-- 5. GESTIÓN DEL SITIO (CMS) -->
+    <!-- Aquí unificamos Misión, Visión, etc. porque en el backend es un solo objeto 'Informacion' -->
+    <button mat-button [matMenuTriggerFor]="webMenu">
+      <mat-icon class="nav-icon">web</mat-icon> Sitio Web
+    </button>
+    <mat-menu #webMenu="matMenu">
+      <button mat-menu-item routerLink="/admin/sitio/informacion">
+        <mat-icon>info</mat-icon> Información General
+        <span class="sub-text">(Misión, Visión, Legal, Ubicación)</span>
+      </button>
+      <button mat-menu-item routerLink="/admin/sitio/faqs">
+        <mat-icon>quiz</mat-icon> Preguntas Frecuentes (CRUD)
+      </button>
+      <button mat-menu-item routerLink="/admin/sitio/contactos">
+        <mat-icon>contact_phone</mat-icon> Contactos y Redes (CRUD)
+      </button>
     </mat-menu>
 
   </nav>
 
   <div class="acciones">
-    <!-- Mensaje de bienvenida -->
     <span class="welcome-text">
       Hola, {{ adminName$ | async }}
     </span>
 
-    <!-- Menú de usuario Admin -->
-    <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de administrador">
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #userMenu="matMenu">
       <button mat-menu-item routerLink="/perfil">
         <mat-icon>person</mat-icon>
-        <span>Perfil</span>
+        <span>Mi Perfil</span>
       </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
@@ -78,4 +102,3 @@
     </mat-menu>
   </div>
 </header>
-
