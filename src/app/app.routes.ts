@@ -25,6 +25,7 @@ import { ContactosComponent } from './administrador/sitio/contactos/contactos.co
 import { UserListComponent } from './administrador/usuarios/user-list/user-list.component';
 import { MetodosPagoComponent } from './administrador/ventas/metodos-pago/metodos-pago.component';
 import { OfertasComponent } from './administrador/ventas/ofertas/ofertas.component';
+import { ProductsComponent } from './administrador/inventario/productos/products.component';
 import { ProveedoresComponent } from './administrador/inventario/proveedores/proveedores.component';
 import { MetodosEnvioComponent } from './administrador/pedidos/metodos-envio/metodos-envio.component';
 
@@ -126,6 +127,12 @@ export const routes: Routes = [
     component: OfertasComponent,
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Ofertas' }
+  },
+  {
+    path: 'admin/inventario/productos',
+    component: ProductsComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Productos' }
   },
   {
     path: 'admin/inventario/proveedores',
