@@ -99,11 +99,16 @@ button[type="submit"]:disabled {
   box-shadow: none;
 }
 
-/* Google Sign In Container */
+/* Google Sign In Container - MODIFICADO PARA CENTRAR */
 .google-signin-container {
   margin-top: 30px;
-  text-align: center;
   position: relative;
+  /* CAMBIO: Usamos Flexbox para centrar elementos vertical y horizontalmente */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Esto centra el botón horizontalmente */
+  justify-content: center;
+  width: 100%;
 }
 
 .google-signin-container p {
@@ -120,7 +125,7 @@ button[type="submit"]:disabled {
 .google-signin-container::before {
   content: "";
   position: absolute;
-  top: 10px; /* Adjust according to p height */
+  top: 10px; /* Ajuste según la altura de p */
   left: 0;
   width: 100%;
   height: 1px;
