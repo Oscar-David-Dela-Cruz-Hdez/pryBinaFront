@@ -24,6 +24,7 @@ import { FaqsComponent } from './administrador/sitio/faqs/faqs.component';
 import { ContactosComponent } from './administrador/sitio/contactos/contactos.component';
 import { UserListComponent } from './administrador/usuarios/user-list/user-list.component';
 import { MetodosPagoComponent } from './administrador/ventas/metodos-pago/metodos-pago.component';
+import { DashboardComponent } from './administrador/dashboard/dashboard.component';
 import { OfertasComponent } from './administrador/ventas/ofertas/ofertas.component';
 import { ProductsComponent } from './administrador/inventario/productos/products.component';
 import { CategoriasComponent } from './administrador/inventario/categorias/categorias.component';
@@ -110,6 +111,12 @@ export const routes: Routes = [
   },
 
   // --- RUTAS DE ADMINISTRADOR ---
+  {
+    path: 'admin/dashboard',
+    component: DashboardComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Dashboard' }
+  },
   {
     path: 'admin/sitio/informacion',
     component: InfoGeneralComponent,
