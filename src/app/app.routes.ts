@@ -8,9 +8,9 @@ import { RegisterComponent } from './auth/register/register.component';
 import { RecupcontraComponent } from './auth/recupcontra/recupcontra.component';
 import { PrivacidadComponent } from './static/privacidad/privacidad.component';
 import { TerminosComponent } from './static/terminos/terminos.component';
-import {UserdataComponent} from "./usuario/userdata/userdata.component";
-import {PasswordComponent} from "./usuario/password/password.component";
-import {PreguntaComponent} from "./usuario/pregunta/pregunta.component";
+import { UserdataComponent } from "./usuario/userdata/userdata.component";
+import { PasswordComponent } from "./usuario/password/password.component";
+import { PreguntaComponent } from "./usuario/pregunta/pregunta.component";
 
 import { ProfileComponent } from './pages/profile/profile.component';
 
@@ -29,12 +29,29 @@ import { ProductsComponent } from './administrador/inventario/productos/products
 import { CategoriasComponent } from './administrador/inventario/categorias/categorias.component';
 import { ProveedoresComponent } from './administrador/inventario/proveedores/proveedores.component';
 import { MetodosEnvioComponent } from './administrador/pedidos/metodos-envio/metodos-envio.component';
+import { PedidosComponent } from './administrador/pedidos/pedidos-list/pedidos-list.component';
+
 
 export const routes: Routes = [
   {
     path: '',
     component: IndexComponent,
     data: { breadcrumb: 'Inicio' }
+  },
+
+  // ... (keep existing lines until 150)
+
+  {
+    path: 'admin/pedidos/metodos-envio',
+    component: MetodosEnvioComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Métodos de Envío' }
+  },
+  {
+    path: 'admin/pedidos/listado',
+    component: PedidosComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Gestión de Pedidos' }
   },
 
   {
@@ -152,6 +169,12 @@ export const routes: Routes = [
     component: MetodosEnvioComponent,
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Métodos de Envío' }
+  },
+  {
+    path: 'admin/pedidos/listado',
+    component: PedidosComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Gestión de Pedidos' }
   },
 
   // Ruta Wildcard para manejar 404 (Debe ir siempre al final)

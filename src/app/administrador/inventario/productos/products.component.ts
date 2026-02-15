@@ -218,7 +218,7 @@ import { LogisticsService } from '../../../core/services/admin/logistics.service
 export class ProductsComponent implements OnInit {
   displayedColumns: string[] = ['imagen', 'nombre', 'precio', 'stock', 'activo', 'acciones'];
   dataSource!: MatTableDataSource<any>;
-  
+
   productForm!: FormGroup;
   showForm = false;
   isEditing = false;
@@ -301,10 +301,10 @@ export class ProductsComponent implements OnInit {
     // Mapear campos si es necesario (ej: categoria._id o categoria nombre)
     const formData = { ...product };
     if (product.categoria && typeof product.categoria === 'object') {
-        formData.categoria = product.categoria._id;
+      formData.categoria = product.categoria._id;
     }
     if (product.proveedor && typeof product.proveedor === 'object') {
-        formData.proveedor = product.proveedor._id;
+      formData.proveedor = product.proveedor._id;
     }
     this.productForm.patchValue(formData);
     this.showForm = true;
@@ -356,8 +356,8 @@ export class ProductsComponent implements OnInit {
       if (result.isConfirmed) {
         this.productsService.deleteProducto(product._id).subscribe({
           next: () => {
-             this.loadData();
-             Swal.fire('Eliminado', 'El producto ha sido eliminado.', 'success');
+            this.loadData();
+            Swal.fire('Eliminado', 'El producto ha sido eliminado.', 'success');
           },
           error: () => Swal.fire('Error', 'No se pudo eliminar', 'error')
         });
