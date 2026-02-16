@@ -36,10 +36,10 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
         </button>
       </div>
 
-      <!-- Formulario Agregar -->
+      <!-- Formulario Agregar/Editar -->
       <mat-card *ngIf="showForm" class="mb-4 fade-in">
         <mat-card-header>
-          <mat-card-title>Agregar Nueva FAQ</mat-card-title>
+          <mat-card-title>{{ editingId ? 'Editar FAQ' : 'Agregar Nueva FAQ' }}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <form [formGroup]="faqForm" (ngSubmit)="onSubmit()">
@@ -56,7 +56,7 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
             <div class="actions">
               <button mat-stroked-button type="button" (click)="toggleForm()">Cancelar</button>
               <button mat-raised-button color="primary" type="submit" [disabled]="faqForm.invalid || isLoading">
-                {{ isLoading ? 'Guardando...' : 'Guardar' }}
+                {{ isLoading ? 'Guardando...' : (editingId ? 'Actualizar' : 'Guardar') }}
               </button>
             </div>
           </form>
@@ -76,6 +76,9 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
             <p>{{ faq.respuesta }}</p>
 
             <mat-action-row>
+              <button mat-button color="primary" (click)="editFaq(faq)">
+                <mat-icon>edit</mat-icon> Editar
+              </button>
               <button mat-button color="warn" (click)="deleteFaq(faq._id)">
                 <mat-icon>delete</mat-icon> Eliminar
               </button>
@@ -110,6 +113,8 @@ export class FaqsComponent implements OnInit {
   showForm = false;
   isLoading = false;
 
+  editingId: string | null = null;
+
   constructor(
     private fb: FormBuilder,
     private siteInfoService: SiteInfoService,
@@ -125,32 +130,64 @@ export class FaqsComponent implements OnInit {
   }
 
   loadFaqs() {
-    this.siteInfoService.getInformacion().subscribe(data => {
-      this.faqs = data.preguntasFrecuentes || [];
+    this.siteInfoService.getFaqs().subscribe(data => {
+      this.faqs = data || [];
     });
   }
 
   toggleForm() {
     this.showForm = !this.showForm;
-    if (!this.showForm) this.faqForm.reset();
+    if (!this.showForm) {
+      this.faqForm.reset();
+      this.editingId = null;
+    }
+  }
+
+  editFaq(faq: any) {
+    this.editingId = faq._id;
+    this.faqForm.patchValue({
+      pregunta: faq.pregunta,
+      respuesta: faq.respuesta
+    });
+    this.showForm = true;
   }
 
   onSubmit() {
     if (this.faqForm.invalid) return;
     this.isLoading = true;
 
-    this.siteInfoService.addFaq(this.faqForm.value).subscribe({
-      next: (res) => {
-        this.isLoading = false;
-        this.faqs = res.faqs; // Backend returns updated array
-        this.toggleForm();
-        this.snackBar.open('Pregunta agregada correctamente', 'Cerrar', { duration: 3000 });
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.snackBar.open('Error al agregar pregunta', 'Cerrar', { duration: 3000 });
-      }
-    });
+    if (this.editingId) {
+      this.siteInfoService.updateFaq(this.editingId, this.faqForm.value).subscribe({
+        next: (updatedFaq) => {
+          this.isLoading = false;
+          const index = this.faqs.findIndex(f => f._id === this.editingId);
+          if (index !== -1) {
+            this.faqs[index] = updatedFaq;
+          }
+          this.toggleForm();
+          this.snackBar.open('Pregunta actualizada correctamente', 'Cerrar', { duration: 3000 });
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.snackBar.open('Error al actualizar pregunta', 'Cerrar', { duration: 3000 });
+          console.error(err);
+        }
+      });
+    } else {
+      this.siteInfoService.addFaq(this.faqForm.value).subscribe({
+        next: (newFaq) => {
+          this.isLoading = false;
+          this.faqs.unshift(newFaq); // Add to top
+          this.toggleForm();
+          this.snackBar.open('Pregunta agregada correctamente', 'Cerrar', { duration: 3000 });
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.snackBar.open('Error al agregar pregunta', 'Cerrar', { duration: 3000 });
+          console.error(err);
+        }
+      });
+    }
   }
 
   deleteFaq(id: string) {
@@ -165,9 +202,14 @@ export class FaqsComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.siteInfoService.deleteFaq(id).subscribe(res => {
-          this.faqs = res.faqs;
-          Swal.fire('Eliminado', 'La pregunta ha sido eliminada.', 'success');
+        this.siteInfoService.deleteFaq(id).subscribe({
+          next: () => {
+            this.faqs = this.faqs.filter(f => f._id !== id);
+            Swal.fire('Eliminado', 'La pregunta ha sido eliminada.', 'success');
+          },
+          error: (err) => {
+            Swal.fire('Error', 'No se pudo eliminar la pregunta.', 'error');
+          }
         });
       }
     });

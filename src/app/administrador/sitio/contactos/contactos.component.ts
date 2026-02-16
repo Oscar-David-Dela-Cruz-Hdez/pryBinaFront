@@ -38,10 +38,10 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
         </button>
       </div>
 
-      <!-- Formulario Agregar -->
+      <!-- Formulario Agregar/Editar -->
       <mat-card *ngIf="showForm" class="mb-4 fade-in">
         <mat-card-header>
-          <mat-card-title>Agregar Nuevo Contacto</mat-card-title>
+          <mat-card-title>{{ editingId ? 'Editar Contacto' : 'Agregar Nuevo Contacto' }}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
@@ -73,7 +73,7 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
             <div class="actions">
               <button mat-stroked-button type="button" (click)="toggleForm()">Cancelar</button>
               <button mat-raised-button color="primary" type="submit" [disabled]="contactForm.invalid || isLoading">
-                {{ isLoading ? 'Guardando...' : 'Guardar' }}
+                {{ isLoading ? 'Guardando...' : (editingId ? 'Actualizar' : 'Guardar') }}
               </button>
             </div>
           </form>
@@ -89,6 +89,9 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
               <div matListItemTitle class="contact-title">
                 <strong>{{ contacto.tipo | titlecase }}:</strong> {{ contacto.valor }}
               </div>
+              <button mat-icon-button color="primary" (click)="editContacto(contacto)">
+                 <mat-icon>edit</mat-icon>
+              </button>
               <button mat-icon-button color="warn" matListItemMeta (click)="deleteContacto(contacto._id)">
                 <mat-icon>delete</mat-icon>
               </button>
@@ -123,6 +126,8 @@ export class ContactosComponent implements OnInit {
   showForm = false;
   isLoading = false;
 
+  editingId: string | null = null;
+
   constructor(
     private fb: FormBuilder,
     private siteInfoService: SiteInfoService,
@@ -139,14 +144,27 @@ export class ContactosComponent implements OnInit {
   }
 
   loadContactos() {
-    this.siteInfoService.getInformacion().subscribe(data => {
-      this.contactos = data.contactos || [];
+    this.siteInfoService.getContactos().subscribe(data => {
+      this.contactos = data || [];
     });
   }
 
   toggleForm() {
     this.showForm = !this.showForm;
-    if (!this.showForm) this.contactForm.reset({ tipo: 'email' });
+    if (!this.showForm) {
+      this.contactForm.reset({ tipo: 'email' });
+      this.editingId = null;
+    }
+  }
+
+  editContacto(contacto: any) {
+    this.editingId = contacto._id;
+    this.contactForm.patchValue({
+      tipo: contacto.tipo,
+      valor: contacto.valor,
+      icono: contacto.icono
+    });
+    this.showForm = true;
   }
 
   getIcon(contacto: any): string {
@@ -164,18 +182,38 @@ export class ContactosComponent implements OnInit {
     if (this.contactForm.invalid) return;
     this.isLoading = true;
 
-    this.siteInfoService.addContacto(this.contactForm.value).subscribe({
-      next: (res) => {
-        this.isLoading = false;
-        this.contactos = res.contactos;
-        this.toggleForm();
-        this.snackBar.open('Contacto agregado correctamente', 'Cerrar', { duration: 3000 });
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.snackBar.open('Error al agregar contacto', 'Cerrar', { duration: 3000 });
-      }
-    });
+    if (this.editingId) {
+      this.siteInfoService.updateContacto(this.editingId, this.contactForm.value).subscribe({
+        next: (updatedContacto) => {
+          this.isLoading = false;
+          const index = this.contactos.findIndex(c => c._id === this.editingId);
+          if (index !== -1) {
+            this.contactos[index] = updatedContacto;
+          }
+          this.toggleForm();
+          this.snackBar.open('Contacto actualizado correctamente', 'Cerrar', { duration: 3000 });
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.snackBar.open('Error al actualizar contacto', 'Cerrar', { duration: 3000 });
+          console.error(err);
+        }
+      });
+    } else {
+      this.siteInfoService.addContacto(this.contactForm.value).subscribe({
+        next: (newContacto) => {
+          this.isLoading = false;
+          this.contactos.push(newContacto);
+          this.toggleForm();
+          this.snackBar.open('Contacto agregado correctamente', 'Cerrar', { duration: 3000 });
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.snackBar.open('Error al agregar contacto', 'Cerrar', { duration: 3000 });
+          console.error(err);
+        }
+      });
+    }
   }
 
   deleteContacto(id: string) {
@@ -190,9 +228,14 @@ export class ContactosComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.siteInfoService.deleteContacto(id).subscribe(res => {
-          this.contactos = res.contactos;
-          Swal.fire('Eliminado', 'El contacto ha sido eliminado.', 'success');
+        this.siteInfoService.deleteContacto(id).subscribe({
+          next: () => {
+            this.contactos = this.contactos.filter(c => c._id !== id);
+            Swal.fire('Eliminado', 'El contacto ha sido eliminado.', 'success');
+          },
+          error: () => {
+            Swal.fire('Error', 'No se pudo eliminar el contacto.', 'error');
+          }
         });
       }
     });

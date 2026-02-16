@@ -6,7 +6,7 @@
   </div>
 
   <nav class="links-header">
-    
+
     <!-- 1. VENTAS Y MARKETING -->
     <button mat-button [matMenuTriggerFor]="ventasMenu">
       <mat-icon class="nav-icon">point_of_sale</mat-icon> Ventas
@@ -71,9 +71,23 @@
       <mat-icon class="nav-icon">web</mat-icon> Sitio Web
     </button>
     <mat-menu #webMenu="matMenu">
-      <button mat-menu-item routerLink="/admin/sitio/informacion">
-        <mat-icon>info</mat-icon> Información General
-        <span class="sub-text">(Misión, Visión, Legal, Ubicación)</span>
+      <button mat-menu-item routerLink="/admin/sitio/mision">
+        <mat-icon>flag</mat-icon> Misión
+      </button>
+      <button mat-menu-item routerLink="/admin/sitio/historia">
+        <mat-icon>history_edu</mat-icon> Historia
+      </button>
+      <button mat-menu-item routerLink="/admin/sitio/vision">
+        <mat-icon>visibility</mat-icon> Visión
+      </button>
+      <button mat-menu-item routerLink="/admin/sitio/politicas">
+        <mat-icon>policy</mat-icon> Políticas de Privacidad
+      </button>
+      <button mat-menu-item routerLink="/admin/sitio/terminos">
+        <mat-icon>gavel</mat-icon> Términos de Servicio
+      </button>
+      <button mat-menu-item routerLink="/admin/sitio/ubicacion">
+        <mat-icon>location_on</mat-icon> Ubicación
       </button>
       <button mat-menu-item routerLink="/admin/sitio/faqs">
         <mat-icon>quiz</mat-icon> Preguntas Frecuentes (CRUD)

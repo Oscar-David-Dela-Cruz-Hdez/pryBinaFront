@@ -19,7 +19,12 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { Error400Component } from './pages/errores/error400/error400.component';
 import { Error404Component } from './pages/errores/error404/error404.component';
 import { UbicacionComponent } from './pages/ubicacion/ubicacion.component';
-import { InfoGeneralComponent } from './administrador/sitio/informacion/info-general.component';
+import { MisionComponent } from './administrador/sitio/informacion/mision/mision.component';
+import { HistoriaComponent } from './administrador/sitio/informacion/historia/historia.component';
+import { VisionComponent } from './administrador/sitio/informacion/vision/vision.component';
+import { PoliticasComponent } from './administrador/sitio/informacion/politicas/politicas.component';
+import { TerminosComponent as AdminTerminosComponent } from './administrador/sitio/informacion/terminos/terminos.component';
+import { AdminUbicacionComponent } from './administrador/sitio/informacion/ubicacion/ubicacion.component';
 import { FaqsComponent } from './administrador/sitio/faqs/faqs.component';
 import { ContactosComponent } from './administrador/sitio/contactos/contactos.component';
 import { UserListComponent } from './administrador/usuarios/user-list/user-list.component';
@@ -118,10 +123,40 @@ export const routes: Routes = [
     data: { breadcrumb: 'Admin / Dashboard' }
   },
   {
-    path: 'admin/sitio/informacion',
-    component: InfoGeneralComponent,
+    path: 'admin/sitio/mision',
+    component: MisionComponent,
     canActivate: [authGuard],
-    data: { breadcrumb: 'Admin / Información General' }
+    data: { breadcrumb: 'Admin / Misión' }
+  },
+  {
+    path: 'admin/sitio/historia',
+    component: HistoriaComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Historia' }
+  },
+  {
+    path: 'admin/sitio/vision',
+    component: VisionComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Visión' }
+  },
+  {
+    path: 'admin/sitio/politicas',
+    component: PoliticasComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Políticas' }
+  },
+  {
+    path: 'admin/sitio/terminos',
+    component: AdminTerminosComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Términos' }
+  },
+  {
+    path: 'admin/sitio/ubicacion',
+    component: AdminUbicacionComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Ubicación' }
   },
   {
     path: 'admin/sitio/faqs',
