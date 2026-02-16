@@ -15,22 +15,19 @@
   </nav>
   <div class="acciones">
     <div class="buscar">
-      <input type="text" placeholder="Buscar productos..." />
+      <input type="text" placeholder="Buscar productos..." [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" />
       <!-- CAMBIO: Botón de emoji reemplazado por MatIcon -->
-      <button mat-icon-button aria-label="Icono de búsqueda">
+      <button mat-icon-button aria-label="Icono de búsqueda" (click)="onSearch()">
         <mat-icon>search</mat-icon>
       </button>
     </div>
     <!-- CAMBIO: Enlace de carrito simple reemplazado por un botón con icono -->
     <a mat-button routerLink="/carrito" class="carrito-btn">
-      <mat-icon>shopping_cart</mat-icon>
+      <mat-icon [matBadge]="cartCount > 0 ? cartCount : null" matBadgeColor="warn">shopping_cart</mat-icon>
       <span>Carrito</span>
     </a>
     <!-- NUEVO: Menú de usuario con los enlaces de autenticación -->
-    <button
-      mat-icon-button
-      [matMenuTriggerFor]="userMenu"
-      aria-label="Menú de usuario">
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario">
       <mat-icon>person_outline</mat-icon>
     </button>
     <mat-menu #userMenu="matMenu">

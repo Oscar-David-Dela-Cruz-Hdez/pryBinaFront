@@ -21,10 +21,16 @@ export class ProductsService {
   }
 
   // --- PRODUCTOS ---
-  getProductos(busqueda?: string): Observable<any[]> {
+  getProductos(filters?: { categoria?: string, nombre?: string }): Observable<any[]> {
     let url = this.apiProductos;
-    // Si hay parámetros de búsqueda/filtro, añadirlos aquí
-    // Por simplicidad, asumimos get all por ahora o búsqueda simple
+    const params = [];
+    if (filters?.categoria) params.push(`categoria=${filters.categoria}`);
+    if (filters?.nombre) params.push(`nombre=${filters.nombre}`);
+
+    if (params.length > 0) {
+      url += `?${params.join('&')}`;
+    }
+
     return this.http.get<any[]>(url);
   }
 

@@ -1,0 +1,78 @@
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4">Tu Carrito de Compras</h2>
+
+    <div *ngIf="(cartItems$ | async)?.length === 0; else cartContent" class="text-center py-5">
+        <mat-icon style="font-size: 64px; height: 64px; width: 64px;"
+            class="text-muted mb-3">remove_shopping_cart</mat-icon>
+        <h3>Tu carrito está vacío</h3>
+        <p class="text-muted">¡Agrega algunos productos increíbles de nuestro catálogo!</p>
+        <button mat-raised-button color="primary" routerLink="/productos" class="mt-3">Ir al Catálogo</button>
+    </div>
+
+    <ng-template #cartContent>
+        <div class="row">
+            <!-- Items List -->
+            <div class="col-lg-8">
+                <mat-card class="mb-3" *ngFor="let item of (cartItems$ | async)">
+                    <div class="d-flex align-items-center p-3">
+                        <img [src]="item.imagen" [alt]="item.nombre" class="rounded me-3"
+                            style="width: 80px; height: 80px; object-fit: cover;">
+
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1">{{ item.nombre }}</h5>
+                            <p class="mb-0 text-primary fw-bold">{{ item.precio | currency }}</p>
+                        </div>
+
+                        <div class="d-flex align-items-center mx-3 quantity-controls">
+                            <button mat-icon-button (click)="updateQuantity(item, item.cantidad - 1)"
+                                [disabled]="item.cantidad <= 1">
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                            <span class="mx-2 fw-bold">{{ item.cantidad }}</span>
+                            <button mat-icon-button (click)="updateQuantity(item, item.cantidad + 1)">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="text-end" style="min-width: 80px;">
+                            <p class="mb-1 fw-bold">{{ (item.precio * item.cantidad) | currency }}</p>
+                            <button mat-icon-button color="warn" (click)="removeItem(item._id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </mat-card>
+
+                <button mat-stroked-button color="warn" (click)="clearCart()">Vaciar Carrito</button>
+            </div>
+
+            <!-- Summary -->
+            <div class="col-lg-4">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Resumen del Pedido</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="pt-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <span>{{ total | currency }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Envío</span>
+                            <span class="text-muted">Calculado al pagar</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4">
+                            <strong class="fs-5">Total</strong>
+                            <strong class="fs-5 text-primary">{{ total | currency }}</strong>
+                        </div>
+
+                        <button mat-raised-button color="primary" class="w-100 py-2 fs-6" style="height: 50px;">
+                            Proceder al Pago
+                        </button>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </ng-template>
+</div>

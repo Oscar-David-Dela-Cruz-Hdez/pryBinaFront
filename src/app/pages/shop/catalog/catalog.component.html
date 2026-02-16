@@ -1,0 +1,63 @@
+<div class="container mt-4 mb-5">
+    <div class="row">
+        <!-- Sidebar / Filters -->
+        <div class="col-md-3 mb-4">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Filtros</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="pt-3">
+                    <h5>Categoría</h5>
+                    <mat-selection-list [multiple]="false" (selectionChange)="onCategoryChange($event)">
+                        <mat-list-option [value]="null" [selected]="!selectedCategory">Todas</mat-list-option>
+                        <mat-list-option *ngFor="let cat of categories" [value]="cat._id"
+                            [selected]="selectedCategory === cat._id">
+                            {{ cat.nombre }}
+                        </mat-list-option>
+                    </mat-selection-list>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="col-md-9">
+            <!-- Search & Sort Header -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Catálogo</h2>
+                <!-- (Optional) Add Sort dropdown here -->
+            </div>
+
+            <!-- Loading Spinner -->
+            <div *ngIf="isLoading" class="d-flex justify-content-center my-5">
+                <mat-spinner></mat-spinner>
+            </div>
+
+            <!-- Empty State -->
+            <div *ngIf="!isLoading && products.length === 0" class="alert alert-info text-center">
+                No se encontraron productos con los filtros seleccionados.
+            </div>
+
+            <!-- Products -->
+            <div class="row" *ngIf="!isLoading && products.length > 0">
+                <div class="col-sm-6 col-lg-4 mb-4" *ngFor="let product of products">
+                    <mat-card class="h-100 product-card fade-in">
+                        <img mat-card-image [src]="product.imagenUrl || 'assets/images/no-image.png'"
+                            [alt]="product.nombre" style="height: 200px; object-fit: cover;">
+                        <mat-card-content class="pt-3">
+                            <h3 class="product-title">{{ product.nombre }}</h3>
+                            <p class="text-muted">{{ product.categoria?.nombre || 'Sin Categoría' }}</p>
+                            <h4 class="text-primary fw-bold">{{ product.precio | currency }}</h4>
+                        </mat-card-content>
+                        <mat-card-actions align="end">
+                            <!-- <button mat-button color="primary" [routerLink]="['/producto', product.slug]">Ver</button> -->
+                            <button mat-raised-button color="accent" (click)="addToCart(product)">
+                                <mat-icon>add_shopping_cart</mat-icon> Agregar
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

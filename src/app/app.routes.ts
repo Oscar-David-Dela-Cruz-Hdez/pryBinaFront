@@ -36,6 +36,8 @@ import { CategoriasComponent } from './administrador/inventario/categorias/categ
 import { ProveedoresComponent } from './administrador/inventario/proveedores/proveedores.component';
 import { MetodosEnvioComponent } from './administrador/pedidos/metodos-envio/metodos-envio.component';
 import { PedidosComponent } from './administrador/pedidos/pedidos-list/pedidos-list.component';
+import { CatalogComponent } from './pages/shop/catalog/catalog.component';
+import { CartComponent } from './pages/shop/cart/cart.component';
 
 
 export const routes: Routes = [
@@ -113,6 +115,16 @@ export const routes: Routes = [
     path: 'ubicacion',
     component: UbicacionComponent,
     data: { breadcrumb: 'Ubicación' }
+  },
+  {
+    path: 'productos',
+    component: CatalogComponent,
+    data: { breadcrumb: 'Catálogo' }
+  },
+  {
+    path: 'carrito',
+    component: CartComponent,
+    data: { breadcrumb: 'Carrito de Compras' }
   },
 
   // --- RUTAS DE ADMINISTRADOR ---
