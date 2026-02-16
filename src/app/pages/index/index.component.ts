@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 
 
 
@@ -11,4 +13,12 @@ import { RouterModule } from '@angular/router';
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css'],
 })
-export class IndexComponent {}
+export class IndexComponent {
+  constructor(private authService: AuthService, private router: Router) {
+    this.authService.userRole$.subscribe(role => {
+      if (role === 'admin') {
+        this.router.navigate(['/admin/dashboard']);
+      }
+    });
+  }
+}
