@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Fix for transparent/translucent menus */
+.mat-mdc-menu-panel,
+.mat-menu-panel {
+    background-color: #ffffff !important;
+    opacity: 1 !important;
+    min-height: 40px;
+    /* Ensure it has height */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+    /* Ensure good shadow */
+}
+
+/* Ensure menu content is visible */
+.mat-mdc-menu-content,
+.mat-menu-content {
+    background-color: #ffffff !important;
+}
+
+/* Fix for overlay container just in case */
+.cdk-overlay-pane {
+    z-index: 1000 !important;
+}
