@@ -4,8 +4,10 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 15px 50px;
-  background-color: #FAF0E6;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  background-color: #ffffff;
+  /* Solid White */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  /* Slightly stronger shadow */
   position: relative;
   z-index: 100;
 }
@@ -16,32 +18,49 @@ header {
   flex-shrink: 0;
   transition: opacity 0.3s ease;
 }
-.logo:hover { opacity: 0.9; }
-.logo img { display: block; width: 100%; height: auto; }
-.logo a { border: none; outline: none; text-decoration: none; line-height: 0; }
+
+.logo:hover {
+  opacity: 0.9;
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.logo a {
+  border: none;
+  outline: none;
+  text-decoration: none;
+  line-height: 0;
+}
 
 /* --- Navegación --- */
 .links-header {
   display: flex;
-  gap: 10px; /* Menos gap porque son muchos items */
+  gap: 10px;
+  /* Menos gap porque son muchos items */
   align-items: center;
 }
 
 /* Estilos para los botones del menú y links simples */
-.links-header button, 
+.links-header button,
 .links-header a.simple-link {
   font-family: 'Roboto', sans-serif !important;
   color: #555;
   font-weight: 500;
   font-size: 1rem;
   padding: 0 10px;
-  min-width: unset; /* Override mat-button min-width if needed */
+  min-width: unset;
+  /* Override mat-button min-width if needed */
 }
 
 .links-header button:hover,
 .links-header a.simple-link:hover {
   color: #483D8B;
-  background-color: rgba(72, 61, 139, 0.05); /* Suave hover background */
+  background-color: rgba(72, 61, 139, 0.05);
+  /* Suave hover background */
 }
 
 /* --- Acciones y Usuario --- */
@@ -57,31 +76,40 @@ header {
   font-size: 0.95rem;
   color: #333;
   font-weight: 600;
-  background-color: rgba(255,255,255,0.6);
+  background-color: #f5f5f5;
+  /* Solid light gray */
   padding: 6px 15px;
   border-radius: 20px;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* Menú avatar */
 button[mat-icon-button] {
   color: #555;
 }
+
 button[mat-icon-button]:hover {
   color: #333;
-  background-color: rgba(0,0,0,0.05);
+  background-color: #f5f5f5;
+  /* Solid light gray */
 }
 
 /* Responsivo */
 @media (max-width: 1100px) {
-  .links-header { 
-    display: none; /* En pantallas pequeñas se debería colapsar a un menú hamburguesa, pero por ahora ocultamos */
+  .links-header {
+    display: none;
+    /* En pantallas pequeñas se debería colapsar a un menú hamburguesa, pero por ahora ocultamos */
   }
 }
 
 @media (max-width: 576px) {
-  .logo { max-width: 70px; }
-  .welcome-text { display: none; }
+  .logo {
+    max-width: 70px;
+  }
+
+  .welcome-text {
+    display: none;
+  }
 }
 
 /* Iconos dentro de los botones del nav */
