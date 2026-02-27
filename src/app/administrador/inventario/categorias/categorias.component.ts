@@ -54,10 +54,7 @@ import { ProductsService } from '../../../core/services/admin/products.service';
               <textarea matInput formControlName="descripcion" rows="2"></textarea>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>URL Imagen (Opcional)</mat-label>
-              <input matInput formControlName="imagenUrl">
-            </mat-form-field>
+
 
             <div class="actions">
               <button mat-stroked-button type="button" (click)="toggleForm()">Cancelar</button>
@@ -132,8 +129,7 @@ export class CategoriasComponent implements OnInit {
   ngOnInit(): void {
     this.catForm = this.fb.group({
       nombre: ['', Validators.required],
-      descripcion: [''],
-      imagenUrl: ['']
+      descripcion: ['']
     });
     this.loadData();
   }
