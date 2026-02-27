@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,7 +15,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 
 import { ProductsService } from '../../../core/services/admin/products.service';
-import { LogisticsService } from '../../../core/services/admin/logistics.service';
 
 @Component({
   selector: 'app-admin-productos',
@@ -60,26 +59,26 @@ import { LogisticsService } from '../../../core/services/admin/logistics.service
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="half-width">
-                <mat-label>SKU / Código</mat-label>
-                <input matInput formControlName="sku">
+                <mat-label>SKU / Código Base</mat-label>
+                <input matInput formControlName="skuBase">
               </mat-form-field>
             </div>
 
             <div class="form-row">
                <mat-form-field appearance="outline" class="half-width">
-                <mat-label>Precio</mat-label>
+                <mat-label>Precio Base</mat-label>
                 <span matPrefix>$ &nbsp;</span>
-                <input matInput type="number" formControlName="precio">
+                <input matInput type="number" formControlName="precioBase">
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="half-width">
-                <mat-label>Stock</mat-label>
-                <input matInput type="number" formControlName="stock">
+                <mat-label>Stock Total</mat-label>
+                <input matInput type="number" formControlName="stockTotal">
               </mat-form-field>
             </div>
 
             <div class="form-row">
-              <mat-form-field appearance="outline" class="half-width">
+              <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Categoría</mat-label>
                 <mat-select formControlName="categoria">
                   <mat-option *ngFor="let cat of categorias" [value]="cat._id || cat.nombre">
@@ -87,27 +86,55 @@ import { LogisticsService } from '../../../core/services/admin/logistics.service
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-
-              <mat-form-field appearance="outline" class="half-width">
-                <mat-label>Proveedor</mat-label>
-                 <mat-select formControlName="proveedor">
-                  <mat-option *ngFor="let prov of proveedores" [value]="prov._id">
-                    {{ prov.nombre }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
             </div>
 
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>URL Imagen Principal</mat-label>
-              <input matInput formControlName="imagenUrl" placeholder="https://example.com/producto.jpg">
+              <input matInput formControlName="imagenUrlPrincipal" placeholder="https://example.com/producto.jpg">
             </mat-form-field>
-             <img *ngIf="productForm.get('imagenUrl')?.value" [src]="productForm.get('imagenUrl')?.value" class="preview-img mb-2" alt="Vista previa">
+             <img *ngIf="productForm.get('imagenUrlPrincipal')?.value" [src]="productForm.get('imagenUrlPrincipal')?.value" class="preview-img mb-2" alt="Vista previa">
 
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Descripción</mat-label>
               <textarea matInput formControlName="descripcion" rows="3"></textarea>
             </mat-form-field>
+
+            <div class="mb-2">
+              <mat-slide-toggle formControlName="tieneVariantes" color="primary">¿Tiene Variantes?</mat-slide-toggle>
+            </div>
+
+            <div *ngIf="productForm.get('tieneVariantes')?.value" class="variants-section">
+              <h3>Variantes</h3>
+              <div formArrayName="variantes">
+                <div *ngFor="let v of variantes.controls; let i=index" [formGroupName]="i" class="variant-item">
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="quarter-width">
+                      <mat-label>SKU</mat-label>
+                      <input matInput formControlName="sku">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="quarter-width">
+                      <mat-label>Precio</mat-label>
+                      <input matInput type="number" formControlName="precio">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="quarter-width">
+                      <mat-label>Stock</mat-label>
+                      <input matInput type="number" formControlName="stock">
+                    </mat-form-field>
+                    <button mat-icon-button color="warn" type="button" (click)="removeVariante(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>URL Imagen</mat-label>
+                    <input matInput formControlName="imagenUrl">
+                  </mat-form-field>
+                  <!-- We can add Atributos mapping here if needed later -->
+                </div>
+              </div>
+              <button mat-stroked-button color="primary" type="button" (click)="addVariante()" class="mb-4">
+                <mat-icon>add</mat-icon> Agregar Variante
+              </button>
+            </div>
 
             <div class="mb-2">
               <mat-slide-toggle formControlName="activo" color="primary">Producto Activo</mat-slide-toggle>
@@ -136,7 +163,7 @@ import { LogisticsService } from '../../../core/services/admin/logistics.service
           <ng-container matColumnDef="imagen">
             <th mat-header-cell *matHeaderCellDef> Imagen </th>
             <td mat-cell *matCellDef="let row">
-              <img [src]="row.imagenUrl || 'assets/no-image.png'" class="thumb-img">
+              <img [src]="row.imagenUrlPrincipal || row.imagenUrl || 'assets/no-image.png'" class="thumb-img">
             </td>
           </ng-container>
 
@@ -145,20 +172,20 @@ import { LogisticsService } from '../../../core/services/admin/logistics.service
             <td mat-cell *matCellDef="let row"> 
               <div class="col-flex">
                 <span>{{row.nombre}}</span>
-                <span class="sub-text">{{row.sku}}</span>
+                <span class="sub-text">{{row.skuBase || row.sku}}</span>
               </div>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="precio">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
-            <td mat-cell *matCellDef="let row"> {{row.precio | currency}} </td>
+            <td mat-cell *matCellDef="let row"> {{(row.precioBase || row.precio) | currency}} </td>
           </ng-container>
 
           <ng-container matColumnDef="stock">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock </th>
             <td mat-cell *matCellDef="let row">
-              <span [class.low-stock]="row.stock < 5">{{row.stock}}</span>
+              <span [class.low-stock]="(row.stockTotal || row.stock) < 5">{{row.stockTotal || row.stock}}</span>
             </td>
           </ng-container>
 
@@ -200,6 +227,7 @@ import { LogisticsService } from '../../../core/services/admin/logistics.service
     .full-width { width: 100%; margin-bottom: 10px; }
     .form-row { display: flex; gap: 15px; }
     .half-width { flex: 1; margin-bottom: 10px; }
+    .quarter-width { flex: 1; margin-bottom: 10px; }
     .mb-4 { margin-bottom: 20px; }
     .mb-2 { margin-bottom: 10px; }
     .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
@@ -210,6 +238,8 @@ import { LogisticsService } from '../../../core/services/admin/logistics.service
     .sub-text { font-size: 0.8rem; color: #777; }
     .low-stock { color: red; font-weight: bold; }
     .preview-img { max-width: 200px; border-radius: 4px; display: block; }
+    .variants-section { border: 1px dashed #ccc; padding: 15px; border-radius: 8px; margin-bottom: 20px; background: #fafafa; }
+    .variant-item { border-bottom: 1px solid #ddd; margin-bottom: 15px; padding-bottom: 15px; }
     table { width: 100%; }
     .fade-in { animation: fadeIn 0.3s ease-in; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -226,7 +256,6 @@ export class ProductsComponent implements OnInit {
   isLoading = false;
 
   categorias: any[] = [];
-  proveedores: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -234,28 +263,46 @@ export class ProductsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productsService: ProductsService,
-    private logisticsService: LogisticsService,
     private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
       nombre: ['', Validators.required],
-      sku: [''],
-      precio: [0, Validators.required],
-      stock: [0, Validators.required],
+      skuBase: [''],
+      precioBase: [0, Validators.required],
+      stockTotal: [0, Validators.required],
       categoria: [''],
-      proveedor: [''],
-      imagenUrl: [''],
+      imagenUrlPrincipal: [''],
       descripcion: [''],
+      tieneVariantes: [false],
+      variantes: this.fb.array([]),
       activo: [true]
     });
 
     this.loadData();
   }
 
+  get variantes() {
+    return this.productForm.get('variantes') as FormArray;
+  }
+
+  addVariante() {
+    const varianteForm = this.fb.group({
+      sku: [''],
+      precio: [0, Validators.required],
+      stock: [0],
+      imagenUrl: [''],
+      atributos: [{}]
+    });
+    this.variantes.push(varianteForm);
+  }
+
+  removeVariante(index: number) {
+    this.variantes.removeAt(index);
+  }
+
   loadData() {
-    // Cargar productos
     this.productsService.getProductos().subscribe({
       next: (data) => {
         this.dataSource = new MatTableDataSource(data || []);
@@ -265,16 +312,9 @@ export class ProductsComponent implements OnInit {
       error: () => this.snackBar.open('Error al cargar productos', 'Cerrar', { duration: 3000 })
     });
 
-    // Cargar categorías (si existe endpoint, si no, array vacío por ahora)
     this.productsService.getCategorias().subscribe({
       next: (data) => this.categorias = data || [],
       error: () => console.log('No se pudieron cargar categorías')
-    });
-
-    // Cargar proveedores
-    this.logisticsService.getProveedores(true).subscribe({
-      next: (data) => this.proveedores = data || [],
-      error: () => console.log('No se pudieron cargar proveedores')
     });
   }
 
@@ -289,7 +329,8 @@ export class ProductsComponent implements OnInit {
   toggleForm() {
     this.showForm = !this.showForm;
     if (!this.showForm) {
-      this.productForm.reset({ activo: true, precio: 0, stock: 0 });
+      this.productForm.reset({ activo: true, precioBase: 0, stockTotal: 0, tieneVariantes: false });
+      this.variantes.clear();
       this.isEditing = false;
       this.editingId = null;
     }
@@ -298,14 +339,35 @@ export class ProductsComponent implements OnInit {
   editProduct(product: any) {
     this.isEditing = true;
     this.editingId = product._id;
-    // Mapear campos si es necesario (ej: categoria._id o categoria nombre)
+    
+    this.variantes.clear();
+    
     const formData = { ...product };
+    // Compatibility fallbacks
+    formData.precioBase = product.precioBase ?? product.precio ?? 0;
+    formData.stockTotal = product.stockTotal ?? product.stock ?? 0;
+    formData.skuBase = product.skuBase ?? product.sku ?? '';
+    formData.imagenUrlPrincipal = product.imagenUrlPrincipal ?? product.imagenUrl ?? '';
+    
     if (product.categoria && typeof product.categoria === 'object') {
       formData.categoria = product.categoria._id;
     }
-    if (product.proveedor && typeof product.proveedor === 'object') {
-      formData.proveedor = product.proveedor._id;
+    
+    if (product.variantes && product.variantes.length > 0) {
+      product.variantes.forEach((v: any) => {
+        this.variantes.push(this.fb.group({
+          sku: [v.sku || ''],
+          precio: [v.precio || 0, Validators.required],
+          stock: [v.stock || 0],
+          imagenUrl: [v.imagenUrl || ''],
+          atributos: [v.atributos || {}]
+        }));
+      });
+      formData.tieneVariantes = true;
+    } else {
+      formData.tieneVariantes = false;
     }
+
     this.productForm.patchValue(formData);
     this.showForm = true;
   }
@@ -314,8 +376,16 @@ export class ProductsComponent implements OnInit {
     if (this.productForm.invalid) return;
     this.isLoading = true;
 
+    // Map `variantes` array to `variantesGenerar` for the backend
+    const payload = { ...this.productForm.value };
+    if (payload.tieneVariantes) {
+      payload.variantesGenerar = payload.variantes;
+    } else {
+      payload.variantesGenerar = [];
+    }
+
     if (this.isEditing && this.editingId) {
-      this.productsService.updateProducto(this.editingId, this.productForm.value).subscribe({
+      this.productsService.updateProducto(this.editingId, payload).subscribe({
         next: (res) => {
           this.finishSubmit('Producto actualizado correctamente');
           this.loadData();
@@ -323,7 +393,7 @@ export class ProductsComponent implements OnInit {
         error: () => this.handleError()
       });
     } else {
-      this.productsService.createProducto(this.productForm.value).subscribe({
+      this.productsService.createProducto(payload).subscribe({
         next: (res) => {
           this.finishSubmit('Producto creado correctamente');
           this.loadData();

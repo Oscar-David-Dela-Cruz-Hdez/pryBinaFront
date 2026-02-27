@@ -9,6 +9,7 @@ import { AuthService } from '../../../auth/auth.service';
 export class SalesService {
   private apiMetodosPago = 'https://prybinaback.onrender.com/api/metodos-pago';
   private apiOfertas = 'https://prybinaback.onrender.com/api/ofertas';
+  private apiCarruseles = 'https://prybinaback.onrender.com/api/carruseles';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -65,5 +66,28 @@ export class SalesService {
 
   deleteOferta(id: string): Observable<any> {
     return this.http.delete(`${this.apiOfertas}/${id}`, { headers: this.getAuthHeaders() });
+  }
+
+  // --- CARRUSELES ---
+  getCarruseles(activo?: boolean): Observable<any[]> {
+    let url = this.apiCarruseles;
+    if (activo !== undefined) url += `?activo=${activo}`;
+    return this.http.get<any[]>(url);
+  }
+
+  getCarruselById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiCarruseles}/${id}`);
+  }
+
+  createCarrusel(data: any): Observable<any> {
+    return this.http.post(this.apiCarruseles, data, { headers: this.getAuthHeaders() });
+  }
+
+  updateCarrusel(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiCarruseles}/${id}`, data, { headers: this.getAuthHeaders() });
+  }
+
+  deleteCarrusel(id: string): Observable<any> {
+    return this.http.delete(`${this.apiCarruseles}/${id}`, { headers: this.getAuthHeaders() });
   }
 }

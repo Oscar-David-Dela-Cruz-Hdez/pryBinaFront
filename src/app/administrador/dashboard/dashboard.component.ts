@@ -96,6 +96,9 @@ import { AdminUsersService } from '../../core/services/admin/admin-users.service
            <button mat-raised-button routerLink="/admin/ventas/ofertas">
               <mat-icon>local_offer</mat-icon> Gestionar Ofertas
            </button>
+           <button mat-raised-button routerLink="/admin/ventas/carrusel">
+              <mat-icon>view_carousel</mat-icon> Gestionar Carrusel
+           </button>
         </div>
       </div>
 

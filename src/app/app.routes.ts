@@ -31,9 +31,10 @@ import { UserListComponent } from './administrador/usuarios/user-list/user-list.
 import { MetodosPagoComponent } from './administrador/ventas/metodos-pago/metodos-pago.component';
 import { DashboardComponent } from './administrador/dashboard/dashboard.component';
 import { OfertasComponent } from './administrador/ventas/ofertas/ofertas.component';
+import { CarruselComponent } from './administrador/ventas/carrusel/carrusel.component';
 import { ProductsComponent } from './administrador/inventario/productos/products.component';
 import { CategoriasComponent } from './administrador/inventario/categorias/categorias.component';
-import { ProveedoresComponent } from './administrador/inventario/proveedores/proveedores.component';
+
 import { MetodosEnvioComponent } from './administrador/pedidos/metodos-envio/metodos-envio.component';
 import { PedidosComponent } from './administrador/pedidos/pedidos-list/pedidos-list.component';
 import { CatalogComponent } from './pages/shop/catalog/catalog.component';
@@ -201,6 +202,12 @@ export const routes: Routes = [
     data: { breadcrumb: 'Admin / Ofertas' }
   },
   {
+    path: 'admin/ventas/carrusel',
+    component: CarruselComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Carrusel' }
+  },
+  {
     path: 'admin/inventario/productos',
     component: ProductsComponent,
     canActivate: [authGuard],
@@ -212,12 +219,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Categorías' }
   },
-  {
-    path: 'admin/inventario/proveedores',
-    component: ProveedoresComponent,
-    canActivate: [authGuard],
-    data: { breadcrumb: 'Admin / Proveedores' }
-  },
+
   {
     path: 'admin/pedidos/metodos-envio',
     component: MetodosEnvioComponent,

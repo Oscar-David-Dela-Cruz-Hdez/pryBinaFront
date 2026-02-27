@@ -7,11 +7,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 
 import { SalesService } from '../../../core/services/admin/sales.service';
+import { ProductsService } from '../../../core/services/admin/products.service';
 
 @Component({
   selector: 'app-admin-ofertas',
@@ -25,13 +28,15 @@ import { SalesService } from '../../../core/services/admin/sales.service';
     MatButtonModule,
     MatIconModule,
     MatSlideToggleModule,
-    MatListModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatSnackBarModule
   ],
   template: `
     <div class="admin-container">
       <div class="header-section">
-        <h2>Ofertas y Carrusel</h2>
+        <h2>Gestión de Ofertas</h2>
         <button mat-raised-button color="primary" (click)="toggleForm()">
           <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
           {{ showForm ? 'Cancelar' : 'Nueva Oferta' }}
@@ -47,29 +52,70 @@ import { SalesService } from '../../../core/services/admin/sales.service';
           <form [formGroup]="offerForm" (ngSubmit)="onSubmit()">
             
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Título (Opcional)</mat-label>
-              <input matInput formControlName="titulo">
+              <mat-label>Nombre de la Oferta</mat-label>
+              <input matInput formControlName="nombre">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>URL de Imagen</mat-label>
-              <input matInput formControlName="imagenUrl" placeholder="https://example.com/banner.jpg">
+              <mat-label>Descripción</mat-label>
+              <textarea matInput formControlName="descripcion" rows="2"></textarea>
             </mat-form-field>
 
-            <img *ngIf="offerForm.get('imagenUrl')?.value" [src]="offerForm.get('imagenUrl')?.value" class="preview-img mb-2" alt="Vista previa">
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Tipo de Descuento</mat-label>
+                <mat-select formControlName="tipoDescuento">
+                  <mat-option value="porcentaje">Porcentaje (%)</mat-option>
+                  <mat-option value="monto_fijo">Monto Fijo ($)</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Enlace de Destino (Opcional)</mat-label>
-              <input matInput formControlName="enlaceDestino">
-            </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Valor del Descuento</mat-label>
+                <input matInput type="number" formControlName="valorDescuento">
+              </mat-form-field>
+            </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Orden (Prioridad)</mat-label>
-              <input matInput type="number" formControlName="orden">
-            </mat-form-field>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Fecha de Inicio</mat-label>
+                <input matInput [matDatepicker]="pickerInicio" formControlName="fechaInicio">
+                <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+                <mat-datepicker #pickerInicio></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Fecha de Fin</mat-label>
+                <input matInput [matDatepicker]="pickerFin" formControlName="fechaFin">
+                <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFin></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Aplicar a Categorías (Opcional)</mat-label>
+                <mat-select formControlName="categorias" multiple>
+                  <mat-option *ngFor="let cat of categoriasDisponibles" [value]="cat._id">
+                    {{ cat.nombre }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Aplicar a Productos (Opcional)</mat-label>
+                <mat-select formControlName="productos" multiple>
+                  <mat-option *ngFor="let prod of productosDisponibles" [value]="prod._id">
+                    {{ prod.nombre }} ({{ prod.skuBase || prod.sku }})
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
             <div class="mb-2">
-              <mat-slide-toggle formControlName="activo" color="primary">Activo</mat-slide-toggle>
+              <mat-slide-toggle formControlName="activo" color="primary">Oferta Activa</mat-slide-toggle>
             </div>
 
             <div class="actions">
@@ -85,12 +131,17 @@ import { SalesService } from '../../../core/services/admin/sales.service';
       <!-- Lista -->
       <div class="offers-grid" *ngIf="ofertas.length > 0; else noData">
         <mat-card *ngFor="let oferta of ofertas" class="offer-card">
-          <img mat-card-image [src]="oferta.imagenUrl" alt="Banner Oferta">
+          <mat-card-header>
+             <mat-card-title>{{ oferta.nombre }} <span *ngIf="!oferta.activo" class="badge-inactive">(Inactiva)</span></mat-card-title>
+             <mat-card-subtitle>{{ oferta.tipoDescuento === 'porcentaje' ? '%' : '$' }} {{ oferta.valorDescuento }} de descuento</mat-card-subtitle>
+          </mat-card-header>
           <mat-card-content>
-            <h3>{{ oferta.titulo || 'Sin Título' }}</h3>
-            <p>Orden: {{ oferta.orden }}</p>
-            <span *ngIf="!oferta.activo" class="badge-inactive">Inactivo</span>
-            <a *ngIf="oferta.enlaceDestino" [href]="oferta.enlaceDestino" target="_blank" class="link-dest">Ver destino</a>
+            <p>{{ oferta.descripcion }}</p>
+            <p><strong>Vigencia:</strong> {{ oferta.fechaInicio | date }} al {{ oferta.fechaFin | date }}</p>
+            <div class="associations">
+              <p *ngIf="oferta.categorias?.length"><strong>Categorías:</strong> {{ oferta.categorias.length }}</p>
+              <p *ngIf="oferta.productos?.length"><strong>Productos:</strong> {{ oferta.productos.length }}</p>
+            </div>
           </mat-card-content>
           <mat-card-actions align="end">
             <button mat-icon-button color="primary" (click)="editOffer(oferta)">
@@ -115,22 +166,27 @@ import { SalesService } from '../../../core/services/admin/sales.service';
     .admin-container { padding: 20px; max-width: 1000px; margin: 0 auto; }
     .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .full-width { width: 100%; margin-bottom: 10px; }
+    .form-row { display: flex; gap: 15px; }
+    .half-width { flex: 1; margin-bottom: 10px; }
     .mb-4 { margin-bottom: 20px; }
     .mb-2 { margin-bottom: 10px; }
     .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
     .empty-state { text-align: center; padding: 40px; color: #777; }
     .empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; margin-bottom: 10px; }
-    .preview-img { max-width: 100%; height: auto; max-height: 200px; object-fit: cover; border-radius: 4px; }
-    .offers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .offers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
     .offer-card { display: flex; flex-direction: column; justify-content: space-between; }
-    .badge-inactive { color: red; font-weight: bold; }
-    .link-dest { display: block; font-size: 0.8rem; margin-top: 5px; color: #555; text-decoration: underline; }
+    .associations { margin-top: 10px; font-size: 0.9em; color: #555; }
+    .associations p { margin: 2px 0; }
+    .badge-inactive { color: red; font-size: 0.8em; font-weight: normal; }
     .fade-in { animation: fadeIn 0.3s ease-in; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
   `]
 })
 export class OfertasComponent implements OnInit {
   ofertas: any[] = [];
+  categoriasDisponibles: any[] = [];
+  productosDisponibles: any[] = [];
+  
   offerForm!: FormGroup;
   showForm = false;
   isEditing = false;
@@ -140,30 +196,51 @@ export class OfertasComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private salesService: SalesService,
+    private productsService: ProductsService,
     private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
     this.offerForm = this.fb.group({
-      titulo: [''],
-      imagenUrl: ['', Validators.required],
-      enlaceDestino: [''],
-      orden: [0],
+      nombre: ['', Validators.required],
+      descripcion: [''],
+      tipoDescuento: ['porcentaje', Validators.required],
+      valorDescuento: [0, [Validators.required, Validators.min(0)]],
+      productos: [[]],
+      categorias: [[]],
+      fechaInicio: [new Date(), Validators.required],
+      fechaFin: [new Date(), Validators.required],
       activo: [true]
     });
-    this.loadOffers();
+    this.loadData();
   }
 
-  loadOffers() {
+  loadData() {
     this.salesService.getOfertas().subscribe(data => {
       this.ofertas = data || [];
+    });
+    
+    this.productsService.getCategorias().subscribe(data => {
+       this.categoriasDisponibles = data || [];
+    });
+    
+    this.productsService.getProductos().subscribe(data => {
+       this.productosDisponibles = data || [];
     });
   }
 
   toggleForm() {
     this.showForm = !this.showForm;
     if (!this.showForm) {
-      this.offerForm.reset({ activo: true, orden: 0 });
+      this.offerForm.reset({ 
+        tipoDescuento: 'porcentaje', 
+        valorDescuento: 0, 
+        activo: true, 
+        productos: [], 
+        categorias: [],
+        fechaInicio: new Date(),
+        fechaFin: new Date()
+      });
       this.isEditing = false;
       this.editingId = null;
     }
@@ -172,7 +249,16 @@ export class OfertasComponent implements OnInit {
   editOffer(offer: any) {
     this.isEditing = true;
     this.editingId = offer._id;
-    this.offerForm.patchValue(offer);
+    
+    const formData = { ...offer };
+    if (offer.productos && offer.productos.length > 0) {
+      formData.productos = offer.productos.map((p: any) => p._id || p);
+    }
+    if (offer.categorias && offer.categorias.length > 0) {
+      formData.categorias = offer.categorias.map((c: any) => c._id || c);
+    }
+
+    this.offerForm.patchValue(formData);
     this.showForm = true;
   }
 
@@ -184,7 +270,7 @@ export class OfertasComponent implements OnInit {
       this.salesService.updateOferta(this.editingId, this.offerForm.value).subscribe({
         next: (res) => {
           this.finishSubmit('Oferta actualizada correctamente');
-          this.loadOffers(); 
+          this.loadData(); 
         },
         error: () => this.handleError()
       });
@@ -192,8 +278,7 @@ export class OfertasComponent implements OnInit {
       this.salesService.createOferta(this.offerForm.value).subscribe({
         next: (res) => {
           this.finishSubmit('Oferta creada correctamente');
-          this.ofertas.push(res.oferta);
-          this.loadOffers(); // Reload to respect sort order
+          this.loadData();
         },
         error: () => this.handleError()
       });
@@ -223,7 +308,7 @@ export class OfertasComponent implements OnInit {
       if (result.isConfirmed) {
         this.salesService.deleteOferta(offer._id).subscribe({
           next: () => {
-             this.ofertas = this.ofertas.filter(o => o._id !== offer._id);
+             this.loadData();
              Swal.fire('Eliminado', 'La oferta ha sido eliminada.', 'success');
           },
           error: () => Swal.fire('Error', 'No se pudo eliminar', 'error')
