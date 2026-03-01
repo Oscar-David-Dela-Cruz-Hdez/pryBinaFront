@@ -129,10 +129,10 @@ import { ProductsService } from '../../../core/services/admin/products.service';
                     <input matInput formControlName="imagenUrl">
                   </mat-form-field>
 
-                  <!-- Sección de Atributos -->
-                  <div formArrayName="atributos" class="atributos-section mb-2">
-                    <h4 class="atributos-title">Atributos</h4>
-                    <div *ngFor="let at of getAtributos(i).controls; let j=index" [formGroupName]="j" class="atributo-item">
+                  <!-- ATRIBUTOS -->
+                  <div formArrayName="atributos" class="atributos-section">
+                    <h4>Atributos</h4>
+                    <div *ngFor="let attr of getAtributos(i).controls; let j=index" [formGroupName]="j" class="form-row">
                       <mat-form-field appearance="outline" class="half-width">
                         <mat-label>Nombre (ej. Color)</mat-label>
                         <input matInput formControlName="nombre">
@@ -142,13 +142,14 @@ import { ProductsService } from '../../../core/services/admin/products.service';
                         <input matInput formControlName="valor">
                       </mat-form-field>
                       <button mat-icon-button color="warn" type="button" (click)="removeAtributo(i, j)">
-                        <mat-icon>remove_circle</mat-icon>
+                        <mat-icon>close</mat-icon>
                       </button>
                     </div>
-                    <button mat-stroked-button color="primary" type="button" (click)="addAtributo(i)" class="btn-add-attr">
+                    <button mat-button color="primary" type="button" (click)="addAtributo(i)">
                       <mat-icon>add</mat-icon> Agregar Atributo
                     </button>
                   </div>
+
                 </div>
               </div>
               <button mat-stroked-button color="primary" type="button" (click)="addVariante()" class="mb-4">
@@ -260,10 +261,8 @@ import { ProductsService } from '../../../core/services/admin/products.service';
     .preview-img { max-width: 200px; border-radius: 4px; display: block; }
     .variants-section { border: 1px dashed #ccc; padding: 15px; border-radius: 8px; margin-bottom: 20px; background: #fafafa; }
     .variant-item { border-bottom: 1px solid #ddd; margin-bottom: 15px; padding-bottom: 15px; }
-    .atributos-section { background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #eee; }
-    .atributos-title { margin-top: 0; margin-bottom: 10px; font-size: 1rem; color: #555; }
-    .atributo-item { display: flex; gap: 10px; align-items: baseline; margin-bottom: 10px; }
-    .btn-add-attr { margin-top: 5px; }
+    .atributos-section { background: #fff; padding: 10px; border-radius: 4px; margin-top: 10px; border: 1px solid #eee; }
+    .atributos-section h4 { margin-top: 0; margin-bottom: 10px; font-size: 0.95rem; color: #555; }
     table { width: 100%; }
     .fade-in { animation: fadeIn 0.3s ease-in; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -311,6 +310,10 @@ export class ProductsComponent implements OnInit {
     return this.productForm.get('variantes') as FormArray;
   }
 
+  getAtributos(variantIndex: number): FormArray {
+    return this.variantes.at(variantIndex).get('atributos') as FormArray;
+  }
+
   addVariante() {
     const varianteForm = this.fb.group({
       sku: [''],
@@ -322,24 +325,20 @@ export class ProductsComponent implements OnInit {
     this.variantes.push(varianteForm);
   }
 
-  getAtributos(varianteIndex: number): FormArray {
-    return this.variantes.at(varianteIndex).get('atributos') as FormArray;
+  removeVariante(index: number) {
+    this.variantes.removeAt(index);
   }
 
-  addAtributo(varianteIndex: number) {
+  addAtributo(variantIndex: number) {
     const atributoForm = this.fb.group({
       nombre: ['', Validators.required],
       valor: ['', Validators.required]
     });
-    this.getAtributos(varianteIndex).push(atributoForm);
+    this.getAtributos(variantIndex).push(atributoForm);
   }
 
-  removeAtributo(varianteIndex: number, atributoIndex: number) {
-    this.getAtributos(varianteIndex).removeAt(atributoIndex);
-  }
-
-  removeVariante(index: number) {
-    this.variantes.removeAt(index);
+  removeAtributo(variantIndex: number, attrIndex: number) {
+    this.getAtributos(variantIndex).removeAt(attrIndex);
   }
 
   loadData() {
@@ -395,25 +394,23 @@ export class ProductsComponent implements OnInit {
     
     if (product.variantes && product.variantes.length > 0) {
       product.variantes.forEach((v: any) => {
-        const varianteGroup = this.fb.group({
+        const atributosArray = this.fb.array([] as any[]) as FormArray;
+        if (v.atributos) {
+          Object.keys(v.atributos).forEach(key => {
+            atributosArray.push(this.fb.group({
+              nombre: [key, Validators.required],
+              valor: [v.atributos[key], Validators.required]
+            }));
+          });
+        }
+
+        this.variantes.push(this.fb.group({
           sku: [v.sku || ''],
           precio: [v.precio || 0, Validators.required],
           stock: [v.stock || 0],
           imagenUrl: [v.imagenUrl || ''],
-          atributos: this.fb.array([])
-        });
-
-        if (v.atributos && typeof v.atributos === 'object') {
-          const atributosArray = varianteGroup.get('atributos') as FormArray;
-          for (const [key, value] of Object.entries(v.atributos)) {
-            atributosArray.push(this.fb.group({
-              nombre: [key, Validators.required],
-              valor: [value, Validators.required]
-            }));
-          }
-        }
-
-        this.variantes.push(varianteGroup);
+          atributos: atributosArray
+        }));
       });
       formData.tieneVariantes = true;
     } else {
@@ -432,18 +429,17 @@ export class ProductsComponent implements OnInit {
     const payload = { ...this.productForm.value };
     if (payload.tieneVariantes) {
       payload.variantesGenerar = payload.variantes.map((v: any) => {
-        const atributosObj: { [key: string]: string } = {};
-        if (v.atributos && Array.isArray(v.atributos)) {
-          v.atributos.forEach((attr: any) => {
+        const _v = { ...v };
+        const attrObj: any = {};
+        if (_v.atributos && Array.isArray(_v.atributos)) {
+          _v.atributos.forEach((attr: any) => {
             if (attr.nombre && attr.valor) {
-              atributosObj[attr.nombre] = attr.valor;
+              attrObj[attr.nombre] = attr.valor;
             }
           });
         }
-        return {
-          ...v,
-          atributos: atributosObj
-        };
+        _v.atributos = attrObj;
+        return _v;
       });
     } else {
       payload.variantesGenerar = [];
