@@ -9,6 +9,7 @@ import { AdminHeaderComponent } from './administrador/admin-header/admin-header.
 import { FooterComponent } from './pages/footer/footer.component';
 import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 import { AuthService } from './auth/auth.service';
+import { ThemeService } from './core/services/theme/theme';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,10 @@ export class App implements OnInit {
   userRole$: Observable<string | null>;
 
   //codigo 2 experimental
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private themeService: ThemeService
+  ) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
     this.userRole$ = this.authService.userRole$;
   }

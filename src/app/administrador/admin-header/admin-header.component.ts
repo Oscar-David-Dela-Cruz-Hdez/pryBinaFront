@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { AuthService } from '../../auth/auth.service';
+import { ThemeService } from '../../core/services/theme/theme';
 
 @Component({
   selector: 'app-admin-header',
@@ -26,7 +27,10 @@ export class AdminHeaderComponent implements OnInit {
 
   public adminName$: Observable<string | null>;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    public themeService: ThemeService
+  ) {
     this.adminName$ = this.authService.currentUserName$;
   }
 

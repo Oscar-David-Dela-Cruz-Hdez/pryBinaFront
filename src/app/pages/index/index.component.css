@@ -2,13 +2,13 @@
 
 
 .index-main {
-  font-family: 'Roboto', sans-serif;
-  color: #333333;
+  font-family: var(--font-body);
+  color: var(--text-primary);
 }
 
 /* --- Hero Section --- */
 .hero {
-  background-color: #FAF0E6; /* Beige */
+  background-color: var(--surface-raised); 
   text-align: center;
   padding: 100px 20px;
   position: relative;
@@ -28,17 +28,17 @@
 }
 
 .hero h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-heading);
   font-size: 3.5rem; /* Más grande e impactante */
   font-weight: 800;
-  color: #333333;
+  color: var(--text-primary);
   margin-bottom: 24px;
   letter-spacing: -1px;
 }
 
 .hero p {
   font-size: 1.35rem;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 40px;
   max-width: 700px;
   margin-left: auto;
@@ -55,14 +55,14 @@
   text-align: center;
 }
 
-.productos-destacados { background-color: #f9f9f9; }
-.testimonios { background-color: #fff; }
-.beneficios { background-color: #fff0f5; /* Rosa muy pálido para reemplazar el anterior */ }
+.productos-destacados { background-color: var(--bg-color); }
+.testimonios { background-color: var(--surface-color); }
+.beneficios { background-color: var(--surface-raised); }
 
 h2 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-heading);
   font-size: 2.5rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 50px;
   position: relative;
   display: inline-block;
@@ -74,7 +74,7 @@ h2::after {
   display: block;
   width: 60px;
   height: 4px;
-  background-color: #D4AF37;
+  background-color: var(--primary-color);
   margin: 15px auto 0;
   border-radius: 2px;
 }
@@ -89,18 +89,18 @@ h2::after {
 }
 
 .producto {
-  background-color: #FFFFFF;
+  background-color: var(--surface-color);
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Sombra elegante */
+  box-shadow: var(--shadow-sm); 
   padding: 25px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border: 1px solid transparent;
+  border: 1px solid var(--border-light);
 }
 
 .producto:hover {
   transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
 }
 
 .producto img {
@@ -112,47 +112,45 @@ h2::after {
 }
 
 .producto h3 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-heading);
   font-size: 1.5rem;
   margin-bottom: 12px;
-  color: #222;
+  color: var(--text-primary);
 }
 
 .producto p {
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 25px;
   line-height: 1.5;
 }
 
 /* --- Botones --- */
 button {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-heading);
   font-weight: 600;
   font-size: 1.1rem;
   padding: 14px 36px;
   border-radius: 50px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: #66CDAA; /* Verde menta */
-  color: #FFFFFF;
-  box-shadow: 0 6px 15px rgba(102, 205, 170, 0.3);
+  transition: all var(--transition-fast);
+  background-color: var(--accent-color); 
+  color: #FFFFFF; /* High contrast text on accent */
+  box-shadow: var(--shadow-sm);
 }
 
 button:hover {
-  background-color: #55b593;
+  filter: brightness(0.9);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 205, 170, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
-/* CTA en Hero (Botón dorado opcional si quisieran variedad, pero mantenemos verde por consistencia pedida o usamos el dorado del tema) */
+/* CTA en Hero */
 .hero button {
-    background-color: #D4AF37;
-    box-shadow: 0 6px 15px rgba(212, 175, 55, 0.3);
+    background-color: var(--primary-color);
 }
 .hero button:hover {
-    background-color: #c5a028;
-    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    background-color: var(--primary-color-hover);
 }
 
 /* --- Beneficios --- */
@@ -162,22 +160,22 @@ button:hover {
   max-width: 600px;
   margin: 0 auto;
   text-align: left;
-  background: white;
+  background: var(--surface-color);
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow-sm);
 }
 
 .beneficios li {
   font-size: 1.15rem;
-  color: #444;
+  color: var(--text-primary);
   margin-bottom: 16px;
   display: flex;
   align-items: center;
 }
 .beneficios li::before {
     content: '✓';
-    color: #66CDAA;
+    color: var(--primary-color);
     font-weight: bold;
     margin-right: 12px;
     font-size: 1.25rem;
@@ -188,21 +186,21 @@ button:hover {
   max-width: 700px;
   margin: 0 auto 40px auto;
   padding: 30px;
-  border-top: 5px solid #D4AF37; /* Cambio a borde superior */
+  border-top: 5px solid var(--primary-color); /* Cambio a borde superior */
   border-left: none;
-  background-color: #fafafa;
+  background-color: var(--surface-raised);
   border-radius: 8px;
   font-style: italic;
   font-size: 1.2rem;
-  color: #555;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
 }
 
 .testimonios cite {
   display: block;
   margin-top: 15px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);
   font-style: normal;
   text-transform: uppercase;
   font-size: 0.9rem;

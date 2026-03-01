@@ -5,19 +5,19 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 60px; /* Más espacio */
-  background-color: #333333;
-  color: #F0F0F0;
-  font-family: 'Roboto', sans-serif;
+  padding: 40px 60px;
+  background-color: var(--surface-raised); /* Using raised surface instead of hardcoded dark grey */
+  color: var(--text-primary);
+  font-family: var(--font-body);
   flex-wrap: wrap;
   gap: 30px;
-  border-top: 4px solid #D4AF37; /* Línea dorada superior para detalle premium */
+  border-top: 4px solid var(--primary-color);
 }
 
 /* Derechos de autor */
 p {
   font-size: 0.95rem;
-  color: #aaa;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -36,10 +36,10 @@ p {
 
 .links-footer a {
   text-decoration: none;
-  color: #ddd;
+  color: var(--text-secondary);
   font-weight: 500;
   font-size: 0.95rem;
-  transition: all 0.3s ease;
+  transition: all var(--transition-fast);
   position: relative;
 }
 
@@ -51,12 +51,12 @@ p {
   height: 2px;
   bottom: -4px;
   left: 0;
-  background-color: #D4AF37;
-  transition: width 0.3s ease;
+  background-color: var(--primary-color);
+  transition: width var(--transition-fast) ease;
 }
 
 .links-footer a:hover {
-  color: #D4AF37;
+  color: var(--primary-color);
 }
 
 .links-footer a:hover::after {

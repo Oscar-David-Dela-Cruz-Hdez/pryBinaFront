@@ -252,17 +252,17 @@ import { ProductsService } from '../../../core/services/admin/products.service';
     .mb-4 { margin-bottom: 20px; }
     .mb-2 { margin-bottom: 10px; }
     .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
-    .status-active { color: green; font-weight: bold; }
-    .status-inactive { color: red; font-weight: bold; }
-    .thumb-img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
+    .status-active { color: #4caf50; font-weight: bold; }
+    .status-inactive { color: #f44336; font-weight: bold; }
+    .thumb-img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border-light); }
     .col-flex { display: flex; flex-direction: column; }
-    .sub-text { font-size: 0.8rem; color: #777; }
-    .low-stock { color: red; font-weight: bold; }
-    .preview-img { max-width: 200px; border-radius: 4px; display: block; }
-    .variants-section { border: 1px dashed #ccc; padding: 15px; border-radius: 8px; margin-bottom: 20px; background: #fafafa; }
-    .variant-item { border-bottom: 1px solid #ddd; margin-bottom: 15px; padding-bottom: 15px; }
-    .atributos-section { background: #fff; padding: 10px; border-radius: 4px; margin-top: 10px; border: 1px solid #eee; }
-    .atributos-section h4 { margin-top: 0; margin-bottom: 10px; font-size: 0.95rem; color: #555; }
+    .sub-text { font-size: 0.8rem; color: var(--text-secondary); }
+    .low-stock { color: #f44336; font-weight: bold; }
+    .preview-img { max-width: 200px; border-radius: 4px; display: block; border: 1px solid var(--border-light); }
+    .variants-section { border: 1px dashed var(--border-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; background: var(--surface-raised); }
+    .variant-item { border-bottom: 1px solid var(--border-light); margin-bottom: 15px; padding-bottom: 15px; }
+    .atributos-section { background: var(--surface-color); padding: 10px; border-radius: 4px; margin-top: 10px; border: 1px solid var(--border-color); }
+    .atributos-section h4 { margin-top: 0; margin-bottom: 10px; font-size: 0.95rem; color: var(--text-primary); }
     table { width: 100%; }
     .fade-in { animation: fadeIn 0.3s ease-in; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }

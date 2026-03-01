@@ -1,20 +1,20 @@
 /* Importar fuentes desde Google Fonts */
 
-
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 50px; /* Reducir altura vertical un poco para que sea más elegante */
-  background-color: #FAF0E6; /* Color Secundario (Beige) */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); /* Sombra más difusa */
+  padding: 15px 50px;
+  background-color: var(--surface-color); /* Updated to use global surface */
+  box-shadow: var(--shadow-sm);
+  border-bottom: 1px solid var(--border-light);
   position: relative;
-  z-index: 100; /* Asegurar que quede sobre el contenido al hacer scroll */
+  z-index: 100;
 }
 
 /* --- Logo --- */
 .logo {
-  max-width: 120px; /* Un poco más grande */
+  max-width: 120px;
   flex-shrink: 0;
   transition: opacity 0.3s ease;
 }
@@ -25,6 +25,7 @@ header {
   display: block;
   width: 100%;
   height: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 .logo a {
   border: none;
@@ -36,18 +37,18 @@ header {
 /* --- Navegación --- */
 .links-header {
   display: flex;
-  gap: 40px; /* Más espacio entre items */
+  gap: 40px;
 }
 
 .links-header a {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-heading);
   text-decoration: none;
-  color: #555; /* Texto un poco más suave */
-  font-weight: 500;
+  color: var(--text-primary);
+  font-weight: 600;
   font-size: 1.05rem;
   padding: 8px 0;
   position: relative;
-  transition: color 0.3s ease;
+  transition: color var(--transition-fast);
 }
 
 /* Línea animada inferior */
@@ -59,12 +60,12 @@ header {
   right: 0;
   width: 0;
   height: 2px;
-  background-color: #483D8B; /* Dark Slate Blue para contraste elegante */
-  transition: width 0.3s ease;
+  background-color: var(--primary-color);
+  transition: width var(--transition-fast) ease;
 }
 
 .links-header a:hover {
-  color: #483D8B;
+  color: var(--primary-color);
 }
 
 .links-header a:hover::after {
@@ -77,38 +78,38 @@ header {
 .acciones {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 15px;
 }
 
 /* Búsqueda */
 .buscar {
   display: flex;
-  border: 1px solid #e0e0e0;
-  border-radius: 50px; /* Píldora completa */
-  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  background-color: var(--bg-color);
   padding: 2px 5px 2px 15px;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: box-shadow var(--transition-fast) ease, border-color var(--transition-fast) ease;
 }
 
 .buscar:focus-within {
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
-  border-color: #D4AF37;
+  border-color: var(--primary-color);
 }
 
 .buscar input {
   border: none;
   padding: 8px 5px;
   background-color: transparent;
-  font-family: 'Roboto', sans-serif;
-  color: #555;
+  font-family: var(--font-body);
+  color: var(--text-primary);
   outline: none;
   width: 180px;
 }
 
 .buscar button {
   border: none;
-  background-color: #D4AF37; /* Botón de búsqueda dorado */
-  color: white;
+  background-color: var(--primary-color);
+  color: #fff; /* Icons inside primary usually stay white/dark for contrast, keeping white for gold */
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -117,31 +118,19 @@ header {
   justify-content: center;
   cursor: pointer;
   margin: 3px 0;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-fast);
 }
 .buscar button:hover {
-  background-color: #c5a028;
+  background-color: var(--primary-color-hover);
 }
 
 /* Carrito */
-.carrito a {
-  font-family: 'Roboto', sans-serif;
+.carrito-btn {
+  font-family: var(--font-heading);
   text-decoration: none;
-  font-weight: 700;
-  color: #333;
-  padding: 10px 20px;
-  border: 2px solid #D4AF37;
+  font-weight: 600;
+  color: var(--text-primary);
   border-radius: 50px;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.carrito a:hover {
-  background-color: #D4AF37;
-  color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 /* Responsivo */
@@ -154,5 +143,5 @@ header {
 @media (max-width: 576px) {
   .buscar { display: none; }
   .logo { max-width: 70px; }
-  .carrito a { padding: 8px 12px; font-size: 0.9rem; }
+  .carrito-btn span { display: none; }
 }

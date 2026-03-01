@@ -1,23 +1,280 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles variables */
+:root {
+  /* Colors - Light Theme (Default Cosmetic Elegance) */
+  --bg-color: #faf9f7; /* Soft creamy background */
+  --surface-color: #ffffff;
+  --surface-raised: #f0eae4;
+
+  --primary-color: #d4af37; /* Soft Gold */
+  --primary-color-hover: #b5952f;
+
+  --accent-color: #e8b4b8; /* Rose Gold/Blush */
+
+  --text-primary: #2c2c2c;
+  --text-secondary: #666666;
+
+  --border-color: #e2dcd6;
+  --border-light: rgba(0, 0, 0, 0.05);
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* Glassmorphism Defaults */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.3);
+
+  /* Typography */
+  --font-heading: "Montserrat", sans-serif;
+  --font-body: "Roboto", sans-serif;
+
+  --transition-fast: 0.2s ease-in-out;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  /* Colors - Dark Theme (Premium Night Elegance) */
+  --bg-color: #121212;
+  --surface-color: #1e1e1e;
+  --surface-raised: #2a2a2a;
+
+  --primary-color: #e5c158; /* Lighter soft gold for dark mode contrast */
+  --primary-color-hover: #f1d170;
+
+  --accent-color: #b7767b; /* Muted Rose Gold */
+
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0a0a0;
+
+  --border-color: #333333;
+  --border-light: rgba(255, 255, 255, 0.05);
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  /* Glassmorphism Defaults Dark */
+  --glass-bg: rgba(30, 30, 30, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.05);
+}
+
+/* Global Reset & Base */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 0;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-color-hover);
+}
+
+/* Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+  border-radius: 12px;
+}
+
+.card-hover {
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.fade-in {
+  animation: fadeIn var(--transition-normal);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Angular Material Global Overrides for Premium Look */
+.mat-mdc-card {
+  background-color: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--shadow-sm) !important;
+  border: 1px solid var(--border-light) !important;
+}
+
+.mat-mdc-card-title {
+  color: var(--text-primary) !important;
+  font-family: var(--font-heading) !important;
+  font-weight: 600 !important;
+}
+
+.mat-mdc-form-field-outline {
+  background-color: var(--bg-color);
+  border-radius: 8px;
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+  .mdc-notched-outline__trailing {
+  border-color: var(--border-color) !important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__trailing {
+  border-color: var(--primary-color) !important;
+  border-width: 2px !important;
+}
+
+.mat-mdc-input-element,
+.mat-mdc-select-value-text {
+  color: var(--text-primary) !important;
+  font-family: var(--font-body) !important;
+}
+
+.mdc-floating-label {
+  color: var(--text-secondary) !important;
+}
+
+.mat-mdc-raised-button.mat-primary {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-family: var(--font-heading) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase;
+  padding: 0 24px !important;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.mat-mdc-raised-button.mat-primary:hover:not([disabled]) {
+  background-color: var(--primary-color-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
+}
+
+.mat-mdc-raised-button:disabled {
+  background-color: var(--surface-raised) !important;
+  color: var(--text-secondary) !important;
+  box-shadow: none !important;
+}
+
+.mat-mdc-button,
+.mat-mdc-stroked-button {
+  font-family: var(--font-heading) !important;
+  border-radius: 8px !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-stroked-button {
+  border-color: var(--border-color) !important;
+}
+
+.mdc-data-table__header-cell {
+  background-color: var(--surface-raised) !important;
+  color: var(--text-secondary) !important;
+  font-family: var(--font-heading) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-color) !important;
+}
+
+.mdc-data-table__cell {
+  color: var(--text-primary) !important;
+  font-family: var(--font-body) !important;
+  border-bottom: 1px solid var(--border-light) !important;
+}
+
+.mat-mdc-table {
+  background-color: var(--surface-color) !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mat-mdc-paginator {
+  background-color: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border-top: 1px solid var(--border-light) !important;
+}
 
 /* Fix for transparent/translucent menus */
 .mat-mdc-menu-panel,
-.mat-menu-panel {
-    background-color: #ffffff !important;
-    opacity: 1 !important;
-    min-height: 40px;
-    /* Ensure it has height */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
-    /* Ensure good shadow */
+.mat-menu-panel,
+.mat-mdc-select-panel {
+  background-color: var(--surface-color) !important;
+  border: 1px solid var(--border-light);
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-md) !important;
 }
 
-/* Ensure menu content is visible */
 .mat-mdc-menu-content,
 .mat-menu-content {
-    background-color: #ffffff !important;
+  background-color: transparent !important;
 }
 
-/* Fix for overlay container just in case */
+.mat-mdc-menu-item,
+.mat-mdc-option {
+  color: var(--text-primary) !important;
+  font-family: var(--font-body) !important;
+  transition: background-color var(--transition-fast) !important;
+}
+
+.mat-mdc-menu-item:hover,
+.mat-mdc-option:hover {
+  background-color: var(--surface-raised) !important;
+}
+
 .cdk-overlay-pane {
-    z-index: 1000 !important;
+  z-index: 1000 !important;
 }

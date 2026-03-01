@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   padding: 60px 20px;
-  background-color: #FAF0E6; /* Mantener beige original */
+  background-color: var(--bg-color); 
   min-height: 100vh;
   box-sizing: border-box;
 }
@@ -13,12 +13,12 @@
 .login-card {
   width: 100%;
   max-width: 420px;
-  background-color: #ffffff;
+  background-color: var(--surface-color);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra más suave y moderna */
+  box-shadow: var(--shadow-md); 
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid rgba(0,0,0,0.03);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  border: 1px solid var(--border-light);
 }
 
 .login-card:hover {
@@ -35,10 +35,10 @@ mat-card-header {
 }
 
 mat-card-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-heading);
   font-size: 1.8rem;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);
   letter-spacing: -0.5px;
   margin-bottom: 8px;
 }
@@ -71,31 +71,31 @@ mat-form-field {
 ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
 ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
     border-width: 2px;
-    border-color: #D4AF37 !important; /* Dorado */
+    border-color: var(--primary-color) !important;
 }
 
 /* Botón principal */
 button[type="submit"] {
-  background-color: #D4AF37;
-  color: white;
-  font-family: 'Roboto', sans-serif;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-family: var(--font-heading);
   font-weight: 600;
   font-size: 1rem;
   padding: 12px 0;
   border-radius: 8px;
   height: 48px;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+  transition: background-color var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+  box-shadow: var(--shadow-sm);
 }
 
 button[type="submit"]:hover:not(:disabled) {
-  background-color: #c5a028; /* Dorado un poco más oscuro */
-  box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
+  background-color: var(--primary-color-hover); 
+  box-shadow: var(--shadow-md);
 }
 
 button[type="submit"]:disabled {
-  background-color: #e0e0e0;
-  color: #9e9e9e;
+  background-color: var(--surface-raised);
+  color: var(--text-secondary);
   box-shadow: none;
 }
 
@@ -113,11 +113,11 @@ button[type="submit"]:disabled {
 
 .google-signin-container p {
   font-size: 0.9rem;
-  color: #777;
+  color: var(--text-secondary);
   margin-bottom: 20px;
   position: relative;
   display: inline-block;
-  background-color: #fff;
+  background-color: var(--surface-color);
   padding: 0 10px;
   z-index: 1;
 }
@@ -129,32 +129,32 @@ button[type="submit"]:disabled {
   left: 0;
   width: 100%;
   height: 1px;
-  background-color: #e0e0e0;
+  background-color: var(--border-light);
   z-index: 0;
 }
 
 /* Footer Link */
 .register-link {
-  background-color: #f9f9f9;
+  background-color: var(--surface-raised);
   padding: 20px;
   text-align: center;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-light);
 }
 
 .register-link p {
   margin: 5px 0;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.95rem;
 }
 
 .register-link a {
-  color: #D4AF37;
+  color: var(--primary-color);
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color var(--transition-fast);
 }
 
 .register-link a:hover {
   text-decoration: underline;
-  color: #b08d26;
+  color: var(--primary-color-hover);
 }

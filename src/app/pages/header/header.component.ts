@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge'; // Importar Badge
 
 import { CartService } from "../../core/services/shop/cart.service";
+import { ThemeService } from "../../core/services/theme/theme";
 
 @Component({
   selector: 'app-header',
@@ -34,7 +35,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    public themeService: ThemeService
   ) { }
 
   ngOnInit() {
