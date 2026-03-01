@@ -128,7 +128,27 @@ import { ProductsService } from '../../../core/services/admin/products.service';
                     <mat-label>URL Imagen</mat-label>
                     <input matInput formControlName="imagenUrl">
                   </mat-form-field>
-                  <!-- We can add Atributos mapping here if needed later -->
+
+                  <!-- Sección de Atributos -->
+                  <div formArrayName="atributos" class="atributos-section mb-2">
+                    <h4 class="atributos-title">Atributos</h4>
+                    <div *ngFor="let at of getAtributos(i).controls; let j=index" [formGroupName]="j" class="atributo-item">
+                      <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Nombre (ej. Color)</mat-label>
+                        <input matInput formControlName="nombre">
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Valor (ej. Rojo)</mat-label>
+                        <input matInput formControlName="valor">
+                      </mat-form-field>
+                      <button mat-icon-button color="warn" type="button" (click)="removeAtributo(i, j)">
+                        <mat-icon>remove_circle</mat-icon>
+                      </button>
+                    </div>
+                    <button mat-stroked-button color="primary" type="button" (click)="addAtributo(i)" class="btn-add-attr">
+                      <mat-icon>add</mat-icon> Agregar Atributo
+                    </button>
+                  </div>
                 </div>
               </div>
               <button mat-stroked-button color="primary" type="button" (click)="addVariante()" class="mb-4">
@@ -240,6 +260,10 @@ import { ProductsService } from '../../../core/services/admin/products.service';
     .preview-img { max-width: 200px; border-radius: 4px; display: block; }
     .variants-section { border: 1px dashed #ccc; padding: 15px; border-radius: 8px; margin-bottom: 20px; background: #fafafa; }
     .variant-item { border-bottom: 1px solid #ddd; margin-bottom: 15px; padding-bottom: 15px; }
+    .atributos-section { background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #eee; }
+    .atributos-title { margin-top: 0; margin-bottom: 10px; font-size: 1rem; color: #555; }
+    .atributo-item { display: flex; gap: 10px; align-items: baseline; margin-bottom: 10px; }
+    .btn-add-attr { margin-top: 5px; }
     table { width: 100%; }
     .fade-in { animation: fadeIn 0.3s ease-in; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -293,9 +317,25 @@ export class ProductsComponent implements OnInit {
       precio: [0, Validators.required],
       stock: [0],
       imagenUrl: [''],
-      atributos: [{}]
+      atributos: this.fb.array([])
     });
     this.variantes.push(varianteForm);
+  }
+
+  getAtributos(varianteIndex: number): FormArray {
+    return this.variantes.at(varianteIndex).get('atributos') as FormArray;
+  }
+
+  addAtributo(varianteIndex: number) {
+    const atributoForm = this.fb.group({
+      nombre: ['', Validators.required],
+      valor: ['', Validators.required]
+    });
+    this.getAtributos(varianteIndex).push(atributoForm);
+  }
+
+  removeAtributo(varianteIndex: number, atributoIndex: number) {
+    this.getAtributos(varianteIndex).removeAt(atributoIndex);
   }
 
   removeVariante(index: number) {
@@ -355,13 +395,25 @@ export class ProductsComponent implements OnInit {
     
     if (product.variantes && product.variantes.length > 0) {
       product.variantes.forEach((v: any) => {
-        this.variantes.push(this.fb.group({
+        const varianteGroup = this.fb.group({
           sku: [v.sku || ''],
           precio: [v.precio || 0, Validators.required],
           stock: [v.stock || 0],
           imagenUrl: [v.imagenUrl || ''],
-          atributos: [v.atributos || {}]
-        }));
+          atributos: this.fb.array([])
+        });
+
+        if (v.atributos && typeof v.atributos === 'object') {
+          const atributosArray = varianteGroup.get('atributos') as FormArray;
+          for (const [key, value] of Object.entries(v.atributos)) {
+            atributosArray.push(this.fb.group({
+              nombre: [key, Validators.required],
+              valor: [value, Validators.required]
+            }));
+          }
+        }
+
+        this.variantes.push(varianteGroup);
       });
       formData.tieneVariantes = true;
     } else {
@@ -379,7 +431,20 @@ export class ProductsComponent implements OnInit {
     // Map `variantes` array to `variantesGenerar` for the backend
     const payload = { ...this.productForm.value };
     if (payload.tieneVariantes) {
-      payload.variantesGenerar = payload.variantes;
+      payload.variantesGenerar = payload.variantes.map((v: any) => {
+        const atributosObj: { [key: string]: string } = {};
+        if (v.atributos && Array.isArray(v.atributos)) {
+          v.atributos.forEach((attr: any) => {
+            if (attr.nombre && attr.valor) {
+              atributosObj[attr.nombre] = attr.valor;
+            }
+          });
+        }
+        return {
+          ...v,
+          atributos: atributosObj
+        };
+      });
     } else {
       payload.variantesGenerar = [];
     }
