@@ -8,6 +8,7 @@
   import { MatMenuModule } from '@angular/material/menu';
 
   import { AuthService } from '../../auth/auth.service';
+  import { ThemeService } from '../../core/services/theme/theme';
 
   @Component({
     selector: 'app-user-header',
@@ -26,7 +27,7 @@
 
     public userName$: Observable<string | null>;
 
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService, public themeService: ThemeService) {
 
       this.userName$ = this.authService.currentUserName$;
     }

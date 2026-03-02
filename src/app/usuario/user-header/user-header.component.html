@@ -19,6 +19,11 @@
         Bienvenido, {{ userName$ | async }}
       </span>
 
+      <!-- BOTON DARK MODE -->
+      <button mat-icon-button (click)="themeService.toggleTheme()" [title]="themeService.isDarkMode() ? 'Modo Claro' : 'Modo Oscuro'">
+        <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
       <a mat-button routerLink="/carrito" class="carrito-btn">
         <mat-icon>shopping_cart</mat-icon>
         <span>Carrito</span>

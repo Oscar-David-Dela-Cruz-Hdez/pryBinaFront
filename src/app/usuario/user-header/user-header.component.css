@@ -7,8 +7,9 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 15px 50px;
-  background-color: #FAF0E6;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  background-color: var(--surface-color);
+  box-shadow: var(--shadow-sm);
+  border-bottom: 1px solid var(--border-light);
   position: relative;
   z-index: 100;
 }
@@ -30,14 +31,14 @@ header {
 }
 
 .links-header a {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-heading);
   text-decoration: none;
-  color: #555;
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 1.05rem;
   padding: 8px 0;
   position: relative;
-  transition: color 0.3s ease;
+  transition: color var(--transition-fast);
 }
 
 .links-header a::after {
@@ -47,13 +48,13 @@ header {
   right: 0;
   width: 0;
   height: 2px;
-  background-color: #483D8B;
-  transition: width 0.3s ease;
+  background-color: var(--primary-color);
+  transition: width var(--transition-fast) ease;
 }
 
-.links-header a:hover { color: #483D8B; }
+.links-header a:hover { color: var(--primary-color); }
 .links-header a:hover::after { width: 100%; left: 0; right: auto; }
-.links-header a.active { color: #483D8B; font-weight: 700; }
+.links-header a.active { color: var(--primary-color); font-weight: 700; }
 
 /* --- Acciones y Usuario --- */
 .acciones {
@@ -64,46 +65,33 @@ header {
 
 /* Mensaje Bienvenida */
 .welcome-message {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-heading);
   font-size: 0.95rem;
-  color: #333;
+  color: var(--text-primary);
   font-weight: 600;
-  background-color: rgba(255,255,255,0.6);
+  background-color: var(--bg-color);
   padding: 6px 15px;
   border-radius: 20px;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid var(--border-light);
 }
 
 /* Menú avatar */
 .auth-menu-btn {
-  color: #555;
-  transition: background-color 0.2s;
+  color: var(--text-primary);
+  transition: background-color var(--transition-fast);
   border-radius: 50%;
 }
 .auth-menu-btn:hover {
-  background-color: rgba(0,0,0,0.05);
-  color: #333;
+  background-color: var(--surface-raised);
 }
 
 /* Carrito */
-.carrito a.mat-mdc-stroked-button {
-  border-color: #D4AF37;
-  color: #333;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
+.carrito-btn {
+  font-family: var(--font-heading);
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text-primary);
   border-radius: 50px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 20px;
-  height: 40px;
-  transition: all 0.3s ease;
-}
-
-.carrito a.mat-mdc-stroked-button:hover {
-  background-color: #D4AF37;
-  color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 /* Responsivo */
