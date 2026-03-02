@@ -1,12 +1,13 @@
 /* --- CAMBIO PRINCIPAL --- */
 /* El contenedor abarca el 100% del ancho de la pantalla para extender el color */
 .breadcrumb-container {
-  background-color: #FAF0E6; /* Beige Lino */
+  background-color: var(--surface-raised); /* Usando variable para soportar modo oscuro */
   width: 100%;
   padding: 10px 0;           /* Solo padding vertical aquí */
   margin-bottom: 0px;
   box-sizing: border-box;
   display: block;            /* Asegura comportamiento de bloque */
+  border-bottom: 1px solid var(--border-light);
 }
 
 /* La lista interna se encarga de centrar el contenido y limitarlo a 1200px */
@@ -25,31 +26,32 @@
 .breadcrumb-item {
   display: flex;
   align-items: center;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .breadcrumb-item a {
   text-decoration: none;
-  color: #666;
-  transition: color 0.2s;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
   font-weight: 500;
 }
 
 .breadcrumb-item a:hover {
-  color: #D4AF37; /* Dorado */
+  color: var(--primary-color);
   text-decoration: underline;
 }
 
 .breadcrumb-item .active {
-  color: #333;
+  color: var(--text-primary);
   font-weight: 700;
   cursor: default;
 }
 
 .separator {
   margin: 0 8px;
-  color: #ccc;
+  color: var(--text-secondary);
+  opacity: 0.7;
   font-size: 0.8rem;
 }
