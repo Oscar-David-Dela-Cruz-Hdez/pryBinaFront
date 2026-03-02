@@ -10,6 +10,9 @@
 
   --accent-color: #e8b4b8; /* Rose Gold/Blush */
 
+  --warn-color: #d32f2f; /* Error/Delete red */
+  --warn-color-hover: #b71c1c;
+
   --text-primary: #2c2c2c;
   --text-secondary: #666666;
 
@@ -41,6 +44,9 @@
   --primary-color-hover: #f1d170;
 
   --accent-color: #b7767b; /* Muted Rose Gold */
+
+  --warn-color: #ef5350; /* Softer red for dark mode */
+  --warn-color-hover: #e53935;
 
   --text-primary: #f0f0f0;
   --text-secondary: #a0a0a0;
@@ -211,12 +217,45 @@ a:hover {
 .mat-mdc-button,
 .mat-mdc-stroked-button {
   font-family: var(--font-heading) !important;
+  font-weight: 600 !important;
   border-radius: 8px !important;
   color: var(--text-primary) !important;
+  letter-spacing: 0.5px !important;
+  transition: all var(--transition-fast) !important;
+  text-transform: uppercase;
+}
+
+.mat-mdc-button:hover {
+  background-color: var(--surface-raised) !important;
 }
 
 .mat-mdc-stroked-button {
   border-color: var(--border-color) !important;
+  background-color: transparent !important;
+}
+
+.mat-mdc-stroked-button:hover {
+  background-color: var(--surface-raised) !important;
+  border-color: var(--text-secondary) !important;
+}
+
+/* Icon Buttons (Edit, Delete in Tables) */
+.mat-mdc-icon-button.mat-primary {
+  color: var(--primary-color) !important;
+  transition: all var(--transition-fast) !important;
+}
+.mat-mdc-icon-button.mat-primary:hover {
+  background-color: rgba(212, 175, 55, 0.1) !important;
+  transform: scale(1.1);
+}
+
+.mat-mdc-icon-button.mat-warn {
+  color: var(--warn-color) !important;
+  transition: all var(--transition-fast) !important;
+}
+.mat-mdc-icon-button.mat-warn:hover {
+  background-color: rgba(239, 83, 80, 0.1) !important;
+  transform: scale(1.1);
 }
 
 .mdc-data-table__header-cell {
