@@ -1,3 +1,5 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
 /* Global Styles variables */
 :root {
   /* Colors - Light Theme (Default Cosmetic Elegance) */
@@ -316,4 +318,29 @@ a:hover {
 
 .cdk-overlay-pane {
   z-index: 1000 !important;
+}
+
+/* -------------------------------------------------------------------------
+   Material Checkboxes & Slide Toggles Overrides for Premium Theme
+-------------------------------------------------------------------------- */
+/* Checkbox overrides */
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Slide Toggle overrides */
+.mat-mdc-slide-toggle.mat-primary {
+  --mdc-switch-selected-track-color: var(--primary-color) !important;
+  --mdc-switch-selected-hover-track-color: var(--primary-color-hover) !important;
+  --mdc-switch-selected-focus-track-color: var(--primary-color) !important;
+  --mdc-switch-selected-pressed-track-color: var(--primary-color) !important;
+  --mdc-switch-selected-handle-color: #ffffff !important;
+}
+
+/* Adjust labels to follow the text theme */
+.mdc-label, .mat-mdc-radio-button .mdc-form-field, .mat-mdc-checkbox .mdc-form-field {
+  color: var(--text-primary) !important;
+  font-family: var(--font-body) !important;
 }
