@@ -14,29 +14,29 @@
 .profile-card {
   width: 100%;
   max-width: 800px; /* Más ancho para datos personales */
-  background-color: #FFFFFF;
+  background-color: var(--surface-color);
   border-radius: 12px; /* Consistent radius */
-  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-  border: 1px solid rgba(0,0,0,0.03);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
   overflow: hidden;
 }
 
 /* Header */
 ::ng-deep .profile-card .mat-mdc-card-header {
   padding: 32px 32px 10px 32px;
-  background: white; /* Clean background */
+  background: transparent; /* Clean background */
 }
 
 .profile-card mat-card-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-heading);
   font-weight: 700;
   font-size: 1.6rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .profile-card mat-card-subtitle {
-  font-family: 'Roboto', sans-serif;
-  color: #666;
+  font-family: var(--font-body);
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
@@ -66,18 +66,18 @@
 
 /* Visual Focus */
 ::ng-deep .profile-card .mat-mdc-form-field.mat-focused .mdc-floating-label {
-  color: #D4AF37;
+  color: var(--primary-color);
 }
 
 ::ng-deep .profile-card .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
 ::ng-deep .profile-card .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
 ::ng-deep .profile-card .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
-  border-color: #D4AF37 !important;
+  border-color: var(--primary-color) !important;
   border-width: 2px;
 }
 
 .profile-card mat-icon {
-  color: #888;
+  color: var(--text-secondary);
 }
 
 /* Actions */
@@ -94,9 +94,9 @@
 
 /* Primary Button */
 ::ng-deep .form-actions .mdc-button.mat-mdc-raised-button.mat-primary {
-  background-color: #D4AF37;
-  color: #333;
-  font-family: 'Roboto', sans-serif;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-family: var(--font-heading);
   font-weight: 700;
   height: 48px;
   padding: 0 32px;
@@ -105,19 +105,19 @@
 }
 
 ::ng-deep .form-actions .mdc-button.mat-mdc-raised-button.mat-primary:hover {
-    background-color: #c5a028;
+    background-color: var(--primary-color-hover);
 }
 
 /* Secondary Link/Button */
 .form-actions a {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-body);
   font-weight: 600;
-  color: #777;
+  color: var(--text-secondary);
   text-decoration: none;
   padding: 10px;
-  transition: color 0.2s;
+  transition: color var(--transition-fast);
 }
 
 .form-actions a:hover {
-    color: #333;
+    color: var(--text-primary);
 }
