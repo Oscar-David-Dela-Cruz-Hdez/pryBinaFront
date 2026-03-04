@@ -50,6 +50,26 @@ export class ProductsService {
     return this.http.delete(`${this.apiProductos}/${id}`, { headers: this.getAuthHeaders() });
   }
 
+  exportarProductosExcel(): Observable<Blob> {
+    return this.http.get(`${this.apiProductos}/exportar/excel`, {
+      headers: this.getAuthHeaders(),
+      responseType: 'blob'
+    });
+  }
+
+  importarProductosExcel(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', file);
+    
+    // Al enviar FormData, no debemos setear 'Content-Type', el navegador lo hace automáticamente con el boundary
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `${token}`
+    });
+
+    return this.http.post(`${this.apiProductos}/importar/excel`, formData, { headers });
+  }
+
   // --- CATEGORÍAS (Para el selector de productos y CRUD) ---
   getCategorias(): Observable<any[]> {
     return this.http.get<any[]>(this.apiCategorias);

@@ -66,7 +66,12 @@
       </button>
     </mat-menu>
 
-    <!-- 5. GESTIÓN DEL SITIO (CMS) -->
+    <!-- 5. HERRAMIENTAS Y REPORTES -->
+    <button mat-button routerLink="/admin/herramientas" routerLinkActive="active" class="direct-link">
+      <mat-icon class="nav-icon">build</mat-icon> Administración
+    </button>
+
+    <!-- 6. GESTIÓN DEL SITIO (CMS) -->
     <!-- Aquí unificamos Misión, Visión, etc. porque en el backend es un solo objeto 'Informacion' -->
     <button mat-button [matMenuTriggerFor]="webMenu">
       <mat-icon class="nav-icon">web</mat-icon> Sitio Web

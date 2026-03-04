@@ -1,0 +1,44 @@
+<div class="admin-container fade-in">
+  <h2>Administración y Herramientas</h2>
+  <p class="subtitle">Gestiona las importaciones y exportaciones de datos del sistema.</p>
+
+  <div class="cards-grid">
+    <!-- PRODUCTOS -->
+    <mat-card class="tool-card">
+      <mat-card-header>
+        <div mat-card-avatar class="header-icon primary-icon"><mat-icon>inventory_2</mat-icon></div>
+        <mat-card-title>Inventario / Productos</mat-card-title>
+        <mat-card-subtitle>Añade masivamente o respalda tu catálogo</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Exporta todos los productos actuales a Excel o importa un archivo <b>.xlsx</b> para crear/actualizar datos.</p>
+      </mat-card-content>
+      <mat-card-actions class="actions-group">
+        <input type="file" #fileInput hidden accept=".xlsx, .xls" (change)="onFileSelectedProductos($event)">
+        <button mat-flat-button color="primary" (click)="fileInput.click()" [disabled]="isImportingProducts">
+          <mat-icon>upload_file</mat-icon> {{ isImportingProducts ? 'Importando...' : 'Importar Excel' }}
+        </button>
+        <button mat-stroked-button color="primary" (click)="exportarProductosExcel()" [disabled]="isExportingProducts">
+          <mat-icon>download</mat-icon> {{ isExportingProducts ? 'Exportando...' : 'Exportar Excel' }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- PEDIDOS -->
+    <mat-card class="tool-card">
+      <mat-card-header>
+        <div mat-card-avatar class="header-icon accent-icon"><mat-icon>local_shipping</mat-icon></div>
+        <mat-card-title>Pedidos y Ventas</mat-card-title>
+        <mat-card-subtitle>Historial y reportes</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Exporta el historial de pedidos generados en el sitio para análisis de ventas y logística.</p>
+      </mat-card-content>
+      <mat-card-actions class="actions-group">
+        <button mat-flat-button color="accent" (click)="exportarPedidosExcel()" [disabled]="isExportingOrders">
+          <mat-icon>download</mat-icon> {{ isExportingOrders ? 'Generando...' : 'Exportar Pedidos a Excel' }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

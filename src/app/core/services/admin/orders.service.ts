@@ -33,4 +33,17 @@ export class OrdersService {
     updateEstadoPedido(id: string, estado: string): Observable<any> {
         return this.http.put(`${this.apiUrl}/${id}/estado`, { estado }, { headers: this.getAuthHeaders() });
     }
+
+    // Exportar pedidos a Excel (Admin)
+    exportarPedidosExcel(): Observable<Blob> {
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders({
+            'Authorization': `${token}`
+        });
+        
+        return this.http.get(`${this.apiUrl}/exportar/excel`, {
+            headers: headers,
+            responseType: 'blob'
+        });
+    }
 }
