@@ -91,3 +91,9 @@ export class ProductsService {
     return this.http.delete(`${this.apiCategorias}/${id}`, { headers: this.getAuthHeaders() });
   }
 }
+
+
+
+
+
+
