@@ -3,7 +3,7 @@ name: Análisis de Seguridad Estático (SAST)
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   analisis-sonarqube:
