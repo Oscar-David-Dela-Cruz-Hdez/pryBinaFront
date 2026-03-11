@@ -40,6 +40,7 @@ import { PedidosComponent } from './administrador/pedidos/pedidos-list/pedidos-l
 import { CatalogComponent } from './pages/shop/catalog/catalog.component';
 import { CartComponent } from './pages/shop/cart/cart.component';
 import { Herramientas } from './administrador/herramientas/herramientas';
+import { Respaldos } from './administrador/herramientas/respaldos/respaldos';
 
 export const routes: Routes = [
   {
@@ -236,7 +237,13 @@ export const routes: Routes = [
     path: 'admin/herramientas',
     component: Herramientas,
     canActivate: [authGuard],
-    data: { breadcrumb: 'Admin / Herramientas' }
+    data: { breadcrumb: 'Admin / Importar Exportar Datos' }
+  },
+  {
+    path: 'admin/herramientas/respaldos',
+    component: Respaldos,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Respaldos BD' }
   },
 
   // Ruta Wildcard para manejar 404 (Debe ir siempre al final)

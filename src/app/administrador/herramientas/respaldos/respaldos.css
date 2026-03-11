@@ -1,0 +1,88 @@
+.admin-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  margin-bottom: 5px;
+  color: var(--text-primary, #333);
+}
+
+.subtitle {
+  color: var(--text-secondary, #666);
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.backup-card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: white;
+}
+
+.warning-icon {
+  background-color: var(--warn-color, #ff9800);
+}
+
+.pt-2 {
+  padding-top: 16px;
+}
+
+.loading-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  gap: 15px;
+  color: var(--text-secondary, #666);
+}
+
+.collections-list {
+  padding: 10px 0;
+}
+
+.select-all {
+  margin-bottom: 15px;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: var(--surface-color, #f9f9f9);
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #eee);
+}
+
+.actions-panel {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  border-top: 1px solid var(--border-color, #eee);
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

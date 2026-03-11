@@ -67,9 +67,17 @@
     </mat-menu>
 
     <!-- 5. HERRAMIENTAS Y REPORTES -->
-    <button mat-button routerLink="/admin/herramientas" routerLinkActive="active" class="direct-link">
+    <button mat-button [matMenuTriggerFor]="herramientasMenu">
       <mat-icon class="nav-icon">build</mat-icon> Administración
     </button>
+    <mat-menu #herramientasMenu="matMenu">
+      <button mat-menu-item routerLink="/admin/herramientas">
+        <mat-icon>import_export</mat-icon> Importar/Exportar Datos
+      </button>
+      <button mat-menu-item routerLink="/admin/herramientas/respaldos">
+        <mat-icon>backup</mat-icon> Respaldar Base de Datos
+      </button>
+    </mat-menu>
 
     <!-- 6. GESTIÓN DEL SITIO (CMS) -->
     <!-- Aquí unificamos Misión, Visión, etc. porque en el backend es un solo objeto 'Informacion' -->
