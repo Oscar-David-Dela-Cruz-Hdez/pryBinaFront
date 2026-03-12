@@ -1,182 +1,191 @@
-<div class="register-container">
-  <mat-card class="register-card">
-    <mat-card-header>
-      <mat-card-title>Crear una Cuenta</mat-card-title>
-    </mat-card-header>
+<div class="min-h-screen bg-[#F8F9FA] dark:bg-[#0F172A] flex items-center justify-center px-4 py-12 transition-colors duration-300">
+  <div class="w-full max-w-lg">
+    <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-lg dark:border dark:border-[#334155] overflow-hidden transition-colors duration-300">
 
-    <mat-card-content>
+      <div class="p-8">
+        <div class="text-center mb-8">
+          <h1 class="text-2xl font-bold text-[#1E293B] dark:text-[#F8FAFC] transition-colors duration-300">
+            Crear una Cuenta
+          </h1>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Únete a Distribuidora Panamericana</p>
+        </div>
 
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <mat-stepper [linear]="true" #stepper>
 
-        <mat-stepper [linear]="true" #stepper>
-          <!--
-            PASO 1: Datos Personales
-          -->
-          <mat-step [stepControl]="registerForm.get('step1')!">
-            <ng-template matStepLabel>Datos Personales</ng-template>
-            <div [formGroupName]="'step1'" class="step-container">
-              <mat-form-field appearance="outline">
-                <mat-label>Nombre/s</mat-label>
-                <input matInput placeholder="Ej. Ana" formControlName="nombre">
-                <mat-icon matSuffix>person</mat-icon>
-                <mat-error *ngIf="getControl('step1', 'nombre')?.hasError('required')">El nombre es
-                  requerido</mat-error>
-                <mat-error *ngIf="getControl('step1', 'nombre')?.hasError('pattern')">Solo debe contener
-                  letras</mat-error>
-              </mat-form-field>
+            <!-- PASO 1: Datos Personales -->
+            <mat-step [stepControl]="registerForm.get('step1')!">
+              <ng-template matStepLabel>Datos Personales</ng-template>
+              <div [formGroupName]="'step1'" class="space-y-4 pt-6">
 
-              <mat-form-field appearance="outline">
-                <mat-label>Apellido Paterno</mat-label>
-                <input matInput placeholder="Ej. Pérez" formControlName="ap">
-                <mat-error *ngIf="getControl('step1', 'ap')?.hasError('required')">El apellido es requerido</mat-error>
-                <mat-error *ngIf="getControl('step1', 'ap')?.hasError('pattern')">Solo debe contener letras</mat-error>
-              </mat-form-field>
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Nombre/s</label>
+                  <input formControlName="nombre" placeholder="Ej. Ana"
+                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                  <p *ngIf="getControl('step1', 'nombre')?.hasError('required') && getControl('step1', 'nombre')?.touched" class="mt-1.5 text-xs text-red-500">El nombre es requerido</p>
+                  <p *ngIf="getControl('step1', 'nombre')?.hasError('pattern') && getControl('step1', 'nombre')?.touched" class="mt-1.5 text-xs text-red-500">Solo debe contener letras</p>
+                </div>
 
-              <mat-form-field appearance="outline">
-                <mat-label>Apellido Materno</mat-label>
-                <input matInput placeholder="Ej. García" formControlName="am">
-                <mat-error *ngIf="getControl('step1', 'am')?.hasError('required')">El apellido es requerido</mat-error>
-                <mat-error *ngIf="getControl('step1', 'am')?.hasError('pattern')">Solo debe contener letras</mat-error>
-              </mat-form-field>
-              <div class="step-actions">
-                <button mat-raised-button color="primary" matStepperNext type="button"
-                  (click)="validateStep('step1', stepper)">
-                  Siguiente </button>
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Apellido Paterno</label>
+                  <input formControlName="ap" placeholder="Ej. Pérez"
+                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                  <p *ngIf="getControl('step1', 'ap')?.hasError('required') && getControl('step1', 'ap')?.touched" class="mt-1.5 text-xs text-red-500">El apellido es requerido</p>
+                  <p *ngIf="getControl('step1', 'ap')?.hasError('pattern') && getControl('step1', 'ap')?.touched" class="mt-1.5 text-xs text-red-500">Solo debe contener letras</p>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Apellido Materno</label>
+                  <input formControlName="am" placeholder="Ej. García"
+                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                  <p *ngIf="getControl('step1', 'am')?.hasError('required') && getControl('step1', 'am')?.touched" class="mt-1.5 text-xs text-red-500">El apellido es requerido</p>
+                  <p *ngIf="getControl('step1', 'am')?.hasError('pattern') && getControl('step1', 'am')?.touched" class="mt-1.5 text-xs text-red-500">Solo debe contener letras</p>
+                </div>
+
+                <div class="flex justify-end pt-2">
+                  <button type="button" (click)="validateStep('step1', stepper)"
+                    class="px-6 py-2.5 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 transition-all duration-300 cursor-pointer">
+                    Siguiente
+                  </button>
+                </div>
               </div>
-            </div>
-          </mat-step>
-          <!--
-            PASO 2: Datos de la Cuenta
-          -->
-          <mat-step [stepControl]="registerForm.get('step2')!">
-            <ng-template matStepLabel>Datos de la Cuenta</ng-template>
-            <div [formGroupName]="'step2'" class="step-container">
+            </mat-step>
 
-              <mat-form-field appearance="outline">
-                <mat-label>Nombre de Usuario</mat-label>
-                <input matInput formControlName="username">
-                <mat-icon matSuffix>account_circle</mat-icon>
-                <mat-error *ngIf="getControl('step2', 'username')?.hasError('required')">El usuario es
-                  requerido</mat-error>
-                <mat-error *ngIf="getControl('step2', 'username')?.hasError('pattern')">Solo letras y
-                  números</mat-error>
-                <mat-error *ngIf="getControl('step2', 'username')?.hasError('usernameTaken')">El nombre de usuario ya
-                  está en uso</mat-error>
-              </mat-form-field>
+            <!-- PASO 2: Datos de la Cuenta -->
+            <mat-step [stepControl]="registerForm.get('step2')!">
+              <ng-template matStepLabel>Datos de la Cuenta</ng-template>
+              <div [formGroupName]="'step2'" class="space-y-4 pt-6">
 
-              <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input matInput type="email" placeholder="ejemplo@correo.com" formControlName="email">
-                <mat-icon matSuffix>email</mat-icon>
-                <mat-error *ngIf="getControl('step2', 'email')?.hasError('required')">El email es requerido</mat-error>
-                <mat-error *ngIf="getControl('step2', 'email')?.hasError('email')">Email no válido</mat-error>
-                <mat-error *ngIf="getControl('step2', 'email')?.hasError('emailTaken')">El email ya está en
-                  uso</mat-error>
-              </mat-form-field>
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Nombre de Usuario</label>
+                  <input formControlName="username"
+                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                  <p *ngIf="getControl('step2', 'username')?.hasError('required') && getControl('step2', 'username')?.touched" class="mt-1.5 text-xs text-red-500">El usuario es requerido</p>
+                  <p *ngIf="getControl('step2', 'username')?.hasError('pattern') && getControl('step2', 'username')?.touched" class="mt-1.5 text-xs text-red-500">Solo letras y números</p>
+                  <p *ngIf="getControl('step2', 'username')?.hasError('usernameTaken')" class="mt-1.5 text-xs text-red-500">El nombre de usuario ya está en uso</p>
+                </div>
 
-              <mat-form-field appearance="outline">
-                <mat-label>Contraseña</mat-label>
-                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
-                <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
-                  <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-                <mat-error *ngIf="getControl('step2', 'password')?.hasError('required')">La contraseña es
-                  requerida</mat-error>
-                <mat-error *ngIf="getControl('step2', 'password')?.hasError('pattern')">Debe tener 12+ caracteres, 1
-                  mayúscula, 1 número y 1 símbolo.</mat-error>
-                <mat-error *ngIf="registerForm.get('step2')?.hasError('passwordsDoNotMatch')">Las contraseñas no
-                  coinciden</mat-error>
-                <mat-error *ngIf="getControl('step2', 'password')?.hasError('sequentialNumbers')">La contraseña no puede
-                  contener secuencias numéricas obvias.</mat-error>
-                <mat-error *ngIf="getControl('step2', 'password')?.hasError('containsPersonalData')">La contraseña no
-                  puede contener tus datos personales.</mat-error>
-                <mat-error *ngIf="getControl('step2', 'password')?.hasError('containsCommonPassword')">La contraseña no
-                  puede ser una contraseña común.</mat-error>
-              </mat-form-field>
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Email</label>
+                  <input type="email" formControlName="email" placeholder="ejemplo@correo.com"
+                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                  <p *ngIf="getControl('step2', 'email')?.hasError('required') && getControl('step2', 'email')?.touched" class="mt-1.5 text-xs text-red-500">El email es requerido</p>
+                  <p *ngIf="getControl('step2', 'email')?.hasError('email') && getControl('step2', 'email')?.touched" class="mt-1.5 text-xs text-red-500">Email no válido</p>
+                  <p *ngIf="getControl('step2', 'email')?.hasError('emailTaken')" class="mt-1.5 text-xs text-red-500">El email ya está en uso</p>
+                </div>
 
-              <mat-form-field appearance="outline">
-                <mat-label>Confirmar Contraseña</mat-label>
-                <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword">
-                <mat-error *ngIf="getControl('step2', 'confirmPassword')?.hasError('required')">La confirmación es
-                  requerida</mat-error>
-                <mat-error *ngIf="registerForm.get('step2')?.hasError('passwordsDoNotMatch')">Las contraseñas no
-                  coinciden</mat-error>
-              </mat-form-field>
-              <div class="step-actions">
-                <button mat-button matStepperPrevious type="button">Atrás</button>
-                <button mat-raised-button color="primary" type="button" (click)="validateStep('step2', stepper)">
-                  Siguiente </button>
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Contraseña</label>
+                  <div class="relative">
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                      class="w-full px-4 py-3 pr-12 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    <button type="button" (click)="togglePasswordVisibility()"
+                      class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 hover:text-[#4A2E83] dark:hover:text-[#A78BFA] transition-colors duration-200 cursor-pointer">
+                      <mat-icon class="!text-xl">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                  </div>
+                  <p *ngIf="getControl('step2', 'password')?.hasError('required') && getControl('step2', 'password')?.touched" class="mt-1.5 text-xs text-red-500">La contraseña es requerida</p>
+                  <p *ngIf="getControl('step2', 'password')?.hasError('pattern') && getControl('step2', 'password')?.touched" class="mt-1.5 text-xs text-red-500">Debe tener 12+ caracteres, 1 mayúscula, 1 número y 1 símbolo.</p>
+                  <p *ngIf="registerForm.get('step2')?.hasError('passwordsDoNotMatch')" class="mt-1.5 text-xs text-red-500">Las contraseñas no coinciden</p>
+                  <p *ngIf="getControl('step2', 'password')?.hasError('sequentialNumbers')" class="mt-1.5 text-xs text-red-500">La contraseña no puede contener secuencias numéricas obvias.</p>
+                  <p *ngIf="getControl('step2', 'password')?.hasError('containsPersonalData')" class="mt-1.5 text-xs text-red-500">La contraseña no puede contener tus datos personales.</p>
+                  <p *ngIf="getControl('step2', 'password')?.hasError('containsCommonPassword')" class="mt-1.5 text-xs text-red-500">La contraseña no puede ser una contraseña común.</p>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Confirmar Contraseña</label>
+                  <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword"
+                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                  <p *ngIf="getControl('step2', 'confirmPassword')?.hasError('required') && getControl('step2', 'confirmPassword')?.touched" class="mt-1.5 text-xs text-red-500">La confirmación es requerida</p>
+                  <p *ngIf="registerForm.get('step2')?.hasError('passwordsDoNotMatch')" class="mt-1.5 text-xs text-red-500">Las contraseñas no coinciden</p>
+                </div>
+
+                <div class="flex justify-between pt-2">
+                  <button type="button" matStepperPrevious
+                    class="px-5 py-2.5 border-2 border-gray-200 dark:border-[#334155] text-[#1E293B] dark:text-[#F8FAFC] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] transition-all duration-300 cursor-pointer">
+                    Atrás
+                  </button>
+                  <button type="button" (click)="validateStep('step2', stepper)"
+                    class="px-6 py-2.5 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 transition-all duration-300 cursor-pointer">
+                    Siguiente
+                  </button>
+                </div>
               </div>
-            </div>
-          </mat-step>
-          <!--
-            PASO 3: Seguridad y Términos
-          -->
-          <mat-step [stepControl]="registerForm.get('step3')!">
-            <ng-template matStepLabel>Seguridad</ng-template>
-            <div [formGroupName]="'step3'" class="step-container">
+            </mat-step>
 
-              <mat-form-field appearance="outline">
-                <mat-label>Teléfono</mat-label>
-                <input matInput type="tel" placeholder="10 dígitos" formControlName="telefono">
-                <mat-icon matSuffix>phone</mat-icon>
-                <mat-error *ngIf="getControl('step3', 'telefono')?.hasError('required')">El teléfono es
-                  requerido</mat-error>
-                <mat-error *ngIf="getControl('step3', 'telefono')?.hasError('pattern')">Debe tener 10
-                  dígitos</mat-error>
-                <mat-error *ngIf="getControl('step3', 'telefono')?.hasError('phoneTaken')">El teléfono ya está en
-                  uso</mat-error>
-              </mat-form-field>
+            <!-- PASO 3: Seguridad -->
+            <mat-step [stepControl]="registerForm.get('step3')!">
+              <ng-template matStepLabel>Seguridad</ng-template>
+              <div [formGroupName]="'step3'" class="space-y-4 pt-6">
 
-              <mat-form-field appearance="outline">
-                <mat-label>Pregunta Secreta</mat-label>
-                <mat-select formControlName="preguntaSecreta">
-                  <mat-option value="">Selecciona una pregunta</mat-option>
-                  <mat-option value="personaje-favorito">¿Cuál es tu personaje favorito?</mat-option>
-                  <mat-option value="pelicula-favorita">¿Cuál es tu película favorita?</mat-option>
-                  <mat-option value="mejor-amigo">¿Quién es tu mejor amigo?</mat-option>
-                  <mat-option value="nombre-mascota">¿Cuál es el nombre de tu mascota?</mat-option>
-                  <mat-option value="deporte-favorito">¿Cuál es tu deporte favorito?</mat-option>
-                </mat-select>
-                <mat-error *ngIf="getControl('step3', 'preguntaSecreta')?.hasError('required')">Selecciona una
-                  pregunta</mat-error>
-              </mat-form-field>
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Teléfono</label>
+                  <input type="tel" formControlName="telefono" placeholder="10 dígitos"
+                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                  <p *ngIf="getControl('step3', 'telefono')?.hasError('required') && getControl('step3', 'telefono')?.touched" class="mt-1.5 text-xs text-red-500">El teléfono es requerido</p>
+                  <p *ngIf="getControl('step3', 'telefono')?.hasError('pattern') && getControl('step3', 'telefono')?.touched" class="mt-1.5 text-xs text-red-500">Debe tener 10 dígitos</p>
+                  <p *ngIf="getControl('step3', 'telefono')?.hasError('phoneTaken')" class="mt-1.5 text-xs text-red-500">El teléfono ya está en uso</p>
+                </div>
 
-              <mat-form-field appearance="outline">
-                <mat-label>Respuesta Secreta</mat-label>
-                <input matInput formControlName="respuestaSecreta">
-                <mat-icon matSuffix>forum</mat-icon>
-                <mat-error *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('required')">La respuesta es
-                  requerida</mat-error>
-                <mat-error *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('pattern')">Solo debe contener
-                  letras</mat-error>
-              </mat-form-field>
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Pregunta Secreta</label>
+                  <select formControlName="preguntaSecreta"
+                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    <option value="">Selecciona una pregunta</option>
+                    <option value="personaje-favorito">¿Cuál es tu personaje favorito?</option>
+                    <option value="pelicula-favorita">¿Cuál es tu película favorita?</option>
+                    <option value="mejor-amigo">¿Quién es tu mejor amigo?</option>
+                    <option value="nombre-mascota">¿Cuál es el nombre de tu mascota?</option>
+                    <option value="deporte-favorito">¿Cuál es tu deporte favorito?</option>
+                  </select>
+                  <p *ngIf="getControl('step3', 'preguntaSecreta')?.hasError('required') && getControl('step3', 'preguntaSecreta')?.touched" class="mt-1.5 text-xs text-red-500">Selecciona una pregunta</p>
+                </div>
 
-              <mat-checkbox formControlName="terminos" class="terms-checkbox">
-                <span>
-                  Acepto los <a routerLink="/terminos" target="_blank">Términos y Condiciones</a>
-                  y he leído el <a routerLink="/privacidad" target="_blank">Aviso de Privacidad</a>
-                </span>
-              </mat-checkbox>
-              <mat-error class="terms-error"
-                *ngIf="getControl('step3', 'terminos')?.hasError('requiredTrue') && getControl('step3', 'terminos')?.touched">
-                Debes aceptar los términos
-              </mat-error>
-              <div class="step-actions">
-                <button mat-button matStepperPrevious type="button">Atrás</button>
-                <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">
-                  Registrarse
-                </button>
+                <div>
+                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Respuesta Secreta</label>
+                  <input formControlName="respuestaSecreta"
+                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                  <p *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('required') && getControl('step3', 'respuestaSecreta')?.touched" class="mt-1.5 text-xs text-red-500">La respuesta es requerida</p>
+                  <p *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('pattern') && getControl('step3', 'respuestaSecreta')?.touched" class="mt-1.5 text-xs text-red-500">Solo debe contener letras</p>
+                </div>
+
+                <!-- Términos -->
+                <div class="flex items-start gap-3 pt-1">
+                  <mat-checkbox formControlName="terminos" class="mt-0.5"></mat-checkbox>
+                  <span class="text-sm text-slate-500 dark:text-slate-400">
+                    Acepto los
+                    <a routerLink="/terminos" target="_blank" class="text-[#4A2E83] dark:text-[#A78BFA] font-medium hover:underline">Términos y Condiciones</a>
+                    y he leído el
+                    <a routerLink="/privacidad" target="_blank" class="text-[#4A2E83] dark:text-[#A78BFA] font-medium hover:underline">Aviso de Privacidad</a>
+                  </span>
+                </div>
+                <p *ngIf="getControl('step3', 'terminos')?.hasError('requiredTrue') && getControl('step3', 'terminos')?.touched"
+                  class="text-xs text-red-500">Debes aceptar los términos</p>
+
+                <div class="flex justify-between pt-2">
+                  <button type="button" matStepperPrevious
+                    class="px-5 py-2.5 border-2 border-gray-200 dark:border-[#334155] text-[#1E293B] dark:text-[#F8FAFC] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] transition-all duration-300 cursor-pointer">
+                    Atrás
+                  </button>
+                  <button type="submit" [disabled]="!registerForm.valid"
+                    class="px-6 py-2.5 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 cursor-pointer">
+                    Registrarse
+                  </button>
+                </div>
               </div>
-            </div>
-          </mat-step>
-        </mat-stepper>
+            </mat-step>
 
-      </form>
-    </mat-card-content>
+          </mat-stepper>
+        </form>
 
-    <mat-card-footer class="login-link">
-      <p>¿Ya tienes una cuenta? <a routerLink="/login">Inicia Sesión</a></p>
-    </mat-card-footer>
-  </mat-card>
+        <div class="mt-6 pt-6 border-t border-gray-100 dark:border-[#334155] text-center transition-colors duration-300">
+          <p class="text-sm text-slate-500 dark:text-slate-400">
+            ¿Ya tienes una cuenta?
+            <a routerLink="/login" class="text-[#4A2E83] dark:text-[#A78BFA] font-medium hover:underline transition-colors duration-200">Inicia Sesión</a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>

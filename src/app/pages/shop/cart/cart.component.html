@@ -1,78 +1,103 @@
-<div class="container mt-5 mb-5">
-    <h2 class="mb-4">Tu Carrito de Compras</h2>
+<div class="min-h-screen bg-[#F8F9FA] dark:bg-[#0F172A] transition-colors duration-300">
+  <div class="max-w-screen-xl mx-auto px-6 py-10">
+    <h1 class="text-2xl font-bold text-[#1E293B] dark:text-[#F8FAFC] mb-8 transition-colors duration-300">
+      Tu Carrito de Compras
+    </h1>
 
-    <div *ngIf="(cartItems$ | async)?.length === 0; else cartContent" class="text-center py-5">
-        <mat-icon style="font-size: 64px; height: 64px; width: 64px;"
-            class="text-muted mb-3">remove_shopping_cart</mat-icon>
-        <h3>Tu carrito está vacío</h3>
-        <p class="text-muted">¡Agrega algunos productos increíbles de nuestro catálogo!</p>
-        <button mat-raised-button color="primary" routerLink="/productos" class="mt-3">Ir al Catálogo</button>
+    <!-- Estado vacío -->
+    <div *ngIf="(cartItems$ | async)?.length === 0; else cartContent"
+      class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm dark:border dark:border-[#334155] p-20 text-center transition-colors duration-300">
+      <mat-icon class="!text-7xl text-slate-200 dark:text-slate-700 mb-4">remove_shopping_cart</mat-icon>
+      <h3 class="text-xl font-semibold text-[#1E293B] dark:text-[#F8FAFC] mb-2 transition-colors duration-300">
+        Tu carrito está vacío
+      </h3>
+      <p class="text-slate-500 dark:text-slate-400 mb-6">¡Agrega algunos productos increíbles de nuestro catálogo!</p>
+      <a routerLink="/productos"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold hover:opacity-90 transition-all duration-300">
+        <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">store</mat-icon>
+        Ir al Catálogo
+      </a>
     </div>
 
     <ng-template #cartContent>
-        <div class="row">
-            <!-- Items List -->
-            <div class="col-lg-8">
-                <mat-card class="mb-3" *ngFor="let item of (cartItems$ | async)">
-                    <div class="d-flex align-items-center p-3">
-                        <img [src]="item.imagen" [alt]="item.nombre" class="rounded me-3"
-                            style="width: 80px; height: 80px; object-fit: cover;">
+      <div class="flex flex-col lg:flex-row gap-8">
 
-                        <div class="flex-grow-1">
-                            <h5 class="mb-1">{{ item.nombre }}</h5>
-                            <p class="mb-0 text-primary fw-bold">{{ item.precio | currency }}</p>
-                        </div>
-
-                        <div class="d-flex align-items-center mx-3 quantity-controls">
-                            <button mat-icon-button (click)="updateQuantity(item, item.cantidad - 1)"
-                                [disabled]="item.cantidad <= 1">
-                                <mat-icon>remove</mat-icon>
-                            </button>
-                            <span class="mx-2 fw-bold">{{ item.cantidad }}</span>
-                            <button mat-icon-button (click)="updateQuantity(item, item.cantidad + 1)">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </div>
-
-                        <div class="text-end" style="min-width: 80px;">
-                            <p class="mb-1 fw-bold">{{ (item.precio * item.cantidad) | currency }}</p>
-                            <button mat-icon-button color="warn" (click)="removeItem(item._id)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-                </mat-card>
-
-                <button mat-stroked-button color="warn" (click)="clearCart()">Vaciar Carrito</button>
+        <!-- Lista de Items -->
+        <div class="flex-1 space-y-4">
+          <div *ngFor="let item of (cartItems$ | async)"
+            class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm dark:border dark:border-[#334155] p-5 flex items-center gap-5 transition-colors duration-300">
+            <img [src]="item.imagen" [alt]="item.nombre"
+              class="w-20 h-20 rounded-xl object-cover flex-shrink-0 bg-gray-50 dark:bg-[#0F172A]">
+            <div class="flex-1 min-w-0">
+              <h4 class="font-semibold text-[#1E293B] dark:text-[#F8FAFC] truncate transition-colors duration-300">
+                {{ item.nombre }}
+              </h4>
+              <p class="text-[#4A2E83] dark:text-[#A78BFA] font-bold mt-0.5 transition-colors duration-300">
+                {{ item.precio | currency }}
+              </p>
             </div>
-
-            <!-- Summary -->
-            <div class="col-lg-4">
-                <mat-card>
-                    <mat-card-header>
-                        <mat-card-title>Resumen del Pedido</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content class="pt-3">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Subtotal</span>
-                            <span>{{ total | currency }}</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Envío</span>
-                            <span class="text-muted">Calculado al pagar</span>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-4">
-                            <strong class="fs-5">Total</strong>
-                            <strong class="fs-5 text-primary">{{ total | currency }}</strong>
-                        </div>
-
-                        <button mat-raised-button color="primary" class="w-100 py-2 fs-6" style="height: 50px;">
-                            Proceder al Pago
-                        </button>
-                    </mat-card-content>
-                </mat-card>
+            <!-- Controles de cantidad -->
+            <div class="flex items-center gap-1 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-100 dark:border-[#334155] rounded-xl p-1 transition-colors duration-300">
+              <button (click)="updateQuantity(item, item.cantidad - 1)" [disabled]="item.cantidad <= 1"
+                class="w-8 h-8 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#4A2E83] dark:hover:text-[#A78BFA] disabled:opacity-30 rounded-lg transition-colors duration-200 cursor-pointer">
+                <mat-icon class="!text-base">remove</mat-icon>
+              </button>
+              <span class="text-sm font-bold text-[#1E293B] dark:text-[#F8FAFC] w-8 text-center transition-colors duration-300">
+                {{ item.cantidad }}
+              </span>
+              <button (click)="updateQuantity(item, item.cantidad + 1)"
+                class="w-8 h-8 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-[#4A2E83] dark:hover:text-[#A78BFA] rounded-lg transition-colors duration-200 cursor-pointer">
+                <mat-icon class="!text-base">add</mat-icon>
+              </button>
             </div>
+            <div class="text-right flex-shrink-0 min-w-[80px]">
+              <p class="font-bold text-[#1E293B] dark:text-[#F8FAFC] mb-2 transition-colors duration-300">
+                {{ (item.precio * item.cantidad) | currency }}
+              </p>
+              <button (click)="removeItem(item._id)"
+                class="text-red-400 hover:text-red-600 dark:text-red-500 dark:hover:text-red-400 transition-colors duration-200 cursor-pointer">
+                <mat-icon class="!text-xl">delete</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <button (click)="clearCart()"
+            class="flex items-center gap-2 px-4 py-2 text-sm text-red-500 dark:text-red-400 border border-red-200 dark:border-red-800/40 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 cursor-pointer">
+            <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">delete_sweep</mat-icon>
+            Vaciar Carrito
+          </button>
         </div>
+
+        <!-- Resumen del Pedido -->
+        <aside class="lg:w-80 flex-shrink-0">
+          <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm dark:border dark:border-[#334155] p-6 sticky top-24 transition-colors duration-300">
+            <h3 class="text-lg font-bold text-[#1E293B] dark:text-[#F8FAFC] mb-6 pb-4 border-b border-gray-100 dark:border-[#334155] transition-colors duration-300">
+              Resumen del Pedido
+            </h3>
+            <div class="space-y-3 mb-4">
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500 dark:text-slate-400">Subtotal</span>
+                <span class="font-medium text-[#1E293B] dark:text-[#F8FAFC] transition-colors duration-300">{{ total | currency }}</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500 dark:text-slate-400">Envío</span>
+                <span class="text-emerald-500 font-medium">Calculado al pagar</span>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 dark:border-[#334155] pt-4 mb-6 transition-colors duration-300">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-[#1E293B] dark:text-[#F8FAFC] transition-colors duration-300">Total</span>
+                <span class="text-xl font-bold text-[#4A2E83] dark:text-[#A78BFA] transition-colors duration-300">{{ total | currency }}</span>
+              </div>
+            </div>
+            <button
+              class="w-full py-3 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold hover:opacity-90 transition-all duration-300 cursor-pointer">
+              Proceder al Pago
+            </button>
+          </div>
+        </aside>
+
+      </div>
     </ng-template>
+  </div>
 </div>

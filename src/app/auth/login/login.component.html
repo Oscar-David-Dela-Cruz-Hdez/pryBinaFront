@@ -1,99 +1,125 @@
-<div class="login-container">
-  <mat-card class="login-card">
+<div class="min-h-screen bg-[#F8F9FA] dark:bg-[#0F172A] flex items-center justify-center px-4 py-12 transition-colors duration-300">
+  <div class="w-full max-w-md">
+    <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-lg dark:border dark:border-[#334155] overflow-hidden transition-colors duration-300">
 
-    <!-- PASO 1: Formulario de Email/Password -->
-    <div *ngIf="step === 1; else step2Block">
-      <mat-card-header>
-        <mat-card-title>Iniciar Sesión</mat-card-title>
-      </mat-card-header>
+      <!-- PASO 1: Email / Contraseña -->
+      <div *ngIf="step === 1; else step2Block" class="p-8">
+        <div class="text-center mb-8">
+          <div class="w-14 h-14 bg-[#4A2E83]/10 dark:bg-[#A78BFA]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <mat-icon class="text-[#4A2E83] dark:text-[#A78BFA] !text-3xl">lock_open</mat-icon>
+          </div>
+          <h1 class="text-2xl font-bold text-[#1E293B] dark:text-[#F8FAFC] transition-colors duration-300">
+            Iniciar Sesión
+          </h1>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Bienvenido de vuelta a Panamericana</p>
+        </div>
 
-      <mat-card-content>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmitEmailPassword()">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitEmailPassword()" class="space-y-5">
 
-          <!-- Campo de Email -->
-          <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" placeholder="ejemplo@correo.com" formControlName="email">
-            <mat-icon matSuffix>email</mat-icon>
-            <mat-error *ngIf="email?.hasError('required')">El email es requerido</mat-error>
-            <mat-error *ngIf="email?.hasError('email')">El formato del email no es válido</mat-error>
-          </mat-form-field>
+          <!-- Email -->
+          <div>
+            <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">
+              Correo Electrónico
+            </label>
+            <div class="relative">
+              <input type="email" placeholder="ejemplo@correo.com" formControlName="email"
+                class="w-full px-4 py-3 pr-10 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+              <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 !text-xl pointer-events-none">email</mat-icon>
+            </div>
+            <p *ngIf="email?.hasError('required') && email?.touched" class="mt-1.5 text-xs text-red-500">El email es requerido</p>
+            <p *ngIf="email?.hasError('email') && email?.touched" class="mt-1.5 text-xs text-red-500">El formato del email no es válido</p>
+          </div>
 
-          <!-- Campo de Contraseña -->
-          <mat-form-field appearance="outline">
-            <mat-label>Contraseña</mat-label>
-            <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
-            <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
-              <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-            <mat-error *ngIf="password?.hasError('required')">La contraseña es requerida</mat-error>
-          </mat-form-field>
+          <!-- Contraseña -->
+          <div>
+            <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">
+              Contraseña
+            </label>
+            <div class="relative">
+              <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                class="w-full px-4 py-3 pr-12 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+              <button type="button" (click)="togglePasswordVisibility()"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 hover:text-[#4A2E83] dark:hover:text-[#A78BFA] transition-colors duration-200 cursor-pointer">
+                <mat-icon class="!text-xl">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </div>
+            <p *ngIf="password?.hasError('required') && password?.touched" class="mt-1.5 text-xs text-red-500">La contraseña es requerida</p>
+          </div>
 
-          <!-- Botón de Envío (Paso 1) -->
-          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
-            <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
+          <!-- Botón Submit -->
+          <button type="submit" [disabled]="loginForm.invalid || isLoading"
+            class="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 mt-2 cursor-pointer">
+            <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
             <span *ngIf="!isLoading">Siguiente</span>
           </button>
         </form>
 
-        <!-- Contenedor del Botón de Google -->
-        <div class="google-signin-container">
-          <p>O inicia sesión con:</p>
-
-          <!--
-            --- ¡¡¡AQUÍ ESTÁ LA CORRECCIÓN!!! ---
-            Cambiamos 'width="300px"' por '[width]="300"'
-          -->
-          <asl-google-signin-button
-            type="standard"
-            theme="outline"
-            size="large"
-            shape="rectangular"
-            [width]="300">
-          </asl-google-signin-button>
-        </div>
-
-      </mat-card-content>
-    </div>
-
-    <!-- PASO 2: Formulario de Código 2FA -->
-    <ng-template #step2Block>
-      <mat-card-header>
-        <mat-card-title>Verificar Código</mat-card-title>
-      </mat-card-header>
-
-      <mat-card-content>
-        <p class="step-2-info">
-          Se ha enviado un código de 6 dígitos a <strong>{{ email?.value }}</strong>.
-        </p>
-
-        <form [formGroup]="codeForm" (ngSubmit)="onSubmitCode()">
-          <!-- Campo de Código -->
-          <mat-form-field appearance="outline">
-            <mat-label>Código de Seguridad</mat-label>
-            <input matInput type="text" placeholder="123456" formControlName="code" maxlength="6">
-            <mat-icon matSuffix>key</mat-icon>
-            <mat-error *ngIf="code?.hasError('required')">El código es requerido</mat-error>
-          </mat-form-field>
-
-          <!-- Botones (Paso 2) -->
-          <div class="step-2-actions">
-            <button mat-button type="button" (click)="step = 1" [disabled]="isLoading">
-              Atrás
-            </button>
-            <button mat-raised-button color="primary" type="submit" [disabled]="codeForm.invalid || isLoading">
-              <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
-              <span *ngIf="!isLoading">Iniciar Sesión</span>
-            </button>
+        <!-- Google Sign In -->
+        <div class="mt-6">
+          <div class="relative flex items-center gap-3 mb-4">
+            <div class="flex-1 border-t border-gray-100 dark:border-[#334155] transition-colors duration-300"></div>
+            <span class="text-xs text-slate-400 dark:text-slate-500">O continúa con</span>
+            <div class="flex-1 border-t border-gray-100 dark:border-[#334155] transition-colors duration-300"></div>
           </div>
-        </form>
-      </mat-card-content>
-    </ng-template>
+          <div class="flex justify-center">
+            <asl-google-signin-button type="standard" theme="outline" size="large" shape="rectangular" [width]="300">
+            </asl-google-signin-button>
+          </div>
+        </div>
+      </div>
 
-    <!-- Footer con enlaces (siempre visible) -->
-    <mat-card-footer class="register-link">
-      <p>¿Olvidaste tu contraseña? <a routerLink="/password-recovery">Recupérala aquí</a></p>
-      <p>¿No tienes una cuenta? <a routerLink="/register">Regístrate</a></p>
-    </mat-card-footer>
-  </mat-card>
+      <!-- PASO 2: Código 2FA -->
+      <ng-template #step2Block>
+        <div class="p-8">
+          <div class="text-center mb-8">
+            <div class="w-14 h-14 bg-[#4A2E83]/10 dark:bg-[#A78BFA]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <mat-icon class="text-[#4A2E83] dark:text-[#A78BFA] !text-3xl">key</mat-icon>
+            </div>
+            <h2 class="text-2xl font-bold text-[#1E293B] dark:text-[#F8FAFC] transition-colors duration-300">
+              Verificar Código
+            </h2>
+            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+              Código de 6 dígitos enviado a <strong class="text-[#4A2E83] dark:text-[#A78BFA]">{{ email?.value }}</strong>
+            </p>
+          </div>
+
+          <form [formGroup]="codeForm" (ngSubmit)="onSubmitCode()" class="space-y-5">
+            <div>
+              <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">
+                Código de Seguridad
+              </label>
+              <input type="text" placeholder="••••••" formControlName="code" maxlength="6"
+                class="w-full px-4 py-4 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-300 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent text-center text-xl tracking-[0.5em] font-mono transition-colors duration-300">
+              <p *ngIf="code?.hasError('required') && code?.touched" class="mt-1.5 text-xs text-red-500">El código es requerido</p>
+            </div>
+
+            <div class="flex gap-3">
+              <button type="button" (click)="step = 1" [disabled]="isLoading"
+                class="flex-1 px-6 py-3 border-2 border-gray-200 dark:border-[#334155] text-[#1E293B] dark:text-[#F8FAFC] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] disabled:opacity-50 transition-all duration-300 cursor-pointer">
+                Atrás
+              </button>
+              <button type="submit" [disabled]="codeForm.invalid || isLoading"
+                class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer">
+                <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+                <span *ngIf="!isLoading">Iniciar Sesión</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </ng-template>
+
+      <!-- Footer links -->
+      <div class="px-8 pb-8 pt-2 text-center space-y-2 border-t border-gray-50 dark:border-[#334155] transition-colors duration-300">
+        <p class="text-sm text-slate-500 dark:text-slate-400">
+          ¿Olvidaste tu contraseña?
+          <a routerLink="/password-recovery" class="text-[#4A2E83] dark:text-[#A78BFA] font-medium hover:underline transition-colors duration-200">Recupérala aquí</a>
+        </p>
+        <p class="text-sm text-slate-500 dark:text-slate-400">
+          ¿No tienes una cuenta?
+          <a routerLink="/register" class="text-[#4A2E83] dark:text-[#A78BFA] font-medium hover:underline transition-colors duration-200">Regístrate</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
 </div>

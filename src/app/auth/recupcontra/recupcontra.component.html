@@ -1,105 +1,133 @@
-<div class="recovery-container">
-  <mat-card class="recovery-card">
-    <mat-card-header>
-      <mat-card-title>Recuperar Contraseña</mat-card-title>
-    </mat-card-header>
+<div class="min-h-screen bg-[#F8F9FA] dark:bg-[#0F172A] flex items-center justify-center px-4 py-12 transition-colors duration-300">
+  <div class="w-full max-w-md">
+    <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-lg dark:border dark:border-[#334155] overflow-hidden transition-colors duration-300">
 
-    <!-- Barra de progreso para indicar carga -->
-    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-
-    <mat-card-content>
-      <!-- Usamos un solo form group para todos los pasos -->
-      <form [formGroup]="recoveryForm" class="recovery-form">
-
-        <!--
-          PASO 0: Ingresar Correo
-        -->
-        <div *ngIf="step === 0" class="step-container">
-          <p class="step-description">Ingresa tu correo para verificar tu cuenta.</p>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email">
-            <mat-icon matSuffix>email</mat-icon>
-            <mat-error *ngIf="email?.hasError('required')">El email es requerido</mat-error>
-            <mat-error *ngIf="email?.hasError('email')">Email no válido</mat-error>
-          </mat-form-field>
-
-          <button mat-raised-button color="primary" type="button" (click)="verificarCorreo()" [disabled]="isLoading">
-            Siguiente
-          </button>
+      <div class="p-8">
+        <div class="text-center mb-8">
+          <div class="w-14 h-14 bg-[#4A2E83]/10 dark:bg-[#A78BFA]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <mat-icon class="text-[#4A2E83] dark:text-[#A78BFA] !text-3xl">lock_reset</mat-icon>
+          </div>
+          <h1 class="text-2xl font-bold text-[#1E293B] dark:text-[#F8FAFC] transition-colors duration-300">
+            Recuperar Contraseña
+          </h1>
         </div>
 
-        <!--
-          PASO 1: Responder Pregunta Secreta
-        -->
-        <div *ngIf="step === 1" class="step-container">
-          <p class="step-description">Responde a tu pregunta secreta:</p>
+        <!-- Barra de progreso de carga -->
+        <div *ngIf="isLoading" class="mb-6">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
 
-          <!-- Mostramos la pregunta obtenida del backend -->
-          <label class="secret-question">{{ preguntaSecreta }}</label>
+        <form [formGroup]="recoveryForm" class="space-y-5">
 
-          <mat-form-field appearance="outline">
-            <mat-label>Tu Respuesta</mat-label>
-            <input matInput type="text" formControlName="respuestaSecreta">
-            <mat-icon matSuffix>forum</mat-icon>
-            <mat-error *ngIf="respuestaSecreta?.hasError('required')">La respuesta es requerida</mat-error>
-          </mat-form-field>
-
-          <div class="button-group">
-            <button mat-button type="button" (click)="goBack(0)" [disabled]="isLoading">Atrás</button>
-            <button mat-raised-button color="primary" type="button" (click)="verificarRespuesta()" [disabled]="isLoading">
-              Verificar
+          <!-- PASO 0: Correo -->
+          <div *ngIf="step === 0" class="space-y-5">
+            <p class="text-sm text-slate-500 dark:text-slate-400 text-center">
+              Ingresa tu correo para verificar tu cuenta.
+            </p>
+            <div>
+              <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">
+                Correo Electrónico
+              </label>
+              <div class="relative">
+                <input type="email" formControlName="email"
+                  class="w-full px-4 py-3 pr-10 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 !text-xl pointer-events-none">email</mat-icon>
+              </div>
+              <p *ngIf="email?.hasError('required') && email?.touched" class="mt-1.5 text-xs text-red-500">El email es requerido</p>
+              <p *ngIf="email?.hasError('email') && email?.touched" class="mt-1.5 text-xs text-red-500">Email no válido</p>
+            </div>
+            <button type="button" (click)="verificarCorreo()" [disabled]="isLoading"
+              class="w-full py-3 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer">
+              Siguiente
             </button>
           </div>
-        </div>
 
-        <!--
-          PASO 2: Nueva Contraseña
-        -->
-        <div *ngIf="step === 2" class="step-container">
-          <p class="step-description">Ingresa tu nueva contraseña.</p>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Nueva Contraseña</mat-label>
-            <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="nuevaPassword">
-            <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
-              <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-            <mat-error *ngIf="nuevaPassword?.hasError('required')">Requerido</mat-error>
-            <mat-error *ngIf="nuevaPassword?.hasError('pattern')">12+ caracteres, 1 mayúscula, 1 núm, 1 símb.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Confirmar Contraseña</mat-label>
-            <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="confirmarPassword">
-            <mat-error *ngIf="confirmarPassword?.hasError('required')">Requerido</mat-error>
-            <mat-error *ngIf="recoveryForm.hasError('passwordsDoNotMatch')">Las contraseñas no coinciden</mat-error>
-          </mat-form-field>
-
-          <div class="button-group">
-            <button mat-button type="button" (click)="goBack(1)" [disabled]="isLoading">Atrás</button>
-            <button mat-raised-button color="primary" type="button" (click)="cambiarContrasena()" [disabled]="isLoading">
-              Cambiar Contraseña
-            </button>
+          <!-- PASO 1: Pregunta Secreta -->
+          <div *ngIf="step === 1" class="space-y-5">
+            <p class="text-sm text-slate-500 dark:text-slate-400 text-center">Responde a tu pregunta secreta:</p>
+            <div class="bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl px-4 py-3 text-sm font-medium text-[#4A2E83] dark:text-[#A78BFA] transition-colors duration-300">
+              {{ preguntaSecreta }}
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Tu Respuesta</label>
+              <div class="relative">
+                <input type="text" formControlName="respuestaSecreta"
+                  class="w-full px-4 py-3 pr-10 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 !text-xl pointer-events-none">forum</mat-icon>
+              </div>
+              <p *ngIf="respuestaSecreta?.hasError('required') && respuestaSecreta?.touched" class="mt-1.5 text-xs text-red-500">La respuesta es requerida</p>
+            </div>
+            <div class="flex gap-3">
+              <button type="button" (click)="goBack(0)" [disabled]="isLoading"
+                class="flex-1 py-3 border-2 border-gray-200 dark:border-[#334155] text-[#1E293B] dark:text-[#F8FAFC] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] disabled:opacity-50 transition-all duration-300 cursor-pointer">
+                Atrás
+              </button>
+              <button type="button" (click)="verificarRespuesta()" [disabled]="isLoading"
+                class="flex-1 py-3 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer">
+                Verificar
+              </button>
+            </div>
           </div>
-        </div>
 
-        <!--
-          PASO 3: Éxito
-        -->
-        <div *ngIf="step === 3" class="step-container success-message">
-          <mat-icon class="success-icon">check_circle</mat-icon>
-          <h3>¡Contraseña Actualizada!</h3>
-          <p>Tu contraseña ha sido cambiada con éxito. Ya puedes iniciar sesión.</p>
-          <a mat-raised-button color="primary" routerLink="/login">Ir a Iniciar Sesión</a>
-        </div>
+          <!-- PASO 2: Nueva Contraseña -->
+          <div *ngIf="step === 2" class="space-y-5">
+            <p class="text-sm text-slate-500 dark:text-slate-400 text-center">Ingresa tu nueva contraseña.</p>
+            <div>
+              <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Nueva Contraseña</label>
+              <div class="relative">
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="nuevaPassword"
+                  class="w-full px-4 py-3 pr-12 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                <button type="button" (click)="togglePasswordVisibility()"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 hover:text-[#4A2E83] dark:hover:text-[#A78BFA] transition-colors duration-200 cursor-pointer">
+                  <mat-icon class="!text-xl">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+              </div>
+              <p *ngIf="nuevaPassword?.hasError('required') && nuevaPassword?.touched" class="mt-1.5 text-xs text-red-500">Requerido</p>
+              <p *ngIf="nuevaPassword?.hasError('pattern') && nuevaPassword?.touched" class="mt-1.5 text-xs text-red-500">12+ caracteres, 1 mayúscula, 1 núm, 1 símb.</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Confirmar Contraseña</label>
+              <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmarPassword"
+                class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+              <p *ngIf="confirmarPassword?.hasError('required') && confirmarPassword?.touched" class="mt-1.5 text-xs text-red-500">Requerido</p>
+              <p *ngIf="recoveryForm.hasError('passwordsDoNotMatch')" class="mt-1.5 text-xs text-red-500">Las contraseñas no coinciden</p>
+            </div>
+            <div class="flex gap-3">
+              <button type="button" (click)="goBack(1)" [disabled]="isLoading"
+                class="flex-1 py-3 border-2 border-gray-200 dark:border-[#334155] text-[#1E293B] dark:text-[#F8FAFC] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] disabled:opacity-50 transition-all duration-300 cursor-pointer">
+                Atrás
+              </button>
+              <button type="button" (click)="cambiarContrasena()" [disabled]="isLoading"
+                class="flex-1 py-3 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer">
+                Cambiar Contraseña
+              </button>
+            </div>
+          </div>
 
-      </form>
-    </mat-card-content>
+          <!-- PASO 3: Éxito -->
+          <div *ngIf="step === 3" class="text-center py-4 space-y-4">
+            <div class="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto">
+              <mat-icon class="text-emerald-500 !text-4xl">check_circle</mat-icon>
+            </div>
+            <h3 class="text-xl font-bold text-[#1E293B] dark:text-[#F8FAFC] transition-colors duration-300">¡Contraseña Actualizada!</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Tu contraseña ha sido cambiada con éxito. Ya puedes iniciar sesión.</p>
+            <a routerLink="/login"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 transition-all duration-300">
+              <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">login</mat-icon>
+              Ir a Iniciar Sesión
+            </a>
+          </div>
 
-    <mat-card-footer class="footer-link" *ngIf="step < 3">
-      <a routerLink="/login">Volver a Iniciar Sesión</a>
-    </mat-card-footer>
-  </mat-card>
+        </form>
+      </div>
+
+      <!-- Footer link -->
+      <div *ngIf="step < 3" class="px-8 pb-6 pt-2 text-center border-t border-gray-50 dark:border-[#334155] transition-colors duration-300">
+        <a routerLink="/login" class="text-sm text-[#4A2E83] dark:text-[#A78BFA] font-medium hover:underline transition-colors duration-200">
+          Volver a Iniciar Sesión
+        </a>
+      </div>
+
+    </div>
+  </div>
 </div>

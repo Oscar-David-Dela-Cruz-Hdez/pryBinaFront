@@ -1,13 +1,30 @@
-<footer>
-    <p>&copy; Oscar Deivid | Lizbet Olvera 2025 All Rights Reserved R</p>
-    
-    <div class="footer-actions">
-        <nav class="links-footer">
-            <a routerLink="/">Politica de privacidad</a>
-            <a routerLink="/">Terminos de servicio</a>
-            <a routerLink="/">Ayuda</a>
-        </nav>
-        
-        <img src="assets/images/qr.jpeg" alt="QR" class="qr-code" />
+<footer class="bg-white dark:bg-[#1E293B] border-t border-gray-100 dark:border-[#334155] transition-colors duration-300">
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <!-- Copyright -->
+      <p class="text-sm text-slate-500 dark:text-slate-400 text-center md:text-left transition-colors duration-300">
+        &copy; Oscar Deivid | Lizbet Olvera 2025 — Todos los derechos reservados
+      </p>
+
+      <!-- Links legales -->
+      <nav class="flex items-center gap-5">
+        <a routerLink="/"
+          class="text-sm text-slate-500 dark:text-slate-400 hover:text-[#4A2E83] dark:hover:text-[#A78BFA] transition-colors duration-200">
+          Política de privacidad
+        </a>
+        <a routerLink="/"
+          class="text-sm text-slate-500 dark:text-slate-400 hover:text-[#4A2E83] dark:hover:text-[#A78BFA] transition-colors duration-200">
+          Términos de servicio
+        </a>
+        <a routerLink="/"
+          class="text-sm text-slate-500 dark:text-slate-400 hover:text-[#4A2E83] dark:hover:text-[#A78BFA] transition-colors duration-200">
+          Ayuda
+        </a>
+      </nav>
+
+      <!-- QR Code -->
+      <img src="assets/images/qr.jpeg" alt="QR Código" class="h-14 w-14 rounded-xl object-cover shadow-sm dark:opacity-80 transition-opacity duration-300">
     </div>
+  </div>
 </footer>

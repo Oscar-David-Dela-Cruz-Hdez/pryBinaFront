@@ -1,31 +1,40 @@
-<mat-card class="profile-card">
-  <mat-card-header>
-    <mat-card-title>Pregunta Secreta</mat-card-title>
-    <mat-card-subtitle>Actualiza tu pregunta y respuesta secreta</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <form [formGroup]="secretForm" (ngSubmit)="onSubmit()">
-      <div class="form-container">
-        <mat-form-field appearance="outline">
-          <mat-label>Pregunta Secreta</mat-label>
-          <mat-select formControlName="preguntaSecreta">
-            <mat-option value="personaje-favorito">¿Cuál es tu personaje favorito?</mat-option>
-            <mat-option value="pelicula-favorita">¿Cuál es tu película favorita?</mat-option>
-            <mat-option value="mejor-amigo">¿Quién es tu mejor amigo?</mat-option>
-            <mat-option value="nombre-mascota">¿Cuál es el nombre de tu mascota?</mat-option>
-            <mat-option value="deporte-favorito">¿Cuál es tu deporte favorito?</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Respuesta Secreta</mat-label>
-          <input matInput formControlName="respuestaSecreta">
-        </mat-form-field>
-        <div class="form-actions">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!secretForm.valid">
-            Guardar Cambios
-          </button>
-        </div>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+<div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm dark:border dark:border-[#334155] p-8 transition-colors duration-300">
+  <div class="mb-6 pb-6 border-b border-gray-100 dark:border-[#334155] transition-colors duration-300">
+    <h2 class="text-xl font-bold text-[#1E293B] dark:text-[#F8FAFC] transition-colors duration-300">Pregunta Secreta</h2>
+    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Actualiza tu pregunta y respuesta secreta</p>
+  </div>
+
+  <form [formGroup]="secretForm" (ngSubmit)="onSubmit()" class="space-y-5 max-w-md">
+
+    <!-- Pregunta Secreta -->
+    <div>
+      <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">
+        Pregunta Secreta
+      </label>
+      <select formControlName="preguntaSecreta"
+        class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+        <option value="personaje-favorito">¿Cuál es tu personaje favorito?</option>
+        <option value="pelicula-favorita">¿Cuál es tu película favorita?</option>
+        <option value="mejor-amigo">¿Quién es tu mejor amigo?</option>
+        <option value="nombre-mascota">¿Cuál es el nombre de tu mascota?</option>
+        <option value="deporte-favorito">¿Cuál es tu deporte favorito?</option>
+      </select>
+    </div>
+
+    <!-- Respuesta Secreta -->
+    <div>
+      <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">
+        Respuesta Secreta
+      </label>
+      <input formControlName="respuestaSecreta"
+        class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+    </div>
+
+    <div class="pt-2">
+      <button type="submit" [disabled]="!secretForm.valid"
+        class="px-6 py-3 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 cursor-pointer">
+        Guardar Cambios
+      </button>
+    </div>
+  </form>
+</div>
