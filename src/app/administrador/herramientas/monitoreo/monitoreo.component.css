@@ -1,0 +1,5 @@
+/* Monitoreo component styles – dark mode glassmorphism tweaks */
+:host {
+  display: block;
+  background-color: #0A0F1E;
+}

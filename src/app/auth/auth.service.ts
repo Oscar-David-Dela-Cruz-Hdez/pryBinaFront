@@ -19,9 +19,7 @@ export class AuthService {
 
   //se agrega aqui eso de la expiracion de inicio de sesion
   private inactivityTimer: Subscription | null = null;
-  //////////////////////////////////////////////////////////////////
-  //mover a 15 cuando lo suba a vercel
-  private readonly INACTIVITY_TIMEOUT = 15 * 60 * 1000; //15 minutos, para pruebas poner 1 a un minuto
+  private readonly INACTIVITY_TIMEOUT = 15 * 60 * 1000;
 
   constructor(
     private router: Router,
@@ -29,7 +27,7 @@ export class AuthService {
     private socialAuthService: SocialAuthService
   ) {
     const token = localStorage.getItem('user_token');
-    //console.log("Token en constructor:", token);
+
     const nombre = localStorage.getItem('user_name');
     const rol = localStorage.getItem('user_rol');
     this.isLoggedInSubject = new BehaviorSubject<boolean>(!!token);
@@ -41,13 +39,10 @@ export class AuthService {
     }
   }
 
-  // ... (código del timer sin cambios)
-
-  //codigo 3
   private startInactivityTimer(): void {
     this.stopInactivityTimer();
 
-    // Mostrar una alerta 5 segundos antes de que expire la sesión
+    // alerta 5 segundos antes de que expire la sesión
     const warningTime = this.INACTIVITY_TIMEOUT - 5000;
 
     timer(warningTime).subscribe(() => {
@@ -95,7 +90,7 @@ export class AuthService {
     this.startInactivityTimer();
   }
 
-  //controlar los tiempos de inicio de sesion
+
   public checkUsernameAvailability(username: string): Observable<{ available: boolean }> {
     return this.http.post<{ available: boolean }>(`${this.apiUrl}/check-username`, { username });
   }

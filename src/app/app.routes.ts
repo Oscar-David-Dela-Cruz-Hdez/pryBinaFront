@@ -41,6 +41,7 @@ import { CatalogComponent } from './pages/shop/catalog/catalog.component';
 import { CartComponent } from './pages/shop/cart/cart.component';
 import { Herramientas } from './administrador/herramientas/herramientas';
 import { Respaldos } from './administrador/herramientas/respaldos/respaldos';
+import { MonitoreoComponent } from './administrador/herramientas/monitoreo/monitoreo.component';
 
 export const routes: Routes = [
   {
@@ -244,6 +245,12 @@ export const routes: Routes = [
     component: Respaldos,
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Respaldos BD' }
+  },
+  {
+    path: 'admin/herramientas/monitoreo',
+    component: MonitoreoComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Monitor de Rendimiento' }
   },
 
   // Ruta Wildcard para manejar 404 (Debe ir siempre al final)
