@@ -1,7 +1,7 @@
-<div class="admin-container">
-      <div class="header-section">
-        <h2>Gestión de Carrusel</h2>
-        <button mat-raised-button color="primary" (click)="toggleForm()">
+<div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4 gap-4">
+        <div class="mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4"><h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Carrusel</h2></div>
+        <button mat-raised-button color="primary" class="!rounded-xl !py-2 !px-6 hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20" (click)="toggleForm()">
           <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
           {{ showForm ? 'Cancelar' : 'Nuevo Banner' }}
         </button>
@@ -41,12 +41,14 @@
               <mat-slide-toggle formControlName="activo" color="primary">Activo</mat-slide-toggle>
             </div>
 
-            <div class="actions">
-              <button mat-stroked-button type="button" (click)="toggleForm()">Cancelar</button>
-              <button mat-raised-button color="primary" type="submit" [disabled]="carruselForm.invalid || isLoading">
+            <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-[#e2dcd6] dark:border-[#333333]">
+
+              <button mat-stroked-button class="!rounded-xl !py-2 !px-6 hover:bg-gray-50 dark:hover:bg-[#333333] transition-colors duration-300" type="button" (click)="toggleForm()">Cancelar</button>
+              <button mat-raised-button color="primary" class="!rounded-xl !py-2 !px-6 hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20" type="submit" [disabled]="carruselForm.invalid || isLoading">
                 {{ isLoading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
               </button>
-            </div>
+            
+</div>
           </form>
         </mat-card-content>
       </mat-card>
