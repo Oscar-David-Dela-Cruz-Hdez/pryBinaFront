@@ -1,0 +1,125 @@
+<div class="admin-container">
+      <h2>Gestión de Pedidos</h2>
+
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Filtrar pedidos</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por ID, usuario, etc." #input>
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+
+          <!-- ID -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID Pedido </th>
+            <td mat-cell *matCellDef="let row"> {{row._id | slice: -6 }} </td>
+          </ng-container>
+
+          <!-- Usuario -->
+          <ng-container matColumnDef="usuario">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+            <td mat-cell *matCellDef="let row"> 
+                {{ row.usuario?.nombre || 'Desconocido' }} <br>
+                <small>{{ row.usuario?.email }}</small>
+            </td>
+          </ng-container>
+
+          <!-- Fecha -->
+          <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+            <td mat-cell *matCellDef="let row"> {{row.createdAt | date:'short'}} </td>
+          </ng-container>
+
+          <!-- Total -->
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
+            <td mat-cell *matCellDef="let row"> {{row.total | currency}} </td>
+          </ng-container>
+
+           <!-- Estado -->
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+            <td mat-cell *matCellDef="let row">
+              <span [class]="'status-badge ' + getStatusClass(row.estado)">
+                {{ row.estado }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Actions -->
+           <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button color="primary" (click)="expandRow(row); $event.stopPropagation()">
+                <mat-icon>{{ expandedElement === row ? 'expand_less' : 'expand_more' }}</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+              <div class="element-detail"
+                   [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                
+                <div class="detail-container">
+                    <!-- Productos -->
+                    <div class="detail-section">
+                        <h4>Productos</h4>
+                        <ul>
+                            <li *ngFor="let item of element.productos">
+                                {{ item.nombre }} x {{ item.cantidad }} - {{ item.precio | currency }}
+                            </li>
+                        </ul>
+                         <p><strong>Envío:</strong> {{ element.costoEnvio | currency }}</p>
+                    </div>
+
+                    <!-- Dirección -->
+                    <div class="detail-section">
+                        <h4>Envío a:</h4>
+                        <p>
+                            {{ element.direccionEnvio?.calle }}<br>
+                            {{ element.direccionEnvio?.ciudad }}, {{ element.direccionEnvio?.estado }}<br>
+                            CP: {{ element.direccionEnvio?.cp }}<br>
+                            Tel: {{ element.direccionEnvio?.telefono }}
+                        </p>
+                        <p><strong>Método Pago:</strong> {{ element.metodoPago }}</p>
+                    </div>
+
+                    <!-- Actualizar Estado -->
+                     <div class="detail-section action-panel">
+                        <h4>Actualizar Estado</h4>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nuevo Estado</mat-label>
+                            <mat-select [(ngModel)]="element.tempEstado" (selectionChange)="updateStatus(element, $event.value)">
+                                <mat-option value="Pendiente">Pendiente</mat-option>
+                                <mat-option value="Pagado">Pagado</mat-option>
+                                <mat-option value="Enviado">Enviado</mat-option>
+                                <mat-option value="Entregado">Entregado</mat-option>
+                                <mat-option value="Cancelado">Cancelado</mat-option>
+                                <mat-option value="Devolución">Devolución</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+              class="element-row"
+              [class.expanded-row]="expandedElement === element"
+              (click)="expandRow(element)">
+          </tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">No hay datos que coincidan con "{{input.value}}"</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[10, 25, 50]" aria-label="Select page of orders"></mat-paginator>
+      </div>
+    </div>

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, ActivatedRoute, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
+import { MatIconModule } from '@angular/material/icon';
+
 export interface Breadcrumb {
   label: string;
   url: string;

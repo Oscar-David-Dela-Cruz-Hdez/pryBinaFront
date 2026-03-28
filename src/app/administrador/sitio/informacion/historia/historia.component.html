@@ -1,0 +1,20 @@
+<div class="admin-container fade-in">
+      <h2>Gestión de Historia</h2>
+      
+      <mat-card>
+        <mat-card-content>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Historia de la Empresa</mat-label>
+                    <textarea matInput formControlName="historia" rows="8" placeholder="Escribe la historia aquí..."></textarea>
+                </mat-form-field>
+
+                <div class="actions">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">
+                        {{ isLoading ? 'Guardando...' : 'Guardar Cambios' }}
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+      </mat-card>
+    </div>

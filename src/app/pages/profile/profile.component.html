@@ -1,44 +1,44 @@
-<div class="min-h-screen bg-[#F8F9FA] dark:bg-[#0F172A] transition-colors duration-300">
+<div class="min-h-screen bg-[#FAF8F5] dark:bg-[#121212] transition-all duration-300">
   <div class="max-w-screen-xl mx-auto px-6 py-10">
     <div class="flex flex-col lg:flex-row gap-8">
 
       <!-- Sidebar de Navegación -->
       <aside class="lg:w-64 flex-shrink-0">
-        <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm dark:border dark:border-[#334155] p-4 sticky top-24 transition-colors duration-300">
-          <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-2 mb-3">
+        <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333] p-4 sticky top-24 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
+          <p class="text-xs font-semibold text-[#666666] dark:text-[#666666] uppercase tracking-wider px-2 mb-3">
             Mi Cuenta
           </p>
           <nav class="space-y-1">
             <button (click)="selectSection('userdata')"
-              [class.bg-[#4A2E83]]="selectedSection === 'userdata'"
-              [class.dark:bg-[#A78BFA]]="selectedSection === 'userdata'"
+              [class.bg-[#D4AF37]]="selectedSection === 'userdata'"
+              [class.dark:bg-[#E5C158]]="selectedSection === 'userdata'"
               [class.text-white]="selectedSection === 'userdata'"
               [class.dark:text-[#0F172A]]="selectedSection === 'userdata'"
-              [class.text-[#1E293B]]="selectedSection !== 'userdata'"
-              [class.dark:text-[#F8FAFC]]="selectedSection !== 'userdata'"
-              class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#4A2E83]/5 dark:hover:bg-[#A78BFA]/10">
+              [class.text-[#2C2C2C]]="selectedSection !== 'userdata'"
+              [class.dark:text-[#F0F0F0]]="selectedSection !== 'userdata'"
+              class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">person</mat-icon>
               <span>Datos Personales</span>
             </button>
             <button (click)="selectSection('password')"
-              [class.bg-[#4A2E83]]="selectedSection === 'password'"
-              [class.dark:bg-[#A78BFA]]="selectedSection === 'password'"
+              [class.bg-[#D4AF37]]="selectedSection === 'password'"
+              [class.dark:bg-[#E5C158]]="selectedSection === 'password'"
               [class.text-white]="selectedSection === 'password'"
               [class.dark:text-[#0F172A]]="selectedSection === 'password'"
-              [class.text-[#1E293B]]="selectedSection !== 'password'"
-              [class.dark:text-[#F8FAFC]]="selectedSection !== 'password'"
-              class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#4A2E83]/5 dark:hover:bg-[#A78BFA]/10">
+              [class.text-[#2C2C2C]]="selectedSection !== 'password'"
+              [class.dark:text-[#F0F0F0]]="selectedSection !== 'password'"
+              class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">lock</mat-icon>
               <span>Contraseña</span>
             </button>
             <button (click)="selectSection('pregunta')"
-              [class.bg-[#4A2E83]]="selectedSection === 'pregunta'"
-              [class.dark:bg-[#A78BFA]]="selectedSection === 'pregunta'"
+              [class.bg-[#D4AF37]]="selectedSection === 'pregunta'"
+              [class.dark:bg-[#E5C158]]="selectedSection === 'pregunta'"
               [class.text-white]="selectedSection === 'pregunta'"
               [class.dark:text-[#0F172A]]="selectedSection === 'pregunta'"
-              [class.text-[#1E293B]]="selectedSection !== 'pregunta'"
-              [class.dark:text-[#F8FAFC]]="selectedSection !== 'pregunta'"
-              class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#4A2E83]/5 dark:hover:bg-[#A78BFA]/10">
+              [class.text-[#2C2C2C]]="selectedSection !== 'pregunta'"
+              [class.dark:text-[#F0F0F0]]="selectedSection !== 'pregunta'"
+              class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">security</mat-icon>
               <span>Pregunta Secreta</span>
             </button>

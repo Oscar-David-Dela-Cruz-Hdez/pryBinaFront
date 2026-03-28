@@ -1,0 +1,7 @@
+.admin-container { padding: 20px; max-width: 800px; margin: 0 auto; }
+    .full-width { width: 100%; margin-bottom: 10px; }
+    .row { display: flex; gap: 15px; }
+    .half-width { flex: 1; }
+    .actions { display: flex; justify-content: flex-end; margin-top: 15px; }
+    .fade-in { animation: fadeIn 0.3s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }

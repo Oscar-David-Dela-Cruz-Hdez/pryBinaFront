@@ -1,13 +1,13 @@
-<div class="min-h-screen bg-[#F8F9FA] dark:bg-[#0F172A] flex items-center justify-center px-4 py-12 transition-colors duration-300">
+<div class="min-h-screen bg-[#FAF8F5] dark:bg-[#121212] flex items-center justify-center px-4 py-12 transition-all duration-300">
   <div class="w-full max-w-lg">
-    <div class="bg-white dark:bg-[#1E293B] rounded-2xl shadow-lg dark:border dark:border-[#334155] overflow-hidden transition-colors duration-300">
+    <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/40 hover:shadow-xl dark:border dark:border-[#333333] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
 
       <div class="p-8">
         <div class="text-center mb-8">
-          <h1 class="text-2xl font-bold text-[#1E293B] dark:text-[#F8FAFC] transition-colors duration-300">
+          <h1 class="text-2xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">
             Crear una Cuenta
           </h1>
-          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Únete a Distribuidora Panamericana</p>
+          <p class="mt-1 text-sm text-[#666666] dark:text-[#666666]">Únete a Distribuidora Panamericana</p>
         </div>
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
@@ -19,32 +19,32 @@
               <div [formGroupName]="'step1'" class="space-y-4 pt-6">
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Nombre/s</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Nombre/s</label>
                   <input formControlName="nombre" placeholder="Ej. Ana"
-                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                   <p *ngIf="getControl('step1', 'nombre')?.hasError('required') && getControl('step1', 'nombre')?.touched" class="mt-1.5 text-xs text-red-500">El nombre es requerido</p>
                   <p *ngIf="getControl('step1', 'nombre')?.hasError('pattern') && getControl('step1', 'nombre')?.touched" class="mt-1.5 text-xs text-red-500">Solo debe contener letras</p>
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Apellido Paterno</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Apellido Paterno</label>
                   <input formControlName="ap" placeholder="Ej. Pérez"
-                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                   <p *ngIf="getControl('step1', 'ap')?.hasError('required') && getControl('step1', 'ap')?.touched" class="mt-1.5 text-xs text-red-500">El apellido es requerido</p>
                   <p *ngIf="getControl('step1', 'ap')?.hasError('pattern') && getControl('step1', 'ap')?.touched" class="mt-1.5 text-xs text-red-500">Solo debe contener letras</p>
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Apellido Materno</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Apellido Materno</label>
                   <input formControlName="am" placeholder="Ej. García"
-                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                   <p *ngIf="getControl('step1', 'am')?.hasError('required') && getControl('step1', 'am')?.touched" class="mt-1.5 text-xs text-red-500">El apellido es requerido</p>
                   <p *ngIf="getControl('step1', 'am')?.hasError('pattern') && getControl('step1', 'am')?.touched" class="mt-1.5 text-xs text-red-500">Solo debe contener letras</p>
                 </div>
 
                 <div class="flex justify-end pt-2">
                   <button type="button" (click)="validateStep('step1', stepper)"
-                    class="px-6 py-2.5 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 transition-all duration-300 cursor-pointer">
+                    class="px-6 py-2.5 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                     Siguiente
                   </button>
                 </div>
@@ -57,30 +57,30 @@
               <div [formGroupName]="'step2'" class="space-y-4 pt-6">
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Nombre de Usuario</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Nombre de Usuario</label>
                   <input formControlName="username"
-                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                   <p *ngIf="getControl('step2', 'username')?.hasError('required') && getControl('step2', 'username')?.touched" class="mt-1.5 text-xs text-red-500">El usuario es requerido</p>
                   <p *ngIf="getControl('step2', 'username')?.hasError('pattern') && getControl('step2', 'username')?.touched" class="mt-1.5 text-xs text-red-500">Solo letras y números</p>
                   <p *ngIf="getControl('step2', 'username')?.hasError('usernameTaken')" class="mt-1.5 text-xs text-red-500">El nombre de usuario ya está en uso</p>
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Email</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Email</label>
                   <input type="email" formControlName="email" placeholder="ejemplo@correo.com"
-                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                   <p *ngIf="getControl('step2', 'email')?.hasError('required') && getControl('step2', 'email')?.touched" class="mt-1.5 text-xs text-red-500">El email es requerido</p>
                   <p *ngIf="getControl('step2', 'email')?.hasError('email') && getControl('step2', 'email')?.touched" class="mt-1.5 text-xs text-red-500">Email no válido</p>
                   <p *ngIf="getControl('step2', 'email')?.hasError('emailTaken')" class="mt-1.5 text-xs text-red-500">El email ya está en uso</p>
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Contraseña</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Contraseña</label>
                   <div class="relative">
                     <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                      class="w-full px-4 py-3 pr-12 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                      class="w-full px-4 py-3 pr-12 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                     <button type="button" (click)="togglePasswordVisibility()"
-                      class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 hover:text-[#4A2E83] dark:hover:text-[#A78BFA] transition-colors duration-200 cursor-pointer">
+                      class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                       <mat-icon class="!text-xl">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
                   </div>
@@ -93,20 +93,20 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Confirmar Contraseña</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Confirmar Contraseña</label>
                   <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmPassword"
-                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                   <p *ngIf="getControl('step2', 'confirmPassword')?.hasError('required') && getControl('step2', 'confirmPassword')?.touched" class="mt-1.5 text-xs text-red-500">La confirmación es requerida</p>
                   <p *ngIf="registerForm.get('step2')?.hasError('passwordsDoNotMatch')" class="mt-1.5 text-xs text-red-500">Las contraseñas no coinciden</p>
                 </div>
 
                 <div class="flex justify-between pt-2">
                   <button type="button" matStepperPrevious
-                    class="px-5 py-2.5 border-2 border-gray-200 dark:border-[#334155] text-[#1E293B] dark:text-[#F8FAFC] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] transition-all duration-300 cursor-pointer">
+                    class="px-5 py-2.5 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                     Atrás
                   </button>
                   <button type="button" (click)="validateStep('step2', stepper)"
-                    class="px-6 py-2.5 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 transition-all duration-300 cursor-pointer">
+                    class="px-6 py-2.5 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                     Siguiente
                   </button>
                 </div>
@@ -119,18 +119,18 @@
               <div [formGroupName]="'step3'" class="space-y-4 pt-6">
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Teléfono</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Teléfono</label>
                   <input type="tel" formControlName="telefono" placeholder="10 dígitos"
-                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                   <p *ngIf="getControl('step3', 'telefono')?.hasError('required') && getControl('step3', 'telefono')?.touched" class="mt-1.5 text-xs text-red-500">El teléfono es requerido</p>
                   <p *ngIf="getControl('step3', 'telefono')?.hasError('pattern') && getControl('step3', 'telefono')?.touched" class="mt-1.5 text-xs text-red-500">Debe tener 10 dígitos</p>
                   <p *ngIf="getControl('step3', 'telefono')?.hasError('phoneTaken')" class="mt-1.5 text-xs text-red-500">El teléfono ya está en uso</p>
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Pregunta Secreta</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Pregunta Secreta</label>
                   <select formControlName="preguntaSecreta"
-                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                     <option value="">Selecciona una pregunta</option>
                     <option value="personaje-favorito">¿Cuál es tu personaje favorito?</option>
                     <option value="pelicula-favorita">¿Cuál es tu película favorita?</option>
@@ -142,9 +142,9 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-[#1E293B] dark:text-[#F8FAFC] mb-1.5 transition-colors duration-300">Respuesta Secreta</label>
+                  <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Respuesta Secreta</label>
                   <input formControlName="respuestaSecreta"
-                    class="w-full px-4 py-3 bg-[#F8F9FA] dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] rounded-xl text-[#1E293B] dark:text-[#F8FAFC] focus:outline-none focus:ring-2 focus:ring-[#4A2E83] dark:focus:ring-[#A78BFA] focus:border-transparent transition-colors duration-300">
+                    class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
                   <p *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('required') && getControl('step3', 'respuestaSecreta')?.touched" class="mt-1.5 text-xs text-red-500">La respuesta es requerida</p>
                   <p *ngIf="getControl('step3', 'respuestaSecreta')?.hasError('pattern') && getControl('step3', 'respuestaSecreta')?.touched" class="mt-1.5 text-xs text-red-500">Solo debe contener letras</p>
                 </div>
@@ -152,11 +152,11 @@
                 <!-- Términos -->
                 <div class="flex items-start gap-3 pt-1">
                   <mat-checkbox formControlName="terminos" class="mt-0.5"></mat-checkbox>
-                  <span class="text-sm text-slate-500 dark:text-slate-400">
+                  <span class="text-sm text-[#666666] dark:text-[#666666]">
                     Acepto los
-                    <a routerLink="/terminos" target="_blank" class="text-[#4A2E83] dark:text-[#A78BFA] font-medium hover:underline">Términos y Condiciones</a>
+                    <a routerLink="/terminos" target="_blank" class="text-[#D4AF37] dark:text-[#E5C158] font-medium hover:underline">Términos y Condiciones</a>
                     y he leído el
-                    <a routerLink="/privacidad" target="_blank" class="text-[#4A2E83] dark:text-[#A78BFA] font-medium hover:underline">Aviso de Privacidad</a>
+                    <a routerLink="/privacidad" target="_blank" class="text-[#D4AF37] dark:text-[#E5C158] font-medium hover:underline">Aviso de Privacidad</a>
                   </span>
                 </div>
                 <p *ngIf="getControl('step3', 'terminos')?.hasError('requiredTrue') && getControl('step3', 'terminos')?.touched"
@@ -164,11 +164,11 @@
 
                 <div class="flex justify-between pt-2">
                   <button type="button" matStepperPrevious
-                    class="px-5 py-2.5 border-2 border-gray-200 dark:border-[#334155] text-[#1E293B] dark:text-[#F8FAFC] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] transition-all duration-300 cursor-pointer">
+                    class="px-5 py-2.5 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                     Atrás
                   </button>
                   <button type="submit" [disabled]="!registerForm.valid"
-                    class="px-6 py-2.5 bg-[#4A2E83] dark:bg-[#A78BFA] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 cursor-pointer">
+                    class="px-6 py-2.5 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                     Registrarse
                   </button>
                 </div>
@@ -178,10 +178,10 @@
           </mat-stepper>
         </form>
 
-        <div class="mt-6 pt-6 border-t border-gray-100 dark:border-[#334155] text-center transition-colors duration-300">
-          <p class="text-sm text-slate-500 dark:text-slate-400">
+        <div class="mt-6 pt-6 border-t border-[#e2dcd6] dark:border-[#333333] text-center transition-all duration-300">
+          <p class="text-sm text-[#666666] dark:text-[#666666]">
             ¿Ya tienes una cuenta?
-            <a routerLink="/login" class="text-[#4A2E83] dark:text-[#A78BFA] font-medium hover:underline transition-colors duration-200">Inicia Sesión</a>
+            <a routerLink="/login" class="text-[#D4AF37] dark:text-[#E5C158] font-medium hover:underline transition-all duration-200">Inicia Sesión</a>
           </p>
         </div>
       </div>

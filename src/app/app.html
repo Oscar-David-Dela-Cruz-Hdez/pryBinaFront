@@ -1,14 +1,14 @@
-<app-header *ngIf="!(isLoggedIn$ | async)"></app-header>
-<ng-container *ngIf="isLoggedIn$ | async">
-  <app-admin-header *ngIf="(userRole$ | async) === 'admin'"></app-admin-header>
-  <app-user-header *ngIf="(userRole$ | async) === 'usuario'"></app-user-header>
-</ng-container>
-<main>
-  <app-breadcrumb></app-breadcrumb>
-  <router-outlet></router-outlet>
-</main>
-<app-footer></app-footer>
-
-
-
-
+<div class="min-h-screen flex flex-col bg-[#FAF8F5] dark:bg-[#121212] transition-all duration-300 ease-in-out text-[#2C2C2C] dark:text-[#F0F0F0]">
+  <app-header *ngIf="!(isLoggedIn$ | async)"></app-header>
+  <ng-container *ngIf="isLoggedIn$ | async">
+    <app-admin-header *ngIf="(userRole$ | async) === 'admin'"></app-admin-header>
+    <app-user-header *ngIf="(userRole$ | async) === 'usuario'"></app-user-header>
+  </ng-container>
+  
+  <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in w-full">
+    <app-breadcrumb></app-breadcrumb>
+    <router-outlet></router-outlet>
+  </main>
+  
+  <app-footer class="mt-auto"></app-footer>
+</div>

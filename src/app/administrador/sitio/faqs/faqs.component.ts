@@ -26,86 +26,8 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
     MatExpansionModule,
     MatSnackBarModule
   ],
-  template: `
-    <div class="admin-container">
-      <div class="header-section">
-        <h2>Gestión de Preguntas Frecuentes (FAQs)</h2>
-        <button mat-raised-button color="primary" (click)="toggleForm()">
-          <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
-          {{ showForm ? 'Cancelar' : 'Nueva Pregunta' }}
-        </button>
-      </div>
-
-      <!-- Formulario Agregar/Editar -->
-      <mat-card *ngIf="showForm" class="mb-4 fade-in">
-        <mat-card-header>
-          <mat-card-title>{{ editingId ? 'Editar FAQ' : 'Agregar Nueva FAQ' }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <form [formGroup]="faqForm" (ngSubmit)="onSubmit()">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Pregunta</mat-label>
-              <input matInput formControlName="pregunta" placeholder="Ej: ¿Cuáles son los métodos de pago?">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Respuesta</mat-label>
-              <textarea matInput formControlName="respuesta" rows="3" placeholder="Respuesta detallada..."></textarea>
-            </mat-form-field>
-
-            <div class="actions">
-              <button mat-stroked-button type="button" (click)="toggleForm()">Cancelar</button>
-              <button mat-raised-button color="primary" type="submit" [disabled]="faqForm.invalid || isLoading">
-                {{ isLoading ? 'Guardando...' : (editingId ? 'Actualizar' : 'Guardar') }}
-              </button>
-            </div>
-          </form>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- Lista de FAQs -->
-      <div class="faqs-list" *ngIf="faqs.length > 0; else noFaqs">
-        <mat-accordion>
-          <mat-expansion-panel *ngFor="let faq of faqs">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{ faq.pregunta }}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            
-            <p>{{ faq.respuesta }}</p>
-
-            <mat-action-row>
-              <button mat-button color="primary" (click)="editFaq(faq)">
-                <mat-icon>edit</mat-icon> Editar
-              </button>
-              <button mat-button color="warn" (click)="deleteFaq(faq._id)">
-                <mat-icon>delete</mat-icon> Eliminar
-              </button>
-            </mat-action-row>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
-
-      <ng-template #noFaqs>
-        <div class="empty-state">
-          <mat-icon>quiz</mat-icon>
-          <p>No hay preguntas frecuentes registradas.</p>
-        </div>
-      </ng-template>
-    </div>
-  `,
-  styles: [`
-    .admin-container { padding: 20px; max-width: 900px; margin: 0 auto; }
-    .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .full-width { width: 100%; margin-bottom: 10px; }
-    .mb-4 { margin-bottom: 20px; }
-    .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
-    .empty-state { text-align: center; padding: 40px; color: #777; }
-    .empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; margin-bottom: 10px; }
-    .fade-in { animation: fadeIn 0.3s ease-in; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-  `]
+  templateUrl: './faqs.component.html',
+  styleUrls: ['./faqs.component.css']
 })
 export class FaqsComponent implements OnInit {
   faqs: any[] = [];

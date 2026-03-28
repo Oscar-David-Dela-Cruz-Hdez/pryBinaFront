@@ -8,10 +8,10 @@
       </div>
       <div>
         <h1 class="text-2xl font-bold text-white tracking-tight">Monitor de Rendimiento</h1>
-        <p class="text-slate-400 text-sm mt-0.5">Sistema, Base de Datos y HTTP — actualización cada 15 s</p>
+        <p class="text-[#666666] text-sm mt-0.5">Sistema, Base de Datos y HTTP — actualización cada 15 s</p>
       </div>
     </div>
-    <div class="flex items-center gap-2 text-xs text-slate-500 bg-slate-800/60 backdrop-blur border border-slate-700/50 px-3 py-2 rounded-lg">
+    <div class="flex items-center gap-2 text-xs text-[#666666] bg-slate-800/60 backdrop-blur border border-slate-700/50 px-3 py-2 rounded-lg">
       <span class="inline-block w-2 h-2 rounded-full animate-pulse"
         [class.bg-emerald-400]="!error && !cargando"
         [class.bg-red-400]="!!error"
@@ -27,11 +27,11 @@
   <div *ngIf="error && !datos"
     class="flex flex-col items-center justify-center gap-3 py-20 text-center">
     <mat-icon class="text-red-400 !text-5xl !w-12 !h-12">error_outline</mat-icon>
-    <p class="text-slate-400 text-sm max-w-sm">{{ error }}</p>
+    <p class="text-[#666666] text-sm max-w-sm">{{ error }}</p>
   </div>
 
   <!-- Loading skeleton -->
-  <div *ngIf="cargando && !datos" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+  <div *ngIf="cargando && !datos" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6 animate-slide-up">
     <div *ngFor="let _ of [1,2,3,4]"
       class="h-36 rounded-2xl bg-slate-800/50 animate-pulse border border-slate-700/40"></div>
   </div>
@@ -40,7 +40,7 @@
   <ng-container *ngIf="datos as d">
 
     <!-- ── ROW 1: KPI CARDS ──────────────────────────────────────────────── -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6 animate-slide-up">
 
       <!-- CPU -->
       <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80
@@ -52,7 +52,7 @@
               <div class="p-1.5 rounded-lg bg-indigo-600/20 border border-indigo-500/30">
                 <mat-icon class="text-indigo-400 !text-lg !w-5 !h-5 leading-none">memory</mat-icon>
               </div>
-              <span class="text-slate-400 text-xs font-semibold uppercase tracking-widest">CPU</span>
+              <span class="text-[#666666] text-xs font-semibold uppercase tracking-widest">CPU</span>
             </div>
             <span class="text-2xl font-bold text-white">{{ d.sistema.cpu.usoPorcentaje }}%</span>
           </div>
@@ -62,7 +62,7 @@
               [class]="getColorCPU(d.sistema.cpu.usoPorcentaje)"
               [style.width.%]="d.sistema.cpu.usoPorcentaje"></div>
           </div>
-          <div class="flex justify-between text-xs text-slate-500 mt-1">
+          <div class="flex justify-between text-xs text-[#666666] mt-1">
             <span>{{ d.sistema.cpu.nucleos }} núcleos</span>
             <span class="truncate max-w-[120px] text-right">{{ d.sistema.cpu.modelo }}</span>
           </div>
@@ -79,7 +79,7 @@
               <div class="p-1.5 rounded-lg bg-cyan-600/20 border border-cyan-500/30">
                 <mat-icon class="text-cyan-400 !text-lg !w-5 !h-5 leading-none">developer_board</mat-icon>
               </div>
-              <span class="text-slate-400 text-xs font-semibold uppercase tracking-widest">RAM</span>
+              <span class="text-[#666666] text-xs font-semibold uppercase tracking-widest">RAM</span>
             </div>
             <span class="text-2xl font-bold text-white">{{ d.sistema.ram.usoPorcentaje }}%</span>
           </div>
@@ -88,7 +88,7 @@
               [class]="getColorRAM(d.sistema.ram.usoPorcentaje)"
               [style.width.%]="d.sistema.ram.usoPorcentaje"></div>
           </div>
-          <div class="flex justify-between text-xs text-slate-500 mt-1">
+          <div class="flex justify-between text-xs text-[#666666] mt-1">
             <span>{{ d.sistema.ram.usadaMb }} MB usados</span>
             <span>{{ d.sistema.ram.totalMb }} MB total</span>
           </div>
@@ -105,21 +105,21 @@
               <div class="p-1.5 rounded-lg bg-emerald-600/20 border border-emerald-500/30">
                 <mat-icon class="text-emerald-400 !text-lg !w-5 !h-5 leading-none">storage</mat-icon>
               </div>
-              <span class="text-slate-400 text-xs font-semibold uppercase tracking-widest">MongoDB Ops</span>
+              <span class="text-[#666666] text-xs font-semibold uppercase tracking-widest">MongoDB Ops</span>
             </div>
             <span class="text-2xl font-bold text-white">{{ totalOps | number }}</span>
           </div>
-          <div class="grid grid-cols-3 gap-x-2 gap-y-1 mt-2">
+          <div class="grid grid-cols-3 gap-x-2 gap-y-1 mt-2 animate-slide-up">
             <div class="text-center">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider">Inserts</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider">Inserts</p>
               <p class="text-sm font-semibold text-emerald-400">{{ d.mongo.operaciones.inserts | number }}</p>
             </div>
             <div class="text-center">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider">Queries</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider">Queries</p>
               <p class="text-sm font-semibold text-sky-400">{{ d.mongo.operaciones.queries | number }}</p>
             </div>
             <div class="text-center">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider">Updates</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider">Updates</p>
               <p class="text-sm font-semibold text-amber-400">{{ d.mongo.operaciones.updates | number }}</p>
             </div>
           </div>
@@ -136,21 +136,21 @@
               <div class="p-1.5 rounded-lg bg-violet-600/20 border border-violet-500/30">
                 <mat-icon class="text-violet-400 !text-lg !w-5 !h-5 leading-none">speed</mat-icon>
               </div>
-              <span class="text-slate-400 text-xs font-semibold uppercase tracking-widest">Latencia HTTP</span>
+              <span class="text-[#666666] text-xs font-semibold uppercase tracking-widest">Latencia HTTP</span>
             </div>
-            <span class="text-2xl font-bold text-white">{{ d.http.latenciaPromedioMs }} <span class="text-sm text-slate-400">ms</span></span>
+            <span class="text-2xl font-bold text-white">{{ d.http.latenciaPromedioMs }} <span class="text-sm text-[#666666]">ms</span></span>
           </div>
-          <div class="grid grid-cols-3 gap-x-2 gap-y-1 mt-2">
+          <div class="grid grid-cols-3 gap-x-2 gap-y-1 mt-2 animate-slide-up">
             <div class="text-center">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider">Total Reqs</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider">Total Reqs</p>
               <p class="text-sm font-semibold text-violet-400">{{ d.http.totalRequests | number }}</p>
             </div>
             <div class="text-center">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider">Err 4xx</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider">Err 4xx</p>
               <p class="text-sm font-semibold text-amber-400">{{ d.http.errores4xx }}</p>
             </div>
             <div class="text-center">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider">Err 5xx</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider">Err 5xx</p>
               <p class="text-sm font-semibold text-red-400">{{ d.http.errores5xx }}</p>
             </div>
           </div>
@@ -160,7 +160,7 @@
     </div>
 
     <!-- ── ROW 2: NODE.JS + MONGODB DETAILS ────────────────────────────── -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6 animate-slide-up">
 
       <!-- Node.js Heap -->
       <div class="rounded-2xl bg-gradient-to-br from-slate-800/70 to-slate-900/70 border border-slate-700/50 p-5 backdrop-blur">
@@ -173,7 +173,7 @@
         <div class="space-y-3">
           <!-- Heap Used -->
           <div>
-            <div class="flex justify-between text-xs text-slate-400 mb-1">
+            <div class="flex justify-between text-xs text-[#666666] mb-1">
               <span>Heap Usado</span>
               <span>{{ d.sistema.nodejs.heapUsadoMb }} / {{ d.sistema.nodejs.heapTotalMb }} MB</span>
             </div>
@@ -184,19 +184,19 @@
           </div>
           <!-- RSS -->
           <div class="flex justify-between items-center px-1">
-            <span class="text-xs text-slate-500">RSS Total</span>
+            <span class="text-xs text-[#666666]">RSS Total</span>
             <span class="text-sm font-semibold text-amber-400">{{ d.sistema.nodejs.rssMb }} MB</span>
           </div>
           <div class="flex justify-between items-center px-1">
-            <span class="text-xs text-slate-500">Uptime Node.js</span>
+            <span class="text-xs text-[#666666]">Uptime Node.js</span>
             <span class="text-sm font-semibold text-white">{{ formatUptime(d.sistema.nodejs.uptimeSegundos) }}</span>
           </div>
           <div class="flex justify-between items-center px-1">
-            <span class="text-xs text-slate-500">Uptime Sistema</span>
+            <span class="text-xs text-[#666666]">Uptime Sistema</span>
             <span class="text-sm font-semibold text-white">{{ formatUptime(d.sistema.sistema.uptimeSegundos) }}</span>
           </div>
           <div class="flex justify-between items-center px-1">
-            <span class="text-xs text-slate-500">Plataforma</span>
+            <span class="text-xs text-[#666666]">Plataforma</span>
             <span class="text-sm font-semibold text-amber-300">{{ d.sistema.sistema.plataforma }}</span>
           </div>
         </div>
@@ -214,7 +214,7 @@
         <div class="space-y-3">
           <!-- Connections bar -->
           <div>
-            <div class="flex justify-between text-xs text-slate-400 mb-1">
+            <div class="flex justify-between text-xs text-[#666666] mb-1">
               <span>Conexiones activas</span>
               <span>{{ d.mongo.conexiones.actuales }} / {{ d.mongo.conexiones.actuales + d.mongo.conexiones.disponibles }}</span>
             </div>
@@ -223,21 +223,21 @@
                 [style.width.%]="(d.mongo.conexiones.actuales / (d.mongo.conexiones.actuales + d.mongo.conexiones.disponibles)) * 100"></div>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-3 mt-1">
+          <div class="grid grid-cols-2 gap-3 mt-1 animate-slide-up">
             <div class="bg-slate-700/30 rounded-xl p-3 border border-slate-700/40">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Total creadas</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider mb-1">Total creadas</p>
               <p class="text-lg font-bold text-emerald-400">{{ d.mongo.conexiones.totalCreadas | number }}</p>
             </div>
             <div class="bg-slate-700/30 rounded-xl p-3 border border-slate-700/40">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Red Entrada</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider mb-1">Red Entrada</p>
               <p class="text-lg font-bold text-sky-400">{{ d.mongo.red.bytesEntradaKb | number }} KB</p>
             </div>
             <div class="bg-slate-700/30 rounded-xl p-3 border border-slate-700/40">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Uptime DB</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider mb-1">Uptime DB</p>
               <p class="text-lg font-bold text-white">{{ formatUptime(d.mongo.uptime.segundos) }}</p>
             </div>
             <div class="bg-slate-700/30 rounded-xl p-3 border border-slate-700/40">
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Red Salida</p>
+              <p class="text-[10px] text-[#666666] uppercase tracking-wider mb-1">Red Salida</p>
               <p class="text-lg font-bold text-violet-400">{{ d.mongo.red.bytesSalidaKb | number }} KB</p>
             </div>
           </div>
@@ -254,7 +254,7 @@
         </div>
         <h2 class="text-sm font-semibold text-slate-200 uppercase tracking-widest">Desglose de operaciones MongoDB</h2>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 animate-slide-up">
         <ng-container *ngFor="let op of [
           { label: 'Inserts',   value: d.mongo.operaciones.inserts,   color: 'text-emerald-400', bg: 'bg-emerald-400' },
           { label: 'Queries',   value: d.mongo.operaciones.queries,   color: 'text-sky-400',     bg: 'bg-sky-400' },
@@ -263,7 +263,7 @@
           { label: 'Commands',  value: d.mongo.operaciones.commands,  color: 'text-pink-400',    bg: 'bg-pink-400' }
         ]">
           <div class="flex flex-col items-center bg-slate-700/30 rounded-xl p-3 border border-slate-700/40">
-            <p class="text-[10px] text-slate-500 uppercase tracking-wider mb-1.5">{{ op.label }}</p>
+            <p class="text-[10px] text-[#666666] uppercase tracking-wider mb-1.5">{{ op.label }}</p>
             <p class="text-2xl font-bold mb-2" [class]="op.color">{{ op.value | number }}</p>
             <!-- mini progress relative to totalOps -->
             <div class="h-1 w-full rounded-full bg-slate-700">

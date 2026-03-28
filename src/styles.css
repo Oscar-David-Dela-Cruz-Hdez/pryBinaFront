@@ -7,11 +7,11 @@
 /* Global Styles variables */
 :root {
   /* Colors - Light Theme (Default Cosmetic Elegance) */
-  --bg-color: #faf9f7; /* Soft creamy background */
-  --surface-color: #ffffff;
-  --surface-raised: #f0eae4;
+  --bg-color: #FAF8F5; /* Soft creamy background */
+  --surface-color: #FFFFFF;
+  --surface-raised: #f7f3ee;
 
-  --primary-color: #d4af37; /* Soft Gold */
+  --primary-color: #D4AF37; /* Soft Gold */
   --primary-color-hover: #b5952f;
 
   --accent-color: #e8b4b8; /* Rose Gold/Blush */
@@ -19,7 +19,7 @@
   --warn-color: #d32f2f; /* Error/Delete red */
   --warn-color-hover: #b71c1c;
 
-  --text-primary: #2c2c2c;
+  --text-primary: #2C2C2C;
   --text-secondary: #666666;
 
   --border-color: #e2dcd6;
@@ -43,19 +43,19 @@
 [data-theme="dark"] {
   /* Colors - Dark Theme (Premium Night Elegance) */
   --bg-color: #121212;
-  --surface-color: #1e1e1e;
+  --surface-color: #1E1E1E;
   --surface-raised: #2a2a2a;
 
-  --primary-color: #e5c158; /* Lighter soft gold for dark mode contrast */
+  --primary-color: #E5C158;
   --primary-color-hover: #f1d170;
 
-  --accent-color: #b7767b; /* Muted Rose Gold */
+  --accent-color: #b7767b;
 
-  --warn-color: #ef5350; /* Softer red for dark mode */
+  --warn-color: #ef5350;
   --warn-color-hover: #e53935;
 
-  --text-primary: #f0f0f0;
-  --text-secondary: #a0a0a0;
+  --text-primary: #F0F0F0;
+  --text-secondary: #A0A0A0;
 
   --border-color: #333333;
   --border-light: rgba(255, 255, 255, 0.05);

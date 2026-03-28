@@ -1,0 +1,79 @@
+<div class="admin-container">
+      <div class="header-section">
+        <h2>Gestión de Contactos</h2>
+        <button mat-raised-button color="primary" (click)="toggleForm()">
+          <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
+          {{ showForm ? 'Cancelar' : 'Nuevo Contacto' }}
+        </button>
+      </div>
+
+      <!-- Formulario Agregar/Editar -->
+      <mat-card *ngIf="showForm" class="mb-4 fade-in">
+        <mat-card-header>
+          <mat-card-title>{{ editingId ? 'Editar Contacto' : 'Agregar Nuevo Contacto' }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+            
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Tipo</mat-label>
+              <mat-select formControlName="tipo">
+                <mat-option value="email">Email</mat-option>
+                <mat-option value="telefono">Teléfono</mat-option>
+                <mat-option value="whatsapp">WhatsApp</mat-option>
+                <mat-option value="facebook">Facebook</mat-option>
+                <mat-option value="instagram">Instagram</mat-option>
+                <mat-option value="twitter">Twitter/X</mat-option>
+                <mat-option value="otro">Otro</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Valor / Enlace</mat-label>
+              <input matInput formControlName="valor" placeholder="Ej: +52 55 1234 5678 o enlace al perfil">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Icono (Material Icon)</mat-label>
+              <input matInput formControlName="icono" placeholder="Ej: call, email, public">
+              <mat-icon matSuffix *ngIf="contactForm.get('icono')?.value">{{ contactForm.get('icono')?.value }}</mat-icon>
+            </mat-form-field>
+
+            <div class="actions">
+              <button mat-stroked-button type="button" (click)="toggleForm()">Cancelar</button>
+              <button mat-raised-button color="primary" type="submit" [disabled]="contactForm.invalid || isLoading">
+                {{ isLoading ? 'Guardando...' : (editingId ? 'Actualizar' : 'Guardar') }}
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Lista de Contactos -->
+      <mat-card *ngIf="contactos.length > 0; else noData">
+        <mat-list>
+          <div *ngFor="let contacto of contactos">
+            <mat-list-item>
+              <mat-icon matListItemIcon>{{ getIcon(contacto) }}</mat-icon>
+              <div matListItemTitle class="contact-title">
+                <strong>{{ contacto.tipo | titlecase }}:</strong> {{ contacto.valor }}
+              </div>
+              <button mat-icon-button color="primary" (click)="editContacto(contacto)">
+                 <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" matListItemMeta (click)="deleteContacto(contacto._id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
+        </mat-list>
+      </mat-card>
+
+      <ng-template #noData>
+        <div class="empty-state">
+           <mat-icon>contact_phone</mat-icon>
+          <p>No hay contactos registrados.</p>
+        </div>
+      </ng-template>
+    </div>

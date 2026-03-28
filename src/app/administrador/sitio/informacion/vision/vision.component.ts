@@ -21,35 +21,8 @@ import { SiteInfoService } from '../../../../core/services/admin/site-info.servi
         MatButtonModule,
         MatSnackBarModule
     ],
-    template: `
-    <div class="admin-container fade-in">
-      <h2>Gestión de Visión</h2>
-      
-      <mat-card>
-        <mat-card-content>
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Visión de la Empresa</mat-label>
-                    <textarea matInput formControlName="vision" rows="8" placeholder="Escribe la visión aquí..."></textarea>
-                </mat-form-field>
-
-                <div class="actions">
-                    <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">
-                        {{ isLoading ? 'Guardando...' : 'Guardar Cambios' }}
-                    </button>
-                </div>
-            </form>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  `,
-    styles: [`
-    .admin-container { padding: 20px; max-width: 800px; margin: 0 auto; }
-    .full-width { width: 100%; }
-    .actions { display: flex; justify-content: flex-end; margin-top: 15px; }
-    .fade-in { animation: fadeIn 0.3s ease-in; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-  `]
+    templateUrl: './vision.component.html',
+    styleUrls: ['./vision.component.css']
 })
 export class VisionComponent implements OnInit {
     form!: FormGroup;

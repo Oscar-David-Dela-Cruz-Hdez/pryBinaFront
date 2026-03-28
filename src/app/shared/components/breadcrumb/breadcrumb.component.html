@@ -1,20 +1,24 @@
-<nav class="breadcrumb-container" *ngIf="breadcrumbs.length > 0">
-  <ol class="breadcrumb-list">
-    <!-- Item de inicio siempre estático -->
-    <li class="breadcrumb-item">
-      <a routerLink="/">Inicio</a>
-    </li>
-
-    <!-- Items dinámicos -->
-    <li class="breadcrumb-item" *ngFor="let crumb of breadcrumbs">
-      <span class="separator">/</span>
-      <!-- Si es el último item, solo texto, si no, es enlace -->
-      <a *ngIf="crumb !== breadcrumbs[breadcrumbs.length - 1]" [routerLink]="crumb.url">
-        {{ crumb.label }}
+<nav aria-label="breadcrumb" class="py-4 px-2 animate-slide-up">
+  <ol class="flex items-center space-x-2 text-sm text-[#666666] dark:text-[#A0A0A0]">
+    <li>
+      <a routerLink="/" class="flex items-center hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">
+        <mat-icon class="!text-[18px] mr-1">home</mat-icon>
+        Inicio
       </a>
-      <span *ngIf="crumb === breadcrumbs[breadcrumbs.length - 1]" class="active">
-        {{ crumb.label }}
-      </span>
     </li>
+    
+    <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+      <li class="flex items-center text-gray-400 dark:text-gray-600">
+        <mat-icon class="!text-[16px] mx-1">chevron_right</mat-icon>
+      </li>
+      <li *ngIf="!last">
+        <a [routerLink]="crumb.url" class="hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200 capitalize">
+          {{ crumb.label }}
+        </a>
+      </li>
+      <li *ngIf="last" class="text-[#2C2C2C] dark:text-[#F0F0F0] font-semibold capitalize" aria-current="page">
+        {{ crumb.label }}
+      </li>
+    </ng-container>
   </ol>
 </nav>

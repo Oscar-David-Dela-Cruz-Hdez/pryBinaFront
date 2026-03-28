@@ -1,0 +1,17 @@
+.admin-container { padding: 20px; max-width: 1000px; margin: 0 auto; }
+    .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .full-width { width: 100%; margin-bottom: 10px; }
+    .form-row { display: flex; gap: 15px; }
+    .half-width { flex: 1; margin-bottom: 10px; }
+    .mb-4 { margin-bottom: 20px; }
+    .mb-2 { margin-bottom: 10px; }
+    .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+    .empty-state { text-align: center; padding: 40px; color: #777; }
+    .empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; margin-bottom: 10px; }
+    .offers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .offer-card { display: flex; flex-direction: column; justify-content: space-between; }
+    .associations { margin-top: 10px; font-size: 0.9em; color: var(--text-secondary); }
+    .associations p { margin: 2px 0; }
+    .badge-inactive { color: red; font-size: 0.8em; font-weight: normal; }
+    .fade-in { animation: fadeIn 0.3s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }

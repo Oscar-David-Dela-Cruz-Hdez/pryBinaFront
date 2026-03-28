@@ -28,72 +28,8 @@ import { AdminUsersService } from '../../../core/services/admin/admin-users.serv
     MatSlideToggleModule,
     MatSnackBarModule
   ],
-  template: `
-    <div class="admin-container">
-      <h2>Gestión de Usuarios</h2>
-
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Filtrar usuarios</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por nombre, email, etc." #input>
-      </mat-form-field>
-
-      <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort>
-
-          <!-- Nombre -->
-          <ng-container matColumnDef="nombre">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-            <td mat-cell *matCellDef="let row"> {{row.nombre}} {{row.ap}} {{row.am}} </td>
-          </ng-container>
-
-          <!-- Email -->
-          <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-            <td mat-cell *matCellDef="let row"> {{row.email}} </td>
-          </ng-container>
-
-          <!-- Rol (Toggle) -->
-          <ng-container matColumnDef="rol">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Admin </th>
-            <td mat-cell *matCellDef="let row">
-              <mat-slide-toggle
-                [checked]="row.rol === 'admin'"
-                (change)="toggleRole(row, $event)"
-                color="primary">
-                {{ row.rol | titlecase }}
-              </mat-slide-toggle>
-            </td>
-          </ng-container>
-
-          <!-- Acciones -->
-          <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef> Acciones </th>
-            <td mat-cell *matCellDef="let row">
-              <button mat-icon-button color="warn" (click)="deleteUser(row)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-          <!-- Row shown when there is no matching data. -->
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No hay datos que coincidan con el filtro "{{input.value}}"</td>
-          </tr>
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .admin-container { padding: 20px; max-width: 1200px; margin: 0 auto; }
-    .filter-field { width: 100%; font-size: 14px; }
-    table { width: 100%; }
-    th { font-weight: bold; color: #444; }
-  `]
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'email', 'rol', 'acciones'];

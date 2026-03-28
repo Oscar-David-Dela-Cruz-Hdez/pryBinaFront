@@ -21,67 +21,8 @@ import { SiteInfoService } from '../../../../core/services/admin/site-info.servi
         MatButtonModule,
         MatSnackBarModule
     ],
-    template: `
-    <div class="admin-container fade-in">
-      <h2>Gestión de Ubicación</h2>
-      
-      <mat-card>
-        <mat-card-content>
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Dirección</mat-label>
-                    <input matInput formControlName="direccion" placeholder="Calle, número, ciudad...">
-                </mat-form-field>
-
-                <div class="row">
-                    <mat-form-field appearance="outline" class="half-width">
-                        <mat-label>Latitud</mat-label>
-                        <input matInput type="number" formControlName="latitud">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="half-width">
-                        <mat-label>Longitud</mat-label>
-                        <input matInput type="number" formControlName="longitud">
-                    </mat-form-field>
-                </div>
-
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>URL Google Maps (Iframe/Embed)</mat-label>
-                    <input matInput formControlName="googleMapsUrl" placeholder="https://www.google.com/maps/embed...">
-                </mat-form-field>
-
-                <div class="row">
-                    <mat-form-field appearance="outline" class="half-width">
-                        <mat-label>Teléfono</mat-label>
-                        <input matInput formControlName="telefono" placeholder="+52...">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="half-width">
-                        <mat-label>Horario</mat-label>
-                        <input matInput formControlName="horario" placeholder="Lunes a Viernes 9am - 6pm">
-                    </mat-form-field>
-                </div>
-
-                <div class="actions">
-                    <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">
-                        {{ isLoading ? 'Guardando...' : 'Guardar Cambios' }}
-                    </button>
-                </div>
-            </form>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  `,
-    styles: [`
-    .admin-container { padding: 20px; max-width: 800px; margin: 0 auto; }
-    .full-width { width: 100%; margin-bottom: 10px; }
-    .row { display: flex; gap: 15px; }
-    .half-width { flex: 1; }
-    .actions { display: flex; justify-content: flex-end; margin-top: 15px; }
-    .fade-in { animation: fadeIn 0.3s ease-in; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-  `]
+    templateUrl: './ubicacion.component.html',
+    styleUrls: ['./ubicacion.component.css']
 })
 export class AdminUbicacionComponent implements OnInit {
     form!: FormGroup;
