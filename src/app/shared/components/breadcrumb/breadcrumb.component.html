@@ -8,8 +8,8 @@
     </li>
     
     <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
-      <li class="flex items-center text-gray-400 dark:text-gray-600">
-        <mat-icon class="!text-[16px] mx-1">chevron_right</mat-icon>
+      <li class="flex items-center justify-center text-gray-400 dark:text-gray-600">
+        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none mx-1 mt-0.5">chevron_right</mat-icon>
       </li>
       <li *ngIf="!last">
         <a [routerLink]="crumb.url" class="hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200 capitalize">

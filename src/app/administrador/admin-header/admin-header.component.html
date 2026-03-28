@@ -1,140 +1,141 @@
-<header class="bg-[#D4AF37] dark:bg-[#1E1E1E] shadow-lg shadow-black/5 dark:shadow-black/40 hover:shadow-xl border-b border-purple-900/20 dark:border-[#333333] transition-all duration-300 sticky top-0 z-50">
+<header class="bg-[#FFFFFF]/80 dark:bg-[#1E1E1E]/80 backdrop-blur-md sticky top-0 z-50 border-b border-[#e2dcd6] dark:border-[#333333] shadow-sm animate-fade-in transition-all duration-300">
   <div class="max-w-screen-2xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
 
     <!-- Logo -->
-    <a routerLink="/admin/dashboard" class="flex-shrink-0">
+    <a routerLink="/admin/dashboard" class="flex-shrink-0 hover:scale-[1.02] transition-transform duration-300">
       <img src="assets/images/Panamericana.png" alt="Admin Dashboard" class="h-9 w-auto object-contain">
     </a>
 
     <!-- Nav -->
-    <nav class="hidden xl:flex items-center gap-0.5 flex-1 justify-center">
+    <nav class="hidden xl:flex items-center gap-1 flex-1 justify-center">
 
       <!-- 1. VENTAS Y MARKETING -->
       <button [matMenuTriggerFor]="ventasMenu"
-        class="flex items-center gap-1.5 px-3 py-2 text-white/75 hover:text-white hover:bg-[#FFFFFF]/10 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
-        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none">point_of_sale</mat-icon>
+        class="flex items-center gap-1.5 px-3 py-2 text-[#2C2C2C] dark:text-[#F0F0F0] font-semibold text-sm hover:text-[#D4AF37] dark:hover:text-[#E5C158] hover:bg-[#FAF8F5] dark:hover:bg-[#2A2A2A] rounded-xl transition-all duration-300 cursor-pointer hover:scale-[1.05] active:scale-95 ease-out">
+        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none text-[#D4AF37] dark:text-[#E5C158]">point_of_sale</mat-icon>
         Ventas
       </button>
-      <mat-menu #ventasMenu="matMenu">
-        <button mat-menu-item routerLink="/admin/ventas/reportes">
-          <mat-icon>bar_chart</mat-icon> Reportes y Estadísticas
+      <mat-menu #ventasMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]">
+        <button mat-menu-item routerLink="/admin/ventas/reportes" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">bar_chart</mat-icon> Reportes y Estadísticas
         </button>
-        <button mat-menu-item routerLink="/admin/ventas/metodos-pago">
-          <mat-icon>payments</mat-icon> Métodos de Pago
+        <button mat-menu-item routerLink="/admin/ventas/metodos-pago" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">payments</mat-icon> Métodos de Pago
         </button>
-        <button mat-menu-item routerLink="/admin/ventas/ofertas">
-          <mat-icon>local_offer</mat-icon> Ofertas
+        <button mat-menu-item routerLink="/admin/ventas/ofertas" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">local_offer</mat-icon> Ofertas
         </button>
-        <button mat-menu-item routerLink="/admin/ventas/carrusel">
-          <mat-icon>view_carousel</mat-icon> Carrusel
+        <button mat-menu-item routerLink="/admin/ventas/carrusel" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">view_carousel</mat-icon> Carrusel
         </button>
       </mat-menu>
 
       <!-- 2. INVENTARIO -->
       <button [matMenuTriggerFor]="inventarioMenu"
-        class="flex items-center gap-1.5 px-3 py-2 text-white/75 hover:text-white hover:bg-[#FFFFFF]/10 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
-        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none">inventory_2</mat-icon>
+        class="flex items-center gap-1.5 px-3 py-2 text-[#2C2C2C] dark:text-[#F0F0F0] font-semibold text-sm hover:text-[#D4AF37] dark:hover:text-[#E5C158] hover:bg-[#FAF8F5] dark:hover:bg-[#2A2A2A] rounded-xl transition-all duration-300 cursor-pointer hover:scale-[1.05] active:scale-95 ease-out">
+        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none text-[#D4AF37] dark:text-[#E5C158]">inventory_2</mat-icon>
         Inventario
       </button>
-      <mat-menu #inventarioMenu="matMenu">
-        <button mat-menu-item routerLink="/admin/inventario/productos">
-          <mat-icon>category</mat-icon> Productos
+      <mat-menu #inventarioMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]">
+        <button mat-menu-item routerLink="/admin/inventario/productos" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">category</mat-icon> Productos
         </button>
-        <button mat-menu-item routerLink="/admin/inventario/categorias">
-          <mat-icon>class</mat-icon> Categorías
+        <button mat-menu-item routerLink="/admin/inventario/categorias" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">class</mat-icon> Categorías
         </button>
-        <button mat-menu-item routerLink="/admin/inventario/stock">
-          <mat-icon>warning</mat-icon> Alertas de Stock
+        <button mat-menu-item routerLink="/admin/inventario/stock" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">warning</mat-icon> Alertas de Stock
         </button>
       </mat-menu>
 
       <!-- 3. PEDIDOS Y LOGÍSTICA -->
       <button [matMenuTriggerFor]="pedidosMenu"
-        class="flex items-center gap-1.5 px-3 py-2 text-white/75 hover:text-white hover:bg-[#FFFFFF]/10 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
-        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none">local_shipping</mat-icon>
+        class="flex items-center gap-1.5 px-3 py-2 text-[#2C2C2C] dark:text-[#F0F0F0] font-semibold text-sm hover:text-[#D4AF37] dark:hover:text-[#E5C158] hover:bg-[#FAF8F5] dark:hover:bg-[#2A2A2A] rounded-xl transition-all duration-300 cursor-pointer hover:scale-[1.05] active:scale-95 ease-out">
+        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none text-[#D4AF37] dark:text-[#E5C158]">local_shipping</mat-icon>
         Logística
       </button>
-      <mat-menu #pedidosMenu="matMenu">
-        <button mat-menu-item routerLink="/admin/pedidos/listado">
-          <mat-icon>list_alt</mat-icon> Gestionar Pedidos
+      <mat-menu #pedidosMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]">
+        <button mat-menu-item routerLink="/admin/pedidos/listado" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">list_alt</mat-icon> Gestionar Pedidos
         </button>
-        <button mat-menu-item routerLink="/admin/pedidos/metodos-envio">
-          <mat-icon>flight_takeoff</mat-icon> Paquetería / Envíos (CRUD)
+        <button mat-menu-item routerLink="/admin/pedidos/metodos-envio" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">flight_takeoff</mat-icon> Paquetería / Envíos (CRUD)
         </button>
       </mat-menu>
 
       <!-- 4. USUARIOS -->
       <button [matMenuTriggerFor]="usuariosMenu"
-        class="flex items-center gap-1.5 px-3 py-2 text-white/75 hover:text-white hover:bg-[#FFFFFF]/10 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
-        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none">group</mat-icon>
+         class="flex items-center gap-1.5 px-3 py-2 text-[#2C2C2C] dark:text-[#F0F0F0] font-semibold text-sm hover:text-[#D4AF37] dark:hover:text-[#E5C158] hover:bg-[#FAF8F5] dark:hover:bg-[#2A2A2A] rounded-xl transition-all duration-300 cursor-pointer hover:scale-[1.05] active:scale-95 ease-out">
+        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none text-[#D4AF37] dark:text-[#E5C158]">group</mat-icon>
         Usuarios
       </button>
-      <mat-menu #usuariosMenu="matMenu">
-        <button mat-menu-item routerLink="/admin/usuarios">
-          <mat-icon>manage_accounts</mat-icon> Gestión de Usuarios (CRUD)
+      <mat-menu #usuariosMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]">
+        <button mat-menu-item routerLink="/admin/usuarios" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">manage_accounts</mat-icon> Gestión de Usuarios
         </button>
       </mat-menu>
 
       <!-- 5. HERRAMIENTAS Y REPORTES -->
       <button [matMenuTriggerFor]="herramientasMenu"
-        class="flex items-center gap-1.5 px-3 py-2 text-white/75 hover:text-white hover:bg-[#FFFFFF]/10 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
-        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none">build</mat-icon>
+         class="flex items-center gap-1.5 px-3 py-2 text-[#2C2C2C] dark:text-[#F0F0F0] font-semibold text-sm hover:text-[#D4AF37] dark:hover:text-[#E5C158] hover:bg-[#FAF8F5] dark:hover:bg-[#2A2A2A] rounded-xl transition-all duration-300 cursor-pointer hover:scale-[1.05] active:scale-95 ease-out">
+        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none text-[#D4AF37] dark:text-[#E5C158]">build</mat-icon>
         Administración
       </button>
-      <mat-menu #herramientasMenu="matMenu">
-        <button mat-menu-item routerLink="/admin/herramientas">
-          <mat-icon>import_export</mat-icon> Importar/Exportar Datos
+      <mat-menu #herramientasMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]">
+        <button mat-menu-item routerLink="/admin/herramientas" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">import_export</mat-icon> Importar/Exportar Datos
         </button>
-        <button mat-menu-item routerLink="/admin/herramientas/respaldos">
-          <mat-icon>backup</mat-icon> Respaldar Base de Datos
+        <button mat-menu-item routerLink="/admin/herramientas/respaldos" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">backup</mat-icon> Respaldar Base de Datos
         </button>
-        <button mat-menu-item routerLink="/admin/herramientas/monitoreo">
-          <mat-icon>monitoring</mat-icon> Monitor de Rendimiento
+        <button mat-menu-item routerLink="/admin/herramientas/monitoreo" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">monitoring</mat-icon> Monitor de Rendimiento
         </button>
       </mat-menu>
 
       <!-- 6. GESTIÓN DEL SITIO (CMS) -->
       <button [matMenuTriggerFor]="webMenu"
-        class="flex items-center gap-1.5 px-3 py-2 text-white/75 hover:text-white hover:bg-[#FFFFFF]/10 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
-        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none">web</mat-icon>
+         class="flex items-center gap-1.5 px-3 py-2 text-[#2C2C2C] dark:text-[#F0F0F0] font-semibold text-sm hover:text-[#D4AF37] dark:hover:text-[#E5C158] hover:bg-[#FAF8F5] dark:hover:bg-[#2A2A2A] rounded-xl transition-all duration-300 cursor-pointer hover:scale-[1.05] active:scale-95 ease-out">
+        <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none text-[#D4AF37] dark:text-[#E5C158]">web</mat-icon>
         Sitio Web
       </button>
-      <mat-menu #webMenu="matMenu">
-        <button mat-menu-item routerLink="/admin/sitio/mision"><mat-icon>flag</mat-icon> Misión</button>
-        <button mat-menu-item routerLink="/admin/sitio/historia"><mat-icon>history_edu</mat-icon> Historia</button>
-        <button mat-menu-item routerLink="/admin/sitio/vision"><mat-icon>visibility</mat-icon> Visión</button>
-        <button mat-menu-item routerLink="/admin/sitio/politicas"><mat-icon>policy</mat-icon> Políticas de Privacidad</button>
-        <button mat-menu-item routerLink="/admin/sitio/terminos"><mat-icon>gavel</mat-icon> Términos de Servicio</button>
-        <button mat-menu-item routerLink="/admin/sitio/ubicacion"><mat-icon>location_on</mat-icon> Ubicación</button>
-        <button mat-menu-item routerLink="/admin/sitio/faqs"><mat-icon>quiz</mat-icon> Preguntas Frecuentes</button>
-        <button mat-menu-item routerLink="/admin/sitio/contactos"><mat-icon>contact_phone</mat-icon> Contactos y Redes</button>
+      <mat-menu #webMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]">
+        <button mat-menu-item routerLink="/admin/sitio/mision" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors"><mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">flag</mat-icon> Misión</button>
+        <button mat-menu-item routerLink="/admin/sitio/historia" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors"><mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">history_edu</mat-icon> Historia</button>
+        <button mat-menu-item routerLink="/admin/sitio/vision" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors"><mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">visibility</mat-icon> Visión</button>
+        <button mat-menu-item routerLink="/admin/sitio/politicas" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors"><mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">policy</mat-icon> Políticas de Privacidad</button>
+        <button mat-menu-item routerLink="/admin/sitio/terminos" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors"><mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">gavel</mat-icon> Términos de Servicio</button>
+        <button mat-menu-item routerLink="/admin/sitio/ubicacion" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors"><mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">location_on</mat-icon> Ubicación</button>
+        <button mat-menu-item routerLink="/admin/sitio/faqs" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors"><mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">quiz</mat-icon> Preguntas Frecuentes</button>
+        <button mat-menu-item routerLink="/admin/sitio/contactos" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors"><mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">contact_phone</mat-icon> Contactos y Redes</button>
       </mat-menu>
 
     </nav>
 
     <!-- Acciones derecha -->
-    <div class="flex items-center gap-1 flex-shrink-0">
-      <span class="hidden lg:block text-white/60 text-sm font-medium pr-3 border-r border-white/20">
-        Hola, {{ adminName$ | async }}
+    <div class="flex items-center gap-4 flex-shrink-0">
+      <span class="hidden lg:block text-sm font-medium text-[#666666] dark:text-[#A0A0A0] pr-4 border-r border-[#e2dcd6] dark:border-[#333333]">
+        Hola, <span class="text-[#D4AF37] dark:text-[#E5C158]">{{ adminName$ | async }}</span>
       </span>
 
-      <button (click)="themeService.toggleTheme()"
+      <button mat-icon-button (click)="themeService.toggleTheme()"
         [title]="themeService.isDarkMode() ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro'"
-        class="p-2 rounded-lg text-white/75 hover:text-white hover:bg-[#FFFFFF]/10 transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
-        <mat-icon class="!text-xl leading-none">{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        class="text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors hover:scale-[1.1] active:scale-95">
+        <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
 
-      <button [matMenuTriggerFor]="userMenu"
-        class="p-2 rounded-lg text-white/75 hover:text-white hover:bg-[#FFFFFF]/10 transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
-        <mat-icon class="!text-xl leading-none">account_circle</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="userMenu"
+        class="text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors bg-gray-100 dark:bg-[#2A2A2A] rounded-full hover:shadow-md hover:scale-[1.05] active:scale-95">
+        <mat-icon>account_circle</mat-icon>
       </button>
-      <mat-menu #userMenu="matMenu">
-        <button mat-menu-item routerLink="/perfil">
-          <mat-icon>person</mat-icon>
+      
+      <mat-menu #userMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]">
+        <button mat-menu-item routerLink="/perfil" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">person</mat-icon>
           <span>Mi Perfil</span>
         </button>
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>logout</mat-icon>
+        <button mat-menu-item (click)="logout()" class="!text-[#d32f2f] dark:!text-[#ef5350] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <mat-icon class="!text-[#d32f2f] dark:!text-[#ef5350]">logout</mat-icon>
           <span>Cerrar Sesión</span>
         </button>
       </mat-menu>
