@@ -18,9 +18,11 @@ export class ThemeService {
     if (savedTheme === 'dark') {
       this.isDarkMode.set(true);
       document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.classList.add('dark');
     } else {
       this.isDarkMode.set(false);
       document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove('dark');
     }
   }
 
@@ -30,12 +32,15 @@ export class ThemeService {
       // Switch back to Light
       this.isDarkMode.set(false);
       document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove('dark');
       localStorage.setItem(this.THEME_KEY, 'light');
     } else {
       // Switch to Dark
       this.isDarkMode.set(true);
       document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.classList.add('dark');
       localStorage.setItem(this.THEME_KEY, 'dark');
     }
   }
 }
+
