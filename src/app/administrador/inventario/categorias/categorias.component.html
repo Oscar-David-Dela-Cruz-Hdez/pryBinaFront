@@ -1,74 +1,75 @@
 <div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4 gap-4">
-        <div class="mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4"><h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Categorías</h2></div>
-        <button mat-raised-button color="primary" class="!rounded-xl !py-2 !px-6 hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20" (click)="toggleForm()">
-          <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
-          {{ showForm ? 'Cancelar' : 'Nueva Categoría' }}
-        </button>
-      </div>
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4 gap-4">
+    <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Categorías</h2>
+    <button mat-raised-button
+      class="!rounded-xl !py-2 !px-6 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20"
+      (click)="toggleForm()">
+      <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
+      {{ showForm ? 'Cancelar' : 'Nueva Categoría' }}
+    </button>
+  </div>
 
-      <!-- Formulario -->
-      <mat-card *ngIf="showForm" class="mb-4 fade-in">
-        <mat-card-header>
-          <mat-card-title>{{ isEditing ? 'Editar Categoría' : 'Agregar Categoría' }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <form [formGroup]="catForm" (ngSubmit)="onSubmit()">
-            
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nombre</mat-label>
-              <input matInput formControlName="nombre" placeholder="Ej: Electrónica">
-            </mat-form-field>
+  <!-- Formulario -->
+  <mat-card *ngIf="showForm" class="mb-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 animate-fade-in">
+    <mat-card-header class="p-6 pb-0">
+      <mat-card-title class="text-xl font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">
+        {{ isEditing ? 'Editar Categoría' : 'Agregar Categoría' }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="p-6">
+      <form [formGroup]="catForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" placeholder="Ej: Electrónica" class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
+        </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Descripción</mat-label>
-              <textarea matInput formControlName="descripcion" rows="2"></textarea>
-            </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="descripcion" rows="2" class="bg-[#FAF8F5] dark:bg-[#2A2A2A]"></textarea>
+        </mat-form-field>
 
-
-
-            <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-[#e2dcd6] dark:border-[#333333]">
-
-              <button mat-stroked-button class="!rounded-xl !py-2 !px-6 hover:bg-gray-50 dark:hover:bg-[#333333] transition-colors duration-300" type="button" (click)="toggleForm()">Cancelar</button>
-              <button mat-raised-button color="primary" class="!rounded-xl !py-2 !px-6 hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20" type="submit" [disabled]="catForm.invalid || isLoading">
-                {{ isLoading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
-              </button>
-            
-</div>
-          </form>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- Lista -->
-      <mat-card *ngIf="categorias.length > 0; else noData">
-        <mat-list>
-          <div *ngFor="let cat of categorias">
-            <mat-list-item>
-              <mat-icon matListItemIcon>category</mat-icon>
-              
-              <div matListItemTitle>
-                <strong>{{ cat.nombre }}</strong>
-              </div>
-              <div matListItemLine>{{ cat.descripcion }}</div>
-              
-              <div matListItemMeta>
-                <button mat-icon-button color="primary" (click)="editCat(cat)">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="deleteCat(cat)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-          </div>
-        </mat-list>
-      </mat-card>
-
-      <ng-template #noData>
-        <div class="empty-state">
-          <mat-icon>category</mat-icon>
-          <p>No hay categorías registradas.</p>
+        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
+          <button mat-stroked-button
+            class="!rounded-xl !py-2 !px-6 hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-colors duration-300"
+            type="button" (click)="toggleForm()">
+            Cancelar
+          </button>
+          <button mat-raised-button
+            class="!rounded-xl !py-2 !px-6 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20"
+            type="submit" [disabled]="catForm.invalid || isLoading">
+            {{ isLoading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
+          </button>
         </div>
-      </ng-template>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Lista -->
+  <mat-card *ngIf="categorias.length > 0; else noData" class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 animate-fade-in">
+    <mat-list>
+      <div *ngFor="let cat of categorias" class="hover:bg-[#FAF8F5]/30 dark:hover:bg-[#2A2A2A]/30 transition-colors duration-200">
+        <mat-list-item>
+          <mat-icon matListItemIcon class="text-[#D4AF37] dark:text-[#E5C158]">category</mat-icon>
+          <div matListItemTitle class="text-[#2C2C2C] dark:text-[#F0F0F0] font-medium">{{ cat.nombre }}</div>
+          <div matListItemLine class="text-[#666666] dark:text-[#A0A0A0]">{{ cat.descripcion }}</div>
+          <div matListItemMeta>
+            <button mat-icon-button class="text-[#D4AF37] dark:text-[#E5C158] hover:scale-110 transition-transform" (click)="editCat(cat)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="text-[#F44336] hover:scale-110 transition-transform" (click)="deleteCat(cat)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+        <mat-divider class="border-[#e2dcd6]/30 dark:border-[#333333]/30"></mat-divider>
+      </div>
+    </mat-list>
+  </mat-card>
+
+  <ng-template #noData>
+    <div class="empty-state flex flex-col items-center justify-center gap-4 py-12 bg-[#FAF8F5]/50 dark:bg-[#2A2A2A]/50 rounded-2xl">
+      <mat-icon class="text-4xl text-[#D4AF37] dark:text-[#E5C158]">category</mat-icon>
+      <p class="text-[#666666] dark:text-[#A0A0A0]">No hay categorías registradas.</p>
     </div>
+  </ng-template>
+</div>

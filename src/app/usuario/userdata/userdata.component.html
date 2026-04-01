@@ -1,19 +1,18 @@
-<div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333] p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
-  <div class="mb-6 pb-6 border-b border-[#e2dcd6] dark:border-[#333333] transition-all duration-300">
+<div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333]/30 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
+  <div class="mb-6 pb-6 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30 transition-all duration-300">
     <h2 class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">Datos Personales</h2>
-    <p class="text-sm text-[#666666] dark:text-[#666666] mt-1">Actualiza tu información personal</p>
+    <p class="text-sm text-[#666666] dark:text-[#A0A0A0] mt-1">Actualiza tu información personal</p>
   </div>
 
   <form [formGroup]="userdataForm" (ngSubmit)="onSubmit()" class="space-y-5">
-
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 animate-slide-up">
       <!-- Nombre -->
       <div>
         <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Nombre/s</label>
         <div class="relative">
           <input formControlName="nombre"
-            class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
-          <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] !text-xl pointer-events-none">person</mat-icon>
+            class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
+          <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] !text-xl pointer-events-none">person</mat-icon>
         </div>
         <p *ngIf="userdataForm.get('nombre')?.hasError('required') && userdataForm.get('nombre')?.touched" class="mt-1.5 text-xs text-red-500">El nombre es requerido</p>
       </div>
@@ -22,14 +21,14 @@
       <div>
         <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Apellido Paterno</label>
         <input formControlName="ap"
-          class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
+          class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
       </div>
 
       <!-- Apellido Materno -->
       <div>
         <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Apellido Materno</label>
         <input formControlName="am"
-          class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
+          class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
       </div>
 
       <!-- Username -->
@@ -37,8 +36,8 @@
         <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Nombre de Usuario</label>
         <div class="relative">
           <input formControlName="username"
-            class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
-          <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] !text-xl pointer-events-none">account_circle</mat-icon>
+            class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
+          <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] !text-xl pointer-events-none">account_circle</mat-icon>
         </div>
         <p *ngIf="userdataForm.get('username')?.hasError('required') && userdataForm.get('username')?.touched" class="mt-1.5 text-xs text-red-500">El usuario es requerido</p>
       </div>
@@ -46,12 +45,12 @@
       <!-- Email (readonly) -->
       <div class="sm:col-span-2">
         <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">
-          Email <span class="text-xs text-[#666666] font-normal">(No se puede cambiar)</span>
+          Email <span class="text-xs text-[#666666] dark:text-[#A0A0A0] font-normal">(No se puede cambiar)</span>
         </label>
         <div class="relative">
           <input formControlName="email" readonly
-            class="w-full px-4 py-3 pr-10 bg-gray-100 dark:bg-[#121212]/60 border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#666666] dark:text-[#666666] cursor-not-allowed transition-all duration-300">
-          <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] !text-xl pointer-events-none">email</mat-icon>
+            class="w-full px-4 py-3 pr-10 bg-gray-100/50 dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl text-[#666666] dark:text-[#A0A0A0] cursor-not-allowed transition-all duration-300">
+          <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] !text-xl pointer-events-none">email</mat-icon>
         </div>
       </div>
 
@@ -60,8 +59,8 @@
         <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Teléfono</label>
         <div class="relative">
           <input type="tel" formControlName="telefono"
-            class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
-          <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] !text-xl pointer-events-none">phone</mat-icon>
+            class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
+          <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] !text-xl pointer-events-none">phone</mat-icon>
         </div>
         <p *ngIf="userdataForm.get('telefono')?.hasError('required') && userdataForm.get('telefono')?.touched" class="mt-1.5 text-xs text-red-500">El teléfono es requerido</p>
       </div>
@@ -73,6 +72,5 @@
         Guardar Cambios
       </button>
     </div>
-
   </form>
 </div>

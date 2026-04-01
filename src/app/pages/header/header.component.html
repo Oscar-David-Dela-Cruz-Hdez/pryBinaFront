@@ -1,6 +1,5 @@
-<header class="bg-[#FFFFFF] dark:bg-[#1E1E1E] shadow-sm dark:border-b dark:border-[#333333] sticky top-0 z-50 transition-all duration-300">
+<header class="bg-[#FFFFFF] dark:bg-[#1E1E1E] shadow-sm dark:border-b dark:border-[#333333]/30 sticky top-0 z-50 transition-all duration-300">
   <div class="max-w-screen-xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
-
     <!-- Logo -->
     <a routerLink="/" class="flex-shrink-0">
       <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana" class="h-10 w-auto object-contain">
@@ -9,41 +8,40 @@
     <!-- Nav Links -->
     <nav class="hidden md:flex items-center gap-0.5">
       <a routerLink="/productos"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 transition-all duration-200">
+        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
         Productos
       </a>
       <a routerLink="/cabello"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 transition-all duration-200">
+        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
         Cabello
       </a>
       <a routerLink="/cosmeticos"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 transition-all duration-200">
+        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
         Cosméticos
       </a>
       <a routerLink="/ofertas"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 transition-all duration-200">
+        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
         Ofertas
       </a>
       <a routerLink="/ubicacion"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 transition-all duration-200">
+        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
         Ubicación
       </a>
       <a routerLink="/contacto"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 transition-all duration-200">
+        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
         Contacto
       </a>
     </nav>
 
     <!-- Acciones -->
     <div class="flex items-center gap-1.5">
-
       <!-- Buscador -->
-      <div class="hidden sm:flex items-center bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl px-3 py-1.5 gap-2 transition-all duration-300">
+      <div class="hidden sm:flex items-center bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl px-3 py-1.5 gap-2 transition-all duration-300">
         <input type="text" placeholder="Buscar productos..."
           [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"
-          class="bg-transparent text-sm text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-slate-500 outline-none w-36 transition-all duration-300">
+          class="bg-transparent text-sm text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-[#666666] dark:placeholder-[#A0A0A0] outline-none w-36 transition-all duration-300">
         <button (click)="onSearch()"
-          class="text-[#666666] dark:text-[#666666] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+          class="text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
           <mat-icon class="!text-[18px] !w-[18px] !h-[18px] leading-none">search</mat-icon>
         </button>
       </div>
@@ -51,37 +49,36 @@
       <!-- Dark Mode Toggle -->
       <button (click)="themeService.toggleTheme()"
         [title]="themeService.isDarkMode() ? 'Modo Claro' : 'Modo Oscuro'"
-        class="p-2 rounded-lg text-[#666666] dark:text-[#666666] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+        class="p-2 rounded-lg text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
         <mat-icon class="!text-xl leading-none">{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
 
       <!-- Carrito -->
       <a mat-button routerLink="/carrito"
-        class="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 rounded-xl transition-all duration-200">
+        class="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 rounded-xl transition-all duration-200">
         <mat-icon [matBadge]="cartCount > 0 ? cartCount : null" matBadgeColor="warn" class="!text-xl leading-none">shopping_cart</mat-icon>
         <span class="hidden lg:block">Carrito</span>
       </a>
 
       <!-- Usuario -->
       <button [matMenuTriggerFor]="userMenu"
-        class="p-2 rounded-lg text-[#666666] dark:text-[#666666] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] hover:bg-[#D4AF37]/5 dark:hover:bg-[#A78BFA]/10 transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+        class="p-2 rounded-lg text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
         <mat-icon class="!text-xl leading-none">person_outline</mat-icon>
       </button>
-      <mat-menu #userMenu="matMenu">
-        <a mat-menu-item routerLink="/login">
-          <mat-icon>login</mat-icon>
+      <mat-menu #userMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg !border !border-[#e2dcd6]/30 dark:!border-[#333333]/30">
+        <a mat-menu-item routerLink="/login" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5]/50 dark:hover:!bg-[#2A2A2A]/50 transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">login</mat-icon>
           <span>Iniciar Sesión</span>
         </a>
-        <a mat-menu-item routerLink="/register">
-          <mat-icon>person_add</mat-icon>
+        <a mat-menu-item routerLink="/register" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5]/50 dark:hover:!bg-[#2A2A2A]/50 transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">person_add</mat-icon>
           <span>Registrarse</span>
         </a>
-        <a mat-menu-item routerLink="/password-recovery">
-          <mat-icon>lock_reset</mat-icon>
+        <a mat-menu-item routerLink="/password-recovery" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5]/50 dark:hover:!bg-[#2A2A2A]/50 transition-colors">
+          <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">lock_reset</mat-icon>
           <span>Recuperar Contraseña</span>
         </a>
       </mat-menu>
-
     </div>
   </div>
 </header>

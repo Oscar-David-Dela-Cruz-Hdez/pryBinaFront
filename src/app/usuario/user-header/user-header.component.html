@@ -1,9 +1,8 @@
-<header class="bg-[#FFFFFF]/80 dark:bg-[#1E1E1E]/80 backdrop-blur-md sticky top-0 z-50 border-b border-[#e2dcd6] dark:border-[#333333] shadow-sm animate-fade-in transition-all duration-300">
+<header class="bg-[#FFFFFF]/80 dark:bg-[#1E1E1E]/80 backdrop-blur-md sticky top-0 z-50 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30 shadow-sm animate-fade-in transition-all duration-300">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
       <div class="flex-shrink-0 hover:scale-[1.02] transition-transform duration-300">
         <a routerLink="/" class="flex items-center gap-3">
-          <!-- TODO: Logo dark mode integration if needed -->
           <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana" class="h-12 w-auto object-contain">
         </a>
       </div>
@@ -19,25 +18,27 @@
           Bienvenido, <span class="text-[#D4AF37] dark:text-[#E5C158]">{{ userName$ | async }}</span>
         </span>
 
-        <button mat-icon-button (click)="themeService.toggleTheme()" [title]="themeService.isDarkMode() ? 'Modo Claro' : 'Modo Oscuro'" class="text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors hover:scale-[1.1] active:scale-95">
+        <button mat-icon-button (click)="themeService.toggleTheme()" [title]="themeService.isDarkMode() ? 'Modo Claro' : 'Modo Oscuro'"
+          class="text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors hover:scale-[1.1] active:scale-95">
           <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
         </button>
 
-        <a routerLink="/carrito" class="flex items-center gap-2 bg-[#FAF8F5] dark:bg-[#121212] px-4 py-2 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] hover:bg-[#D4AF37] dark:hover:bg-[#E5C158] hover:text-white dark:hover:text-[#121212] transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95">
+        <a routerLink="/carrito" class="flex items-center gap-2 bg-[#FAF8F5] dark:bg-[#2A2A2A] px-4 py-2 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] hover:bg-[#D4AF37] dark:hover:bg-[#E5C158] hover:text-white dark:hover:text-[#0F172A] transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95">
           <mat-icon class="!text-[20px] mb-1">shopping_cart</mat-icon>
           <span class="hidden sm:block font-semibold text-sm">Carrito</span>
         </a>
 
-        <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario" class="text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors bg-gray-100 dark:bg-[#2A2A2A] rounded-full hover:shadow-md hover:scale-[1.05] active:scale-95">
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario"
+          class="text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors bg-gray-100/50 dark:bg-[#2A2A2A] rounded-full hover:shadow-md hover:scale-[1.05] active:scale-95">
           <mat-icon>account_circle</mat-icon>
         </button>
-        
-        <mat-menu #userMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]">
-          <a mat-menu-item routerLink="/perfil" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+
+        <mat-menu #userMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]/30">
+          <a mat-menu-item routerLink="/perfil" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5]/50 dark:hover:!bg-[#2A2A2A]/50 transition-colors">
             <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">settings</mat-icon>
             <span>Editar Perfil</span>
           </a>
-          <button mat-menu-item (click)="logout()" class="!text-[#d32f2f] dark:!text-[#ef5350] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A] transition-colors">
+          <button mat-menu-item (click)="logout()" class="!text-[#d32f2f] dark:!text-[#ef5350] hover:!bg-[#FAF8F5]/50 dark:hover:!bg-[#2A2A2A]/50 transition-colors">
             <mat-icon class="!text-[#d32f2f] dark:!text-[#ef5350]">logout</mat-icon>
             <span>Cerrar Sesión</span>
           </button>

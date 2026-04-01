@@ -6,14 +6,14 @@
 
     <!-- Estado vacío -->
     <div *ngIf="(cartItems$ | async)?.length === 0; else cartContent"
-      class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333] p-20 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
-      <mat-icon class="!text-7xl text-slate-200 dark:text-slate-700 mb-4">remove_shopping_cart</mat-icon>
+      class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333]/30 p-20 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
+      <mat-icon class="!text-7xl text-[#e2dcd6] dark:text-[#333333] mb-4">remove_shopping_cart</mat-icon>
       <h3 class="text-xl font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] mb-2 transition-all duration-300">
         Tu carrito está vacío
       </h3>
-      <p class="text-[#666666] dark:text-[#666666] mb-6">¡Agrega algunos productos increíbles de nuestro catálogo!</p>
+      <p class="text-[#666666] dark:text-[#A0A0A0] mb-6">¡Agrega algunos productos increíbles de nuestro catálogo!</p>
       <a routerLink="/productos"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold hover:opacity-90 transition-all duration-300">
+        class="inline-flex items-center gap-2 px-6 py-3 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold hover:opacity-90 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
         <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">store</mat-icon>
         Ir al Catálogo
       </a>
@@ -21,13 +21,12 @@
 
     <ng-template #cartContent>
       <div class="flex flex-col lg:flex-row gap-8">
-
         <!-- Lista de Items -->
         <div class="flex-1 space-y-4">
           <div *ngFor="let item of (cartItems$ | async)"
-            class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333] p-5 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
+            class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333]/30 p-5 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
             <img [src]="item.imagen" [alt]="item.nombre"
-              class="w-20 h-20 rounded-xl object-cover flex-shrink-0 bg-gray-50 dark:bg-[#121212]">
+              class="w-20 h-20 rounded-xl object-cover flex-shrink-0 bg-[#FAF8F5] dark:bg-[#2A2A2A]">
             <div class="flex-1 min-w-0">
               <h4 class="font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] truncate transition-all duration-300">
                 {{ item.nombre }}
@@ -37,16 +36,16 @@
               </p>
             </div>
             <!-- Controles de cantidad -->
-            <div class="flex items-center gap-1 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl p-1 transition-all duration-300">
+            <div class="flex items-center gap-1 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl p-1 transition-all duration-300">
               <button (click)="updateQuantity(item, item.cantidad - 1)" [disabled]="item.cantidad <= 1"
-                class="w-8 h-8 flex items-center justify-center text-[#666666] dark:text-[#666666] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] disabled:opacity-30 rounded-lg transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="w-8 h-8 flex items-center justify-center text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] disabled:opacity-30 rounded-lg transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                 <mat-icon class="!text-base">remove</mat-icon>
               </button>
               <span class="text-sm font-bold text-[#2C2C2C] dark:text-[#F0F0F0] w-8 text-center transition-all duration-300">
                 {{ item.cantidad }}
               </span>
               <button (click)="updateQuantity(item, item.cantidad + 1)"
-                class="w-8 h-8 flex items-center justify-center text-[#666666] dark:text-[#666666] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] rounded-lg transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="w-8 h-8 flex items-center justify-center text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                 <mat-icon class="!text-base">add</mat-icon>
               </button>
             </div>
@@ -55,14 +54,14 @@
                 {{ (item.precio * item.cantidad) | currency }}
               </p>
               <button (click)="removeItem(item._id)"
-                class="text-red-400 hover:text-red-600 dark:text-red-500 dark:hover:text-red-400 transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="text-[#F44336] hover:text-[#D32F2F] dark:text-[#F44336] dark:hover:text-[#EF9A9A] transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                 <mat-icon class="!text-xl">delete</mat-icon>
               </button>
             </div>
           </div>
 
           <button (click)="clearCart()"
-            class="flex items-center gap-2 px-4 py-2 text-sm text-red-500 dark:text-red-400 border border-red-200 dark:border-red-800/40 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+            class="flex items-center gap-2 px-4 py-2 text-sm text-[#F44336] dark:text-[#EF9A9A] border border-[#F44336]/30 dark:border-[#EF9A9A]/30 rounded-xl hover:bg-[#F44336]/10 dark:hover:bg-[#EF9A9A]/10 transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
             <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">delete_sweep</mat-icon>
             Vaciar Carrito
           </button>
@@ -70,21 +69,21 @@
 
         <!-- Resumen del Pedido -->
         <aside class="lg:w-80 flex-shrink-0">
-          <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333] p-6 sticky top-24 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
-            <h3 class="text-lg font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mb-6 pb-4 border-b border-[#e2dcd6] dark:border-[#333333] transition-all duration-300">
+          <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333]/30 p-6 sticky top-24 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
+            <h3 class="text-lg font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mb-6 pb-4 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30 transition-all duration-300">
               Resumen del Pedido
             </h3>
             <div class="space-y-3 mb-4">
               <div class="flex justify-between text-sm">
-                <span class="text-[#666666] dark:text-[#666666]">Subtotal</span>
+                <span class="text-[#666666] dark:text-[#A0A0A0]">Subtotal</span>
                 <span class="font-medium text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">{{ total | currency }}</span>
               </div>
               <div class="flex justify-between text-sm">
-                <span class="text-[#666666] dark:text-[#666666]">Envío</span>
+                <span class="text-[#666666] dark:text-[#A0A0A0]">Envío</span>
                 <span class="text-emerald-500 font-medium">Calculado al pagar</span>
               </div>
             </div>
-            <div class="border-t border-[#e2dcd6] dark:border-[#333333] pt-4 mb-6 transition-all duration-300">
+            <div class="border-t border-[#e2dcd6]/30 dark:border-[#333333]/30 pt-4 mb-6 transition-all duration-300">
               <div class="flex justify-between items-center">
                 <span class="font-bold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">Total</span>
                 <span class="text-xl font-bold text-[#D4AF37] dark:text-[#E5C158] transition-all duration-300">{{ total | currency }}</span>
@@ -96,7 +95,6 @@
             </button>
           </div>
         </aside>
-
       </div>
     </ng-template>
   </div>

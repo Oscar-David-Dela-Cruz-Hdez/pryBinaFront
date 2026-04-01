@@ -4,11 +4,11 @@
     <app-admin-header *ngIf="(userRole$ | async) === 'admin'"></app-admin-header>
     <app-user-header *ngIf="(userRole$ | async) === 'usuario'"></app-user-header>
   </ng-container>
-  
+
   <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in w-full">
-    <app-breadcrumb></app-breadcrumb>
+    <app-breadcrumb class="mb-6"></app-breadcrumb>
     <router-outlet></router-outlet>
   </main>
-  
+
   <app-footer class="mt-auto"></app-footer>
 </div>

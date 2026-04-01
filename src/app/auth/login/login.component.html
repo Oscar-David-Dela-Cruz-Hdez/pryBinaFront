@@ -11,11 +11,10 @@
           <h1 class="text-2xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">
             Iniciar Sesión
           </h1>
-          <p class="mt-1 text-sm text-[#666666] dark:text-[#666666]">Bienvenido de vuelta a Panamericana</p>
+          <p class="mt-1 text-sm text-[#666666] dark:text-[#A0A0A0]">Bienvenido de vuelta a Panamericana</p>
         </div>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmitEmailPassword()" class="space-y-5">
-
           <!-- Email -->
           <div>
             <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">
@@ -23,8 +22,8 @@
             </label>
             <div class="relative">
               <input type="email" placeholder="ejemplo@correo.com" formControlName="email"
-                class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
-              <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] !text-xl pointer-events-none">email</mat-icon>
+                class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-[#A0A0A0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
+              <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] !text-xl pointer-events-none">email</mat-icon>
             </div>
             <p *ngIf="email?.hasError('required') && email?.touched" class="mt-1.5 text-xs text-red-500">El email es requerido</p>
             <p *ngIf="email?.hasError('email') && email?.touched" class="mt-1.5 text-xs text-red-500">El formato del email no es válido</p>
@@ -37,9 +36,9 @@
             </label>
             <div class="relative">
               <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                class="w-full px-4 py-3 pr-12 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
+                class="w-full px-4 py-3 pr-12 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-[#A0A0A0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
               <button type="button" (click)="togglePasswordVisibility()"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                 <mat-icon class="!text-xl">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
             </div>
@@ -58,12 +57,11 @@
         <div class="mt-6">
           <div class="relative flex items-center gap-3 mb-4">
             <div class="flex-1 border-t border-[#e2dcd6] dark:border-[#333333] transition-all duration-300"></div>
-            <span class="text-xs text-[#666666] dark:text-[#666666]">O continúa con</span>
+            <span class="text-xs text-[#666666] dark:text-[#A0A0A0]">O continúa con</span>
             <div class="flex-1 border-t border-[#e2dcd6] dark:border-[#333333] transition-all duration-300"></div>
           </div>
           <div class="flex justify-center">
-            <asl-google-signin-button type="standard" theme="outline" size="large" shape="rectangular" [width]="300">
-            </asl-google-signin-button>
+            <asl-google-signin-button type="standard" theme="outline" size="large" shape="rectangular" [width]="300"></asl-google-signin-button>
           </div>
         </div>
       </div>
@@ -78,7 +76,7 @@
             <h2 class="text-2xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">
               Verificar Código
             </h2>
-            <p class="mt-2 text-sm text-[#666666] dark:text-[#666666]">
+            <p class="mt-2 text-sm text-[#666666] dark:text-[#A0A0A0]">
               Código de 6 dígitos enviado a <strong class="text-[#D4AF37] dark:text-[#E5C158]">{{ email?.value }}</strong>
             </p>
           </div>
@@ -89,13 +87,13 @@
                 Código de Seguridad
               </label>
               <input type="text" placeholder="••••••" formControlName="code" maxlength="6"
-                class="w-full px-4 py-4 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-300 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent text-center text-xl tracking-[0.5em] font-mono transition-all duration-300">
+                class="w-full px-4 py-4 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-300 dark:placeholder-[#A0A0A0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent text-center text-xl tracking-[0.5em] font-mono transition-all duration-300">
               <p *ngIf="code?.hasError('required') && code?.touched" class="mt-1.5 text-xs text-red-500">El código es requerido</p>
             </div>
 
             <div class="flex gap-3">
               <button type="button" (click)="step = 1" [disabled]="isLoading"
-                class="flex-1 px-6 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] disabled:opacity-50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="flex-1 px-6 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                 Atrás
               </button>
               <button type="submit" [disabled]="codeForm.invalid || isLoading"
@@ -109,17 +107,16 @@
       </ng-template>
 
       <!-- Footer links -->
-      <div class="px-8 pb-8 pt-2 text-center space-y-2 border-t border-gray-50 dark:border-[#333333] transition-all duration-300">
-        <p class="text-sm text-[#666666] dark:text-[#666666]">
+      <div class="px-8 pb-8 pt-2 text-center space-y-2 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30 transition-all duration-300">
+        <p class="text-sm text-[#666666] dark:text-[#A0A0A0]">
           ¿Olvidaste tu contraseña?
           <a routerLink="/password-recovery" class="text-[#D4AF37] dark:text-[#E5C158] font-medium hover:underline transition-all duration-200">Recupérala aquí</a>
         </p>
-        <p class="text-sm text-[#666666] dark:text-[#666666]">
+        <p class="text-sm text-[#666666] dark:text-[#A0A0A0]">
           ¿No tienes una cuenta?
           <a routerLink="/register" class="text-[#D4AF37] dark:text-[#E5C158] font-medium hover:underline transition-all duration-200">Regístrate</a>
         </p>
       </div>
-
     </div>
   </div>
 </div>

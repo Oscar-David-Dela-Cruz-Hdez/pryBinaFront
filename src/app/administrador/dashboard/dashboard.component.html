@@ -1,0 +1,90 @@
+<div class="dashboard-container px-4 py-8 max-w-screen-2xl mx-auto animate-fade-in">
+  <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mb-8">Panel de Administración</h2>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <!-- Ventas Totales -->
+    <mat-card class="stat-card bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <mat-card-header class="p-4 pb-0">
+        <mat-card-title class="flex items-center gap-3">
+          <mat-icon class="text-[#D4AF37] dark:text-[#E5C158] !text-2xl">monetization_on</mat-icon>
+          <span class="text-lg font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">Ventas Totales</span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4 pt-0">
+        <div class="stat-value text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mt-2">{{ totalVentas | currency }}</div>
+        <div class="stat-label text-sm text-[#666666] dark:text-[#A0A0A0]">{{ totalPedidos }} pedidos</div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Productos -->
+    <mat-card class="stat-card bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <mat-card-header class="p-4 pb-0">
+        <mat-card-title class="flex items-center gap-3">
+          <mat-icon class="text-[#2196F3] !text-2xl">inventory_2</mat-icon>
+          <span class="text-lg font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">Productos</span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4 pt-0">
+        <div class="stat-value text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mt-2">{{ totalProductos }}</div>
+        <div class="stat-label text-sm text-[#666666] dark:text-[#A0A0A0]">Activos en catálogo</div>
+      </mat-card-content>
+      <mat-card-actions class="p-4 pt-0">
+        <button mat-button routerLink="/admin/inventario/productos" class="text-[#D4AF37] dark:text-[#E5C158] font-medium hover:scale-105 transition-transform">GESTIONAR</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Usuarios -->
+    <mat-card class="stat-card bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <mat-card-header class="p-4 pb-0">
+        <mat-card-title class="flex items-center gap-3">
+          <mat-icon class="text-[#FF9800] !text-2xl">group</mat-icon>
+          <span class="text-lg font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">Usuarios</span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4 pt-0">
+        <div class="stat-value text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mt-2">{{ totalUsuarios }}</div>
+        <div class="stat-label text-sm text-[#666666] dark:text-[#A0A0A0]">Registrados</div>
+      </mat-card-content>
+      <mat-card-actions class="p-4 pt-0">
+        <button mat-button routerLink="/admin/usuarios" class="text-[#D4AF37] dark:text-[#E5C158] font-medium hover:scale-105 transition-transform">VER TODOS</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Pedidos Pendientes -->
+    <mat-card class="stat-card bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <mat-card-header class="p-4 pb-0">
+        <mat-card-title class="flex items-center gap-3">
+          <mat-icon class="text-[#F44336] !text-2xl">pending_actions</mat-icon>
+          <span class="text-lg font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">Pendientes</span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4 pt-0">
+        <div class="stat-value text-3xl font-bold text-[#F44336] dark:text-[#F44336] mt-2">{{ pedidosPendientes }}</div>
+        <div class="stat-label text-sm text-[#666666] dark:text-[#A0A0A0]">Pedidos por procesar</div>
+      </mat-card-content>
+      <mat-card-actions class="p-4 pt-0">
+        <button mat-button routerLink="/admin/pedidos/listado" class="text-[#D4AF37] dark:text-[#E5C158] font-medium hover:scale-105 transition-transform">ATENDER</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Accesos Rápidos -->
+  <div class="recent-section mt-10">
+    <h3 class="text-xl font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] mb-6">Accesos Rápidos</h3>
+    <div class="quick-actions flex flex-wrap gap-4">
+      <button mat-raised-button color="primary" routerLink="/admin/pedidos/listado" class="hover:scale-105 transition-transform">
+        <mat-icon>list_alt</mat-icon> Ver Pedidos
+      </button>
+      <button mat-raised-button color="accent" routerLink="/admin/inventario/productos" class="hover:scale-105 transition-transform">
+        <mat-icon>add_circle</mat-icon> Nuevo Producto
+      </button>
+      <button mat-raised-button routerLink="/admin/ventas/ofertas" class="hover:scale-105 transition-transform">
+        <mat-icon>local_offer</mat-icon> Gestionar Ofertas
+      </button>
+      <button mat-raised-button routerLink="/admin/ventas/carrusel" class="hover:scale-105 transition-transform">
+        <mat-icon>view_carousel</mat-icon> Gestionar Carrusel
+      </button>
+    </div>
+  </div>
+</div>

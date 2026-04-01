@@ -1,18 +1,17 @@
-<div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333] p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
-  <div class="mb-6 pb-6 border-b border-[#e2dcd6] dark:border-[#333333] transition-all duration-300">
+<div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333]/30 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
+  <div class="mb-6 pb-6 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30 transition-all duration-300">
     <h2 class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">Pregunta Secreta</h2>
-    <p class="text-sm text-[#666666] dark:text-[#666666] mt-1">Actualiza tu pregunta y respuesta secreta</p>
+    <p class="text-sm text-[#666666] dark:text-[#A0A0A0] mt-1">Actualiza tu pregunta y respuesta secreta</p>
   </div>
 
   <form [formGroup]="secretForm" (ngSubmit)="onSubmit()" class="space-y-5 max-w-md">
-
     <!-- Pregunta Secreta -->
     <div>
       <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">
         Pregunta Secreta
       </label>
       <select formControlName="preguntaSecreta"
-        class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
+        class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
         <option value="personaje-favorito">¿Cuál es tu personaje favorito?</option>
         <option value="pelicula-favorita">¿Cuál es tu película favorita?</option>
         <option value="mejor-amigo">¿Quién es tu mejor amigo?</option>
@@ -27,7 +26,7 @@
         Respuesta Secreta
       </label>
       <input formControlName="respuestaSecreta"
-        class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
+        class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
     </div>
 
     <div class="pt-2">

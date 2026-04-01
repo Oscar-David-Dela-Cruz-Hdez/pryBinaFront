@@ -1,7 +1,6 @@
 <div class="min-h-screen bg-[#FAF8F5] dark:bg-[#121212] flex items-center justify-center px-4 py-12 transition-all duration-300">
   <div class="w-full max-w-md">
     <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/40 hover:shadow-xl dark:border dark:border-[#333333] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
-
       <div class="p-8">
         <div class="text-center mb-8">
           <div class="w-14 h-14 bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -14,14 +13,13 @@
 
         <!-- Barra de progreso de carga -->
         <div *ngIf="isLoading" class="mb-6">
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <mat-progress-bar mode="indeterminate" class="bg-[#D4AF37] dark:bg-[#E5C158]"></mat-progress-bar>
         </div>
 
         <form [formGroup]="recoveryForm" class="space-y-5">
-
           <!-- PASO 0: Correo -->
           <div *ngIf="step === 0" class="space-y-5">
-            <p class="text-sm text-[#666666] dark:text-[#666666] text-center">
+            <p class="text-sm text-[#666666] dark:text-[#A0A0A0] text-center">
               Ingresa tu correo para verificar tu cuenta.
             </p>
             <div>
@@ -30,8 +28,8 @@
               </label>
               <div class="relative">
                 <input type="email" formControlName="email"
-                  class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
-                <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] !text-xl pointer-events-none">email</mat-icon>
+                  class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-[#A0A0A0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
+                <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] !text-xl pointer-events-none">email</mat-icon>
               </div>
               <p *ngIf="email?.hasError('required') && email?.touched" class="mt-1.5 text-xs text-red-500">El email es requerido</p>
               <p *ngIf="email?.hasError('email') && email?.touched" class="mt-1.5 text-xs text-red-500">Email no válido</p>
@@ -44,22 +42,22 @@
 
           <!-- PASO 1: Pregunta Secreta -->
           <div *ngIf="step === 1" class="space-y-5">
-            <p class="text-sm text-[#666666] dark:text-[#666666] text-center">Responde a tu pregunta secreta:</p>
-            <div class="bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl px-4 py-3 text-sm font-medium text-[#D4AF37] dark:text-[#E5C158] transition-all duration-300">
+            <p class="text-sm text-[#666666] dark:text-[#A0A0A0] text-center">Responde a tu pregunta secreta:</p>
+            <div class="bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl px-4 py-3 text-sm font-medium text-[#D4AF37] dark:text-[#E5C158] transition-all duration-300">
               {{ preguntaSecreta }}
             </div>
             <div>
               <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Tu Respuesta</label>
               <div class="relative">
                 <input type="text" formControlName="respuestaSecreta"
-                  class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
-                <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] !text-xl pointer-events-none">forum</mat-icon>
+                  class="w-full px-4 py-3 pr-10 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-[#A0A0A0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
+                <mat-icon class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] !text-xl pointer-events-none">forum</mat-icon>
               </div>
               <p *ngIf="respuestaSecreta?.hasError('required') && respuestaSecreta?.touched" class="mt-1.5 text-xs text-red-500">La respuesta es requerida</p>
             </div>
             <div class="flex gap-3">
               <button type="button" (click)="goBack(0)" [disabled]="isLoading"
-                class="flex-1 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] disabled:opacity-50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="flex-1 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                 Atrás
               </button>
               <button type="button" (click)="verificarRespuesta()" [disabled]="isLoading"
@@ -71,14 +69,14 @@
 
           <!-- PASO 2: Nueva Contraseña -->
           <div *ngIf="step === 2" class="space-y-5">
-            <p class="text-sm text-[#666666] dark:text-[#666666] text-center">Ingresa tu nueva contraseña.</p>
+            <p class="text-sm text-[#666666] dark:text-[#A0A0A0] text-center">Ingresa tu nueva contraseña.</p>
             <div>
               <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Nueva Contraseña</label>
               <div class="relative">
                 <input [type]="showPassword ? 'text' : 'password'" formControlName="nuevaPassword"
-                  class="w-full px-4 py-3 pr-12 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
+                  class="w-full px-4 py-3 pr-12 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-[#A0A0A0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
                 <button type="button" (click)="togglePasswordVisibility()"
-                  class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#666666] hover:text-[#D4AF37] dark:hover:text-[#A78BFA] transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                   <mat-icon class="!text-xl">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
               </div>
@@ -88,13 +86,13 @@
             <div>
               <label class="block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300">Confirmar Contraseña</label>
               <input [type]="showPassword ? 'text' : 'password'" formControlName="confirmarPassword"
-                class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#121212] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#A78BFA] focus:border-transparent transition-all duration-300">
+                class="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-[#A0A0A0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
               <p *ngIf="confirmarPassword?.hasError('required') && confirmarPassword?.touched" class="mt-1.5 text-xs text-red-500">Requerido</p>
               <p *ngIf="recoveryForm.hasError('passwordsDoNotMatch')" class="mt-1.5 text-xs text-red-500">Las contraseñas no coinciden</p>
             </div>
             <div class="flex gap-3">
               <button type="button" (click)="goBack(1)" [disabled]="isLoading"
-                class="flex-1 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-[#334155] disabled:opacity-50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="flex-1 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
                 Atrás
               </button>
               <button type="button" (click)="cambiarContrasena()" [disabled]="isLoading"
@@ -110,24 +108,22 @@
               <mat-icon class="text-emerald-500 !text-4xl">check_circle</mat-icon>
             </div>
             <h3 class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">¡Contraseña Actualizada!</h3>
-            <p class="text-sm text-[#666666] dark:text-[#666666]">Tu contraseña ha sido cambiada con éxito. Ya puedes iniciar sesión.</p>
+            <p class="text-sm text-[#666666] dark:text-[#A0A0A0]">Tu contraseña ha sido cambiada con éxito. Ya puedes iniciar sesión.</p>
             <a routerLink="/login"
               class="inline-flex items-center gap-2 px-6 py-3 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 transition-all duration-300">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">login</mat-icon>
               Ir a Iniciar Sesión
             </a>
           </div>
-
         </form>
       </div>
 
       <!-- Footer link -->
-      <div *ngIf="step < 3" class="px-8 pb-6 pt-2 text-center border-t border-gray-50 dark:border-[#333333] transition-all duration-300">
+      <div *ngIf="step < 3" class="px-8 pb-6 pt-2 text-center border-t border-[#e2dcd6]/30 dark:border-[#333333]/30 transition-all duration-300">
         <a routerLink="/login" class="text-sm text-[#D4AF37] dark:text-[#E5C158] font-medium hover:underline transition-all duration-200">
           Volver a Iniciar Sesión
         </a>
       </div>
-
     </div>
   </div>
 </div>

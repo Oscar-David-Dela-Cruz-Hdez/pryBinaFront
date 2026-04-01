@@ -1,46 +1,50 @@
-<div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)] fade-in">
-  <div class="mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4"><h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Respaldos de Base de Datos</h2></div>
-  <p class="subtitle">Genera copias de seguridad de las colecciones activas del sistema.</p>
+<div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
+  <div class="mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4">
+    <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Respaldos de Base de Datos</h2>
+  </div>
+  <p class="subtitle text-[#666666] dark:text-[#A0A0A0] mb-6">Genera copias de seguridad de las colecciones activas del sistema.</p>
 
-  <mat-card class="backup-card">
-    <mat-card-header>
-      <div mat-card-avatar class="header-icon warning-icon">
-        <mat-icon>save</mat-icon>
+  <mat-card class="backup-card bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+    <mat-card-header class="p-6 pb-0">
+      <div mat-card-avatar class="header-icon p-3 rounded-xl bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 border border-[#D4AF37]/30 dark:border-[#E5C158]/30">
+        <mat-icon class="text-[#D4AF37] dark:text-[#E5C158]">save</mat-icon>
       </div>
-      <mat-card-title>Colecciones Disponibles</mat-card-title>
-      <mat-card-subtitle>
-        Selecciona los datos que deseas exportar al archivo .zip
-      </mat-card-subtitle>
+      <mat-card-title class="text-xl font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">Colecciones Disponibles</mat-card-title>
+      <mat-card-subtitle class="text-[#666666] dark:text-[#A0A0A0]">Selecciona los datos que deseas exportar al archivo .zip</mat-card-subtitle>
     </mat-card-header>
 
-    <mat-card-content class="pt-2">
-      <div *ngIf="isLoading" class="loading-state">
-        <mat-spinner diameter="40"></mat-spinner>
-        <span>Cargando colecciones...</span>
+    <mat-card-content class="p-6 pt-2">
+      <div *ngIf="isLoading" class="loading-state flex flex-col items-center justify-center gap-4 py-8">
+        <mat-spinner diameter="40" class="text-[#D4AF37] dark:text-[#E5C158]"></mat-spinner>
+        <span class="text-[#666666] dark:text-[#A0A0A0]">Cargando colecciones...</span>
       </div>
 
-      <div *ngIf="!isLoading && colecciones.length === 0" class="empty-state">
-        <p>No se encontraron colecciones disponibles.</p>
-        <button mat-stroked-button class="!rounded-xl !py-2 !px-6 hover:bg-gray-50 dark:hover:bg-[#333333] transition-colors duration-300" color="primary" (click)="cargarColecciones()">Reintentar</button>
+      <div *ngIf="!isLoading && colecciones.length === 0" class="empty-state flex flex-col items-center justify-center gap-4 py-8">
+        <p class="text-[#666666] dark:text-[#A0A0A0]">No se encontraron colecciones disponibles.</p>
+        <button mat-stroked-button
+          class="!rounded-xl !py-2 !px-6 hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-colors duration-300 text-[#D4AF37] dark:text-[#E5C158] border-[#D4AF37] dark:border-[#E5C158]"
+          (click)="cargarColecciones()">
+          Reintentar
+        </button>
       </div>
 
       <div *ngIf="!isLoading && colecciones.length > 0" class="collections-list">
-        <div class="select-all">
-          <mat-checkbox 
-            [checked]="allSelected" 
+        <div class="select-all p-4 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
+          <mat-checkbox
+            [checked]="allSelected"
             [indeterminate]="someSelected"
             (change)="toggleAll($event)"
+            class="text-[#2C2C2C] dark:text-[#F0F0F0]"
             color="primary">
             <b>Seleccionar Todas</b>
           </mat-checkbox>
         </div>
-        
-        <mat-divider></mat-divider>
 
-        <div class="checkbox-grid animate-slide-up">
-          <mat-checkbox 
-            *ngFor="let col of colecciones" 
-            [(ngModel)]="seleccionadas[col]" 
+        <div class="checkbox-grid p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 animate-slide-up">
+          <mat-checkbox
+            *ngFor="let col of colecciones"
+            [(ngModel)]="seleccionadas[col]"
+            class="text-[#2C2C2C] dark:text-[#F0F0F0]"
             color="primary">
             {{ col }}
           </mat-checkbox>
@@ -48,9 +52,13 @@
       </div>
     </mat-card-content>
 
-    <mat-card-actions class="actions-panel" *ngIf="!isLoading && colecciones.length > 0">
-      <button mat-raised-button color="accent" (click)="descargarRespaldo()" [disabled]="isDownloading" class="download-btn hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
-        <mat-icon>cloud_download</mat-icon> 
+    <mat-card-actions class="p-6 pt-0" *ngIf="!isLoading && colecciones.length > 0">
+      <button mat-raised-button
+        color="accent"
+        (click)="descargarRespaldo()"
+        [disabled]="isDownloading"
+        class="download-btn bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl px-6 py-2 hover:scale-105 hover:-translate-y-1 active:scale-95 transition-all duration-300">
+        <mat-icon>cloud_download</mat-icon>
         <span>{{ isDownloading ? 'Generando ZIP...' : 'Descargar Respaldo' }}</span>
       </button>
     </mat-card-actions>
