@@ -54,76 +54,131 @@
 /* Global Reset & Base */
 html,
 body {
-  @apply min-h-screen w-full bg-background DEFAULT dark:bg-background-dark text-color-text dark:text-color-text-dark font-body antialiased transition-colors duration-300 ease-in-out;
+  @apply min-h-screen w-full;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  @apply font-heading font-semibold text-color-text dark:text-color-text-dark;
+  @apply font-heading font-semibold;
+  color: var(--color-text);
   margin-top: 0;
   letter-spacing: -0.02em;
 }
 
 /* Angular Material Global Overrides for Premium Look */
 .mat-mdc-card {
-  @apply bg-surface DEFAULT dark:bg-surface-dark rounded-2xl shadow-premium-sm dark:shadow-premium-dark-sm border border-color-border-light dark:border-color-border-light-dark;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-light);
+}
+
+[data-theme="dark"] .mat-mdc-card {
+  background-color: var(--color-surface-dark);
+  box-shadow: var(--shadow-sm-dark);
+  border: 1px solid var(--color-border-light-dark);
 }
 
 .mat-mdc-raised-button.mat-primary {
-  @apply bg-primary DEFAULT text-white dark:text-color-text-dark rounded-xl font-heading font-semibold uppercase tracking-wider px-6 py-2 shadow-premium-sm dark:shadow-premium-dark-sm transition-all duration-300 hover:shadow-premium-md dark:hover:shadow-premium-dark-md hover:-translate-y-0.5;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 12px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0 24px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .mat-mdc-raised-button.mat-primary {
+  background-color: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm-dark);
 }
 
 .mat-mdc-raised-button.mat-primary:hover:not([disabled]) {
-  @apply bg-primary-hover;
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .mat-mdc-raised-button.mat-primary:hover:not([disabled]) {
+  box-shadow: var(--shadow-md-dark);
 }
 
 .mat-mdc-raised-button:disabled {
-  @apply bg-surface-raised DEFAULT dark:bg-surface-raised-dark text-color-text-secondary dark:text-color-text-secondary-dark;
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-secondary);
 }
 
-.mat-mdc-button,
-.mat-mdc-stroked-button {
-  @apply font-heading font-semibold rounded-xl transition-all duration-300;
-}
-
-.mat-mdc-stroked-button {
-  @apply border border-color-border DEFAULT dark:border-color-border-dark;
+[data-theme="dark"] .mat-mdc-raised-button:disabled {
+  background-color: var(--color-surface-raised-dark);
+  color: var(--color-text-secondary-dark);
 }
 
 /* Fix for transparent/translucent menus */
 .mat-mdc-menu-panel,
 .mat-menu-panel,
 .mat-mdc-select-panel {
-  @apply bg-surface DEFAULT dark:bg-surface-dark rounded-xl shadow-premium-md dark:shadow-premium-dark-md border border-color-border-light dark:border-color-border-light-dark;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
 }
 
-/* Checkbox overrides */
-.mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
-.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
-  @apply bg-primary DEFAULT dark:bg-primary-dark border-primary DEFAULT dark:border-primary-dark;
-}
-
-/* Slide Toggle overrides */
-.mat-mdc-slide-toggle.mat-primary {
-  --mdc-switch-selected-track-color: var(--color-primary);
-  --mdc-switch-selected-hover-track-color: var(--color-primary-hover);
-  --mdc-switch-selected-focus-track-color: var(--color-primary);
-  --mdc-switch-selected-pressed-track-color: var(--color-primary);
-  --mdc-switch-selected-handle-color: #ffffff;
+[data-theme="dark"] .mat-mdc-menu-panel,
+[data-theme="dark"] .mat-menu-panel,
+[data-theme="dark"] .mat-mdc-select-panel {
+  background-color: var(--color-surface-dark);
+  border: 1px solid var(--color-border-light-dark);
+  box-shadow: var(--shadow-md-dark);
 }
 
 /* Data Table overrides */
 .mdc-data-table__header-cell {
-  @apply bg-surface-raised DEFAULT dark:bg-surface-raised-dark text-color-text-secondary dark:text-color-text-secondary-dark font-heading font-semibold uppercase text-xs tracking-wider border-b border-color-border DEFAULT dark:border-color-border-dark;
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-secondary);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--color-border);
+}
+
+[data-theme="dark"] .mdc-data-table__header-cell {
+  background-color: var(--color-surface-raised-dark);
+  color: var(--color-text-secondary-dark);
+  border-bottom: 2px solid var(--color-border-dark);
 }
 
 .mdc-data-table__cell {
-  @apply text-color-text DEFAULT dark:text-color-text-dark border-b border-color-border-light DEFAULT dark:border-color-border-light-dark;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+[data-theme="dark"] .mdc-data-table__cell {
+  color: var(--color-text-dark);
+  border-bottom: 1px solid var(--color-border-light-dark);
 }
 
 .mat-mdc-table {
-  @apply bg-surface DEFAULT dark:bg-surface-dark rounded-xl overflow-hidden;
+  background-color: var(--color-surface);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .mat-mdc-table {
+  background-color: var(--color-surface-dark);
 }
 
 /* Input and Form Field overrides */
