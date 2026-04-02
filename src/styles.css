@@ -95,7 +95,59 @@
 
 }
 
+/* =============================================================
+   ADMIN INPUTS - Fondo beige cálido idéntico al de login/register
+   Forzado con CSS explícito para evitar que Tailwind purge @apply
+   ============================================================= */
+
+/* Modo claro: fondo beige cálido #FAF8F5 idéntico al login */
+.input-admin,
+.textarea-admin,
+.select-admin {
+  background-color: #FAF8F5 !important;
+  border-color: #e2dcd6 !important;
+  color: #2C2C2C !important;
+}
+
+.input-admin:focus,
+.textarea-admin:focus,
+.select-admin:focus {
+  background-color: #FAF8F5 !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px #D4AF37 !important;
+}
+
+/* Modo oscuro */
+[data-theme="dark"] .input-admin,
+[data-theme="dark"] .textarea-admin,
+[data-theme="dark"] .select-admin {
+  background-color: #2A2A2A !important;
+  border-color: #333333 !important;
+  color: #F0F0F0 !important;
+}
+
+[data-theme="dark"] .input-admin:focus,
+[data-theme="dark"] .textarea-admin:focus,
+[data-theme="dark"] .select-admin:focus {
+  background-color: #2A2A2A !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 0 2px #E5C158 !important;
+}
+
+/* Placeholder */
+.input-admin::placeholder,
+.textarea-admin::placeholder {
+  color: #9CA3AF;
+}
+
+[data-theme="dark"] .input-admin::placeholder,
+[data-theme="dark"] .textarea-admin::placeholder {
+  color: #606060;
+}
+
 /* Global CSS variables for Angular Material overrides and premium theme */
+
 :root {
   --color-primary: #D4AF37;
   --color-primary-dark: #E5C158;
