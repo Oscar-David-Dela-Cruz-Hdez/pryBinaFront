@@ -38,32 +38,47 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Lista -->
-  <mat-card *ngIf="categorias.length > 0; else noData" class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 animate-fade-in">
-    <mat-list>
-      <div *ngFor="let cat of categorias" class="hover:bg-[#FAF8F5]/30 dark:hover:bg-[#2A2A2A]/30 transition-colors duration-200">
-        <mat-list-item>
-          <mat-icon matListItemIcon class="text-[#D4AF37] dark:text-[#E5C158]">category</mat-icon>
-          <div matListItemTitle class="text-[#2C2C2C] dark:text-[#F0F0F0] font-medium">{{ cat.nombre }}</div>
-          <div matListItemLine class="text-[#666666] dark:text-[#A0A0A0]">{{ cat.descripcion }}</div>
-          <div matListItemMeta>
-            <button mat-icon-button class="text-[#D4AF37] dark:text-[#E5C158] hover:scale-110 transition-transform" (click)="editCat(cat)">
-              <mat-icon>edit</mat-icon>
+  <!-- Tabla de categorías -->
+  <div class="admin-data-table animate-fade-in" *ngIf="categorias.length > 0; else noData">
+    <table>
+      <thead>
+        <tr class="admin-table-head">
+          <th class="admin-th" style="width:48px"></th>
+          <th class="admin-th">Nombre</th>
+          <th class="admin-th">Descripción</th>
+          <th class="admin-th text-right">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cat of categorias" class="admin-table-row">
+          <td class="admin-td">
+            <div class="admin-thumb-placeholder">
+              <mat-icon style="font-size:18px;width:18px;height:18px">category</mat-icon>
+            </div>
+          </td>
+          <td class="admin-td">
+            <span class="font-medium">{{ cat.nombre }}</span>
+          </td>
+          <td class="admin-td">
+            <span class="subtext">{{ cat.descripcion || '—' }}</span>
+          </td>
+          <td class="admin-td text-right">
+            <button class="admin-btn-edit" (click)="editCat(cat)" title="Editar">
+              <mat-icon style="font-size:18px;width:18px;height:18px">edit</mat-icon>
             </button>
-            <button mat-icon-button class="text-[#F44336] hover:scale-110 transition-transform" (click)="deleteCat(cat)">
-              <mat-icon>delete</mat-icon>
+            <button class="admin-btn-delete" (click)="deleteCat(cat)" title="Eliminar">
+              <mat-icon style="font-size:18px;width:18px;height:18px">delete</mat-icon>
             </button>
-          </div>
-        </mat-list-item>
-        <mat-divider class="border-[#e2dcd6]/30 dark:border-[#333333]/30"></mat-divider>
-      </div>
-    </mat-list>
-  </mat-card>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <ng-template #noData>
-    <div class="empty-state flex flex-col items-center justify-center gap-4 py-12 bg-[#FAF8F5]/50 dark:bg-[#2A2A2A]/50 rounded-2xl">
-      <mat-icon class="text-4xl text-[#D4AF37] dark:text-[#E5C158]">category</mat-icon>
-      <p class="text-[#666666] dark:text-[#A0A0A0]">No hay categorías registradas.</p>
+    <div class="admin-empty-state">
+      <mat-icon>category</mat-icon>
+      <p>No hay categorías registradas.</p>
     </div>
   </ng-template>
 </div>

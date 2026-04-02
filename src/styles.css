@@ -146,7 +146,237 @@
   color: #606060;
 }
 
+
 /* Global CSS variables for Angular Material overrides and premium theme */
+
+/* =============================================================
+   ADMIN DATA TABLE SYSTEM — Diseño unificado premium
+   Aplica a tablas HTML custom Y a Angular Material mat-table
+   ============================================================= */
+
+/* --- Wrapper card --- */
+.admin-data-table {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px -2px rgba(0,0,0,0.06), 0 2px 6px -1px rgba(0,0,0,0.04);
+  border: 1px solid rgba(226,220,214,0.4);
+  overflow: hidden;
+}
+[data-theme="dark"] .admin-data-table {
+  background: #1E1E1E;
+  border-color: rgba(51,51,51,0.4);
+  box-shadow: 0 4px 16px -2px rgba(0,0,0,0.4);
+}
+.admin-data-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* --- Header row --- */
+.admin-table-head { background: #FAF8F5; border-bottom: 2px solid rgba(226,220,214,0.8); }
+[data-theme="dark"] .admin-table-head { background: rgba(30,30,30,0.95); border-bottom-color: rgba(51,51,51,0.8); }
+
+/* --- Header cell --- */
+.admin-th {
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #999999;
+  white-space: nowrap;
+}
+[data-theme="dark"] .admin-th { color: #555555; }
+.admin-th.text-right { text-align: right; }
+.admin-th.text-center { text-align: center; }
+
+/* --- Data row --- */
+.admin-table-row {
+  border-bottom: 1px solid rgba(226,220,214,0.45);
+  transition: background-color 0.15s ease;
+}
+.admin-table-row:last-child { border-bottom: none; }
+.admin-table-row:hover { background-color: rgba(212,175,55,0.05); }
+[data-theme="dark"] .admin-table-row { border-bottom-color: rgba(51,51,51,0.45); }
+[data-theme="dark"] .admin-table-row:hover { background-color: rgba(229,193,88,0.05); }
+
+/* --- Data cell --- */
+.admin-td {
+  padding: 13px 16px;
+  color: #2C2C2C;
+  font-size: 13.5px;
+  vertical-align: middle;
+}
+[data-theme="dark"] .admin-td { color: #E0E0E0; }
+.admin-td.text-right { text-align: right; }
+.admin-td.text-center { text-align: center; }
+.admin-td .subtext { color: #999999; font-size: 12px; margin-top: 1px; }
+[data-theme="dark"] .admin-td .subtext { color: #555555; }
+
+/* --- Status badge --- */
+.badge-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-active   { background: rgba(34,197,94,0.12);  color: #16a34a; }
+.badge-inactive { background: rgba(239,68,68,0.12);  color: #dc2626; }
+.badge-pending  { background: rgba(251,146,60,0.15); color: #c2410c; }
+.badge-paid     { background: rgba(59,130,246,0.12); color: #1d4ed8; }
+.badge-shipped  { background: rgba(168,85,247,0.12); color: #7e22ce; }
+.badge-delivered{ background: rgba(34,197,94,0.12);  color: #15803d; }
+.badge-cancelled{ background: rgba(239,68,68,0.12);  color: #dc2626; }
+.badge-return   { background: rgba(249,115,22,0.12); color: #c2410c; }
+[data-theme="dark"] .badge-active    { background: rgba(34,197,94,0.15);  color: #4ade80; }
+[data-theme="dark"] .badge-inactive  { background: rgba(239,68,68,0.15);  color: #f87171; }
+[data-theme="dark"] .badge-pending   { background: rgba(251,146,60,0.15); color: #fb923c; }
+[data-theme="dark"] .badge-paid      { background: rgba(59,130,246,0.15); color: #60a5fa; }
+[data-theme="dark"] .badge-shipped   { background: rgba(168,85,247,0.15); color: #c084fc; }
+[data-theme="dark"] .badge-delivered { background: rgba(34,197,94,0.15);  color: #4ade80; }
+
+/* --- Icon action buttons --- */
+.admin-btn-edit, .admin-btn-delete, .admin-btn-view {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.admin-btn-edit   { color: #D4AF37; }
+.admin-btn-delete { color: #ef4444; }
+.admin-btn-view   { color: #3b82f6; }
+.admin-btn-edit:hover   { background: rgba(212,175,55,0.12); transform: scale(1.1); }
+.admin-btn-delete:hover { background: rgba(239,68,68,0.12);  transform: scale(1.1); }
+.admin-btn-view:hover   { background: rgba(59,130,246,0.12); transform: scale(1.1); }
+
+/* --- Product image thumbnail --- */
+.admin-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid rgba(226,220,214,0.6);
+  background: #FAF8F5;
+}
+.admin-thumb-placeholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(212,175,55,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4AF37;
+  border: 1px solid rgba(212,175,55,0.2);
+}
+[data-theme="dark"] .admin-thumb { border-color: rgba(51,51,51,0.5); background: #2A2A2A; }
+
+/* --- Empty state --- */
+.admin-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  background: rgba(250,248,245,0.5);
+  border-radius: 16px;
+}
+[data-theme="dark"] .admin-empty-state { background: rgba(42,42,42,0.5); }
+.admin-empty-state mat-icon { font-size: 40px !important; width: 40px; height: 40px; color: #D4AF37; }
+[data-theme="dark"] .admin-empty-state mat-icon { color: #E5C158; }
+.admin-empty-state p { color: #999999; font-size: 14px; }
+[data-theme="dark"] .admin-empty-state p { color: #555555; }
+
+/* =============================================================
+   ANGULAR MATERIAL mat-table GLOBAL OVERRIDES
+   Aplica a: /admin/usuarios, /admin/inventario/productos,
+             /admin/pedidos/listado
+   ============================================================= */
+
+.mat-elevation-z8 {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 16px -2px rgba(0,0,0,0.06), 0 2px 6px -1px rgba(0,0,0,0.04) !important;
+  border: 1px solid rgba(226,220,214,0.4) !important;
+}
+[data-theme="dark"] .mat-elevation-z8 {
+  box-shadow: 0 4px 16px -2px rgba(0,0,0,0.4) !important;
+  border-color: rgba(51,51,51,0.4) !important;
+}
+
+.mat-mdc-table { background: #FFFFFF !important; width: 100%; }
+[data-theme="dark"] .mat-mdc-table { background: #1E1E1E !important; }
+
+/* Mat-table header */
+.mat-mdc-header-row {
+  background: #FAF8F5 !important;
+  border-bottom: 2px solid rgba(226,220,214,0.8) !important;
+  min-height: 42px !important;
+}
+[data-theme="dark"] .mat-mdc-header-row {
+  background: rgba(30,30,30,0.95) !important;
+  border-bottom-color: rgba(51,51,51,0.8) !important;
+}
+.mat-mdc-header-cell {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+  color: #999999 !important;
+  border-bottom: none !important;
+  padding: 0 16px !important;
+}
+[data-theme="dark"] .mat-mdc-header-cell { color: #555555 !important; }
+
+/* Mat-table rows */
+.mat-mdc-row {
+  border-bottom: 1px solid rgba(226,220,214,0.45) !important;
+  transition: background-color 0.15s ease !important;
+  min-height: 52px !important;
+}
+.mat-mdc-row:last-child { border-bottom: none !important; }
+.mat-mdc-row:hover { background-color: rgba(212,175,55,0.05) !important; }
+[data-theme="dark"] .mat-mdc-row { border-bottom-color: rgba(51,51,51,0.45) !important; }
+[data-theme="dark"] .mat-mdc-row:hover { background-color: rgba(229,193,88,0.05) !important; }
+
+/* Mat-table cells */
+.mat-mdc-cell {
+  color: #2C2C2C !important;
+  font-size: 13.5px !important;
+  padding: 0 16px !important;
+  border-bottom: none !important;
+}
+[data-theme="dark"] .mat-mdc-cell { color: #E0E0E0 !important; }
+
+/* Paginator */
+.mat-mdc-paginator {
+  background: #FAF8F5 !important;
+  border-top: 1px solid rgba(226,220,214,0.5) !important;
+  color: #666666 !important;
+  border-radius: 0 0 16px 16px !important;
+}
+[data-theme="dark"] .mat-mdc-paginator {
+  background: rgba(30,30,30,0.95) !important;
+  border-top-color: rgba(51,51,51,0.5) !important;
+  color: #A0A0A0 !important;
+}
+.mat-mdc-paginator-range-label { color: #666666 !important; }
+[data-theme="dark"] .mat-mdc-paginator-range-label { color: #A0A0A0 !important; }
+
+
 
 :root {
   --color-primary: #D4AF37;
