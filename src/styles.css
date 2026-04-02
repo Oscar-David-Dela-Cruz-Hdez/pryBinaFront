@@ -185,12 +185,17 @@ h1, h2, h3, h4, h5, h6 {
 :root {
   --mdc-outlined-text-field-outline-color: var(--color-border);
   --mdc-outlined-text-field-focus-outline-color: var(--color-primary);
-  --mdc-outlined-text-field-hover-outline-color: var(--color-primary-hover);
+  --mdc-outlined-text-field-hover-outline-color: var(--color-primary);
   --mdc-outlined-text-field-container-shape: 12px;
   --mdc-outlined-text-field-label-text-color: var(--color-text-secondary);
   --mdc-outlined-text-field-focus-label-text-color: var(--color-primary);
   --mdc-outlined-text-field-input-text-color: var(--color-text);
   --mdc-outlined-text-field-caret-color: var(--color-primary);
+  /* Fondo interno del campo outlined */
+  --mdc-outlined-text-field-container-color: transparent;
+  /* Color de error */
+  --mdc-outlined-text-field-error-outline-color: var(--color-warn);
+  --mdc-outlined-text-field-error-label-text-color: var(--color-warn);
   --mat-select-enabled-arrow-color: var(--color-text-secondary);
   --mat-select-focused-arrow-color: var(--color-primary);
   --mat-select-value-text-color: var(--color-text);
@@ -201,13 +206,80 @@ h1, h2, h3, h4, h5, h6 {
 [data-theme="dark"] {
   --mdc-outlined-text-field-outline-color: var(--color-border-dark);
   --mdc-outlined-text-field-focus-outline-color: var(--color-primary-dark);
-  --mdc-outlined-text-field-hover-outline-color: var(--color-primary-hover);
+  --mdc-outlined-text-field-hover-outline-color: var(--color-primary-dark);
   --mdc-outlined-text-field-label-text-color: var(--color-text-secondary-dark);
   --mdc-outlined-text-field-focus-label-text-color: var(--color-primary-dark);
   --mdc-outlined-text-field-input-text-color: var(--color-text-dark);
   --mdc-outlined-text-field-caret-color: var(--color-primary-dark);
+  --mdc-outlined-text-field-error-outline-color: var(--color-warn-dark);
+  --mdc-outlined-text-field-error-label-text-color: var(--color-warn-dark);
   --mat-select-enabled-arrow-color: var(--color-text-secondary-dark);
   --mat-select-focused-arrow-color: var(--color-primary-dark);
   --mat-select-value-text-color: var(--color-text-dark);
   --mat-form-field-container-text-color: var(--color-text-dark);
+}
+
+/* Fix visual del borde outlined - consistencia entre todos los admin forms */
+.mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__trailing {
+  border-color: var(--color-border);
+  transition: border-color var(--transition-fast);
+}
+
+[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__leading,
+[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__notch,
+[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__trailing {
+  border-color: var(--color-border-dark);
+}
+
+.mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__trailing {
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__leading,
+[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__notch,
+[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__trailing {
+  border-color: var(--color-primary-dark);
+}
+
+.mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--color-primary);
+  border-width: 2px;
+}
+
+[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__leading,
+[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__notch,
+[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--color-primary-dark);
+}
+
+/* Label del form field */
+.mat-mdc-form-field .mdc-floating-label {
+  color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .mat-mdc-form-field .mdc-floating-label {
+  color: var(--color-text-secondary-dark);
+}
+
+.mat-mdc-form-field.mat-focused .mdc-floating-label {
+  color: var(--color-primary) !important;
+}
+
+[data-theme="dark"] .mat-mdc-form-field.mat-focused .mdc-floating-label {
+  color: var(--color-primary-dark) !important;
+}
+
+/* Input text dentro del campo */
+.mat-mdc-input-element {
+  color: var(--color-text) !important;
+}
+
+[data-theme="dark"] .mat-mdc-input-element {
+  color: var(--color-text-dark) !important;
 }
