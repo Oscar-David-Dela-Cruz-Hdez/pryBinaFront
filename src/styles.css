@@ -181,105 +181,322 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--color-surface-dark);
 }
 
-/* Input and Form Field overrides */
+/* =============================================================
+   FORM FIELD OVERRIDES - Angular Material MDC (Outlined)
+   Solución global para todos los formularios del panel admin
+   ============================================================= */
+
+/* --- CSS Custom Properties (variables MDC) --- */
 :root {
-  --mdc-outlined-text-field-outline-color: var(--color-border);
-  --mdc-outlined-text-field-focus-outline-color: var(--color-primary);
-  --mdc-outlined-text-field-hover-outline-color: var(--color-primary);
+  --mdc-outlined-text-field-outline-color: #e2dcd6;
+  --mdc-outlined-text-field-hover-outline-color: #D4AF37;
+  --mdc-outlined-text-field-focus-outline-color: #D4AF37;
+  --mdc-outlined-text-field-disabled-outline-color: rgba(226,220,214,0.5);
   --mdc-outlined-text-field-container-shape: 12px;
-  --mdc-outlined-text-field-label-text-color: var(--color-text-secondary);
-  --mdc-outlined-text-field-focus-label-text-color: var(--color-primary);
-  --mdc-outlined-text-field-input-text-color: var(--color-text);
-  --mdc-outlined-text-field-caret-color: var(--color-primary);
-  /* Fondo interno del campo outlined */
-  --mdc-outlined-text-field-container-color: transparent;
-  /* Color de error */
-  --mdc-outlined-text-field-error-outline-color: var(--color-warn);
-  --mdc-outlined-text-field-error-label-text-color: var(--color-warn);
-  --mat-select-enabled-arrow-color: var(--color-text-secondary);
-  --mat-select-focused-arrow-color: var(--color-primary);
-  --mat-select-value-text-color: var(--color-text);
-  --mat-form-field-container-text-color: var(--color-text);
-  --mat-form-field-container-text-font: var(--font-body);
+  --mdc-outlined-text-field-label-text-color: #666666;
+  --mdc-outlined-text-field-hover-label-text-color: #666666;
+  --mdc-outlined-text-field-focus-label-text-color: #D4AF37;
+  --mdc-outlined-text-field-input-text-color: #2C2C2C;
+  --mdc-outlined-text-field-caret-color: #D4AF37;
+  --mdc-outlined-text-field-error-outline-color: #d32f2f;
+  --mdc-outlined-text-field-error-hover-outline-color: #d32f2f;
+  --mdc-outlined-text-field-error-focus-outline-color: #d32f2f;
+  --mdc-outlined-text-field-error-label-text-color: #d32f2f;
+  --mdc-outlined-text-field-error-caret-color: #d32f2f;
+  --mat-select-enabled-arrow-color: #666666;
+  --mat-select-focused-arrow-color: #D4AF37;
+  --mat-select-value-text-color: #2C2C2C;
+  --mat-form-field-container-text-color: #2C2C2C;
+  --mat-form-field-container-text-font: 'Roboto', sans-serif;
 }
 
 [data-theme="dark"] {
-  --mdc-outlined-text-field-outline-color: var(--color-border-dark);
-  --mdc-outlined-text-field-focus-outline-color: var(--color-primary-dark);
-  --mdc-outlined-text-field-hover-outline-color: var(--color-primary-dark);
-  --mdc-outlined-text-field-label-text-color: var(--color-text-secondary-dark);
-  --mdc-outlined-text-field-focus-label-text-color: var(--color-primary-dark);
-  --mdc-outlined-text-field-input-text-color: var(--color-text-dark);
-  --mdc-outlined-text-field-caret-color: var(--color-primary-dark);
-  --mdc-outlined-text-field-error-outline-color: var(--color-warn-dark);
-  --mdc-outlined-text-field-error-label-text-color: var(--color-warn-dark);
-  --mat-select-enabled-arrow-color: var(--color-text-secondary-dark);
-  --mat-select-focused-arrow-color: var(--color-primary-dark);
-  --mat-select-value-text-color: var(--color-text-dark);
-  --mat-form-field-container-text-color: var(--color-text-dark);
+  --mdc-outlined-text-field-outline-color: #333333;
+  --mdc-outlined-text-field-hover-outline-color: #E5C158;
+  --mdc-outlined-text-field-focus-outline-color: #E5C158;
+  --mdc-outlined-text-field-disabled-outline-color: rgba(51,51,51,0.5);
+  --mdc-outlined-text-field-label-text-color: #A0A0A0;
+  --mdc-outlined-text-field-hover-label-text-color: #A0A0A0;
+  --mdc-outlined-text-field-focus-label-text-color: #E5C158;
+  --mdc-outlined-text-field-input-text-color: #F0F0F0;
+  --mdc-outlined-text-field-caret-color: #E5C158;
+  --mdc-outlined-text-field-error-outline-color: #ef5350;
+  --mdc-outlined-text-field-error-hover-outline-color: #ef5350;
+  --mdc-outlined-text-field-error-focus-outline-color: #ef5350;
+  --mdc-outlined-text-field-error-label-text-color: #ef5350;
+  --mat-select-enabled-arrow-color: #A0A0A0;
+  --mat-select-focused-arrow-color: #E5C158;
+  --mat-select-value-text-color: #F0F0F0;
+  --mat-form-field-container-text-color: #F0F0F0;
 }
 
-/* Fix visual del borde outlined - consistencia entre todos los admin forms */
-.mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__leading,
-.mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__notch,
-.mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__trailing {
-  border-color: var(--color-border);
-  transition: border-color var(--transition-fast);
+/* --- Borde del campo (mdc-notched-outline partes) --- */
+/* Estado normal */
+.mdc-text-field--outlined .mdc-notched-outline__leading,
+.mdc-text-field--outlined .mdc-notched-outline__notch,
+.mdc-text-field--outlined .mdc-notched-outline__trailing {
+  border-color: #e2dcd6 !important;
+  border-radius: 12px;
+  transition: border-color 0.2s ease-in-out !important;
 }
 
-[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__leading,
-[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__notch,
-[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__trailing {
-  border-color: var(--color-border-dark);
+[data-theme="dark"] .mdc-text-field--outlined .mdc-notched-outline__leading,
+[data-theme="dark"] .mdc-text-field--outlined .mdc-notched-outline__notch,
+[data-theme="dark"] .mdc-text-field--outlined .mdc-notched-outline__trailing {
+  border-color: #333333 !important;
 }
 
-.mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__leading,
-.mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__notch,
-.mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__trailing {
-  border-color: var(--color-primary);
+/* Hover */
+.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+  .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+  .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+  .mdc-notched-outline__trailing {
+  border-color: #D4AF37 !important;
 }
 
-[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__leading,
-[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__notch,
-[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline:hover .mdc-notched-outline__trailing {
-  border-color: var(--color-primary-dark);
+[data-theme="dark"] .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+  .mdc-notched-outline__leading,
+[data-theme="dark"] .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+  .mdc-notched-outline__notch,
+[data-theme="dark"] .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover
+  .mdc-notched-outline__trailing {
+  border-color: #E5C158 !important;
 }
 
-.mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__leading,
-.mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__notch,
-.mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__trailing {
-  border-color: var(--color-primary);
-  border-width: 2px;
+/* Focus */
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #D4AF37 !important;
+  border-width: 2px !important;
 }
 
-[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__leading,
-[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__notch,
-[data-theme="dark"] .mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mdc-notched-outline__trailing {
-  border-color: var(--color-primary-dark);
+[data-theme="dark"] .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+[data-theme="dark"] .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
+[data-theme="dark"] .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #E5C158 !important;
 }
 
-/* Label del form field */
-.mat-mdc-form-field .mdc-floating-label {
-  color: var(--color-text-secondary);
+/* --- Label (floating label) --- */
+.mdc-text-field--outlined .mdc-floating-label,
+.mdc-text-field--outlined .mdc-floating-label--float-above {
+  color: #666666 !important;
 }
 
-[data-theme="dark"] .mat-mdc-form-field .mdc-floating-label {
-  color: var(--color-text-secondary-dark);
+[data-theme="dark"] .mdc-text-field--outlined .mdc-floating-label,
+[data-theme="dark"] .mdc-text-field--outlined .mdc-floating-label--float-above {
+  color: #A0A0A0 !important;
 }
 
-.mat-mdc-form-field.mat-focused .mdc-floating-label {
-  color: var(--color-primary) !important;
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-floating-label,
+.mdc-text-field--outlined.mdc-text-field--focused .mdc-floating-label--float-above {
+  color: #D4AF37 !important;
 }
 
-[data-theme="dark"] .mat-mdc-form-field.mat-focused .mdc-floating-label {
-  color: var(--color-primary-dark) !important;
+[data-theme="dark"] .mdc-text-field--outlined.mdc-text-field--focused .mdc-floating-label,
+[data-theme="dark"] .mdc-text-field--outlined.mdc-text-field--focused .mdc-floating-label--float-above {
+  color: #E5C158 !important;
 }
 
-/* Input text dentro del campo */
-.mat-mdc-input-element {
-  color: var(--color-text) !important;
+/* --- Input text color --- */
+.mdc-text-field__input {
+  color: #2C2C2C !important;
 }
 
-[data-theme="dark"] .mat-mdc-input-element {
-  color: var(--color-text-dark) !important;
+[data-theme="dark"] .mdc-text-field__input {
+  color: #F0F0F0 !important;
+}
+
+/* --- Caret --- */
+.mdc-text-field--outlined input.mdc-text-field__input,
+.mdc-text-field--outlined textarea.mdc-text-field__input {
+  caret-color: #D4AF37;
+}
+
+[data-theme="dark"] .mdc-text-field--outlined input.mdc-text-field__input,
+[data-theme="dark"] .mdc-text-field--outlined textarea.mdc-text-field__input {
+  caret-color: #E5C158;
+}
+
+/* --- Fondo transparente del campo (override del fill color de MDC) --- */
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input,
+.mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+}
+
+/* --- Quitar la línea de subrayado de fill appearance si hubiera --- */
+.mdc-line-ripple {
+  display: none !important;
+}
+
+/* --- mat-select dentro de outlined --- */
+.mat-mdc-select-value-text {
+  color: #2C2C2C !important;
+}
+
+[data-theme="dark"] .mat-mdc-select-value-text {
+  color: #F0F0F0 !important;
+}
+
+.mat-mdc-select-arrow {
+  color: #666666 !important;
+}
+
+[data-theme="dark"] .mat-mdc-select-arrow {
+  color: #A0A0A0 !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+  color: #D4AF37 !important;
+}
+
+[data-theme="dark"] .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+  color: #E5C158 !important;
+}
+
+/* --- mat-hint y mat-error --- */
+.mat-mdc-form-field-hint {
+  color: #666666 !important;
+}
+
+[data-theme="dark"] .mat-mdc-form-field-hint {
+  color: #A0A0A0 !important;
+}
+
+.mat-mdc-form-field-error {
+  color: #d32f2f !important;
+}
+
+[data-theme="dark"] .mat-mdc-form-field-error {
+  color: #ef5350 !important;
+}
+
+/* --- Chip / prefix / suffix icons --- */
+.mat-mdc-form-field .mat-mdc-form-field-text-prefix,
+.mat-mdc-form-field .mat-mdc-form-field-text-suffix {
+  color: #666666;
+}
+
+
+[data-theme="dark"] .mat-mdc-form-field .mat-mdc-form-field-text-prefix,
+[data-theme="dark"] .mat-mdc-form-field .mat-mdc-form-field-text-suffix {
+  color: #A0A0A0;
+}
+
+/* =============================================================
+   STRUCTURAL FIXES - Tailwind Preflight vs Angular Material MDC
+   Tailwind resetea border/box-sizing que rompe el notched outline
+   ============================================================= */
+
+/* Asegurar que el wrapper tenga posición relativa y overflow visible */
+.mat-mdc-form-field {
+  position: relative;
+}
+
+.mat-mdc-text-field-wrapper {
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Fix: el mdc-notched-outline debe ser absolute con todos lados 0 */
+.mdc-notched-outline {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  display: flex !important;
+  pointer-events: none !important;
+  box-sizing: border-box;
+}
+
+/* Fix: border-box para los segmentos del outline */
+.mdc-notched-outline__leading,
+.mdc-notched-outline__notch,
+.mdc-notched-outline__trailing {
+  box-sizing: border-box !important;
+  border-top: 1px solid !important;
+  border-bottom: 1px solid !important;
+}
+
+.mdc-notched-outline__leading {
+  border-left: 1px solid !important;
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+  width: 12px !important;
+  min-width: 12px !important;
+}
+
+.mdc-notched-outline__trailing {
+  border-right: 1px solid !important;
+  border-top-right-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+  flex-grow: 1 !important;
+}
+
+.mdc-notched-outline__notch {
+  max-width: calc(100% - 24px);
+  padding: 0;
+  border-top: 1px solid !important;
+  border-bottom: 1px solid !important;
+}
+
+/* Cuando el label está flotando arriba: quitar el border-top del notch */
+.mdc-notched-outline--notched .mdc-notched-outline__notch {
+  border-top: none !important;
+  padding-top: 0;
+}
+
+/* Fix: el input dentro del mdc-text-field debe tener altura correcta */
+.mdc-text-field--outlined .mdc-text-field__input {
+  height: auto !important;
+  padding: 12px 16px !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+}
+
+/* Fix: textarea */
+.mdc-text-field--outlined textarea.mdc-text-field__input {
+  resize: vertical;
+  padding: 12px 16px !important;
+}
+
+/* Fix: asegurar que el mat-form-field tenga height mínimo */
+.mat-mdc-form-field-flex {
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+
+/* Fix: evitar que Tailwind aplique ring al input de Material */
+.mdc-text-field__input:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Fix para mat-select dentro de outlined */
+.mat-mdc-select {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Asegurar label esté sobre el outline (z-index) */
+.mdc-floating-label {
+  z-index: 1 !important;
+  pointer-events: none !important;
+  will-change: transform;
+}
+
+/* Override de Tailwind *, *::before, *::after que puede afectar box-sizing */
+.mat-mdc-form-field *,
+.mat-mdc-form-field *::before,
+.mat-mdc-form-field *::after {
+  box-sizing: border-box;
 }
