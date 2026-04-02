@@ -1,9 +1,7 @@
 <div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
   <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4 gap-4">
     <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Métodos de Pago</h2>
-    <button mat-raised-button
-      class="!rounded-xl !py-2 !px-6 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20"
-      (click)="toggleForm()">
+    <button class="btn-admin-primary" (click)="toggleForm()">
       <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
       {{ showForm ? 'Cancelar' : 'Nuevo Método' }}
     </button>
@@ -17,43 +15,41 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content class="p-6">
-      <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="space-y-4">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Nombre</mat-label>
-          <input matInput formControlName="nombre" placeholder="Ej: Tarjeta de Crédito" class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
-        </mat-form-field>
+      <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="space-y-5">
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Descripción</mat-label>
-          <input matInput formControlName="descripcion" placeholder="Ej: Pago seguro con tarjeta" class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
-        </mat-form-field>
+        <div class="field-admin">
+          <label class="label-admin">Nombre</label>
+          <input type="text" formControlName="nombre" placeholder="Ej: Tarjeta de Crédito" class="input-admin">
+        </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Instrucciones (Opcional)</mat-label>
-          <textarea matInput formControlName="instrucciones" rows="3" placeholder="Ej: Clabe interbancaria..." class="bg-[#FAF8F5] dark:bg-[#2A2A2A]"></textarea>
-        </mat-form-field>
+        <div class="field-admin">
+          <label class="label-admin">Descripción</label>
+          <input type="text" formControlName="descripcion" placeholder="Ej: Pago seguro con tarjeta" class="input-admin">
+        </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Icono (Nombre o URL)</mat-label>
-          <input matInput formControlName="icono" placeholder="credit_card" class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
-          <mat-icon matSuffix *ngIf="paymentForm.get('icono')?.value && !paymentForm.get('icono')?.value.includes('http')" class="text-[#2C2C2C] dark:text-[#F0F0F0]">
-            {{ paymentForm.get('icono')?.value }}
-          </mat-icon>
-        </mat-form-field>
+        <div class="field-admin">
+          <label class="label-admin">Instrucciones (Opcional)</label>
+          <textarea formControlName="instrucciones" rows="3" placeholder="Ej: Clabe interbancaria..." class="textarea-admin"></textarea>
+        </div>
+
+        <div class="field-admin">
+          <label class="label-admin">Icono (Nombre Material Icon o URL)</label>
+          <div class="relative">
+            <input type="text" formControlName="icono" placeholder="credit_card" class="input-admin pr-12">
+            <mat-icon *ngIf="paymentForm.get('icono')?.value && !paymentForm.get('icono')?.value.includes('http')"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] pointer-events-none">
+              {{ paymentForm.get('icono')?.value }}
+            </mat-icon>
+          </div>
+        </div>
 
         <div class="mb-2">
           <mat-slide-toggle formControlName="activo" color="primary">Activo</mat-slide-toggle>
         </div>
 
         <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <button mat-stroked-button
-            class="!rounded-xl !py-2 !px-6 hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-colors duration-300"
-            type="button" (click)="toggleForm()">
-            Cancelar
-          </button>
-          <button mat-raised-button
-            class="!rounded-xl !py-2 !px-6 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20"
-            type="submit" [disabled]="paymentForm.invalid || isLoading">
+          <button type="button" class="btn-admin-secondary" (click)="toggleForm()">Cancelar</button>
+          <button type="submit" class="btn-admin-primary" [disabled]="paymentForm.invalid || isLoading">
             {{ isLoading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
           </button>
         </div>

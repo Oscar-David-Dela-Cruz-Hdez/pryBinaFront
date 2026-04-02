@@ -2,20 +2,15 @@
   <div class="mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4">
     <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Historia</h2>
   </div>
-
   <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 animate-fade-in">
     <mat-card-content class="p-6">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Historia de la Empresa</mat-label>
-          <textarea matInput formControlName="historia" rows="8" placeholder="Escribe la historia aquí..."
-                    class="bg-[#FAF8F5] dark:bg-[#2A2A2A]"></textarea>
-        </mat-form-field>
-
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+        <div class="field-admin">
+          <label class="label-admin">Historia de la Empresa</label>
+          <textarea formControlName="historia" rows="8" placeholder="Escribe la historia aquí..." class="textarea-admin"></textarea>
+        </div>
         <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <button mat-raised-button
-            class="!rounded-xl !py-2 !px-6 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20"
-            type="submit" [disabled]="isLoading">
+          <button type="submit" class="btn-admin-primary" [disabled]="isLoading">
             {{ isLoading ? 'Guardando...' : 'Guardar Cambios' }}
           </button>
         </div>

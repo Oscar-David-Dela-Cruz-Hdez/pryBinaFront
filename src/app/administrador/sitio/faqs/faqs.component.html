@@ -1,9 +1,7 @@
 <div class="admin-container w-full max-w-4xl mx-auto p-4 md:p-8 animate-slide-up transition-all duration-300 min-h-[calc(100vh-80px)]">
   <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4 gap-4">
     <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Preguntas Frecuentes (FAQs)</h2>
-    <button mat-raised-button
-      class="!rounded-xl !py-2 !px-6 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20"
-      (click)="toggleForm()">
+    <button class="btn-admin-primary" (click)="toggleForm()">
       <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
       {{ showForm ? 'Cancelar' : 'Nueva Pregunta' }}
     </button>
@@ -17,26 +15,21 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content class="p-6">
-      <form [formGroup]="faqForm" (ngSubmit)="onSubmit()" class="space-y-4">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Pregunta</mat-label>
-          <input matInput formControlName="pregunta" placeholder="Ej: ¿Cuáles son los métodos de pago?" class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
-        </mat-form-field>
+      <form [formGroup]="faqForm" (ngSubmit)="onSubmit()" class="space-y-5">
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Respuesta</mat-label>
-          <textarea matInput formControlName="respuesta" rows="3" placeholder="Respuesta detallada..." class="bg-[#FAF8F5] dark:bg-[#2A2A2A]"></textarea>
-        </mat-form-field>
+        <div class="field-admin">
+          <label class="label-admin">Pregunta <span class="text-red-500">*</span></label>
+          <input type="text" formControlName="pregunta" placeholder="Ej: ¿Cuáles son los métodos de pago?" class="input-admin">
+        </div>
+
+        <div class="field-admin">
+          <label class="label-admin">Respuesta <span class="text-red-500">*</span></label>
+          <textarea formControlName="respuesta" rows="4" placeholder="Respuesta detallada..." class="textarea-admin"></textarea>
+        </div>
 
         <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <button mat-stroked-button
-            class="!rounded-xl !py-2 !px-6 hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-colors duration-300"
-            type="button" (click)="toggleForm()">
-            Cancelar
-          </button>
-          <button mat-raised-button
-            class="!rounded-xl !py-2 !px-6 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] hover:scale-[1.02] active:scale-95 transition-transform duration-300 shadow-lg shadow-[#D4AF37]/20"
-            type="submit" [disabled]="faqForm.invalid || isLoading">
+          <button type="button" class="btn-admin-secondary" (click)="toggleForm()">Cancelar</button>
+          <button type="submit" class="btn-admin-primary" [disabled]="faqForm.invalid || isLoading">
             {{ isLoading ? 'Guardando...' : (editingId ? 'Actualizar' : 'Guardar') }}
           </button>
         </div>
@@ -53,21 +46,14 @@
             {{ faq.pregunta }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-
         <div class="p-4">
           <p class="text-[#666666] dark:text-[#A0A0A0] mb-4">{{ faq.respuesta }}</p>
           <div class="flex justify-end gap-2">
-            <button mat-button
-              class="text-[#D4AF37] dark:text-[#E5C158] hover:bg-[#FAF8F5]/30 dark:hover:bg-[#2A2A2A]/30 transition-colors duration-200"
-              (click)="editFaq(faq)">
-              <mat-icon class="!text-[18px]">edit</mat-icon>
-              Editar
+            <button mat-button class="text-[#D4AF37] dark:text-[#E5C158] hover:bg-[#FAF8F5]/30 dark:hover:bg-[#2A2A2A]/30" (click)="editFaq(faq)">
+              <mat-icon class="!text-[18px]">edit</mat-icon> Editar
             </button>
-            <button mat-button
-              class="text-[#F44336] hover:bg-[#F44336]/10 transition-colors duration-200"
-              (click)="deleteFaq(faq._id)">
-              <mat-icon class="!text-[18px]">delete</mat-icon>
-              Eliminar
+            <button mat-button class="text-[#F44336] hover:bg-[#F44336]/10" (click)="deleteFaq(faq._id)">
+              <mat-icon class="!text-[18px]">delete</mat-icon> Eliminar
             </button>
           </div>
         </div>

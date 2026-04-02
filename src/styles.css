@@ -3,6 +3,98 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =============================================================
+   ADMIN FORM UTILITIES - mismo estilo que login/register
+   Usar estas clases en los componentes admin en lugar de mat-form-field
+   ============================================================= */
+@layer components {
+
+  /* Label encima del campo */
+  .label-admin {
+    @apply block text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-1.5 transition-all duration-300;
+  }
+
+  /* Input de texto */
+  .input-admin {
+    @apply w-full px-4 py-3
+           bg-[#FAF8F5] dark:bg-[#2A2A2A]
+           border border-[#e2dcd6] dark:border-[#333333]
+           rounded-xl
+           text-[#2C2C2C] dark:text-[#F0F0F0]
+           placeholder-gray-400 dark:placeholder-[#606060]
+           focus:outline-none focus:ring-2
+           focus:ring-[#D4AF37] dark:focus:ring-[#E5C158]
+           focus:border-transparent
+           transition-all duration-300;
+  }
+
+  /* Textarea */
+  .textarea-admin {
+    @apply w-full px-4 py-3
+           bg-[#FAF8F5] dark:bg-[#2A2A2A]
+           border border-[#e2dcd6] dark:border-[#333333]
+           rounded-xl
+           text-[#2C2C2C] dark:text-[#F0F0F0]
+           placeholder-gray-400 dark:placeholder-[#606060]
+           focus:outline-none focus:ring-2
+           focus:ring-[#D4AF37] dark:focus:ring-[#E5C158]
+           focus:border-transparent
+           transition-all duration-300
+           resize-y;
+  }
+
+  /* Select nativo */
+  .select-admin {
+    @apply w-full px-4 py-3
+           bg-[#FAF8F5] dark:bg-[#2A2A2A]
+           border border-[#e2dcd6] dark:border-[#333333]
+           rounded-xl
+           text-[#2C2C2C] dark:text-[#F0F0F0]
+           focus:outline-none focus:ring-2
+           focus:ring-[#D4AF37] dark:focus:ring-[#E5C158]
+           focus:border-transparent
+           transition-all duration-300
+           cursor-pointer;
+  }
+
+  /* Botón primario dorado */
+  .btn-admin-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-2.5
+           bg-[#D4AF37] dark:bg-[#E5C158]
+           text-white dark:text-[#0F172A]
+           rounded-xl font-semibold text-sm
+           hover:opacity-90
+           disabled:opacity-50 disabled:cursor-not-allowed
+           transition-all duration-300
+           cursor-pointer hover:scale-[1.02] hover:-translate-y-0.5 active:scale-95;
+  }
+
+  /* Botón secundario (cancelar) */
+  .btn-admin-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-2.5
+           border-2 border-[#e2dcd6] dark:border-[#333333]
+           text-[#2C2C2C] dark:text-[#F0F0F0]
+           rounded-xl font-semibold text-sm
+           hover:bg-[#FAF8F5] dark:hover:bg-[#2A2A2A]
+           disabled:opacity-50 disabled:cursor-not-allowed
+           transition-all duration-300
+           cursor-pointer hover:scale-[1.02] hover:-translate-y-0.5 active:scale-95;
+  }
+
+  /* Wrapper de campo con label: agrupa label + input */
+  .field-admin {
+    @apply flex flex-col gap-1.5;
+  }
+
+  /* Mensaje de error de validación */
+  .field-error {
+    @apply text-xs text-red-500 dark:text-red-400 mt-1;
+  }
+
+}
+
 /* Global CSS variables for Angular Material overrides and premium theme */
 :root {
   --color-primary: #D4AF37;

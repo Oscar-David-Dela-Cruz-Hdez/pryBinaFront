@@ -3,10 +3,11 @@
     <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Pedidos</h2>
   </div>
 
-  <mat-form-field appearance="outline" class="w-full mb-6">
-    <mat-label>Filtrar pedidos</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por ID, usuario, etc." #input class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
-  </mat-form-field>
+  <!-- Filtro de búsqueda -->
+  <div class="field-admin mb-6">
+    <input type="text" (keyup)="applyFilter($event)" placeholder="Buscar por ID, usuario, etc." #input class="input-admin">
+  </div>
+
 
   <div class="mat-elevation-z8 rounded-2xl overflow-hidden bg-[#FFFFFF] dark:bg-[#1E1E1E] border border-[#e2dcd6]/30 dark:border-[#333333]/30">
     <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="w-full">
@@ -102,17 +103,17 @@
               <!-- Actualizar Estado -->
               <div class="detail-section">
                 <h4 class="text-lg font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-4">Actualizar Estado</h4>
-                <mat-form-field appearance="outline" class="w-full">
-                  <mat-label>Nuevo Estado</mat-label>
-                  <mat-select [(ngModel)]="element.tempEstado" (selectionChange)="updateStatus(element, $event.value)" class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
-                    <mat-option value="Pendiente">Pendiente</mat-option>
-                    <mat-option value="Pagado">Pagado</mat-option>
-                    <mat-option value="Enviado">Enviado</mat-option>
-                    <mat-option value="Entregado">Entregado</mat-option>
-                    <mat-option value="Cancelado">Cancelado</mat-option>
-                    <mat-option value="Devolución">Devolución</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <div class="field-admin">
+                  <label class="label-admin">Nuevo Estado</label>
+                  <select class="select-admin" [(ngModel)]="element.tempEstado" (ngModelChange)="updateStatus(element, $event)">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Pagado">Pagado</option>
+                    <option value="Enviado">Enviado</option>
+                    <option value="Entregado">Entregado</option>
+                    <option value="Cancelado">Cancelado</option>
+                    <option value="Devolución">Devolución</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>

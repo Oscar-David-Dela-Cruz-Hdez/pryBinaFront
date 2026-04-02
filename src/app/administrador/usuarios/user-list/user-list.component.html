@@ -3,10 +3,10 @@
     <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Usuarios</h2>
   </div>
 
-  <mat-form-field appearance="outline" class="w-full mb-6">
-    <mat-label>Filtrar usuarios</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por nombre, email, etc." #input class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
-  </mat-form-field>
+  <!-- Filtro de búsqueda -->
+  <div class="field-admin mb-6">
+    <input type="text" (keyup)="applyFilter($event)" placeholder="Buscar por nombre, email, etc." #input class="input-admin">
+  </div>
 
   <div class="mat-elevation-z8 rounded-2xl overflow-hidden bg-[#FFFFFF] dark:bg-[#1E1E1E] border border-[#e2dcd6]/30 dark:border-[#333333]/30">
     <table mat-table [dataSource]="dataSource" matSort class="w-full">
