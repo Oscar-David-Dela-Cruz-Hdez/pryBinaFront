@@ -11,7 +11,7 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import Swal from 'sweetalert2';
 
 import { ProductsService } from '../../../core/services/admin/products.service';
@@ -31,8 +31,7 @@ import { ProductsService } from '../../../core/services/admin/products.service';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatSelectModule,
-    MatSnackBarModule
+    MatSelectModule
   ],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
@@ -55,7 +54,6 @@ export class ProductsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productsService: ProductsService,
-    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -117,7 +115,7 @@ export class ProductsComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },
-      error: () => this.snackBar.open('Error al cargar productos', 'Cerrar', { duration: 3000 })
+      error: () => Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar los productos.' })
     });
 
     this.productsService.getCategorias().subscribe({
@@ -235,13 +233,13 @@ export class ProductsComponent implements OnInit {
 
   finishSubmit(msg: string) {
     this.isLoading = false;
-    this.snackBar.open(msg, 'Cerrar', { duration: 3000 });
+    Swal.fire({ icon: 'success', title: '¡Guardado!', text: msg, timer: 2000, showConfirmButton: false });
     this.toggleForm();
   }
 
   handleError() {
     this.isLoading = false;
-    this.snackBar.open('Error al guardar', 'Cerrar', { duration: 3000 });
+    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar los cambios.' });
   }
 
   deleteProduct(product: any) {

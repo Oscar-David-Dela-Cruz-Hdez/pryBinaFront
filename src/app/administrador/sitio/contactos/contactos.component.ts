@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 
 import { SiteInfoService } from '../../../core/services/admin/site-info.service';
@@ -25,8 +24,7 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
-    MatListModule,
-    MatSnackBarModule
+    MatListModule
   ],
   templateUrl: './contactos.component.html',
   styleUrls: ['./contactos.component.css']
@@ -42,7 +40,6 @@ export class ContactosComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private siteInfoService: SiteInfoService,
-    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -102,11 +99,11 @@ export class ContactosComponent implements OnInit {
             this.contactos[index] = updatedContacto;
           }
           this.toggleForm();
-          this.snackBar.open('Contacto actualizado correctamente', 'Cerrar', { duration: 3000 });
+          Swal.fire({ icon: 'success', title: '¡Guardado!', text: 'Contacto actualizado correctamente.', timer: 2000, showConfirmButton: false });
         },
         error: (err) => {
           this.isLoading = false;
-          this.snackBar.open('Error al actualizar contacto', 'Cerrar', { duration: 3000 });
+          Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo actualizar el contacto.' });
           console.error(err);
         }
       });
@@ -116,11 +113,11 @@ export class ContactosComponent implements OnInit {
           this.isLoading = false;
           this.contactos.push(newContacto);
           this.toggleForm();
-          this.snackBar.open('Contacto agregado correctamente', 'Cerrar', { duration: 3000 });
+          Swal.fire({ icon: 'success', title: '¡Guardado!', text: 'Contacto agregado correctamente.', timer: 2000, showConfirmButton: false });
         },
         error: (err) => {
           this.isLoading = false;
-          this.snackBar.open('Error al agregar contacto', 'Cerrar', { duration: 3000 });
+          Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo agregar el contacto.' });
           console.error(err);
         }
       });

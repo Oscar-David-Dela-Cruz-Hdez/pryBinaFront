@@ -10,7 +10,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import Swal from 'sweetalert2';
 
 import { SalesService } from '../../../core/services/admin/sales.service';
@@ -30,8 +30,7 @@ import { ProductsService } from '../../../core/services/admin/products.service';
     MatSlideToggleModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-    MatSnackBarModule
+    MatNativeDateModule
   ],
   templateUrl: './ofertas.component.html',
   styleUrls: ['./ofertas.component.css']
@@ -51,7 +50,6 @@ export class OfertasComponent implements OnInit {
     private fb: FormBuilder,
     private salesService: SalesService,
     private productsService: ProductsService,
-    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -141,13 +139,13 @@ export class OfertasComponent implements OnInit {
 
   finishSubmit(msg: string) {
     this.isLoading = false;
-    this.snackBar.open(msg, 'Cerrar', { duration: 3000 });
+    Swal.fire({ icon: 'success', title: '¡Guardado!', text: msg, timer: 2000, showConfirmButton: false });
     this.toggleForm();
   }
 
   handleError() {
     this.isLoading = false;
-    this.snackBar.open('Error al guardar', 'Cerrar', { duration: 3000 });
+    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar los cambios.' });
   }
 
   deleteOffer(offer: any) {

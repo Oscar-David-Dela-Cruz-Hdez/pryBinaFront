@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import Swal from 'sweetalert2';
 
 import { AdminUsersService } from '../../../core/services/admin/admin-users.service';
@@ -24,9 +24,7 @@ import { AdminUsersService } from '../../../core/services/admin/admin-users.serv
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatIconModule,
-    MatSlideToggleModule,
-    MatSnackBarModule
+    MatIconModule
   ],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
@@ -41,7 +39,6 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private adminUsersService: AdminUsersService,
-    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -57,7 +54,7 @@ export class UserListComponent implements OnInit {
         this.dataSource.sort = this.sort;
       },
       error: (err) => {
-        this.snackBar.open('Error al cargar usuarios', 'Cerrar', { duration: 3000 });
+        Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar la lista de usuarios.' });
       }
     });
   }
@@ -79,12 +76,10 @@ export class UserListComponent implements OnInit {
     this.adminUsersService.updateRol(user._id, newRole).subscribe({
       next: () => {
         user.rol = newRole;
-        this.snackBar.open(`Rol actualizado a ${newRole}`, 'Cerrar', { duration: 2000 });
+        Swal.fire({ icon: 'success', title: 'Rol actualizado', text: `Rol cambiado a ${newRole}.`, timer: 1800, showConfirmButton: false });
       },
       error: () => {
-        // Revert toggle if error
-        event.source.checked = !event.checked; 
-        this.snackBar.open('Error al actualizar rol', 'Cerrar', { duration: 3000 });
+        Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo actualizar el rol.' });
       }
     });
   }

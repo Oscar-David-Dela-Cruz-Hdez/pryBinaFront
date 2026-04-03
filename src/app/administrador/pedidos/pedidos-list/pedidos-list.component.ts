@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -32,7 +32,6 @@ import { OrdersService } from '../../../core/services/admin/orders.service';
         MatIconModule,
         MatSelectModule,
         MatExpansionModule,
-        MatSnackBarModule,
         MatDialogModule,
         FormsModule
     ],
@@ -51,7 +50,6 @@ export class PedidosComponent implements OnInit {
 
     constructor(
         private ordersService: OrdersService,
-        private snackBar: MatSnackBar
     ) { }
 
     ngOnInit(): void {
@@ -72,7 +70,7 @@ export class PedidosComponent implements OnInit {
                     return dataStr.indexOf(filter) !== -1;
                 };
             },
-            error: () => this.snackBar.open('Error al cargar pedidos', 'Cerrar', { duration: 3000 })
+            error: () => Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar los pedidos.' })
         });
     }
 
@@ -114,11 +112,10 @@ export class PedidosComponent implements OnInit {
                 this.ordersService.updateEstadoPedido(pedido._id, nuevoEstado).subscribe({
                     next: (res) => {
                         pedido.estado = nuevoEstado;
-                        this.snackBar.open('Estado actualizado', 'Cerrar', { duration: 3000 });
+                        Swal.fire({ icon: 'success', title: 'Estado actualizado', text: `Pedido cambiado a ${nuevoEstado}.`, timer: 1800, showConfirmButton: false });
                     },
                     error: () => {
-                        this.snackBar.open('Error al actualizar estado', 'Cerrar', { duration: 3000 });
-                        // Revert temp selection if needed, though ui binds to ngModel
+                        Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo actualizar el estado.' });
                         pedido.tempEstado = pedido.estado;
                     }
                 });

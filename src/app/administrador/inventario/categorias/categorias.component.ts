@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 
 import { ProductsService } from '../../../core/services/admin/products.service';
@@ -23,8 +22,7 @@ import { ProductsService } from '../../../core/services/admin/products.service';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatListModule,
-    MatSnackBarModule
+    MatListModule
   ],
   templateUrl: './categorias.component.html',
   styleUrls: ['./categorias.component.css']
@@ -40,7 +38,6 @@ export class CategoriasComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productsService: ProductsService,
-    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -99,13 +96,13 @@ export class CategoriasComponent implements OnInit {
 
   finishSubmit(msg: string) {
     this.isLoading = false;
-    this.snackBar.open(msg, 'Cerrar', { duration: 3000 });
+    Swal.fire({ icon: 'success', title: '¡Guardado!', text: msg, timer: 2000, showConfirmButton: false });
     this.toggleForm();
   }
 
   handleError() {
     this.isLoading = false;
-    this.snackBar.open('Error al guardar', 'Cerrar', { duration: 3000 });
+    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar los cambios.' });
   }
 
   deleteCat(cat: any) {

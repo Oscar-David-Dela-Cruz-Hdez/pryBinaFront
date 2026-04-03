@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 import { SiteInfoService } from '../../../../core/services/admin/site-info.service';
 
@@ -18,8 +18,7 @@ import { SiteInfoService } from '../../../../core/services/admin/site-info.servi
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
-        MatButtonModule,
-        MatSnackBarModule
+        MatButtonModule
     ],
     templateUrl: './terminos.component.html',
     styleUrls: ['./terminos.component.css']
@@ -30,8 +29,7 @@ export class TerminosComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private siteInfoService: SiteInfoService,
-        private snackBar: MatSnackBar
+        private siteInfoService: SiteInfoService
     ) { }
 
     ngOnInit(): void {
@@ -61,11 +59,11 @@ export class TerminosComponent implements OnInit {
         this.siteInfoService.updateTerminos(payload).subscribe({
             next: () => {
                 this.isLoading = false;
-                this.snackBar.open('Términos actualizados correctamente', 'Cerrar', { duration: 3000 });
+                Swal.fire({ icon: 'success', title: '¡Guardado!', text: 'Términos actualizados correctamente.', timer: 2000, showConfirmButton: false });
             },
             error: () => {
                 this.isLoading = false;
-                this.snackBar.open('Error al actualizar', 'Cerrar', { duration: 3000 });
+                Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo actualizar los términos.' });
             }
         });
     }

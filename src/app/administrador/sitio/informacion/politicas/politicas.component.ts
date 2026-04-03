@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 import { SiteInfoService } from '../../../../core/services/admin/site-info.service';
 
@@ -18,8 +18,7 @@ import { SiteInfoService } from '../../../../core/services/admin/site-info.servi
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
-        MatButtonModule,
-        MatSnackBarModule
+        MatButtonModule
     ],
     templateUrl: './politicas.component.html',
     styleUrls: ['./politicas.component.css']
@@ -30,8 +29,7 @@ export class PoliticasComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private siteInfoService: SiteInfoService,
-        private snackBar: MatSnackBar
+        private siteInfoService: SiteInfoService
     ) { }
 
     ngOnInit(): void {
@@ -61,11 +59,11 @@ export class PoliticasComponent implements OnInit {
         this.siteInfoService.updatePoliticas(payload).subscribe({
             next: () => {
                 this.isLoading = false;
-                this.snackBar.open('Políticas actualizadas correctamente', 'Cerrar', { duration: 3000 });
+                Swal.fire({ icon: 'success', title: '¡Guardado!', text: 'Políticas actualizadas correctamente.', timer: 2000, showConfirmButton: false });
             },
             error: () => {
                 this.isLoading = false;
-                this.snackBar.open('Error al actualizar', 'Cerrar', { duration: 3000 });
+                Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo actualizar las políticas.' });
             }
         });
     }

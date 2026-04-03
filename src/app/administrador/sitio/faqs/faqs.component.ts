@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import Swal from 'sweetalert2';
 
 import { SiteInfoService } from '../../../core/services/admin/site-info.service';
@@ -23,8 +23,7 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatExpansionModule,
-    MatSnackBarModule
+    MatExpansionModule
   ],
   templateUrl: './faqs.component.html',
   styleUrls: ['./faqs.component.css']
@@ -40,7 +39,6 @@ export class FaqsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private siteInfoService: SiteInfoService,
-    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -87,11 +85,11 @@ export class FaqsComponent implements OnInit {
             this.faqs[index] = updatedFaq;
           }
           this.toggleForm();
-          this.snackBar.open('Pregunta actualizada correctamente', 'Cerrar', { duration: 3000 });
+          Swal.fire({ icon: 'success', title: '¡Guardado!', text: 'Pregunta actualizada correctamente.', timer: 2000, showConfirmButton: false });
         },
         error: (err) => {
           this.isLoading = false;
-          this.snackBar.open('Error al actualizar pregunta', 'Cerrar', { duration: 3000 });
+          Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo actualizar la pregunta.' });
           console.error(err);
         }
       });
@@ -101,11 +99,11 @@ export class FaqsComponent implements OnInit {
           this.isLoading = false;
           this.faqs.unshift(newFaq); // Add to top
           this.toggleForm();
-          this.snackBar.open('Pregunta agregada correctamente', 'Cerrar', { duration: 3000 });
+          Swal.fire({ icon: 'success', title: '¡Guardado!', text: 'Pregunta agregada correctamente.', timer: 2000, showConfirmButton: false });
         },
         error: (err) => {
           this.isLoading = false;
-          this.snackBar.open('Error al agregar pregunta', 'Cerrar', { duration: 3000 });
+          Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo agregar la pregunta.' });
           console.error(err);
         }
       });
