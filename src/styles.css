@@ -471,6 +471,62 @@
 .mat-mdc-select-arrow { color: #999999 !important; }
 [data-theme="dark"] .mat-mdc-select-arrow { color: #555555 !important; }
 
+/* =============================================================
+   PAGINATOR PAGE-SIZE SELECT — elimina el doble borde (mdc-notched-outline)
+   El paginator usa mat-form-field internamente con un "notched outline"
+   que genera 3 segmentos de borde. Lo reemplazamos con un borde limpio.
+   ============================================================= */
+
+/* Quitar el borde triple (leading + notch + trailing) del mdc-notched-outline */
+.mat-mdc-paginator .mdc-notched-outline__leading,
+.mat-mdc-paginator .mdc-notched-outline__notch,
+.mat-mdc-paginator .mdc-notched-outline__trailing {
+  border-color: transparent !important;
+  border-width: 0 !important;
+}
+/* Ocultar el line-ripple del modo underline si aplica */
+.mat-mdc-paginator .mdc-line-ripple { display: none !important; }
+
+/* Dar un borde limpio y único al text-field-wrapper del paginator */
+.mat-mdc-paginator .mat-mdc-text-field-wrapper,
+.mat-mdc-paginator .mdc-text-field {
+  background: transparent !important;
+  border: 1.5px solid rgba(226,220,214,0.7) !important;
+  border-radius: 8px !important;
+  padding: 0 4px !important;
+  min-height: 32px !important;
+}
+.mat-mdc-paginator .mat-mdc-text-field-wrapper:focus-within,
+.mat-mdc-paginator .mdc-text-field:focus-within {
+  border-color: rgba(212,175,55,0.6) !important;
+  box-shadow: 0 0 0 2px rgba(212,175,55,0.12) !important;
+}
+[data-theme="dark"] .mat-mdc-paginator .mat-mdc-text-field-wrapper,
+[data-theme="dark"] .mat-mdc-paginator .mdc-text-field {
+  border-color: rgba(51,51,51,0.7) !important;
+}
+[data-theme="dark"] .mat-mdc-paginator .mat-mdc-text-field-wrapper:focus-within {
+  border-color: rgba(229,193,88,0.5) !important;
+  box-shadow: 0 0 0 2px rgba(229,193,88,0.10) !important;
+}
+
+/* Asegura que el select value tenga el color correcto */
+.mat-mdc-paginator .mat-mdc-select-value-text {
+  color: #2C2C2C !important;
+  font-size: 13px !important;
+}
+[data-theme="dark"] .mat-mdc-paginator .mat-mdc-select-value-text {
+  color: #E0E0E0 !important;
+}
+
+/* Quitar el padding extra del form-field-infix en el paginator */
+.mat-mdc-paginator .mat-mdc-form-field-infix {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  min-height: unset !important;
+  width: auto !important;
+}
+
 
 
 :root {
