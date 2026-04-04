@@ -14,6 +14,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 // Services
 import { ProductsService } from '../../../core/services/admin/products.service';
 import { CartService } from '../../../core/services/shop/cart.service';
+import { FamiliasService } from '../../../core/services/admin/familias.service';
 
 @Component({
     selector: 'app-catalog',
@@ -35,37 +36,54 @@ import { CartService } from '../../../core/services/shop/cart.service';
 export class CatalogComponent implements OnInit {
     products: any[] = [];
     allProducts: any[] = []; // Store all to filter client-side if needed
-    categories: any[] = [];
+    marcas: any[] = [];
+    familias: any[] = [];
     isLoading = true;
-    selectedCategory: string | null = null;
+    selectedMarca: string | null = null;
+    selectedFamilia: string | null = null;
     searchQuery: string = '';
 
     constructor(
         private productsService: ProductsService,
+        private familiasService: FamiliasService,
         private cartService: CartService,
         private route: ActivatedRoute
     ) { }
 
     ngOnInit(): void {
-        this.loadCategories();
+        this.loadMarcas();
         this.route.queryParams.subscribe(params => {
-            this.selectedCategory = params['category'] || null;
-            this.searchQuery = params['q'] || '';
+            this.selectedMarca = params['marca'] || null;
+            this.selectedFamilia = params['familia'] || null;
+            this.searchQuery = params['nombre'] || '';
+            
+            if (this.selectedMarca) {
+                this.loadFamilias(this.selectedMarca);
+            }
+            
             this.loadProducts();
         });
     }
 
-    loadCategories() {
-        this.productsService.getCategorias().subscribe({
-            next: (data) => this.categories = data,
-            error: (err) => console.error('Error loading categories', err)
+    loadMarcas() {
+        this.productsService.getMarcas().subscribe({
+            next: (data) => this.marcas = data,
+            error: (err) => console.error('Error loading marcas', err)
+        });
+    }
+
+    loadFamilias(marcaId: string) {
+        this.familiasService.getFamilias({ marca: marcaId }).subscribe({
+            next: (data) => this.familias = data,
+            error: (err) => console.error('Error loading familias', err)
         });
     }
 
     loadProducts() {
         this.isLoading = true;
         const filters: any = {};
-        if (this.selectedCategory) filters.categoria = this.selectedCategory;
+        if (this.selectedMarca) filters.marca = this.selectedMarca;
+        if (this.selectedFamilia) filters.familia = this.selectedFamilia;
         if (this.searchQuery) filters.nombre = this.searchQuery;
 
         this.productsService.getProductos(filters).subscribe({
@@ -80,15 +98,25 @@ export class CatalogComponent implements OnInit {
         });
     }
 
-    // applyFilters ya no es necesario si el backend filtra, pero podemos mantenerlo si queremos filtro híbrido
-    // Por ahora eliminamos la lógica local para confiar en el backend
-    onCategoryChange(event: any) {
+    onMarcaChange(event: any) {
         const selectedOption = event.options[0];
-        // MatSelectionList toggle behavior: if unselected, event value might differ
-        // Simply check selectedCategory model update or handle directly
         if (selectedOption) {
-            this.selectedCategory = selectedOption.selected ? selectedOption.value : null;
-            this.loadProducts(); // Call API with new filter
+            this.selectedMarca = selectedOption.selected ? selectedOption.value : null;
+            this.selectedFamilia = null; // Reset
+            if (this.selectedMarca) {
+                this.loadFamilias(this.selectedMarca);
+            } else {
+                this.familias = [];
+            }
+            this.loadProducts(); 
+        }
+    }
+
+    onFamiliaChange(event: any) {
+        const selectedOption = event.options[0];
+        if (selectedOption) {
+            this.selectedFamilia = selectedOption.selected ? selectedOption.value : null;
+            this.loadProducts(); 
         }
     }
 

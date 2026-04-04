@@ -37,7 +37,7 @@ import { ProductsService } from '../../../core/services/admin/products.service';
 })
 export class OfertasComponent implements OnInit {
   ofertas: any[] = [];
-  categoriasDisponibles: any[] = [];
+  marcasDisponibles: any[] = [];
   productosDisponibles: any[] = [];
   
   offerForm!: FormGroup;
@@ -59,7 +59,7 @@ export class OfertasComponent implements OnInit {
       tipoDescuento: ['porcentaje', Validators.required],
       valorDescuento: [0, [Validators.required, Validators.min(0)]],
       productos: [[]],
-      categorias: [[]],
+      marcas: [[]],
       fechaInicio: [new Date(), Validators.required],
       fechaFin: [new Date(), Validators.required],
       activo: [true]
@@ -72,8 +72,8 @@ export class OfertasComponent implements OnInit {
       this.ofertas = data || [];
     });
     
-    this.productsService.getCategorias().subscribe(data => {
-       this.categoriasDisponibles = data || [];
+    this.productsService.getMarcas().subscribe(data => {
+       this.marcasDisponibles = data || [];
     });
     
     this.productsService.getProductos().subscribe(data => {
@@ -89,7 +89,7 @@ export class OfertasComponent implements OnInit {
         valorDescuento: 0, 
         activo: true, 
         productos: [], 
-        categorias: [],
+        marcas: [],
         fechaInicio: new Date(),
         fechaFin: new Date()
       });
@@ -106,8 +106,8 @@ export class OfertasComponent implements OnInit {
     if (offer.productos && offer.productos.length > 0) {
       formData.productos = offer.productos.map((p: any) => p._id || p);
     }
-    if (offer.categorias && offer.categorias.length > 0) {
-      formData.categorias = offer.categorias.map((c: any) => c._id || c);
+    if (offer.marcas && offer.marcas.length > 0) {
+      formData.marcas = offer.marcas.map((c: any) => c._id || c);
     }
 
     this.offerForm.patchValue(formData);

@@ -22,106 +22,84 @@
             <input type="text" formControlName="nombre" class="input-admin" placeholder="Nombre del producto">
           </div>
           <div class="field-admin">
-            <label class="label-admin">SKU / Código Base</label>
-            <input type="text" formControlName="skuBase" class="input-admin" placeholder="PROD-001">
+            <label class="label-admin">Stock <span class="text-red-500">*</span></label>
+            <input type="number" formControlName="stock" class="input-admin" placeholder="0">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 rounded-xl bg-[#FAF8F5]/50 dark:bg-[#2A2A2A]/50 border border-[#e2dcd6]/30 dark:border-[#333333]/30">
+          <div class="field-admin">
+            <label class="label-admin">Precio Normal <span class="text-red-500">*</span></label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] font-medium">$</span>
+              <input type="number" formControlName="precioNormal" class="input-admin pl-7" placeholder="0.00">
+            </div>
+          </div>
+          <div class="field-admin">
+            <label class="label-admin">SKU Normal</label>
+            <input type="text" formControlName="skuNormal" class="input-admin" placeholder="SKU-NORM">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 rounded-xl bg-[#FAF8F5]/50 dark:bg-[#2A2A2A]/50 border border-[#e2dcd6]/30 dark:border-[#333333]/30">
+          <div class="field-admin">
+            <label class="label-admin">Precio Mayoreo</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] font-medium">$</span>
+              <input type="number" formControlName="precioMayoreo" class="input-admin pl-7" placeholder="0.00">
+            </div>
+          </div>
+          <div class="field-admin">
+            <label class="label-admin">SKU Mayoreo</label>
+            <input type="text" formControlName="skuMayoreo" class="input-admin" placeholder="SKU-MAY">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 rounded-xl bg-[#FAF8F5]/50 dark:bg-[#2A2A2A]/50 border border-[#e2dcd6]/30 dark:border-[#333333]/30">
+          <div class="field-admin">
+            <label class="label-admin">Precio Caja</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] font-medium">$</span>
+              <input type="number" formControlName="precioCaja" class="input-admin pl-7" placeholder="0.00">
+            </div>
+          </div>
+          <div class="field-admin">
+            <label class="label-admin">SKU Caja</label>
+            <input type="text" formControlName="skuCaja" class="input-admin" placeholder="SKU-CAJ">
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="field-admin">
-            <label class="label-admin">Precio Base <span class="text-red-500">*</span></label>
-            <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] font-medium">$</span>
-              <input type="number" formControlName="precioBase" class="input-admin pl-7" placeholder="0.00">
-            </div>
+            <label class="label-admin">Marca <span class="text-red-500">*</span></label>
+            <select formControlName="marca" class="select-admin">
+              <option value="">Seleccione una marca</option>
+              <option *ngFor="let m of marcas" [value]="m._id || m.nombre">{{ m.nombre }}</option>
+            </select>
           </div>
           <div class="field-admin">
-            <label class="label-admin">Stock Total <span class="text-red-500">*</span></label>
-            <input type="number" formControlName="stockTotal" class="input-admin" placeholder="0">
+            <label class="label-admin">Familia</label>
+            <select formControlName="familia" class="select-admin">
+              <option value="" [disabled]="!familias.length">
+                {{ familias.length ? 'Seleccione una familia' : 'Seleccione una marca primero' }}
+              </option>
+              <option *ngFor="let f of familias" [value]="f._id || f.nombre">{{ f.nombre }}</option>
+            </select>
           </div>
         </div>
 
-        <!-- Categoría: mat-select dinámico se mantiene pero con better styling -->
         <div class="field-admin">
-          <label class="label-admin">Categoría</label>
-          <select formControlName="categoria" class="select-admin">
-            <option value="">Sin categoría</option>
-            <option *ngFor="let cat of categorias" [value]="cat._id || cat.nombre">{{ cat.nombre }}</option>
-          </select>
+          <label class="label-admin">URL Imagen</label>
+          <input type="url" formControlName="imagenUrl" placeholder="https://example.com/producto.jpg" class="input-admin">
         </div>
 
-        <div class="field-admin">
-          <label class="label-admin">URL Imagen Principal</label>
-          <input type="url" formControlName="imagenUrlPrincipal" placeholder="https://example.com/producto.jpg" class="input-admin">
-        </div>
-
-        <img *ngIf="productForm.get('imagenUrlPrincipal')?.value"
-             [src]="productForm.get('imagenUrlPrincipal')?.value"
+        <img *ngIf="productForm.get('imagenUrl')?.value"
+             [src]="productForm.get('imagenUrl')?.value"
              class="preview-img mb-4 rounded-xl shadow-md max-h-48 object-contain" alt="Vista previa">
 
         <div class="field-admin">
           <label class="label-admin">Descripción</label>
           <textarea formControlName="descripcion" rows="3" class="textarea-admin" placeholder="Descripción del producto..."></textarea>
-        </div>
-
-        <div class="mb-2">
-          <mat-slide-toggle formControlName="tieneVariantes" color="primary">¿Tiene Variantes?</mat-slide-toggle>
-        </div>
-
-        <div *ngIf="productForm.get('tieneVariantes')?.value" class="variants-section space-y-4">
-          <h3 class="text-lg font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">Variantes</h3>
-          <div formArrayName="variantes">
-            <div *ngFor="let v of variantes.controls; let i=index" [formGroupName]="i"
-                 class="p-4 rounded-xl bg-[#FAF8F5]/50 dark:bg-[#2A2A2A]/50 border border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="field-admin">
-                  <label class="label-admin">SKU</label>
-                  <input type="text" formControlName="sku" class="input-admin" placeholder="VAR-001">
-                </div>
-                <div class="field-admin">
-                  <label class="label-admin">Precio</label>
-                  <input type="number" formControlName="precio" class="input-admin" placeholder="0.00">
-                </div>
-                <div class="field-admin">
-                  <label class="label-admin">Stock</label>
-                  <input type="number" formControlName="stock" class="input-admin" placeholder="0">
-                </div>
-              </div>
-              <div class="field-admin">
-                <label class="label-admin">URL Imagen</label>
-                <input type="url" formControlName="imagenUrl" class="input-admin" placeholder="https://...">
-              </div>
-
-              <!-- Atributos -->
-              <div formArrayName="atributos" class="space-y-3">
-                <h4 class="text-md font-medium text-[#2C2C2C] dark:text-[#F0F0F0]">Atributos</h4>
-                <div *ngFor="let attr of getAtributos(i).controls; let j=index" [formGroupName]="j"
-                     class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
-                  <div class="field-admin">
-                    <label class="label-admin">Nombre (ej. Color)</label>
-                    <input type="text" formControlName="nombre" class="input-admin" placeholder="Color">
-                  </div>
-                  <div class="field-admin">
-                    <label class="label-admin">Valor (ej. Rojo)</label>
-                    <input type="text" formControlName="valor" class="input-admin" placeholder="Rojo">
-                  </div>
-                  <button type="button" class="text-[#F44336] hover:scale-110 transition-transform flex items-center gap-1 text-sm" (click)="removeAtributo(i, j)">
-                    <mat-icon class="!text-[18px]">close</mat-icon> Quitar
-                  </button>
-                </div>
-                <button type="button" class="btn-admin-secondary !py-1.5 !px-4 text-[#D4AF37] dark:text-[#E5C158] border-[#D4AF37]/30 dark:border-[#E5C158]/30" (click)="addAtributo(i)">
-                  <mat-icon class="!text-[18px]">add</mat-icon> Agregar Atributo
-                </button>
-              </div>
-
-              <button type="button" class="flex items-center gap-1 text-sm text-[#F44336] hover:scale-105 transition-transform" (click)="removeVariante(i)">
-                <mat-icon class="!text-[18px]">delete</mat-icon> Eliminar Variante
-              </button>
-            </div>
-          </div>
-          <button type="button" class="btn-admin-secondary" (click)="addVariante()">
-            <mat-icon>add</mat-icon> Agregar Variante
-          </button>
         </div>
 
         <div class="mb-2">
@@ -149,7 +127,7 @@
       <ng-container matColumnDef="imagen">
         <th mat-header-cell *matHeaderCellDef class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">Imagen</th>
         <td mat-cell *matCellDef="let row" class="p-3">
-          <img [src]="row.imagenUrlPrincipal || row.imagenUrl || 'assets/no-image.png'" class="thumb-img rounded-lg shadow-sm">
+          <img [src]="row.imagenUrl || row.imagenUrlPrincipal || 'assets/no-image.png'" class="thumb-img rounded-lg shadow-sm">
         </td>
       </ng-container>
 
@@ -159,22 +137,22 @@
         <td mat-cell *matCellDef="let row" class="p-3">
           <div class="flex flex-col">
             <span class="font-medium text-[#2C2C2C] dark:text-[#F0F0F0]">{{row.nombre}}</span>
-            <span class="text-sm text-[#666666] dark:text-[#A0A0A0]">{{row.skuBase || row.sku}}</span>
+            <span class="text-sm text-[#666666] dark:text-[#A0A0A0]">{{row.skuNormal || row.skuBase}}</span>
           </div>
         </td>
       </ng-container>
 
-      <!-- Precio -->
-      <ng-container matColumnDef="precio">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">Precio</th>
-        <td mat-cell *matCellDef="let row" class="p-3">{{(row.precioBase || row.precio) | currency}}</td>
+      <!-- Precio Normal -->
+      <ng-container matColumnDef="precioNormal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">Precio Normal</th>
+        <td mat-cell *matCellDef="let row" class="p-3">{{(row.precioNormal || row.precioBase || row.precio) | currency}}</td>
       </ng-container>
 
       <!-- Stock -->
       <ng-container matColumnDef="stock">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">Stock</th>
         <td mat-cell *matCellDef="let row" class="p-3">
-          <span [class.text-red-500]="(row.stockTotal || row.stock) < 5">{{row.stockTotal || row.stock}}</span>
+          <span [class.text-red-500]="(row.stock || row.stockTotal) < 5">{{row.stock || row.stockTotal}}</span>
         </td>
       </ng-container>
 

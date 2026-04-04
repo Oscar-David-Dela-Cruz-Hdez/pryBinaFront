@@ -33,8 +33,8 @@ import { DashboardComponent } from './administrador/dashboard/dashboard.componen
 import { OfertasComponent } from './administrador/ventas/ofertas/ofertas.component';
 import { CarruselComponent } from './administrador/ventas/carrusel/carrusel.component';
 import { ProductsComponent } from './administrador/inventario/productos/products.component';
-import { CategoriasComponent } from './administrador/inventario/categorias/categorias.component';
-
+import { MarcasComponent } from './administrador/inventario/marcas/marcas.component';
+import { FamiliasComponent } from './administrador/inventario/familias/familias.component';
 import { MetodosEnvioComponent } from './administrador/pedidos/metodos-envio/metodos-envio.component';
 import { PedidosComponent } from './administrador/pedidos/pedidos-list/pedidos-list.component';
 import { CatalogComponent } from './pages/shop/catalog/catalog.component';
@@ -216,10 +216,16 @@ export const routes: Routes = [
     data: { breadcrumb: 'Admin / Productos' }
   },
   {
-    path: 'admin/inventario/categorias',
-    component: CategoriasComponent,
+    path: 'admin/inventario/marcas',
+    component: MarcasComponent,
     canActivate: [authGuard],
-    data: { breadcrumb: 'Admin / Categorías' }
+    data: { breadcrumb: 'Admin / Marcas' }
+  },
+  {
+    path: 'admin/inventario/familias',
+    component: FamiliasComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Familias' }
   },
 
   {

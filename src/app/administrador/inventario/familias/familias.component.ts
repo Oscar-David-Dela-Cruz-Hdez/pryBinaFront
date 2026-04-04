@@ -7,12 +7,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
 import Swal from 'sweetalert2';
 
+import { FamiliasService } from '../../../core/services/admin/familias.service';
 import { ProductsService } from '../../../core/services/admin/products.service';
 
 @Component({
-  selector: 'app-admin-categorias',
+  selector: 'app-admin-familias',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,14 +24,16 @@ import { ProductsService } from '../../../core/services/admin/products.service';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatSelectModule
   ],
-  templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.css']
+  templateUrl: './familias.component.html',
+  styleUrls: ['./familias.component.css']
 })
-export class CategoriasComponent implements OnInit {
-  categorias: any[] = [];
-  catForm!: FormGroup;
+export class FamiliasComponent implements OnInit {
+  familias: any[] = [];
+  marcas: any[] = [];
+  familiaForm!: FormGroup;
   showForm = false;
   isEditing = false;
   editingId: string | null = null;
@@ -37,56 +41,65 @@ export class CategoriasComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private productsService: ProductsService,
+    private familiasService: FamiliasService,
+    private productsService: ProductsService
   ) { }
 
   ngOnInit(): void {
-    this.catForm = this.fb.group({
+    this.familiaForm = this.fb.group({
       nombre: ['', Validators.required],
-      descripcion: ['']
+      descripcion: [''],
+      marca: ['', Validators.required]
     });
     this.loadData();
   }
 
   loadData() {
-    this.productsService.getCategorias().subscribe(data => {
-      this.categorias = data || [];
+    this.familiasService.getFamilias().subscribe(data => {
+      this.familias = data || [];
+    });
+    this.productsService.getMarcas().subscribe(data => {
+      this.marcas = data || [];
     });
   }
 
   toggleForm() {
     this.showForm = !this.showForm;
     if (!this.showForm) {
-      this.catForm.reset();
+      this.familiaForm.reset();
       this.isEditing = false;
       this.editingId = null;
     }
   }
 
-  editCat(cat: any) {
+  editFamilia(familia: any) {
     this.isEditing = true;
-    this.editingId = cat._id;
-    this.catForm.patchValue(cat);
+    this.editingId = familia._id;
+
+    // Handle nested marca object if populated
+    const patchData = { ...familia };
+    patchData.marca = familia.marca?._id || familia.marca || '';
+
+    this.familiaForm.patchValue(patchData);
     this.showForm = true;
   }
 
   onSubmit() {
-    if (this.catForm.invalid) return;
+    if (this.familiaForm.invalid) return;
     this.isLoading = true;
 
     if (this.isEditing && this.editingId) {
-      this.productsService.updateCategoria(this.editingId, this.catForm.value).subscribe({
+      this.familiasService.updateFamilia(this.editingId, this.familiaForm.value).subscribe({
         next: (res) => {
-          this.finishSubmit('Categoría actualizada');
+          this.finishSubmit('Familia actualizada');
           this.loadData();
         },
         error: () => this.handleError()
       });
     } else {
-      this.productsService.createCategoria(this.catForm.value).subscribe({
+      this.familiasService.createFamilia(this.familiaForm.value).subscribe({
         next: (res) => {
-          this.finishSubmit('Categoría creada');
-          this.categorias.push(res.categoria); // Optimistic update
+          this.finishSubmit('Familia creada');
           this.loadData();
         },
         error: () => this.handleError()
@@ -105,9 +118,9 @@ export class CategoriasComponent implements OnInit {
     Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar los cambios.' });
   }
 
-  deleteCat(cat: any) {
+  deleteFamilia(familia: any) {
     Swal.fire({
-      title: '¿Eliminar categoría?',
+      title: '¿Eliminar familia?',
       text: "No podrás revertir esto",
       icon: 'warning',
       showCancelButton: true,
@@ -115,14 +128,20 @@ export class CategoriasComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.productsService.deleteCategoria(cat._id).subscribe({
+        this.familiasService.deleteFamilia(familia._id).subscribe({
           next: () => {
-             this.categorias = this.categorias.filter(c => c._id !== cat._id);
-             Swal.fire('Eliminado', 'La categoría ha sido eliminada.', 'success');
+             this.familias = this.familias.filter(f => f._id !== familia._id);
+             Swal.fire('Eliminado', 'La familia ha sido eliminada.', 'success');
           },
           error: () => Swal.fire('Error', 'No se pudo eliminar', 'error')
         });
       }
     });
+  }
+
+  getMarcaName(marcaId: string | any): string {
+    const id = typeof marcaId === 'object' ? marcaId?._id : marcaId;
+    const marca = this.marcas.find(m => m._id === id);
+    return marca ? marca.nombre : 'Sin marca';
   }
 }

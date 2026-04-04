@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import Swal from 'sweetalert2';
 
 import { ProductsService } from '../../../core/services/admin/products.service';
+import { FamiliasService } from '../../../core/services/admin/familias.service';
 
 @Component({
   selector: 'app-admin-productos',
@@ -37,7 +38,7 @@ import { ProductsService } from '../../../core/services/admin/products.service';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  displayedColumns: string[] = ['imagen', 'nombre', 'precio', 'stock', 'activo', 'acciones'];
+  displayedColumns: string[] = ['imagen', 'nombre', 'precioNormal', 'stock', 'activo', 'acciones'];
   dataSource!: MatTableDataSource<any>;
 
   productForm!: FormGroup;
@@ -46,7 +47,8 @@ export class ProductsComponent implements OnInit {
   editingId: string | null = null;
   isLoading = false;
 
-  categorias: any[] = [];
+  marcas: any[] = [];
+  familias: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -54,58 +56,38 @@ export class ProductsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productsService: ProductsService,
+    private familiasService: FamiliasService
   ) { }
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
       nombre: ['', Validators.required],
-      skuBase: [''],
-      precioBase: [0, Validators.required],
-      stockTotal: [0, Validators.required],
-      categoria: [''],
-      imagenUrlPrincipal: [''],
       descripcion: [''],
-      tieneVariantes: [false],
-      variantes: this.fb.array([]),
+      precioNormal: [0, Validators.required],
+      skuNormal: [''],
+      precioMayoreo: [0],
+      skuMayoreo: [''],
+      precioCaja: [0],
+      skuCaja: [''],
+      stock: [0, Validators.required],
+      marca: ['', Validators.required],
+      familia: [{ value: '', disabled: true }],
+      imagenUrl: [''],
       activo: [true]
     });
 
+    this.productForm.get('marca')?.valueChanges.subscribe(marcaId => {
+      this.familias = [];
+      this.productForm.get('familia')?.setValue('');
+      if (marcaId) {
+        this.productForm.get('familia')?.enable();
+        this.loadFamilias(marcaId);
+      } else {
+        this.productForm.get('familia')?.disable();
+      }
+    });
+
     this.loadData();
-  }
-
-  get variantes() {
-    return this.productForm.get('variantes') as FormArray;
-  }
-
-  getAtributos(variantIndex: number): FormArray {
-    return this.variantes.at(variantIndex).get('atributos') as FormArray;
-  }
-
-  addVariante() {
-    const varianteForm = this.fb.group({
-      sku: [''],
-      precio: [0, Validators.required],
-      stock: [0],
-      imagenUrl: [''],
-      atributos: this.fb.array([])
-    });
-    this.variantes.push(varianteForm);
-  }
-
-  removeVariante(index: number) {
-    this.variantes.removeAt(index);
-  }
-
-  addAtributo(variantIndex: number) {
-    const atributoForm = this.fb.group({
-      nombre: ['', Validators.required],
-      valor: ['', Validators.required]
-    });
-    this.getAtributos(variantIndex).push(atributoForm);
-  }
-
-  removeAtributo(variantIndex: number, attrIndex: number) {
-    this.getAtributos(variantIndex).removeAt(attrIndex);
   }
 
   loadData() {
@@ -118,9 +100,16 @@ export class ProductsComponent implements OnInit {
       error: () => Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar los productos.' })
     });
 
-    this.productsService.getCategorias().subscribe({
-      next: (data) => this.categorias = data || [],
-      error: () => console.log('No se pudieron cargar categorías')
+    this.productsService.getMarcas().subscribe({
+      next: (data) => this.marcas = data || [],
+      error: () => console.log('No se pudieron cargar marcas')
+    });
+  }
+
+  loadFamilias(marcaId: string) {
+    this.familiasService.getFamilias({ marca: marcaId }).subscribe({
+      next: (data) => this.familias = data || [],
+      error: () => console.log('No se pudieron cargar familias')
     });
   }
 
@@ -135,8 +124,8 @@ export class ProductsComponent implements OnInit {
   toggleForm() {
     this.showForm = !this.showForm;
     if (!this.showForm) {
-      this.productForm.reset({ activo: true, precioBase: 0, stockTotal: 0, tieneVariantes: false });
-      this.variantes.clear();
+      this.productForm.reset({ activo: true, precioNormal: 0, precioMayoreo: 0, precioCaja: 0, stock: 0 });
+      this.productForm.get('familia')?.disable();
       this.isEditing = false;
       this.editingId = null;
     }
@@ -146,45 +135,24 @@ export class ProductsComponent implements OnInit {
     this.isEditing = true;
     this.editingId = product._id;
     
-    this.variantes.clear();
-    
-    const formData = { ...product };
-    // Compatibility fallbacks
-    formData.precioBase = product.precioBase ?? product.precio ?? 0;
-    formData.stockTotal = product.stockTotal ?? product.stock ?? 0;
-    formData.skuBase = product.skuBase ?? product.sku ?? '';
-    formData.imagenUrlPrincipal = product.imagenUrlPrincipal ?? product.imagenUrl ?? '';
-    
-    if (product.categoria && typeof product.categoria === 'object') {
-      formData.categoria = product.categoria._id;
-    }
-    
-    if (product.variantes && product.variantes.length > 0) {
-      product.variantes.forEach((v: any) => {
-        const atributosArray = this.fb.array([] as any[]) as FormArray;
-        if (v.atributos) {
-          Object.keys(v.atributos).forEach(key => {
-            atributosArray.push(this.fb.group({
-              nombre: [key, Validators.required],
-              valor: [v.atributos[key], Validators.required]
-            }));
-          });
-        }
+    // Si ya tiene marca, cargamos sus familias antes de hacer patch para que no se bloquee el valor
+    const dataToPatch = { ...product };
+    dataToPatch.marca = product.marca?._id || product.marca || '';
+    dataToPatch.familia = product.familia?._id || product.familia || '';
 
-        this.variantes.push(this.fb.group({
-          sku: [v.sku || ''],
-          precio: [v.precio || 0, Validators.required],
-          stock: [v.stock || 0],
-          imagenUrl: [v.imagenUrl || ''],
-          atributos: atributosArray
-        }));
-      });
-      formData.tieneVariantes = true;
+    // Manejo de compatibilidad en caso que existan campos viejos
+    dataToPatch.precioNormal = product.precioNormal ?? product.precioBase ?? product.precio ?? 0;
+    dataToPatch.stock = product.stock ?? product.stockTotal ?? 0;
+    dataToPatch.imagenUrl = product.imagenUrl ?? product.imagenUrlPrincipal ?? '';
+
+    if (dataToPatch.marca) {
+      this.productForm.get('familia')?.enable();
+      this.loadFamilias(dataToPatch.marca);
     } else {
-      formData.tieneVariantes = false;
+      this.productForm.get('familia')?.disable();
     }
 
-    this.productForm.patchValue(formData);
+    this.productForm.patchValue(dataToPatch);
     this.showForm = true;
   }
 
@@ -192,25 +160,7 @@ export class ProductsComponent implements OnInit {
     if (this.productForm.invalid) return;
     this.isLoading = true;
 
-    // Map `variantes` array to `variantesGenerar` for the backend
     const payload = { ...this.productForm.value };
-    if (payload.tieneVariantes) {
-      payload.variantesGenerar = payload.variantes.map((v: any) => {
-        const _v = { ...v };
-        const attrObj: any = {};
-        if (_v.atributos && Array.isArray(_v.atributos)) {
-          _v.atributos.forEach((attr: any) => {
-            if (attr.nombre && attr.valor) {
-              attrObj[attr.nombre] = attr.valor;
-            }
-          });
-        }
-        _v.atributos = attrObj;
-        return _v;
-      });
-    } else {
-      payload.variantesGenerar = [];
-    }
 
     if (this.isEditing && this.editingId) {
       this.productsService.updateProducto(this.editingId, payload).subscribe({

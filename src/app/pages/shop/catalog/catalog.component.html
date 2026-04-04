@@ -7,18 +7,35 @@
           <h3 class="text-base font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] mb-5 transition-all duration-300">
             Filtros
           </h3>
+          
           <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-3">
-            Categoría
+            Marca
           </p>
-          <mat-selection-list [multiple]="false" (selectionChange)="onCategoryChange($event)">
-            <mat-list-option [value]="null" [selected]="!selectedCategory">
+          <mat-selection-list [multiple]="false" (selectionChange)="onMarcaChange($event)" class="mb-4">
+            <mat-list-option [value]="null" [selected]="!selectedMarca">
               Todas
             </mat-list-option>
-            <mat-list-option *ngFor="let cat of categories" [value]="cat._id"
-              [selected]="selectedCategory === cat._id">
-              {{ cat.nombre }}
+            <mat-list-option *ngFor="let m of marcas" [value]="m._id"
+              [selected]="selectedMarca === m._id">
+              {{ m.nombre }}
             </mat-list-option>
           </mat-selection-list>
+
+          <ng-container *ngIf="selectedMarca">
+            <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-3 border-t border-[#e2dcd6] dark:border-[#333333] pt-4">
+              Familia
+            </p>
+            <mat-selection-list [multiple]="false" (selectionChange)="onFamiliaChange($event)">
+              <mat-list-option [value]="null" [selected]="!selectedFamilia">
+                Todas las familias
+              </mat-list-option>
+              <mat-list-option *ngFor="let f of familias" [value]="f._id"
+                [selected]="selectedFamilia === f._id">
+                {{ f.nombre }}
+              </mat-list-option>
+            </mat-selection-list>
+          </ng-container>
+
         </div>
       </aside>
 
@@ -45,19 +62,19 @@
           <div *ngFor="let product of products"
             class="group bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333]/30 overflow-hidden hover:shadow-md shadow-black/5 dark:shadow-black/40 hover:shadow-xl dark:hover:border-[#E5C158]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
             <div class="overflow-hidden h-52 bg-[#FAF8F5] dark:bg-[#2A2A2A]">
-              <img [src]="product.imagenUrl || 'assets/images/no-image.png'" [alt]="product.nombre"
+              <img [src]="product.imagenUrl || product.imagenUrlPrincipal || 'assets/images/no-image.png'" [alt]="product.nombre"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
             <div class="p-5">
-              <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-1.5">
-                {{ product.categoria?.nombre || 'Sin Categoría' }}
+              <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-1.5 truncate">
+                {{ product.marca?.nombre || 'Sin Marca' }} {{ product.familia ? ' / ' + product.familia.nombre : '' }}
               </p>
               <h3 class="text-base font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] mb-4 line-clamp-2 leading-snug transition-all duration-300">
                 {{ product.nombre }}
               </h3>
               <div class="flex items-center justify-between">
                 <span class="text-xl font-bold text-[#D4AF37] dark:text-[#E5C158] transition-all duration-300">
-                  {{ product.precio | currency }}
+                  {{ (product.precioNormal || product.precio) | currency }}
                 </span>
                 <button (click)="addToCart(product)"
                   class="flex items-center gap-1.5 px-4 py-2 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl text-sm font-semibold hover:opacity-90 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">

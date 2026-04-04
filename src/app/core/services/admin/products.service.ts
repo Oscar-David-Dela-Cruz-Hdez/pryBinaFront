@@ -8,7 +8,7 @@ import { AuthService } from '../../../auth/auth.service';
 })
 export class ProductsService {
   private apiProductos = 'https://prybinaback.onrender.com/api/productos';
-  private apiCategorias = 'https://prybinaback.onrender.com/api/categorias';
+  private apiMarcas = 'https://prybinaback.onrender.com/api/marcas';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -21,10 +21,11 @@ export class ProductsService {
   }
 
   // --- PRODUCTOS ---
-  getProductos(filters?: { categoria?: string, nombre?: string }): Observable<any[]> {
+  getProductos(filters?: { marca?: string, familia?: string, nombre?: string }): Observable<any[]> {
     let url = this.apiProductos;
     const params = [];
-    if (filters?.categoria) params.push(`categoria=${filters.categoria}`);
+    if (filters?.marca) params.push(`marca=${filters.marca}`);
+    if (filters?.familia) params.push(`familia=${filters.familia}`);
     if (filters?.nombre) params.push(`nombre=${filters.nombre}`);
 
     if (params.length > 0) {
@@ -70,25 +71,25 @@ export class ProductsService {
     return this.http.post(`${this.apiProductos}/importar/excel`, formData, { headers });
   }
 
-  // --- CATEGORÍAS (Para el selector de productos y CRUD) ---
-  getCategorias(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiCategorias);
+  // --- MARCAS (Para el selector de productos y CRUD) ---
+  getMarcas(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiMarcas);
   }
 
-  getCategoriaById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiCategorias}/${id}`);
+  getMarcaById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiMarcas}/${id}`);
   }
 
-  createCategoria(data: any): Observable<any> {
-    return this.http.post(this.apiCategorias, data, { headers: this.getAuthHeaders() });
+  createMarca(data: any): Observable<any> {
+    return this.http.post(this.apiMarcas, data, { headers: this.getAuthHeaders() });
   }
 
-  updateCategoria(id: string, data: any): Observable<any> {
-    return this.http.put(`${this.apiCategorias}/${id}`, data, { headers: this.getAuthHeaders() });
+  updateMarca(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiMarcas}/${id}`, data, { headers: this.getAuthHeaders() });
   }
 
-  deleteCategoria(id: string): Observable<any> {
-    return this.http.delete(`${this.apiCategorias}/${id}`, { headers: this.getAuthHeaders() });
+  deleteMarca(id: string): Observable<any> {
+    return this.http.delete(`${this.apiMarcas}/${id}`, { headers: this.getAuthHeaders() });
   }
 }
 

@@ -61,13 +61,13 @@
           </div>
         </div>
 
-        <!-- Categorías y Productos: mat-select múltiple: se mantiene mat-form-field -->
+        <!-- Marcas y Productos: mat-select múltiple: se mantiene mat-form-field -->
         <div class="field-admin">
-          <label class="label-admin">Aplicar a Categorías (Opcional)</label>
+          <label class="label-admin">Aplicar a Marcas</label>
           <mat-form-field appearance="outline" class="w-full">
-            <mat-select formControlName="categorias" multiple placeholder="Selecciona categorías">
-              <mat-option *ngFor="let cat of categoriasDisponibles" [value]="cat._id">
-                {{ cat.nombre }}
+            <mat-select formControlName="marcas" multiple placeholder="Selecciona marcas">
+              <mat-option *ngFor="let m of marcasDisponibles" [value]="m._id || m.nombre">
+                {{ m.nombre }}
               </mat-option>
             </mat-select>
           </mat-form-field>

@@ -55,7 +55,7 @@ export class CartService {
             const newItem: CartItem = {
                 _id: product._id,
                 nombre: product.nombre,
-                precio: product.precio,
+                precio: product.precioNormal || product.precio || 0,
                 imagen: product.imagenUrl || 'assets/images/no-image.png',
                 cantidad: quantity,
                 slug: product.slug || product._id // Fallback if slug missing
