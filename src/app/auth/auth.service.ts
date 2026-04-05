@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, throwError, Subscription, timer } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError, Subscription, timer, fromEvent, merge } from 'rxjs';
+import { catchError, map, throttleTime } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import Swal from 'sweetalert2';
@@ -19,6 +19,8 @@ export class AuthService {
 
   //se agrega aqui eso de la expiracion de inicio de sesion
   private inactivityTimer: Subscription | null = null;
+  private warningTimer: Subscription | null = null;
+  private activitySubscription: Subscription | null = null;
   private readonly INACTIVITY_TIMEOUT = 15 * 60 * 1000;
 
   constructor(
@@ -35,17 +37,40 @@ export class AuthService {
     this.userRoleSubject = new BehaviorSubject<string | null>(rol);
 
     if (token) {
+      this.initActivityListeners();
       this.startInactivityTimer();
     }
+  }
+
+  private initActivityListeners(): void {
+    if (this.activitySubscription) return;
+
+    // Detectar cualquier interacción global: mouse, click, teclado o scroll
+    const events$ = merge(
+      fromEvent(document, 'mousemove'),
+      fromEvent(document, 'keydown'),
+      fromEvent(document, 'click'),
+      fromEvent(document, 'scroll')
+    );
+
+    // Limitamos a reiniciar el contador máximo 1 vez cada 5 segundos para no saturar memoria
+    this.activitySubscription = events$.pipe(
+      throttleTime(5000)
+    ).subscribe(() => {
+      // Si el usuario está trabajando y está logueado, reiniciamos el reloj
+      if (this.isLoggedInSubject.getValue() && !Swal.isVisible()) {
+        this.resetInactivityTimer();
+      }
+    });
   }
 
   private startInactivityTimer(): void {
     this.stopInactivityTimer();
 
     // alerta 5 segundos antes de que expire la sesión
-    const warningTime = this.INACTIVITY_TIMEOUT - 5000;
+    const warningTime = this.INACTIVITY_TIMEOUT - 60000;
 
-    timer(warningTime).subscribe(() => {
+    this.warningTimer = timer(warningTime).subscribe(() => {
       Swal.fire({
         icon: 'warning',
         title: 'Sesión a punto de expirar',
@@ -82,6 +107,10 @@ export class AuthService {
     if (this.inactivityTimer) {
       this.inactivityTimer.unsubscribe();
       this.inactivityTimer = null;
+    }
+    if (this.warningTimer) {
+      this.warningTimer.unsubscribe();
+      this.warningTimer = null;
     }
   }
 
@@ -154,6 +183,7 @@ export class AuthService {
     this.userNameSubject.next(nombre);
     this.userRoleSubject.next(rol);
     //control de tiempo
+    this.initActivityListeners();
     this.resetInactivityTimer();
   }
 
@@ -164,6 +194,10 @@ export class AuthService {
     localStorage.removeItem('user_name');
     //control de tiempo
     this.stopInactivityTimer();
+    if (this.activitySubscription) {
+      this.activitySubscription.unsubscribe();
+      this.activitySubscription = null;
+    }
     //control de tiempo
     this.socialAuthService.signOut();
     this.isLoggedInSubject.next(false);
