@@ -145,6 +145,11 @@ export class ProductsComponent implements OnInit {
     dataToPatch.stock = product.stock ?? product.stockTotal ?? 0;
     dataToPatch.imagenUrl = product.imagenUrl ?? product.imagenUrlPrincipal ?? '';
 
+    // Asegurar explícitamente el mapeo de los SKU
+    dataToPatch.skuNormal = product.skuNormal ?? product.skuBase ?? '';
+    dataToPatch.skuMayoreo = product.skuMayoreo ?? '';
+    dataToPatch.skuCaja = product.skuCaja ?? '';
+
     if (dataToPatch.marca) {
       this.productForm.get('familia')?.enable();
       this.loadFamilias(dataToPatch.marca);
