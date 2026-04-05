@@ -7,7 +7,7 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
         <div class="field-admin">
           <label class="label-admin">Términos de Servicio</label>
-          <textarea formControlName="terminosServicio" rows="15" placeholder="Escribe los términos aquí..." class="textarea-admin"></textarea>
+          <textarea formControlName="terminos" rows="15" placeholder="Escribe los términos aquí..." class="textarea-admin"></textarea>
         </div>
         <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
           <button type="submit" class="btn-admin-primary" [disabled]="isLoading">

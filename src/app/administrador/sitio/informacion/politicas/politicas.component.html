@@ -7,7 +7,7 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
         <div class="field-admin">
           <label class="label-admin">Políticas de Privacidad</label>
-          <textarea formControlName="politicasPrivacidad" rows="15" placeholder="Escribe las políticas aquí..." class="textarea-admin"></textarea>
+          <textarea formControlName="politicas" rows="15" placeholder="Escribe las políticas aquí..." class="textarea-admin"></textarea>
         </div>
         <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
           <button type="submit" class="btn-admin-primary" [disabled]="isLoading">
