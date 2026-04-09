@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -23,7 +23,7 @@ import { ThemeService } from '../../core/services/theme/theme';
   templateUrl: './admin-header.component.html',
   styleUrls: ['./admin-header.component.css']
 })
-export class AdminHeaderComponent implements OnInit {
+export class AdminHeaderComponent {
 
   public adminName$: Observable<string | null>;
 
@@ -34,8 +34,6 @@ export class AdminHeaderComponent implements OnInit {
     this.adminName$ = this.authService.currentUserName$;
   }
 
-  ngOnInit(): void {
-  }
 
   logout(): void {
     this.authService.logout();

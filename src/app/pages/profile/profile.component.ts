@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UserdataComponent } from '../../usuario/userdata/userdata.component';
@@ -22,13 +22,11 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
   selectedSection: string = 'userdata';
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
 
   selectSection(section: string): void {
     this.selectedSection = section;

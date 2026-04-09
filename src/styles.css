@@ -492,8 +492,6 @@
 .mat-mdc-paginator .mdc-text-field:hover .mdc-notched-outline__leading,
 .mat-mdc-paginator .mdc-text-field:hover .mdc-notched-outline__notch,
 .mat-mdc-paginator .mdc-text-field:hover .mdc-notched-outline__trailing {
-  border-color: transparent !important;
-  border-width: 0 !important;
   border: none !important;
 }
 

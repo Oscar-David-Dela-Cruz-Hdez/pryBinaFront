@@ -2,5 +2,5 @@ projectKey=prybina-frontend
 serverUrl=http://localhost:9000
 serverVersion=26.2.0.119303
 dashboardUrl=http://localhost:9000/dashboard?id=prybina-frontend
-ceTaskId=9f9f2565-d92d-49d4-a48c-57e67a6cfd64
-ceTaskUrl=http://localhost:9000/api/ce/task?id=9f9f2565-d92d-49d4-a48c-57e67a6cfd64
+ceTaskId=fff43777-5b5e-43ce-97ba-d12c70153d72
+ceTaskUrl=http://localhost:9000/api/ce/task?id=fff43777-5b5e-43ce-97ba-d12c70153d72

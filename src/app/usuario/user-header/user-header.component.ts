@@ -1,4 +1,4 @@
-  import { Component, OnInit } from '@angular/core';
+  import { Component } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { RouterModule } from '@angular/router';
   import { Observable } from 'rxjs';
@@ -23,7 +23,7 @@
     templateUrl: './user-header.component.html',
     styleUrls: ['./user-header.component.css']
   })
-  export class UserHeaderComponent implements OnInit {
+  export class UserHeaderComponent {
 
     public userName$: Observable<string | null>;
 
@@ -32,9 +32,6 @@
       this.userName$ = this.authService.currentUserName$;
     }
 
-    ngOnInit(): void {
-
-    }
 
     logout(): void {
       console.log("Boton de logout presionado");

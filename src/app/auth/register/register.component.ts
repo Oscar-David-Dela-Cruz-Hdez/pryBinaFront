@@ -165,11 +165,29 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService
   ) { }
 
+  private getErrorMessage(errors: ValidationErrors, friendlyName: string): string {
+    // --- Validaciones Estándar ---
+    if (errors['required']) return `El campo "<strong>${friendlyName}</strong>" es obligatorio.`;
+    if (errors['pattern']) return `El campo "<strong>${friendlyName}</strong>" tiene un formato inválido.`;
+    if (errors['email']) return `El campo "<strong>${friendlyName}</strong>" debe ser un correo válido.`;
+
+    // --- Validaciones de Contraseña ---
+    if (errors['passwordsDoNotMatch']) return `Las contraseñas no coinciden.`;
+    if (errors['sequentialNumbers']) return `La contraseña no puede contener secuencias numéricas obvias.`;
+    if (errors['containsPersonalData']) return `La contraseña no puede contener tus datos personales.`;
+
+    // --- Validaciones Asíncronas (Backend) ---
+    if (errors['usernameTaken']) return `El <strong>${friendlyName}</strong> ya está en uso.`;
+    if (errors['emailTaken']) return `El <strong>${friendlyName}</strong> ya está registrado.`;
+    if (errors['phoneTaken']) return `El <strong>${friendlyName}</strong> ya está registrado.`;
+
+    return '';
+  }
+
   getFormGroupErrors(groupName: string): string[] {
     const errors: string[] = [];
     const group = this.registerForm.get(groupName) as FormGroup;
 
-    // Mapa para traducir nombres de controles a texto legible
     const fieldNames: { [key: string]: string } = {
       nombre: 'Nombre',
       ap: 'Apellido Paterno',
@@ -188,40 +206,12 @@ export class RegisterComponent implements OnInit {
 
     Object.keys(group.controls).forEach(controlName => {
       const control = group.get(controlName);
-      const friendlyName = fieldNames[controlName] || controlName;
-      if (control?.invalid) {
-        const controlErrors = control.errors;
-        if (controlErrors) {
-          let errorMessage = '';
+      const errorsObj = control?.errors;
 
-          // --- Validaciones Estándar ---
-          if (controlErrors['required']) {
-            errorMessage = `El campo "<strong>${friendlyName}</strong>" es obligatorio.`;
-          } else if (controlErrors['pattern']) {
-            errorMessage = `El campo "<strong>${friendlyName}</strong>" tiene un formato inválido.`;
-          } else if (controlErrors['email']) {
-            errorMessage = `El campo "<strong>${friendlyName}</strong>" debe ser un correo válido.`;
-
-            // --- Validaciones de Contraseña ---
-          } else if (controlErrors['passwordsDoNotMatch']) {
-            errorMessage = `Las contraseñas no coinciden.`;
-          } else if (controlErrors['sequentialNumbers']) {
-            errorMessage = `La contraseña no puede contener secuencias numéricas obvias.`;
-          } else if (controlErrors['containsPersonalData']) {
-            errorMessage = `La contraseña no puede contener tus datos personales.`;
-
-            // --- Validaciones Asíncronas (Backend) ---
-          } else if (controlErrors['usernameTaken']) {
-            errorMessage = `El <strong>${friendlyName}</strong> ya está en uso.`;
-          } else if (controlErrors['emailTaken']) {
-            errorMessage = `El <strong>${friendlyName}</strong> ya está registrado.`;
-          } else if (controlErrors['phoneTaken']) {
-            errorMessage = `El <strong>${friendlyName}</strong> ya está registrado.`;
-          }
-          if (errorMessage) {
-            errors.push(errorMessage);
-          }
-        }
+      if (control?.invalid && errorsObj) {
+        const friendlyName = fieldNames[controlName] || controlName;
+        const errorMessage = this.getErrorMessage(errorsObj, friendlyName);
+        if (errorMessage) errors.push(errorMessage);
       }
     });
 
