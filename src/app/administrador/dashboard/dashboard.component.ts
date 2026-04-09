@@ -21,9 +21,7 @@ import { AdminUsersService } from '../../core/services/admin/admin-users.service
         MatGridListModule,
         RouterModule
     ],
-    template: `
-      <!-- Aquí pega el HTML de arriba -->
-    `
+    templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
     totalVentas = 0;
