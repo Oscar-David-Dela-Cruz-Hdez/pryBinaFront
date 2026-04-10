@@ -2,12 +2,12 @@
   <!-- Header de la Herramienta -->
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
     <div>
-      <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Modelo Matemático Predictivo</h2>
-      <p class="text-[#666666] dark:text-[#A0A0A0] mt-1">Simulación Dinámica y Optimización de Inventarios</p>
+      <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Calculadora de Salud de Inventario</h2>
+      <p class="text-[#666666] dark:text-[#A0A0A0] mt-1">¿Cuándo debo comprar más producto según mi ritmo de ventas?</p>
     </div>
     <div class="flex items-center gap-2 px-4 py-2 bg-[#D4AF37]/10 dark:bg-[#E5C158]/5 rounded-xl border border-[#D4AF37]/20">
       <mat-icon class="text-[#D4AF37] dark:text-[#E5C158]">auto_graph</mat-icon>
-      <span class="text-sm font-semibold text-[#D4AF37] dark:text-[#E5C158]">PROYECCIÓN BASADA EN DX/DT = -KX</span>
+      <span class="text-sm font-semibold text-[#D4AF37] dark:text-[#E5C158]">MODELO DE ESTIMACIÓN IA</span>
     </div>
   </div>
 
@@ -16,45 +16,57 @@
     <mat-card class="lg:col-span-4 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
       <mat-card-header class="bg-[#FAF8F5] dark:bg-[#2A2A2A] p-4 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
         <mat-card-title class="text-lg font-bold flex items-center gap-2">
-          <mat-icon class="text-[#D4AF37]">settings</mat-icon> Parámetros del Modelo
+          <mat-icon class="text-[#D4AF37]">tune</mat-icon> Datos de mi Negocio
         </mat-card-title>
       </mat-card-header>
       <mat-card-content class="p-6 space-y-6">
         <div class="field-group space-y-4">
           <div class="field-admin">
-            <label class="label-admin">Inventario Inicial (x0)</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Stock inicial (Hoy)</label>
             <input type="number" [(ngModel)]="inventarioInicial" (ngModelChange)="simular()" class="input-admin" placeholder="1500">
-            <p class="text-[10px] text-[#999999] mt-1 ml-1">Unidades al momento del corte.</p>
+            <p class="text-[10px] text-[#999999] mt-1 italic leading-tight">¿Con cuántos productos empezamos a contar?</p>
           </div>
           
           <div class="field-admin">
-            <label class="label-admin">Constante K (Tasa de Salida)</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Velocidad de Venta</label>
             <input type="number" step="0.001" [(ngModel)]="constanteK" (ngModelChange)="simular()" class="input-admin" placeholder="0.012">
-            <p class="text-[10px] text-[#999999] mt-1 ml-1">Proporcionalidad de vaciado del stock.</p>
+            <p class="text-[10px] text-[#999999] mt-1 italic leading-tight">¿Qué tan rápido se vende? (A mayor número, se agota antes).</p>
           </div>
 
           <div class="field-admin">
-            <label class="label-admin">Tiempo de Proyección (Días)</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Días que quiero analizar</label>
             <input type="number" [(ngModel)]="tiempoTotal" (ngModelChange)="simular()" class="input-admin" placeholder="30">
+            <p class="text-[10px] text-[#999999] mt-1 italic leading-tight">¿A cuántos días quieres ver el futuro de tu stock?</p>
           </div>
 
           <div class="field-admin">
-            <label class="label-admin">Punto de Reorden (Crítico)</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Mi stock mínimo de seguridad</label>
             <input type="number" [(ngModel)]="puntoReorden" (ngModelChange)="simular()" class="input-admin" placeholder="500">
+            <p class="text-[10px] text-[#999999] mt-1 italic leading-tight">Cuando llegue a esta cantidad, el sistema me avisará.</p>
           </div>
         </div>
 
         <!-- Estadísticas Rápidas -->
         <div class="pt-6 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-[#999999] mb-4">Hallazgos del Modelo</h4>
-          <div class="space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#999999] mb-4 font-heading">¿Qué nos dice el sistema?</h4>
+          
+          <!-- Recomendación en lenguaje humano -->
+          <div class="p-3 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/20 rounded-xl mb-4">
+            <p class="text-xs text-red-700 dark:text-red-400 leading-relaxed">
+              <span class="font-bold">🚨 Alerta:</span> Se estima que deberías realizar un pedido el 
+              <span class="underline font-black">{{ diaCritico !== null ? 'Día ' + diaCritico : 'pronto' }}</span>
+              para no quedarte sin mercancía.
+            </p>
+          </div>
+
+          <div class="space-y-3 px-1">
             <div class="flex justify-between items-center text-sm">
-              <span class="text-[#666666] dark:text-[#A0A0A0]">Día Crítico (Reorden):</span>
-              <span class="font-bold text-[#F44336]">{{ diaCritico !== null ? 'Día ' + diaCritico : 'N/A' }}</span>
+              <span class="text-[#666666] dark:text-[#A0A0A0] text-xs">Fecha de Reabastecimiento:</span>
+              <span class="font-bold text-[#F44336]">{{ diaCritico !== null ? 'Día ' + diaCritico : 'Sin riesgo' }}</span>
             </div>
             <div class="flex justify-between items-center text-sm">
-              <span class="text-[#666666] dark:text-[#A0A0A0]">Stock Residual a {{ tiempoTotal }} días:</span>
-              <span class="font-bold text-[#D4AF37]">{{ stockFinal }} u</span>
+              <span class="text-[#666666] dark:text-[#A0A0A0] text-xs">Stock estimado en {{ tiempoTotal }} días:</span>
+              <span class="font-bold text-[#D4AF37]">{{ stockFinal }} unidades</span>
             </div>
           </div>
         </div>
@@ -64,31 +76,31 @@
     <!-- Visualización y Gráfica -->
     <div class="lg:col-span-8 space-y-6">
       <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
-        <mat-card-header class="p-6 pb-0">
-          <mat-card-title class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Proyección del Comportamiento de Salida</mat-card-title>
+        <mat-card-header class="p-6 pb-2">
+          <mat-card-title class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] font-heading">Gráfica de Reservas</mat-card-title>
         </mat-card-header>
         <mat-card-content class="p-6">
-          <div class="chart-container relative h-[300px] w-full flex items-center justify-center bg-[#FAF8F5]/50 dark:bg-[#121212]/50 rounded-xl border border-dashed border-[#e2dcd6] dark:border-[#333333]">
+          <div class="chart-container relative h-[320px] w-full flex items-center justify-center bg-[#FAF8F5]/50 dark:bg-[#121212]/50 rounded-xl border border-dashed border-[#e2dcd6] dark:border-[#333333]">
             <!-- Gráfica SVG Custom -->
-            <svg viewBox="0 0 400 200" class="w-full h-full p-4 drop-shadow-xl" preserveAspectRatio="none">
+            <svg viewBox="0 0 400 200" class="w-full h-full p-4 drop-shadow-lg" preserveAspectRatio="none">
               <!-- Ejes -->
-              <line x1="0" y1="200" x2="400" y2="200" stroke="#999" stroke-width="1" />
-              <line x1="0" y1="0" x2="0" y2="200" stroke="#999" stroke-width="1" />
+              <line x1="0" y1="200" x2="400" y2="200" stroke="#999" stroke-opacity="0.2" stroke-width="1" />
+              <line x1="0" y1="0" x2="0" y2="200" stroke="#999" stroke-opacity="0.2" stroke-width="1" />
               
               <!-- Línea de Reorden -->
               <line *ngIf="inventarioInicial > 0"
                     x1="0" [attr.y1]="200 - (puntoReorden / inventarioInicial) * 200" 
                     x2="400" [attr.y2]="200 - (puntoReorden / inventarioInicial) * 200" 
-                    stroke="#F44336" stroke-width="1" stroke-dasharray="4,4" opacity="0.6" />
+                    stroke="#F44336" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.6" />
 
               <!-- Path de la curva -->
-              <path [attr.d]="svgPath" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="chart-line" />
+              <path [attr.d]="svgPath" fill="none" stroke="#D4AF37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" />
             </svg>
             
             <!-- Leyenda -->
-            <div class="absolute bottom-2 right-4 flex gap-4 text-[10px] font-bold uppercase tracking-widest bg-white/80 dark:bg-[#1E1E1E]/80 backdrop-blur p-2 rounded-lg">
-              <span class="flex items-center gap-1"><span class="w-2 h-2 bg-[#D4AF37] rounded-full"></span> Stock x(t)</span>
-              <span class="flex items-center gap-1"><span class="w-2 h-2 bg-[#F44336] rounded-full"></span> Punto Reorden</span>
+            <div class="absolute bottom-4 right-6 flex gap-4 text-[9px] font-black uppercase tracking-[0.15em] bg-white/90 dark:bg-[#1E1E1E]/90 backdrop-blur p-2.5 rounded-lg shadow-sm border border-[#e2dcd6]/20">
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-1 bg-[#D4AF37] rounded-full"></span> Mis Productos</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-1 bg-[#F44336] rounded-full"></span> Nivel de Alerta</span>
             </div>
           </div>
         </mat-card-content>
@@ -97,26 +109,35 @@
       <!-- Tabla Detallada -->
       <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
         <div class="p-6 pb-2 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <h3 class="text-lg font-bold">Datos Estadísticos Cuantitativos</h3>
+          <h3 class="text-sm font-black uppercase tracking-widest opacity-70 font-heading">Proyección día por día</h3>
         </div>
-        <div class="overflow-x-auto max-h-[300px]">
+        <div class="overflow-x-auto max-h-[350px]">
           <table class="w-full text-left">
-            <thead class="bg-[#FAF8F5] dark:bg-[#2A2A2A] sticky top-0">
+            <thead class="bg-[#FAF8F5]/80 dark:bg-[#2A2A2A]/80 backdrop-blur sticky top-0 z-10">
               <tr>
-                <th class="p-4 text-xs font-bold uppercase text-[#999999]">Tiempo (t)</th>
-                <th class="p-4 text-xs font-bold uppercase text-[#999999]">Existencia x(t)</th>
-                <th class="p-4 text-xs font-bold uppercase text-[#999999]">Vendidas (día)</th>
-                <th class="p-4 text-xs font-bold uppercase text-[#999999]">Impacto</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Fecha</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Stock Esperado</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Ventas Estimadas</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Nivel de Riesgo</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-[#e2dcd6]/30 dark:divide-[#333333]/30">
-              <tr *ngFor="let item of datosSimulacion" class="hover:bg-[#FAF8F5]/30 dark:hover:bg-[#2A2A2A]/20 transition-colors">
-                <td class="p-4 text-sm font-medium">Día {{ item.dia }}</td>
-                <td class="p-4 text-sm font-bold text-[#D4AF37]">{{ item.unidades }} <small>u</small></td>
-                <td class="p-4 text-sm text-[#666666] dark:text-[#A0A0A0]">{{ item.unidadesVendidas }}</td>
+            <tbody class="divide-y divide-[#e2dcd6]/20 dark:divide-[#333333]/20">
+              <tr *ngFor="let item of datosSimulacion" class="hover:bg-[#FAF8F5]/40 dark:hover:bg-[#2A2A2A]/40 transition-colors">
+                <td class="p-4 text-xs font-semibold">Día {{ item.dia }}</td>
+                <td class="p-4 text-xs">
+                  <span class="font-bold text-[#D4AF37]">{{ item.unidades }}</span>
+                  <span class="text-[10px] opacity-50 ml-1">unds</span>
+                </td>
+                <td class="p-4 text-xs text-[#666666] dark:text-[#A0A0A0]">{{ item.unidadesVendidas }}</td>
                 <td class="p-4">
-                  <span *ngIf="item.unidades <= puntoReorden" class="px-2 py-0.5 bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 text-[10px] font-bold rounded-full">REABASTECER</span>
-                  <span *ngIf="item.unidades > puntoReorden" class="px-2 py-0.5 bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 text-[10px] font-bold rounded-full">ESTABLE</span>
+                  <span *ngIf="item.unidades <= puntoReorden" 
+                        class="px-3 py-1 bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
+                    ⚠️ AGOTÁNDOSE
+                  </span>
+                  <span *ngIf="item.unidades > puntoReorden" 
+                        class="px-3 py-1 bg-green-50 text-green-600 dark:bg-green-900/10 dark:text-green-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
+                    ✅ SEGURO
+                  </span>
                 </td>
               </tr>
             </tbody>
