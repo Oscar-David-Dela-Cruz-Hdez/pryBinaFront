@@ -42,6 +42,7 @@ import { CartComponent } from './pages/shop/cart/cart.component';
 import { Herramientas } from './administrador/herramientas/herramientas';
 import { Respaldos } from './administrador/herramientas/respaldos/respaldos';
 import { MonitoreoComponent } from './administrador/herramientas/monitoreo/monitoreo.component';
+import { ReportesComponent } from './administrador/ventas/reportes/reportes.component';
 
 export const routes: Routes = [
   {
@@ -190,6 +191,12 @@ export const routes: Routes = [
     component: UserListComponent,
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Usuarios' }
+  },
+  {
+    path: 'admin/ventas/reportes',
+    component: ReportesComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Reportes Estadísticos' }
   },
   {
     path: 'admin/ventas/metodos-pago',
