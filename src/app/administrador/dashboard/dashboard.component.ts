@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
     pedidosPendientes = 0;
     totalProductos = 0;
     totalUsuarios = 0;
+    productosBajoStock: any[] = [];
 
     constructor(
         private ordersService: OrdersService,
@@ -51,9 +52,12 @@ export class DashboardComponent implements OnInit {
             this.pedidosPendientes = pedidos.filter(p => p.estado === 'Pendiente').length;
         });
 
-        // Cargar Productos
+        // Cargar Productos y detectar stock bajo
         this.productsService.getProductos().subscribe(productos => {
             this.totalProductos = productos.length;
+            this.productosBajoStock = productos
+                .filter(p => (p.stock || p.stockTotal || 0) < 10)
+                .sort((a, b) => (a.stock || 0) - (b.stock || 0));
         });
 
         // Cargar Usuarios

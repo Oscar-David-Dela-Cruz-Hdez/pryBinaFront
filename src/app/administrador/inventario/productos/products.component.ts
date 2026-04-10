@@ -11,6 +11,7 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import Swal from 'sweetalert2';
 
@@ -32,7 +33,8 @@ import { FamiliasService } from '../../../core/services/admin/familias.service';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule
   ],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
