@@ -37,10 +37,11 @@ interface DataPoint {
 })
 export class ReportesComponent implements OnInit {
   // Parámetros del modelo
-  inventarioInicial = 1500;
-  constanteK = 0.012;
+  inventarioInicial = 0;
+  constanteK = 0.026; // Calibrado según Tabla 1 (behavior histórico)
   tiempoTotal = 30; // Días
-  puntoReorden = 500;
+  puntoReorden = 0;
+  totalProductosAnalizados = 0;
 
   // Selectores dinámicos
   marcas: any[] = [];
@@ -65,7 +66,7 @@ export class ReportesComponent implements OnInit {
 
   ngOnInit() {
     this.loadInitialData();
-    this.simular();
+    this.updateStockFromInventory(); // Carga global inicial
   }
 
   loadInitialData() {
@@ -93,20 +94,26 @@ export class ReportesComponent implements OnInit {
   }
 
   updateStockFromInventory() {
-    if (!this.selectedMarca && !this.selectedFamilia) return;
+    const filters: any = {};
+    if (this.selectedMarca) filters.marca = this.selectedMarca;
+    if (this.selectedFamilia) filters.familia = this.selectedFamilia;
 
-    this.productsService.getProductos({ 
-      marca: this.selectedMarca, 
-      familia: this.selectedFamilia 
-    }).subscribe(productos => {
-      // Sumar el stock de todos los productos de esta categoría
-      const totalStock = productos.reduce((sum, p) => sum + (p.stock || p.stockTotal || 0), 0);
-      this.inventarioInicial = totalStock;
-      
-      // Ajustar punto de reorden sugerido: 25% del stock inicial
-      this.puntoReorden = Math.round(totalStock * 0.25);
-      
-      this.simular();
+    this.productsService.getProductos(filters).subscribe({
+      next: (productos) => {
+        // Sumar el stock de todos los productos de esta categoría seleccionada
+        const totalStock = productos.reduce((sum, p) => sum + (p.stock || p.stockTotal || 0), 0);
+        this.inventarioInicial = totalStock;
+        this.totalProductosAnalizados = productos.length;
+        
+        // Ajustar punto de reorden sugerido: 25% del stock inicial agregado
+        this.puntoReorden = Math.round(totalStock * 0.25);
+        
+        this.simular();
+      },
+      error: () => {
+        console.error('Error al cargar productos para el modelo');
+        this.simular();
+      }
     });
   }
 

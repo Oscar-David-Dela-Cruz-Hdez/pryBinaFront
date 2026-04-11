@@ -21,43 +21,51 @@
       </mat-card-header>
       <mat-card-content class="p-6 space-y-6">
         <!-- Selectores Dinámicos -->
-        <div class="space-y-4 p-4 bg-[#D4AF37]/5 dark:bg-[#E5C158]/5 rounded-2xl border border-[#D4AF37]/20 border-dashed">
+        <div class="space-y-4 p-4 bg-[#D4AF37]/5 dark:bg-[#E5C158]/5 rounded-2xl border border-[#D4AF37]/20 border-dashed relative">
+          <!-- Badge de Contexto -->
+          <div class="absolute -top-3 right-4 px-3 py-1 bg-[#D4AF37] text-white text-[9px] font-black rounded-full shadow-sm animate-bounce-slow">
+            {{ totalProductosAnalizados }} ARTÍCULOS EN ANÁLISIS
+          </div>
+
           <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">1. Selecciona lo que quieres medir</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">1. Ámbito del Análisis</label>
             <select [ngModel]="selectedMarca" (ngModelChange)="onMarcaChange($event)" class="select-admin mt-2">
-              <option value="">Todas las Marcas</option>
+              <option value="">Análisis Global (Todo el Almacén)</option>
               <option *ngFor="let m of marcas" [value]="m._id || m.nombre">{{ m.nombre }}</option>
             </select>
-            <select *ngIf="familias.length > 0" [ngModel]="selectedFamilia" (ngModelChange)="onFamiliaChange($event)" class="select-admin mt-2 animate-fade-in">
-              <option value="">Todas las Familias</option>
+            <select *ngIf="selectedMarca" [ngModel]="selectedFamilia" (ngModelChange)="onFamiliaChange($event)" class="select-admin mt-2 animate-fade-in shadow-inner">
+              <option value="">Todas las Familias de {{ selectedMarca }}</option>
               <option *ngFor="let f of familias" [value]="f._id || f.nombre">{{ f.nombre }}</option>
             </select>
           </div>
 
           <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">2. Elige el tiempo a proyectar</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">2. Horizonte Temporal</label>
             <div class="grid grid-cols-3 gap-2 mt-2">
-              <button type="button" (click)="onPeriodoChange(7)" [class.bg-[#D4AF37]]="tiempoTotal === 7" [class.text-white]="tiempoTotal === 7" class="text-[10px] font-bold p-2 border border-[#D4AF37]/30 rounded-lg hover:bg-[#D4AF37] hover:text-white transition-all">1 SEMANA</button>
-              <button type="button" (click)="onPeriodoChange(30)" [class.bg-[#D4AF37]]="tiempoTotal === 30" [class.text-white]="tiempoTotal === 30" class="text-[10px] font-bold p-2 border border-[#D4AF37]/30 rounded-lg hover:bg-[#D4AF37] hover:text-white transition-all">1 MES</button>
-              <button type="button" (click)="onPeriodoChange(365)" [class.bg-[#D4AF37]]="tiempoTotal === 365" [class.text-white]="tiempoTotal === 365" class="text-[10px] font-bold p-2 border border-[#D4AF37]/30 rounded-lg hover:bg-[#D4AF37] hover:text-white transition-all">1 AÑO</button>
+              <button type="button" (click)="onPeriodoChange(7)" [class.bg-[#D4AF37]]="tiempoTotal === 7" [class.text-white]="tiempoTotal === 7" class="text-[10px] font-bold py-3 border border-[#D4AF37]/30 rounded-xl hover:bg-[#D4AF37] hover:text-white transition-all shadow-sm">1 SEMANA</button>
+              <button type="button" (click)="onPeriodoChange(30)" [class.bg-[#D4AF37]]="tiempoTotal === 30" [class.text-white]="tiempoTotal === 30" class="text-[10px] font-bold py-3 border border-[#D4AF37]/30 rounded-xl hover:bg-[#D4AF37] hover:text-white transition-all shadow-sm">1 MES</button>
+              <button type="button" (click)="onPeriodoChange(365)" [class.bg-[#D4AF37]]="tiempoTotal === 365" [class.text-white]="tiempoTotal === 365" class="text-[10px] font-bold py-3 border border-[#D4AF37]/30 rounded-xl hover:bg-[#D4AF37] hover:text-white transition-all shadow-sm">1 AÑO</button>
             </div>
           </div>
         </div>
 
-        <div class="field-group space-y-4 opacity-80">
-          <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Stock inicial (Auto)</label>
-            <input type="number" [(ngModel)]="inventarioInicial" (ngModelChange)="simular()" class="input-admin bg-gray-50/50 dark:bg-black/20" placeholder="1500">
+        <!-- Engine Results (Read Only for Business) -->
+        <div class="px-5 py-4 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-2xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
+          <div class="flex flex-col">
+            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Condición Inicial ($x_0$)</label>
+            <div class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0]">{{ inventarioInicial }} <small class="text-xs opacity-50">unds</small></div>
+            <p class="text-[9px] text-[#D4AF37] font-bold italic">Suma total del stock actual en el catálogo seleccionado.</p>
           </div>
           
-          <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Velocidad de Venta (K)</label>
-            <input type="number" step="0.001" [(ngModel)]="constanteK" (ngModelChange)="simular()" class="input-admin" placeholder="0.012">
-          </div>
-
-          <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Stock de seguridad</label>
-            <input type="number" [(ngModel)]="puntoReorden" (ngModelChange)="simular()" class="input-admin" placeholder="500">
+          <div class="flex justify-between items-center opacity-60">
+            <div class="flex flex-col">
+              <label class="text-[9px] font-bold uppercase text-[#999999]">Ritmo de Venta ($k$)</label>
+              <span class="text-xs font-mono font-bold">{{ constanteK }} (Calibrado)</span>
+            </div>
+            <div class="flex flex-col text-right">
+              <label class="text-[9px] font-bold uppercase text-[#999999]">Nivel de Alerta</label>
+              <span class="text-xs font-mono font-bold">{{ puntoReorden }} unds</span>
+            </div>
           </div>
         </div>
 
