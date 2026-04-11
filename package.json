@@ -33,7 +33,7 @@
     "dompurify": "^3.3.0",
     "echarts": "^6.0.0",
     "jwt-decode": "^4.0.0",
-    "ngx-echarts": "^21.0.0",
+    "ngx-echarts": "20.0.2",
     "nodemon": "^3.1.10",
     "of": "^1.0.0",
     "rxjs": "~7.8.0",
