@@ -6,12 +6,14 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { SocialAuthService, GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { SOCIAL_AUTH_CONFIG } from '@abacritt/angularx-social-login';
+import { provideEcharts } from 'ngx-echarts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(withFetch(), withInterceptors([errorInterceptor])),
+    provideEcharts(),
 
     {
       provide: SOCIAL_AUTH_CONFIG,

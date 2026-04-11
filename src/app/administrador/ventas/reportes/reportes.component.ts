@@ -11,6 +11,8 @@ import { MatTableModule } from '@angular/material/table';
 import { ProductsService } from '../../../core/services/admin/products.service';
 import { FamiliasService } from '../../../core/services/admin/familias.service';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxEchartsDirective } from 'ngx-echarts';
+import { EChartsOption } from 'echarts';
 
 interface DataPoint {
   dia: number;
@@ -30,7 +32,8 @@ interface DataPoint {
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    MatSelectModule
+    MatSelectModule,
+    NgxEchartsDirective
   ],
   templateUrl: './reportes.component.html',
   styleUrls: ['./reportes.component.css']
@@ -56,9 +59,8 @@ export class ReportesComponent implements OnInit {
   diaCritico: number | null = null;
   stockFinal = 0;
 
-  // Para el gráfico SVG
-  svgPath: string = '';
-  svgPoints: string = '';
+  // ECharts Configuration
+  chartOption: EChartsOption = {};
 
   constructor(
     private productsService: ProductsService,
@@ -151,24 +153,89 @@ export class ReportesComponent implements OnInit {
     }
 
     this.stockFinal = this.datosSimulacion[this.datosSimulacion.length - 1].unidades;
-    this.generarSvgPath();
+    this.updateChart();
   }
 
-  generarSvgPath() {
-    if (this.datosSimulacion.length === 0) return;
+  updateChart() {
+    const days = this.datosSimulacion.map(d => d.dia);
+    const units = this.datosSimulacion.map(d => d.unidades);
 
-    const width = 400; // Ancho interno del SVG
-    const height = 200; // Alto interno del SVG
-    const maxUnits = this.inventarioInicial;
-    const maxDays = this.tiempoTotal;
-
-    const coords = this.datosSimulacion.map(d => ({
-      x: (d.dia / maxDays) * width,
-      y: height - (d.unidades / maxUnits) * height
-    }));
-
-    // Crear el path string
-    this.svgPath = `M ${coords[0].x} ${coords[0].y} ` + 
-                   coords.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
+    this.chartOption = {
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'axis',
+        formatter: (params: any) => {
+          const p = params[0];
+          return `<strong>Día: ${p.name}</strong><br/>Inventario Restante: ${p.value} unidades`;
+        },
+        backgroundColor: 'rgba(30, 30, 30, 0.9)',
+        borderColor: '#D4AF37',
+        textStyle: { color: '#fff' }
+      },
+      grid: {
+        top: '15%',
+        left: '5%',
+        right: '5%',
+        bottom: '15%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        name: 'Día (Tiempo Transcurrido)',
+        nameLocation: 'middle',
+        nameGap: 35,
+        data: days,
+        axisLine: { lineStyle: { color: '#999' } },
+        axisLabel: { color: '#666' }
+      },
+      yAxis: {
+        type: 'value',
+        name: 'Cantidad de Inventario',
+        nameLocation: 'end',
+        nameGap: 20,
+        axisLine: { lineStyle: { color: '#999' } },
+        axisLabel: { color: '#666' },
+        splitLine: { lineStyle: { type: 'dashed', color: 'rgba(153, 153, 153, 0.1)' } }
+      },
+      series: [
+        {
+          data: units,
+          type: 'line',
+          smooth: true,
+          symbolSize: 8,
+          lineStyle: {
+            color: '#D4AF37',
+            width: 3,
+            shadowColor: 'rgba(212, 175, 55, 0.3)',
+            shadowBlur: 10
+          },
+          itemStyle: { color: '#D4AF37' },
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0, y: 0, x2: 0, y2: 1,
+              colorStops: [
+                { offset: 0, color: 'rgba(212, 175, 55, 0.2)' },
+                { offset: 1, color: 'rgba(212, 175, 55, 0)' }
+              ]
+            }
+          },
+          markLine: {
+            symbol: ['none', 'none'],
+            label: {
+              position: 'insideEndTop',
+              formatter: 'Umbral: {c}',
+              color: '#F44336',
+              fontWeight: 'bold'
+            },
+            lineStyle: {
+              color: 'rgba(244, 67, 54, 0.5)',
+              type: 'dashed'
+            },
+            data: [{ yAxis: this.puntoReorden }]
+          }
+        }
+      ]
+    };
   }
 }

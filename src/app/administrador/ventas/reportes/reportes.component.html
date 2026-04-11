@@ -103,28 +103,8 @@
           <mat-card-title class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] font-heading">Gráfica de Reservas</mat-card-title>
         </mat-card-header>
         <mat-card-content class="p-6">
-          <div class="chart-container relative h-[320px] w-full flex items-center justify-center bg-[#FAF8F5]/50 dark:bg-[#121212]/50 rounded-xl border border-dashed border-[#e2dcd6] dark:border-[#333333]">
-            <!-- Gráfica SVG Custom -->
-            <svg viewBox="0 0 400 200" class="w-full h-full p-4 drop-shadow-lg" preserveAspectRatio="none">
-              <!-- Ejes -->
-              <line x1="0" y1="200" x2="400" y2="200" stroke="#999" stroke-opacity="0.2" stroke-width="1" />
-              <line x1="0" y1="0" x2="0" y2="200" stroke="#999" stroke-opacity="0.2" stroke-width="1" />
-              
-              <!-- Línea de Reorden -->
-              <line *ngIf="inventarioInicial > 0"
-                    x1="0" [attr.y1]="200 - (puntoReorden / inventarioInicial) * 200" 
-                    x2="400" [attr.y2]="200 - (puntoReorden / inventarioInicial) * 200" 
-                    stroke="#F44336" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.6" />
-
-              <!-- Path de la curva -->
-              <path [attr.d]="svgPath" fill="none" stroke="#D4AF37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="chart-line" />
-            </svg>
-            
-            <!-- Leyenda -->
-            <div class="absolute bottom-4 right-6 flex gap-4 text-[9px] font-black uppercase tracking-[0.15em] bg-white/90 dark:bg-[#1E1E1E]/90 backdrop-blur p-2.5 rounded-lg shadow-sm border border-[#e2dcd6]/20">
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-1 bg-[#D4AF37] rounded-full"></span> Mis Productos</span>
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-1 bg-[#F44336] rounded-full"></span> Nivel de Alerta</span>
-            </div>
+          <div class="chart-container relative h-[450px] w-full bg-[#FAF8F5]/30 dark:bg-[#121212]/30 rounded-xl border border-[#e2dcd6]/20 dark:border-[#333333]/20 overflow-hidden">
+            <div echarts [options]="chartOption" class="h-full w-full"></div>
           </div>
         </mat-card-content>
       </mat-card>
