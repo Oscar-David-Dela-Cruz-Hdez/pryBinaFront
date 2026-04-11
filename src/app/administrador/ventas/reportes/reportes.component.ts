@@ -47,6 +47,7 @@ export class ReportesComponent implements OnInit {
   marcas: any[] = [];
   familias: any[] = [];
   selectedMarca = '';
+  selectedMarcaName = '';
   selectedFamilia = '';
   periodoSeleccionado = 30;
 
@@ -77,6 +78,11 @@ export class ReportesComponent implements OnInit {
     this.selectedMarca = marcaId;
     this.selectedFamilia = '';
     this.familias = [];
+    
+    // Buscar el nombre de la marca para mostrarlo en la UI
+    const marcaSelected = this.marcas.find(m => (m._id || m.nombre) === marcaId);
+    this.selectedMarcaName = marcaSelected ? marcaSelected.nombre : '';
+
     if (marcaId) {
       this.familiasService.getFamilias({ marca: marcaId }).subscribe(data => this.familias = data || []);
     }

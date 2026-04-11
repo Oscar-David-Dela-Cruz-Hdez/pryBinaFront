@@ -34,7 +34,7 @@
               <option *ngFor="let m of marcas" [value]="m._id || m.nombre">{{ m.nombre }}</option>
             </select>
             <select *ngIf="selectedMarca" [ngModel]="selectedFamilia" (ngModelChange)="onFamiliaChange($event)" class="select-admin mt-2 animate-fade-in shadow-inner">
-              <option value="">Todas las Familias de {{ selectedMarca }}</option>
+              <option value="">Todas las Familias de {{ selectedMarcaName }}</option>
               <option *ngFor="let f of familias" [value]="f._id || f.nombre">{{ f.nombre }}</option>
             </select>
           </div>
