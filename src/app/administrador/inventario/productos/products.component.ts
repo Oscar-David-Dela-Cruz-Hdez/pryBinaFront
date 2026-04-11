@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,6 +23,7 @@ import { FamiliasService } from '../../../core/services/admin/familias.service';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -51,6 +52,12 @@ export class ProductsComponent implements OnInit {
 
   marcas: any[] = [];
   familias: any[] = [];
+
+  // Filtros de tabla
+  searchFilter = '';
+  marcaFilter = '';
+  familiaFilter = '';
+  familiasFilterList: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -98,6 +105,7 @@ export class ProductsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data || []);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.setupFilterPredicate();
       },
       error: () => Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar los productos.' })
     });
@@ -108,19 +116,65 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  loadFamilias(marcaId: string) {
+  loadFamilias(marcaId: string, isFilter = false) {
     this.familiasService.getFamilias({ marca: marcaId }).subscribe({
-      next: (data) => this.familias = data || [],
+      next: (data) => {
+        if (isFilter) {
+          this.familiasFilterList = data || [];
+        } else {
+          this.familias = data || [];
+        }
+      },
       error: () => console.log('No se pudieron cargar familias')
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  setupFilterPredicate() {
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      const searchTerms = JSON.parse(filter);
+      
+      const searchMatch = !searchTerms.search || 
+        data.nombre?.toLowerCase().includes(searchTerms.search) || 
+        (data.skuNormal || data.skuBase)?.toLowerCase().includes(searchTerms.search);
+      
+      const marcaMatch = !searchTerms.marca || 
+        (data.marca?._id || data.marca) === searchTerms.marca;
+
+      const familiaMatch = !searchTerms.familia || 
+        (data.familia?._id || data.familia) === searchTerms.familia;
+
+      return searchMatch && marcaMatch && familiaMatch;
+    };
+  }
+
+  applyTableFilter() {
+    const filterValue = {
+      search: this.searchFilter.trim().toLowerCase(),
+      marca: this.marcaFilter,
+      familia: this.familiaFilter
+    };
+    this.dataSource.filter = JSON.stringify(filterValue);
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  onMarcaFilterChange(marcaId: string) {
+    this.marcaFilter = marcaId;
+    this.familiaFilter = ''; // Reset familia when marca changes
+    this.familiasFilterList = [];
+    if (marcaId) {
+      this.loadFamilias(marcaId, true);
+    }
+    this.applyTableFilter();
+  }
+
+  clearFilters() {
+    this.searchFilter = '';
+    this.marcaFilter = '';
+    this.familiaFilter = '';
+    this.familiasFilterList = [];
+    this.applyTableFilter();
   }
 
   toggleForm() {

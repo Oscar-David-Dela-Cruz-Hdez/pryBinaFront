@@ -20,29 +20,44 @@
         </mat-card-title>
       </mat-card-header>
       <mat-card-content class="p-6 space-y-6">
-        <div class="field-group space-y-4">
+        <!-- Selectores Dinámicos -->
+        <div class="space-y-4 p-4 bg-[#D4AF37]/5 dark:bg-[#E5C158]/5 rounded-2xl border border-[#D4AF37]/20 border-dashed">
           <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Stock inicial (Hoy)</label>
-            <input type="number" [(ngModel)]="inventarioInicial" (ngModelChange)="simular()" class="input-admin" placeholder="1500">
-            <p class="text-[10px] text-[#999999] mt-1 italic leading-tight">¿Con cuántos productos empezamos a contar?</p>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">1. Selecciona lo que quieres medir</label>
+            <select [ngModel]="selectedMarca" (ngModelChange)="onMarcaChange($event)" class="select-admin mt-2">
+              <option value="">Todas las Marcas</option>
+              <option *ngFor="let m of marcas" [value]="m._id || m.nombre">{{ m.nombre }}</option>
+            </select>
+            <select *ngIf="familias.length > 0" [ngModel]="selectedFamilia" (ngModelChange)="onFamiliaChange($event)" class="select-admin mt-2 animate-fade-in">
+              <option value="">Todas las Familias</option>
+              <option *ngFor="let f of familias" [value]="f._id || f.nombre">{{ f.nombre }}</option>
+            </select>
+          </div>
+
+          <div class="field-admin">
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">2. Elige el tiempo a proyectar</label>
+            <div class="grid grid-cols-3 gap-2 mt-2">
+              <button type="button" (click)="onPeriodoChange(7)" [class.bg-[#D4AF37]]="tiempoTotal === 7" [class.text-white]="tiempoTotal === 7" class="text-[10px] font-bold p-2 border border-[#D4AF37]/30 rounded-lg hover:bg-[#D4AF37] hover:text-white transition-all">1 SEMANA</button>
+              <button type="button" (click)="onPeriodoChange(30)" [class.bg-[#D4AF37]]="tiempoTotal === 30" [class.text-white]="tiempoTotal === 30" class="text-[10px] font-bold p-2 border border-[#D4AF37]/30 rounded-lg hover:bg-[#D4AF37] hover:text-white transition-all">1 MES</button>
+              <button type="button" (click)="onPeriodoChange(365)" [class.bg-[#D4AF37]]="tiempoTotal === 365" [class.text-white]="tiempoTotal === 365" class="text-[10px] font-bold p-2 border border-[#D4AF37]/30 rounded-lg hover:bg-[#D4AF37] hover:text-white transition-all">1 AÑO</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group space-y-4 opacity-80">
+          <div class="field-admin">
+            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Stock inicial (Auto)</label>
+            <input type="number" [(ngModel)]="inventarioInicial" (ngModelChange)="simular()" class="input-admin bg-gray-50/50 dark:bg-black/20" placeholder="1500">
           </div>
           
           <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Velocidad de Venta</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Velocidad de Venta (K)</label>
             <input type="number" step="0.001" [(ngModel)]="constanteK" (ngModelChange)="simular()" class="input-admin" placeholder="0.012">
-            <p class="text-[10px] text-[#999999] mt-1 italic leading-tight">¿Qué tan rápido se vende? (A mayor número, se agota antes).</p>
           </div>
 
           <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Días que quiero analizar</label>
-            <input type="number" [(ngModel)]="tiempoTotal" (ngModelChange)="simular()" class="input-admin" placeholder="30">
-            <p class="text-[10px] text-[#999999] mt-1 italic leading-tight">¿A cuántos días quieres ver el futuro de tu stock?</p>
-          </div>
-
-          <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Mi stock mínimo de seguridad</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-bold opacity-60">Stock de seguridad</label>
             <input type="number" [(ngModel)]="puntoReorden" (ngModelChange)="simular()" class="input-admin" placeholder="500">
-            <p class="text-[10px] text-[#999999] mt-1 italic leading-tight">Cuando llegue a esta cantidad, el sistema me avisará.</p>
           </div>
         </div>
 

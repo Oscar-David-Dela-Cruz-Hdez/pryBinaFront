@@ -8,6 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 
+import { ProductsService } from '../../../core/services/admin/products.service';
+import { FamiliasService } from '../../../core/services/admin/familias.service';
+import { MatSelectModule } from '@angular/material/select';
+
 interface DataPoint {
   dia: number;
   unidades: number;
@@ -25,7 +29,8 @@ interface DataPoint {
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    MatSelectModule
   ],
   templateUrl: './reportes.component.html',
   styleUrls: ['./reportes.component.css']
@@ -37,6 +42,13 @@ export class ReportesComponent implements OnInit {
   tiempoTotal = 30; // Días
   puntoReorden = 500;
 
+  // Selectores dinámicos
+  marcas: any[] = [];
+  familias: any[] = [];
+  selectedMarca = '';
+  selectedFamilia = '';
+  periodoSeleccionado = 30;
+
   // Resultados
   datosSimulacion: DataPoint[] = [];
   diaCritico: number | null = null;
@@ -46,8 +58,56 @@ export class ReportesComponent implements OnInit {
   svgPath: string = '';
   svgPoints: string = '';
 
+  constructor(
+    private productsService: ProductsService,
+    private familiasService: FamiliasService
+  ) {}
+
   ngOnInit() {
+    this.loadInitialData();
     this.simular();
+  }
+
+  loadInitialData() {
+    this.productsService.getMarcas().subscribe(data => this.marcas = data || []);
+  }
+
+  onMarcaChange(marcaId: string) {
+    this.selectedMarca = marcaId;
+    this.selectedFamilia = '';
+    this.familias = [];
+    if (marcaId) {
+      this.familiasService.getFamilias({ marca: marcaId }).subscribe(data => this.familias = data || []);
+    }
+    this.updateStockFromInventory();
+  }
+
+  onFamiliaChange(familiaId: string) {
+    this.selectedFamilia = familiaId;
+    this.updateStockFromInventory();
+  }
+
+  onPeriodoChange(dias: number) {
+    this.tiempoTotal = dias;
+    this.simular();
+  }
+
+  updateStockFromInventory() {
+    if (!this.selectedMarca && !this.selectedFamilia) return;
+
+    this.productsService.getProductos({ 
+      marca: this.selectedMarca, 
+      familia: this.selectedFamilia 
+    }).subscribe(productos => {
+      // Sumar el stock de todos los productos de esta categoría
+      const totalStock = productos.reduce((sum, p) => sum + (p.stock || p.stockTotal || 0), 0);
+      this.inventarioInicial = totalStock;
+      
+      // Ajustar punto de reorden sugerido: 25% del stock inicial
+      this.puntoReorden = Math.round(totalStock * 0.25);
+      
+      this.simular();
+    });
   }
 
   simular() {
