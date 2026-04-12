@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -80,8 +80,13 @@ export class IconPickerComponent implements OnInit {
 
   isOpen = false;
   searchQuery = '';
-  allIcons: { name: string; label: string }[] = [];
-  filteredIcons: { name: string; label: string }[] = [];
+  allIcons: IconEntry[] = [];
+  filteredIcons: IconEntry[] = [];
+  panelTop = 0;
+  panelLeft = 0;
+  panelWidth = 0;
+
+  constructor(private elRef: ElementRef) {}
 
   ngOnInit(): void {
     this.allIcons = ICON_SETS[this.iconSet] || ICON_SETS.all;
@@ -93,6 +98,14 @@ export class IconPickerComponent implements OnInit {
     if (this.isOpen) {
       this.searchQuery = '';
       this.filteredIcons = [...this.allIcons];
+      // Calcular posición del panel relativa al viewport para position:fixed
+      const trigger = this.elRef.nativeElement.querySelector('.icon-picker-trigger');
+      if (trigger) {
+        const rect = trigger.getBoundingClientRect();
+        this.panelTop = rect.bottom + 6;
+        this.panelLeft = rect.left;
+        this.panelWidth = rect.width;
+      }
     }
   }
 
@@ -113,5 +126,12 @@ export class IconPickerComponent implements OnInit {
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.isOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    if (this.isOpen && !this.elRef.nativeElement.contains(event.target)) {
+      this.isOpen = false;
+    }
   }
 }

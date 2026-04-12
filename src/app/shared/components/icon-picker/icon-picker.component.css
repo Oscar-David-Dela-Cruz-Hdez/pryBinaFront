@@ -1,10 +1,7 @@
-/* =====================================================
-   ICON PICKER — Shared Component
-   ===================================================== */
-
 .icon-picker-wrapper {
   position: relative;
   width: 100%;
+  isolation: isolate;
 }
 
 /* ——— Botón disparador ——— */
@@ -73,16 +70,15 @@
 
 /* ——— Panel desplegable ——— */
 .icon-picker-panel {
-  position: absolute;
-  z-index: 1000;
-  top: calc(100% + 6px);
-  left: 0;
-  right: 0;
+  position: fixed;
+  z-index: 9999;
   background: #ffffff;
   border: 1px solid #e2dcd6;
   border-radius: 14px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
   overflow: hidden;
+  width: 420px;
+  max-width: 90vw;
   animation: slideDown 0.18s ease-out;
 }
 
