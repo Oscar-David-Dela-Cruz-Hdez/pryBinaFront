@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-export const ICON_SETS = {
+export interface IconEntry { name: string; label: string; }
+
+export const ICON_SETS: Record<'payment' | 'contact' | 'all', IconEntry[]> = {
   payment: [
     { name: 'credit_card', label: 'Tarjeta' },
     { name: 'payments', label: 'Pagos' },
