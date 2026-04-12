@@ -1,0 +1,216 @@
+/* =====================================================
+   ICON PICKER — Shared Component
+   ===================================================== */
+
+.icon-picker-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* ——— Botón disparador ——— */
+.icon-picker-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--input-bg, #ffffff);
+  border: 1px solid #e2dcd6;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #2C2C2C;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  text-align: left;
+}
+
+.icon-picker-trigger:hover,
+.icon-picker-trigger.open {
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+}
+
+.trigger-icon-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #FAF8F5;
+  border: 1px solid #e2dcd6;
+  border-radius: 8px;
+  color: #D4AF37;
+  flex-shrink: 0;
+}
+
+.trigger-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+}
+
+.trigger-arrow {
+  color: #999;
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0;
+}
+
+/* Dark mode */
+:host-context(.dark) .icon-picker-trigger {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #f0f0f0;
+}
+
+:host-context(.dark) .trigger-icon-preview {
+  background: #1e1e1e;
+  border-color: #444;
+}
+
+/* ——— Panel desplegable ——— */
+.icon-picker-panel {
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e2dcd6;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  overflow: hidden;
+  animation: slideDown 0.18s ease-out;
+}
+
+:host-context(.dark) .icon-picker-panel {
+  background: #1e1e1e;
+  border-color: #333;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ——— Buscador ——— */
+.picker-search {
+  position: relative;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0ece8;
+}
+
+:host-context(.dark) .picker-search {
+  border-bottom-color: #333;
+}
+
+.search-icon-hint {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.picker-search-input {
+  width: 100%;
+  padding: 7px 10px 7px 32px;
+  border: 1px solid #e2dcd6;
+  border-radius: 8px;
+  font-size: 13px;
+  background: #FAF8F5;
+  color: #2C2C2C;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.picker-search-input:focus {
+  border-color: #D4AF37;
+}
+
+:host-context(.dark) .picker-search-input {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #f0f0f0;
+}
+
+/* ——— Grid de íconos ——— */
+.picker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 10px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.picker-grid::-webkit-scrollbar { width: 4px; }
+.picker-grid::-webkit-scrollbar-thumb { background: #e2dcd6; border-radius: 99px; }
+
+/* ——— Botón de cada ícono ——— */
+.icon-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  color: #555;
+  transition: all 0.15s ease;
+}
+
+.icon-option:hover {
+  background: #FAF8F5;
+  border-color: #e2dcd6;
+  color: #D4AF37;
+  transform: scale(1.07);
+}
+
+.icon-option.selected {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: #D4AF37;
+  color: #D4AF37;
+}
+
+:host-context(.dark) .icon-option:hover {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #E5C158;
+}
+
+:host-context(.dark) .icon-option.selected {
+  background: rgba(229, 193, 88, 0.15);
+  border-color: #E5C158;
+  color: #E5C158;
+}
+
+.icon-label {
+  font-size: 10px;
+  text-align: center;
+  line-height: 1.1;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ——— Estado vacío ——— */
+.picker-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px;
+  color: #999;
+  font-size: 13px;
+}

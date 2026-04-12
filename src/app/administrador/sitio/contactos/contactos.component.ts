@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import Swal from 'sweetalert2';
 
 import { SiteInfoService } from '../../../core/services/admin/site-info.service';
+import { IconPickerComponent } from '../../../shared/components/icon-picker/icon-picker.component';
 
 @Component({
   selector: 'app-admin-contactos',
@@ -24,7 +25,8 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    IconPickerComponent
   ],
   templateUrl: './contactos.component.html',
   styleUrls: ['./contactos.component.css']
@@ -49,6 +51,10 @@ export class ContactosComponent implements OnInit {
       icono: ['']
     });
     this.loadContactos();
+  }
+
+  onIconSelected(icon: string): void {
+    this.contactForm.patchValue({ icono: icon });
   }
 
   loadContactos() {

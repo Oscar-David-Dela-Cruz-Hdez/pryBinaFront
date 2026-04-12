@@ -37,14 +37,12 @@
         </div>
 
         <div class="field-admin">
-          <label class="label-admin">Icono (Material Icon)</label>
-          <div class="relative">
-            <input type="text" formControlName="icono" placeholder="Ej: call, email, public" class="input-admin pr-12">
-            <mat-icon *ngIf="contactForm.get('icono')?.value"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] pointer-events-none">
-              {{ contactForm.get('icono')?.value }}
-            </mat-icon>
-          </div>
+          <label class="label-admin">Ícono</label>
+          <app-icon-picker
+            iconSet="contact"
+            [value]="contactForm.get('icono')?.value || ''"
+            (iconSelected)="onIconSelected($event)">
+          </app-icon-picker>
         </div>
 
         <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
@@ -57,28 +55,42 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Lista de Contactos -->
-  <mat-card *ngIf="contactos.length > 0; else noData" class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 animate-fade-in">
-    <mat-list>
-      <div *ngFor="let contacto of contactos" class="hover:bg-[#FAF8F5]/30 dark:hover:bg-[#2A2A2A]/30 transition-colors duration-200">
-        <mat-list-item>
-          <mat-icon matListItemIcon class="text-[#D4AF37] dark:text-[#E5C158]">{{ getIcon(contacto) }}</mat-icon>
-          <div matListItemTitle class="text-[#2C2C2C] dark:text-[#F0F0F0] font-medium">
-            <strong>{{ contacto.tipo | titlecase }}:</strong> {{ contacto.valor }}
-          </div>
-          <div matListItemMeta>
-            <button mat-icon-button class="text-[#D4AF37] dark:text-[#E5C158] hover:scale-110 transition-transform" (click)="editContacto(contacto)">
-              <mat-icon>edit</mat-icon>
+  <!-- Tabla de Contactos -->
+  <div class="admin-data-table animate-fade-in" *ngIf="contactos.length > 0; else noData">
+    <table>
+      <thead>
+        <tr class="admin-table-head">
+          <th class="admin-th" style="width:56px">Ícono</th>
+          <th class="admin-th">Tipo</th>
+          <th class="admin-th">Valor / Enlace</th>
+          <th class="admin-th text-right">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contacto of contactos" class="admin-table-row">
+          <td class="admin-td">
+            <div class="admin-thumb-placeholder">
+              <mat-icon style="font-size:18px;width:18px;height:18px">{{ getIcon(contacto) }}</mat-icon>
+            </div>
+          </td>
+          <td class="admin-td">
+            <span class="badge-admin badge-active">{{ contacto.tipo | titlecase }}</span>
+          </td>
+          <td class="admin-td">
+            <span class="font-medium text-[#2C2C2C] dark:text-[#F0F0F0]">{{ contacto.valor }}</span>
+          </td>
+          <td class="admin-td text-right">
+            <button class="admin-btn-edit" (click)="editContacto(contacto)" title="Editar">
+              <mat-icon style="font-size:18px;width:18px;height:18px">edit</mat-icon>
             </button>
-            <button mat-icon-button class="text-[#F44336] hover:scale-110 transition-transform" (click)="deleteContacto(contacto._id)">
-              <mat-icon>delete</mat-icon>
+            <button class="admin-btn-delete" (click)="deleteContacto(contacto._id)" title="Eliminar">
+              <mat-icon style="font-size:18px;width:18px;height:18px">delete</mat-icon>
             </button>
-          </div>
-        </mat-list-item>
-        <mat-divider class="border-[#e2dcd6]/30 dark:border-[#333333]/30"></mat-divider>
-      </div>
-    </mat-list>
-  </mat-card>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <ng-template #noData>
     <div class="empty-state flex flex-col items-center justify-center gap-4 py-12 bg-[#FAF8F5]/50 dark:bg-[#2A2A2A]/50 rounded-2xl">

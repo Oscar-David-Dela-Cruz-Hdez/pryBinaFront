@@ -12,6 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import Swal from 'sweetalert2';
 
 import { SalesService } from '../../../core/services/admin/sales.service';
+import { IconPickerComponent } from '../../../shared/components/icon-picker/icon-picker.component';
 
 @Component({
   selector: 'app-admin-metodos-pago',
@@ -25,7 +26,8 @@ import { SalesService } from '../../../core/services/admin/sales.service';
     MatButtonModule,
     MatIconModule,
     MatSlideToggleModule,
-    MatListModule
+    MatListModule,
+    IconPickerComponent
   ],
   templateUrl: './metodos-pago.component.html',
   styleUrls: ['./metodos-pago.component.css']
@@ -52,6 +54,10 @@ export class MetodosPagoComponent implements OnInit {
       activo: [true]
     });
     this.loadMethods();
+  }
+
+  onIconSelected(icon: string): void {
+    this.paymentForm.patchValue({ icono: icon });
   }
 
   loadMethods() {

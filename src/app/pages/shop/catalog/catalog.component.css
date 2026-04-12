@@ -1,1 +1,13 @@
 /* Estilos migrados a Tailwind CSS en el template HTML */
+
+/* Scrollbar personalizada para el panel de filtros */
+aside div::-webkit-scrollbar {
+  width: 4px;
+}
+aside div::-webkit-scrollbar-track {
+  background: transparent;
+}
+aside div::-webkit-scrollbar-thumb {
+  background-color: #e2dcd6;
+  border-radius: 99px;
+}

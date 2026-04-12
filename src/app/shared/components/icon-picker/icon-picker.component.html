@@ -1,0 +1,49 @@
+<div class="icon-picker-wrapper">
+  <!-- Botón disparador: muestra el ícono seleccionado -->
+  <button type="button" class="icon-picker-trigger" (click)="toggle()" [class.open]="isOpen">
+    <span class="trigger-icon-preview">
+      <mat-icon>{{ value || 'add_circle_outline' }}</mat-icon>
+    </span>
+    <span class="trigger-label">
+      {{ value ? value : 'Seleccionar ícono' }}
+    </span>
+    <mat-icon class="trigger-arrow">{{ isOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+  </button>
+
+  <!-- Panel desplegable con iconos -->
+  <div class="icon-picker-panel" *ngIf="isOpen">
+    <!-- Buscador -->
+    <div class="picker-search">
+      <mat-icon class="search-icon-hint">search</mat-icon>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="search()"
+        placeholder="Buscar ícono..."
+        class="picker-search-input"
+        autofocus
+      >
+    </div>
+
+    <!-- Grid de íconos -->
+    <div class="picker-grid">
+      <button
+        *ngFor="let icon of filteredIcons"
+        type="button"
+        class="icon-option"
+        [class.selected]="value === icon.name"
+        (click)="select(icon.name)"
+        [title]="icon.label"
+      >
+        <mat-icon>{{ icon.name }}</mat-icon>
+        <span class="icon-label">{{ icon.label }}</span>
+      </button>
+    </div>
+
+    <!-- Sin resultados -->
+    <div *ngIf="filteredIcons.length === 0" class="picker-empty">
+      <mat-icon>search_off</mat-icon>
+      <span>Sin resultados para "{{ searchQuery }}"</span>
+    </div>
+  </div>
+</div>

@@ -33,14 +33,12 @@
         </div>
 
         <div class="field-admin">
-          <label class="label-admin">Icono (Nombre Material Icon o URL)</label>
-          <div class="relative">
-            <input type="text" formControlName="icono" placeholder="credit_card" class="input-admin pr-12">
-            <mat-icon *ngIf="paymentForm.get('icono')?.value && !paymentForm.get('icono')?.value.includes('http')"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] pointer-events-none">
-              {{ paymentForm.get('icono')?.value }}
-            </mat-icon>
-          </div>
+          <label class="label-admin">Ícono</label>
+          <app-icon-picker
+            iconSet="payment"
+            [value]="paymentForm.get('icono')?.value || ''"
+            (iconSelected)="onIconSelected($event)">
+          </app-icon-picker>
         </div>
 
         <div class="mb-2">
