@@ -11,11 +11,7 @@
   </button>
 
   <!-- Panel desplegable con iconos -->
-  <div class="icon-picker-panel"
-       *ngIf="isOpen"
-       [style.top.px]="panelTop"
-       [style.left.px]="panelLeft"
-       [style.width.px]="panelWidth">
+  <div class="icon-picker-panel" *ngIf="isOpen">
     <!-- Buscador -->
     <div class="picker-search">
       <mat-icon class="search-icon-hint">search</mat-icon>

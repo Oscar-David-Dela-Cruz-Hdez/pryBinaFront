@@ -61,7 +61,6 @@ export const ICON_SETS: Record<'payment' | 'contact' | 'all', IconEntry[]> = {
   all: []
 };
 
-// 'all' es la unión de ambos sets sin duplicados
 ICON_SETS.all = [...new Map(
   [...ICON_SETS.payment, ...ICON_SETS.contact].map(i => [i.name, i])
 ).values()];
@@ -82,9 +81,6 @@ export class IconPickerComponent implements OnInit {
   searchQuery = '';
   allIcons: IconEntry[] = [];
   filteredIcons: IconEntry[] = [];
-  panelTop = 0;
-  panelLeft = 0;
-  panelWidth = 0;
 
   constructor(private elRef: ElementRef) {}
 
@@ -98,14 +94,6 @@ export class IconPickerComponent implements OnInit {
     if (this.isOpen) {
       this.searchQuery = '';
       this.filteredIcons = [...this.allIcons];
-      // Calcular posición del panel relativa al viewport para position:fixed
-      const trigger = this.elRef.nativeElement.querySelector('.icon-picker-trigger');
-      if (trigger) {
-        const rect = trigger.getBoundingClientRect();
-        this.panelTop = rect.bottom + 6;
-        this.panelLeft = rect.left;
-        this.panelWidth = rect.width;
-      }
     }
   }
 
