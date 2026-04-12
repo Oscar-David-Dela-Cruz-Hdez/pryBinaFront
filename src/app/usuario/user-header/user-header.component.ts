@@ -9,6 +9,8 @@
 
   import { AuthService } from '../../auth/auth.service';
   import { ThemeService } from '../../core/services/theme/theme';
+  import { FamiliasService } from '../../core/services/admin/familias.service';
+  import { ProductsService } from '../../core/services/admin/products.service';
 
   @Component({
     selector: 'app-user-header',
@@ -26,10 +28,31 @@
   export class UserHeaderComponent {
 
     public userName$: Observable<string | null>;
+    
+    // Datos Dinámicos para el Menú
+    familias: any[] = [];
+    marcas: any[] = [];
 
-    constructor(private authService: AuthService, public themeService: ThemeService) {
-
+    constructor(
+      private authService: AuthService, 
+      public themeService: ThemeService,
+      private familiasService: FamiliasService,
+      private productsService: ProductsService
+    ) {
       this.userName$ = this.authService.currentUserName$;
+    }
+
+    ngOnInit() {
+      this.loadMenuData();
+    }
+
+    loadMenuData() {
+      this.familiasService.getFamilias().subscribe(data => {
+        this.familias = (data || []).slice(0, 12);
+      });
+      this.productsService.getMarcas().subscribe(data => {
+        this.marcas = (data || []).slice(0, 8);
+      });
     }
 
 

@@ -7,11 +7,12 @@
       <p class="mt-2 text-[#666666] dark:text-[#A0A0A0]">Visítanos en nuestra sucursal principal</p>
     </div>
 
-    <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 hover:shadow-xl dark:border dark:border-[#333333]/30 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
+    <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden transition-all duration-300 hover:shadow-xl animate-fade-in">
       <!-- Mapa -->
-      <div class="w-full">
+      <div class="w-full bg-gray-100 dark:bg-black/20 min-h-[420px] flex items-center justify-center">
         <iframe
-          src="https://www.google.com/maps?q=21.1394253,-98.4213026&output=embed"
+          *ngIf="safeMapUrl"
+          [src]="safeMapUrl"
           width="100%"
           height="420"
           style="border:0;"
@@ -19,40 +20,46 @@
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
+        <div *ngIf="!safeMapUrl" class="text-[#999] text-sm flex flex-col items-center gap-2">
+          <mat-icon class="scale-150 mb-2">map</mat-icon>
+          Cargando mapa interactivo...
+        </div>
       </div>
 
       <!-- Info de contacto -->
-      <div class="p-6 grid grid-cols-1 sm:grid-cols-3 gap-4 animate-slide-up">
+      <div class="p-6 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-4 animate-slide-up">
         <div class="flex items-start gap-3">
           <div class="w-10 h-10 bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
             <mat-icon class="text-[#D4AF37] dark:text-[#E5C158] !text-xl">location_on</mat-icon>
           </div>
           <div>
             <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-1">Dirección</p>
-            <p class="text-sm text-[#2C2C2C] dark:text-[#F0F0F0] leading-snug transition-all duration-300">
-              Distribuidora Panamericana, Huejutla de Reyes, Hidalgo
+            <p class="text-sm text-[#2C2C2C] dark:text-[#F0F0F0] font-medium leading-relaxed">
+              {{ ubicacion?.direccion || 'Huejutla de Reyes, Hidalgo, México' }}
             </p>
           </div>
         </div>
+        
         <div class="flex items-start gap-3">
           <div class="w-10 h-10 bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
             <mat-icon class="text-[#D4AF37] dark:text-[#E5C158] !text-xl">schedule</mat-icon>
           </div>
           <div>
             <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-1">Horario</p>
-            <p class="text-sm text-[#2C2C2C] dark:text-[#F0F0F0] leading-snug transition-all duration-300">
-              Lunes a Viernes de 9:00 AM a 6:00 PM
+            <p class="text-sm text-[#2C2C2C] dark:text-[#F0F0F0] font-medium leading-relaxed">
+              {{ ubicacion?.horario || 'Lunes a Viernes de 9:00 AM a 6:00 PM' }}
             </p>
           </div>
         </div>
+
         <div class="flex items-start gap-3">
           <div class="w-10 h-10 bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
             <mat-icon class="text-[#D4AF37] dark:text-[#E5C158] !text-xl">phone</mat-icon>
           </div>
           <div>
             <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-1">Teléfono</p>
-            <p class="text-sm text-[#2C2C2C] dark:text-[#F0F0F0] leading-snug transition-all duration-300">
-              +52 789 896 0000
+            <p class="text-sm text-[#2C2C2C] dark:text-[#F0F0F0] font-medium leading-relaxed">
+              {{ ubicacion?.telefono || '+52 000 000 0000' }}
             </p>
           </div>
         </div>

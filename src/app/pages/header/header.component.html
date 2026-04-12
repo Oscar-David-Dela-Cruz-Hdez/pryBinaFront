@@ -5,30 +5,54 @@
       <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana" class="h-10 w-auto object-contain">
     </a>
 
-    <!-- Nav Links -->
-    <nav class="hidden md:flex items-center gap-0.5">
+    <!-- Nav Links Dinámicos -->
+    <nav class="hidden lg:flex items-center gap-1">
+      <!-- Botón Explorar con Dropdown -->
+      <button [matMenuTriggerFor]="exploreMenu" 
+        class="group flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-xl hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-300">
+        <mat-icon class="!text-[20px] transition-transform group-hover:rotate-180">expand_more</mat-icon>
+        <span>EXPLORAR</span>
+      </button>
+
+      <mat-menu #exploreMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-2xl !shadow-2xl !border-none !p-2 !min-w-[420px]">
+        <div class="grid grid-cols-2 gap-4 p-4 min-w-[400px]">
+          <!-- Columna Familias -->
+          <div class="space-y-3">
+            <h4 class="text-[10px] font-black uppercase tracking-widest text-[#D4AF37] mb-2 px-3">Categorías</h4>
+            <div class="flex flex-col gap-1">
+              <a *ngFor="let fam of familias" mat-menu-item 
+                [routerLink]="['/productos']" [queryParams]="{ familia: fam._id }"
+                class="!h-9 !py-0 !px-3 !rounded-lg !text-sm text-[#2C2C2C] dark:text-[#F0F0F0] hover:!bg-[#D4AF37]/5">
+                {{ fam.nombre }}
+              </a>
+            </div>
+          </div>
+
+          <!-- Columna Marcas -->
+          <div class="space-y-3 border-l border-[#e2dcd6]/30 dark:border-[#333333]/30 pl-4">
+            <h4 class="text-[10px] font-black uppercase tracking-widest text-[#D4AF37] mb-2 px-3">Marcas Destacadas</h4>
+            <div class="flex flex-col gap-1">
+              <a *ngFor="let marca of marcas" mat-menu-item 
+                [routerLink]="['/productos']" [queryParams]="{ marca: marca._id }"
+                class="!h-9 !py-0 !px-3 !rounded-lg !text-sm text-[#2C2C2C] dark:text-[#F0F0F0] hover:!bg-[#D4AF37]/5">
+                {{ marca.nombre }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </mat-menu>
+
+      <!-- Enlaces Fijos -->
       <a routerLink="/productos"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
+        class="px-4 py-2 text-sm font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-xl hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
         Productos
       </a>
-      <a routerLink="/cabello"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
-        Cabello
-      </a>
-      <a routerLink="/cosmeticos"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
-        Cosméticos
-      </a>
-      <a routerLink="/ofertas"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
-        Ofertas
-      </a>
       <a routerLink="/ubicacion"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
+        class="px-4 py-2 text-sm font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-xl hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
         Ubicación
       </a>
       <a routerLink="/contacto"
-        class="px-3 py-2 text-sm font-medium text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-lg hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
+        class="px-4 py-2 text-sm font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-xl hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-200">
         Contacto
       </a>
     </nav>

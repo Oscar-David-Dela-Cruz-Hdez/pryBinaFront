@@ -7,10 +7,46 @@
         </a>
       </div>
 
-      <nav class="hidden md:flex items-center gap-8">
-        <a routerLink="/productos" class="font-semibold text-sm tracking-wide text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">Productos</a>
-        <a routerLink="/cabello" class="font-semibold text-sm tracking-wide text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">Cabello</a>
-        <a routerLink="/contacto" class="font-semibold text-sm tracking-wide text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">Contacto</a>
+      <nav class="hidden lg:flex items-center gap-1">
+        <!-- Botón Explorar con Dropdown -->
+        <button [matMenuTriggerFor]="exploreMenu" 
+          class="group flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-xl hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-300">
+          <mat-icon class="!text-[20px] transition-transform group-hover:rotate-180">expand_more</mat-icon>
+          <span>EXPLORAR</span>
+        </button>
+
+        <mat-menu #exploreMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-2xl !shadow-2xl !border-none !p-2 !min-w-[420px]">
+          <div class="grid grid-cols-2 gap-4 p-4 min-w-[400px]">
+            <!-- Columna Familias -->
+            <div class="space-y-3">
+              <h4 class="text-[10px] font-black uppercase tracking-widest text-[#D4AF37] mb-2 px-3">Categorías</h4>
+              <div class="flex flex-col gap-1">
+                <a *ngFor="let fam of familias" mat-menu-item 
+                  [routerLink]="['/productos']" [queryParams]="{ familia: fam._id }"
+                  class="!h-9 !py-0 !px-3 !rounded-lg !text-sm text-[#2C2C2C] dark:text-[#F0F0F0] hover:!bg-[#D4AF37]/5">
+                  {{ fam.nombre }}
+                </a>
+              </div>
+            </div>
+
+            <!-- Columna Marcas -->
+            <div class="space-y-3 border-l border-[#e2dcd6]/30 dark:border-[#333333]/30 pl-4">
+              <h4 class="text-[10px] font-black uppercase tracking-widest text-[#D4AF37] mb-2 px-3">Marcas Destacadas</h4>
+              <div class="flex flex-col gap-1">
+                <a *ngFor="let marca of marcas" mat-menu-item 
+                  [routerLink]="['/productos']" [queryParams]="{ marca: marca._id }"
+                  class="!h-9 !py-0 !px-3 !rounded-lg !text-sm text-[#2C2C2C] dark:text-[#F0F0F0] hover:!bg-[#D4AF37]/5">
+                  {{ marca.nombre }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </mat-menu>
+
+        <!-- Enlaces Fijos -->
+        <a routerLink="/productos" class="px-4 py-2 font-semibold text-sm tracking-wide text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">Productos</a>
+        <a routerLink="/ubicacion" class="px-4 py-2 font-semibold text-sm tracking-wide text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">Ubicación</a>
+        <a routerLink="/contacto" class="px-4 py-2 font-semibold text-sm tracking-wide text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">Contacto</a>
       </nav>
 
       <div class="flex items-center gap-4">
