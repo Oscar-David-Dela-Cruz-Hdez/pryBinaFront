@@ -1,4 +1,4 @@
-  import { Component } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { RouterModule } from '@angular/router';
   import { Observable } from 'rxjs';
@@ -25,7 +25,7 @@
     templateUrl: './user-header.component.html',
     styleUrls: ['./user-header.component.css']
   })
-  export class UserHeaderComponent {
+  export class UserHeaderComponent implements OnInit {
 
     public userName$: Observable<string | null>;
     

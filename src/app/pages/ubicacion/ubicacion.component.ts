@@ -1,3 +1,7 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SiteInfoService } from '../../core/services/admin/site-info.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -9,7 +13,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './ubicacion.component.html',
   styleUrls: ['./ubicacion.component.css']
 })
-export class UbicacionComponent {
+export class UbicacionComponent implements OnInit {
   ubicacion: any;
   safeMapUrl: SafeResourceUrl | null = null;
 
