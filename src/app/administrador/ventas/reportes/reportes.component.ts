@@ -149,7 +149,7 @@ export class ReportesComponent implements OnInit {
         this.totalProductosAnalizados = productos.length;
         this.puntoReorden = Math.round(totalStock * 0.25);
         
-        this.calculateDynamicK();
+        this.calculateDynamicK(productos);
         this.simular();
       },
       error: () => {
@@ -158,26 +158,27 @@ export class ReportesComponent implements OnInit {
     });
   }
 
-  calculateDynamicK() {
+  calculateDynamicK(productosScope: any[] = []) {
     // 1. Obtener ventas del scope actual (Global, Marca o Familia)
     let totalVentas = 0;
+    
+    // Crear un Set con los IDs de los productos actualmente filtrados para búsqueda rápida
+    const productIdsInScope = new Set(productosScope.map(p => p._id));
 
     this.ventasHistoricas.forEach(pedido => {
       pedido.productos.forEach((item: any) => {
-        // En un sistema ideal, el item tendría marcaId/familiaId. 
-        // Como aquí filtramos por nombre, asumiremos coincidencia si el producto está en el listado actual
-        // Pero para ser más exactos, el "updateStockFromInventory" ya nos da el total del scope.
-        // Vamos a implementar una lógica simplificada pero funcional: 
-        // Si no hay filtro, sumamos todo. Si hay filtro, necesitamos el mapeo de productos.
-        totalVentas += (item.cantidad || 0);
+        // Extraemos el ID del producto (soporta un objeto populado o un ID directo)
+        const itemId = item.producto?._id || item.productoId || item.producto;
+        
+        // Solo sumamos la venta si el producto vendido está dentro del filtro actual
+        if (productIdsInScope.has(itemId)) {
+          totalVentas += (item.cantidad || 0);
+        }
       });
     });
 
-    // Filtro por marca/familia en las ventas (Lógica de agregación manual por ahora)
-    // Nota: Esto asume que el backend incluye el nombre del producto en el pedido
-    // Para mayor precisión se necesitaría un mapeo previo, pero usaremos el total global 
-    // si no hay filtros específicos para esta demo de lógica.
-    this.ventasScopeActual = totalVentas; // Simplificado: total ventas entregadas
+    // Asignamos el total real de ventas que pertenecen a este filtro
+    this.ventasScopeActual = totalVentas;
 
     // Fórmula: k = -ln( Stock / (Stock + Ventas) ) / 30
     if (this.inventarioInicial > 0 && this.ventasScopeActual > 0) {
