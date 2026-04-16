@@ -1,0 +1,30 @@
+<main class="bg-[#FAF8F5] dark:bg-[#121212] min-h-[60vh] py-16 px-6 transition-all duration-300">
+  <div class="max-w-4xl mx-auto">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-sm text-[#666666] dark:text-[#A0A0A0] mb-10 font-semibold">
+      <a routerLink="/" class="hover:text-[#D4AF37] transition-colors">Inicio</a>
+      <span>/</span>
+      <span class="text-[#D4AF37]">Nuestra Historia</span>
+    </nav>
+
+    <div class="bg-white dark:bg-[#1E1E1E] rounded-3xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-[#e2dcd6]/50 dark:border-[#333333]/50">
+      <h1 class="text-3xl md:text-4xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] mb-8 flex items-center gap-4">
+        Nuestra Historia
+      </h1>
+
+      <div *ngIf="isLoading" class="animate-pulse space-y-4">
+        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/6"></div>
+      </div>
+
+      <div *ngIf="!isLoading && historiaData" class="prose prose-lg dark:prose-invert max-w-none text-[#666666] dark:text-[#A0A0A0] whitespace-pre-wrap leading-relaxed">
+        {{ historiaData.texto }}
+      </div>
+
+      <div *ngIf="!isLoading && !historiaData" class="text-center py-12 text-[#666666] dark:text-[#A0A0A0]">
+        La historia aún no ha sido redactada.
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -14,9 +14,11 @@ import { SalesService } from '../../core/services/admin/sales.service';
   styleUrls: ['./index.component.css'],
 })
 
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit, OnDestroy {
   productosDestacados: any[] = [];
   carruseles: any[] = [];
+  currentCarouselIndex = 0;
+  carouselInterval: any;
   isLoading = true;
 
   constructor(
@@ -55,8 +57,19 @@ export class IndexComponent implements OnInit {
     });
 
     this.salesService.getCarruseles(true).subscribe(data => {
-      // Tomamos solo los carruseles activos y los reordenamos (o usamos el primero para el hero)
+      // Tomamos solo los carruseles activos
       this.carruseles = data || [];
+      if (this.carruseles.length > 1) {
+        this.carouselInterval = setInterval(() => {
+          this.currentCarouselIndex = (this.currentCarouselIndex + 1) % this.carruseles.length;
+        }, 5000); // Cambia cada 5 segundos
+      }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.carouselInterval) {
+      clearInterval(this.carouselInterval);
+    }
   }
 }

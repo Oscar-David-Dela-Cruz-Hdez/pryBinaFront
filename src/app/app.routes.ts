@@ -8,6 +8,10 @@ import { RegisterComponent } from './auth/register/register.component';
 import { RecupcontraComponent } from './auth/recupcontra/recupcontra.component';
 import { PrivacidadComponent } from './static/privacidad/privacidad.component';
 import { TerminosComponent } from './static/terminos/terminos.component';
+import { HistoriaPublicComponent } from './static/historia/historia.component';
+import { MisionVisionPublicComponent } from './static/mision-vision/mision-vision.component';
+import { AyudaPublicComponent } from './static/ayuda/ayuda.component';
+import { ContactoPublicComponent } from './static/contacto/contacto.component';
 import { UserdataComponent } from "./usuario/userdata/userdata.component";
 import { PasswordComponent } from "./usuario/password/password.component";
 import { PreguntaComponent } from "./usuario/pregunta/pregunta.component";
@@ -97,6 +101,26 @@ export const routes: Routes = [
   {
     path: 'terminos',
     component: TerminosComponent
+  },
+  {
+    path: 'historia',
+    component: HistoriaPublicComponent,
+    data: { breadcrumb: 'Historia' }
+  },
+  {
+    path: 'mision-vision',
+    component: MisionVisionPublicComponent,
+    data: { breadcrumb: 'Misión y Visión' }
+  },
+  {
+    path: 'ayuda',
+    component: AyudaPublicComponent,
+    data: { breadcrumb: 'Ayuda' }
+  },
+  {
+    path: 'contacto',
+    component: ContactoPublicComponent,
+    data: { breadcrumb: 'Contacto' }
   },
 
   {

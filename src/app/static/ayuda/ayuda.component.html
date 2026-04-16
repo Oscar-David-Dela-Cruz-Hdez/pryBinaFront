@@ -1,0 +1,42 @@
+<main class="bg-[#FAF8F5] dark:bg-[#121212] min-h-[60vh] py-16 px-6 transition-all duration-300">
+  <div class="max-w-3xl mx-auto">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-sm text-[#666666] dark:text-[#A0A0A0] mb-10 font-semibold">
+      <a routerLink="/" class="hover:text-[#D4AF37] transition-colors">Inicio</a>
+      <span>/</span>
+      <span class="text-[#D4AF37]">Ayuda y FAQs</span>
+    </nav>
+
+    <h1 class="text-3xl md:text-4xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] mb-8 text-center">
+      Preguntas Frecuentes
+    </h1>
+
+    <div *ngIf="isLoading" class="animate-pulse space-y-4">
+      <div class="h-16 bg-white dark:bg-[#1E1E1E] rounded-xl w-full"></div>
+      <div class="h-16 bg-white dark:bg-[#1E1E1E] rounded-xl w-full"></div>
+      <div class="h-16 bg-white dark:bg-[#1E1E1E] rounded-xl w-full"></div>
+    </div>
+
+    <!-- Lista de faqs plana por ahora, o details -->
+    <div *ngIf="!isLoading && faqs.length > 0" class="space-y-4">
+      <details *ngFor="let f of faqs" class="group bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/50 dark:border-[#333333]/50 [&_summary::-webkit-details-marker]:hidden">
+        <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">
+          <h2 class="text-lg">{{ f.pregunta }}</h2>
+          <span class="shrink-0 rounded-full bg-[#FAF8F5] dark:bg-[#2A2A2A] p-2 text-[#D4AF37] sm:p-3">
+            <svg class="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </span>
+        </summary>
+        <div class="px-6 pb-6 text-[#666666] dark:text-[#A0A0A0] leading-relaxed whitespace-pre-wrap">
+          {{ f.respuesta }}
+        </div>
+      </details>
+    </div>
+
+    <div *ngIf="!isLoading && faqs.length === 0" class="text-center py-12 text-[#666666] dark:text-[#A0A0A0]">
+      Aún no hay preguntas frecuentes registradas.
+    </div>
+
+  </div>
+</main>
