@@ -12,6 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import Swal from 'sweetalert2';
 
 import { SalesService } from '../../../core/services/admin/sales.service';
+import { ProductsService } from '../../../core/services/admin/products.service';
 
 @Component({
   selector: 'app-admin-carrusel',
@@ -32,6 +33,7 @@ import { SalesService } from '../../../core/services/admin/sales.service';
 })
 export class CarruselComponent implements OnInit {
   carruseles: any[] = [];
+  marcas: any[] = [];
   carruselForm!: FormGroup;
   showForm = false;
   isEditing = false;
@@ -41,17 +43,21 @@ export class CarruselComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private salesService: SalesService,
+    private productsService: ProductsService
   ) { }
 
   ngOnInit(): void {
     this.carruselForm = this.fb.group({
       titulo: [''],
       imagenUrl: ['', Validators.required],
+      tipoDestino: ['personalizado'],
+      marcaId: [''],
       enlaceDestino: [''],
       orden: [0],
       activo: [true]
     });
     this.loadCarruseles();
+    this.productsService.getMarcas().subscribe(m => this.marcas = m || []);
   }
 
   loadCarruseles() {
@@ -73,7 +79,23 @@ export class CarruselComponent implements OnInit {
   editBanner(item: any) {
     this.isEditing = true;
     this.editingId = item._id;
-    this.carruselForm.patchValue(item);
+    
+    // Reverse logic mapping to dropdown
+    let tipo = 'personalizado';
+    let mId = '';
+    
+    if (item.enlaceDestino === '/productos') {
+      tipo = 'catalogo';
+    } else if (item.enlaceDestino?.startsWith('/productos?marca=')) {
+      tipo = 'marca';
+      mId = item.enlaceDestino.split('=')[1];
+    }
+    
+    this.carruselForm.patchValue({
+      ...item,
+      tipoDestino: tipo,
+      marcaId: mId
+    });
     this.showForm = true;
   }
 
@@ -81,8 +103,20 @@ export class CarruselComponent implements OnInit {
     if (this.carruselForm.invalid) return;
     this.isLoading = true;
 
+    const payload = { ...this.carruselForm.value };
+    
+    // Auto-generador de URL
+    if (payload.tipoDestino === 'catalogo') {
+      payload.enlaceDestino = '/productos';
+    } else if (payload.tipoDestino === 'marca' && payload.marcaId) {
+      payload.enlaceDestino = `/productos?marca=${payload.marcaId}`;
+    }
+    // Delete transient form fields
+    delete payload.tipoDestino;
+    delete payload.marcaId;
+
     if (this.isEditing && this.editingId) {
-      this.salesService.updateCarrusel(this.editingId, this.carruselForm.value).subscribe({
+      this.salesService.updateCarrusel(this.editingId, payload).subscribe({
         next: (res) => {
           this.finishSubmit('Banner actualizado correctamente');
           this.loadCarruseles(); 
@@ -90,7 +124,7 @@ export class CarruselComponent implements OnInit {
         error: () => this.handleError()
       });
     } else {
-      this.salesService.createCarrusel(this.carruselForm.value).subscribe({
+      this.salesService.createCarrusel(payload).subscribe({
         next: (res) => {
           this.finishSubmit('Banner creado correctamente');
           this.loadCarruseles(); 

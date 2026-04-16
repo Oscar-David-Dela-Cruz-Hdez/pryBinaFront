@@ -32,7 +32,24 @@
 
         <div class="field-admin">
           <label class="label-admin">Enlace de Destino (Opcional)</label>
-          <input type="text" formControlName="enlaceDestino" class="input-admin" placeholder="https://...">
+          <div class="flex gap-2">
+            <select formControlName="tipoDestino" class="input-admin w-1/3 p-3 bg-white dark:bg-[#1E1E1E]">
+              <option value="catalogo">Todo el Catálogo</option>
+              <option value="marca">Marca Específica</option>
+              <option value="personalizado">Enlace Libre</option>
+            </select>
+            
+            <input *ngIf="carruselForm.get('tipoDestino')?.value === 'personalizado'" type="text" formControlName="enlaceDestino" class="input-admin w-2/3" placeholder="https://... o /pagina">
+            
+            <select *ngIf="carruselForm.get('tipoDestino')?.value === 'marca'" formControlName="marcaId" class="input-admin w-2/3 p-3 bg-white dark:bg-[#1E1E1E]">
+              <option value="">Selecciona la Marca</option>
+              <option *ngFor="let m of marcas" [value]="m._id">{{ m.nombre }}</option>
+            </select>
+            
+            <div *ngIf="carruselForm.get('tipoDestino')?.value === 'catalogo'" class="input-admin w-2/3 p-3 text-slate-400 opacity-60 pointer-events-none cursor-not-allowed bg-slate-50 dark:bg-slate-900 border-none items-center flex">
+              Enviará directo a "/productos"
+            </div>
+          </div>
         </div>
 
         <div class="field-admin">

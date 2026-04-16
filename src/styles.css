@@ -419,11 +419,12 @@
    paginador y todos los mat-select del panel admin
    ============================================================= */
 
-/* Panel de selección (mat-select, paginator page-size) */
+/* Panel de selección (mat-select, paginator page-size, datepicker) */
 .cdk-overlay-pane .mat-mdc-select-panel,
 .cdk-overlay-pane .mat-mdc-autocomplete-panel,
 .mat-mdc-select-panel,
-.mdc-menu-surface {
+.mdc-menu-surface,
+.mat-datepicker-content {
   background-color: #FFFFFF !important;
   border: 1px solid rgba(226,220,214,0.4) !important;
   border-radius: 12px !important;
@@ -435,7 +436,8 @@
 [data-theme="dark"] .cdk-overlay-pane .mat-mdc-select-panel,
 [data-theme="dark"] .cdk-overlay-pane .mat-mdc-autocomplete-panel,
 [data-theme="dark"] .mat-mdc-select-panel,
-[data-theme="dark"] .mdc-menu-surface {
+[data-theme="dark"] .mdc-menu-surface,
+[data-theme="dark"] .mat-datepicker-content {
   background-color: #1E1E1E !important;
   border-color: rgba(51,51,51,0.5) !important;
   box-shadow: 0 8px 32px -4px rgba(0,0,0,0.5) !important;
