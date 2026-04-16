@@ -17,6 +17,7 @@ import { EChartsOption } from 'echarts';
 
 interface DataPoint {
   dia: number;
+  fecha: Date;
   unidades: number;
   unidadesVendidas: number;
 }
@@ -209,13 +210,19 @@ export class ReportesComponent implements OnInit {
     // Asignamos el total real de ventas que pertenecen a este filtro
     this.ventasScopeActual = totalVentas;
 
-    // Fórmula: k = -ln( Stock / (Stock + Ventas) ) / 30
+    // Fórmula: k = -ln( x(30) / x(0) ) / 30
+    //   Donde:
+    //     x(0)  = stock HACE 30 días = stock actual + ventas del período (dato histórico real)
+    //     x(30) = stock HOY          = inventarioInicial                  (dato histórico real)
+    //
+    //   Dos puntos reales observados → k más riguroso para dx/dt = -kx.
+    //   k = ln( (x₀ + ventas) / x₀ ) / 30
     if (this.inventarioInicial > 0 && this.ventasScopeActual > 0) {
-      const stockFinalSimulado = this.inventarioInicial;
-      const stockInicialHistorico = this.inventarioInicial + this.ventasScopeActual;
-      this.constanteK = -Math.log(stockFinalSimulado / stockInicialHistorico) / 30;
+      const x30 = this.inventarioInicial;                          // hoy
+      const x0  = this.inventarioInicial + this.ventasScopeActual; // hace 30 días
+      this.constanteK = -Math.log(x30 / x0) / 30;                 // siempre positivo
     } else {
-      this.constanteK = 0; // Inventario Estable
+      this.constanteK = 0; // Sin ventas → inventario estable
     }
   }
 
@@ -234,8 +241,12 @@ export class ReportesComponent implements OnInit {
         vendidas = prevUnidades - unidades;
       }
 
+      const fechaSim = new Date();
+      fechaSim.setDate(fechaSim.getDate() + t);
+
       this.datosSimulacion.push({
         dia: t,
+        fecha: fechaSim,
         unidades: unidades,
         unidadesVendidas: vendidas
       });
@@ -251,7 +262,7 @@ export class ReportesComponent implements OnInit {
   }
 
   updateChart() {
-    const days = this.datosSimulacion.map(d => d.dia);
+    const days = this.datosSimulacion.map(d => d.fecha.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' }));
     const units = this.datosSimulacion.map(d => d.unidades);
 
     this.chartOption = {
@@ -260,7 +271,7 @@ export class ReportesComponent implements OnInit {
         trigger: 'axis',
         formatter: (params: any) => {
           const p = params[0];
-          return `<strong>Día: ${p.name}</strong><br/>Inventario Restante: ${p.value} unidades`;
+          return `<strong>Fecha: ${p.name}</strong><br/>Inventario Restante: ${p.value} unidades`;
         },
         backgroundColor: 'rgba(30, 30, 30, 0.9)',
         borderColor: '#D4AF37',
@@ -275,7 +286,7 @@ export class ReportesComponent implements OnInit {
       },
       xAxis: {
         type: 'category',
-        name: 'Día (Tiempo Transcurrido)',
+        name: 'Fecha de Proyección',
         nameLocation: 'middle',
         nameGap: 35,
         data: days,

@@ -203,7 +203,10 @@
             </thead>
             <tbody class="divide-y divide-[#e2dcd6]/20 dark:divide-[#333333]/20">
               <tr *ngFor="let item of datosSimulacion" class="hover:bg-[#FAF8F5]/40 dark:hover:bg-[#2A2A2A]/40 transition-colors">
-                <td class="p-4 text-xs font-semibold">Día {{ item.dia }}</td>
+                <td class="p-4">
+                  <div class="text-xs font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">{{ item.fecha | date:'dd/MM/yyyy' }}</div>
+                  <div class="text-[10px] text-[#999999]">Día {{ item.dia }}</div>
+                </td>
                 <td class="p-4 text-xs">
                   <span class="font-bold text-[#D4AF37]">{{ item.unidades }}</span>
                   <span class="text-[10px] opacity-50 ml-1">unds</span>
