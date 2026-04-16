@@ -11,6 +11,7 @@
   import { ThemeService } from '../../core/services/theme/theme';
   import { FamiliasService } from '../../core/services/admin/familias.service';
   import { ProductsService } from '../../core/services/admin/products.service';
+  import { SiteInfoService } from '../../core/services/admin/site-info.service';
 
   @Component({
     selector: 'app-user-header',
@@ -32,12 +33,14 @@
     // Datos Dinámicos para el Menú
     familias: any[] = [];
     marcas: any[] = [];
+    topContacts: any[] = [];
 
     constructor(
       private authService: AuthService, 
       public themeService: ThemeService,
       private familiasService: FamiliasService,
-      private productsService: ProductsService
+      private productsService: ProductsService,
+      private siteInfoService: SiteInfoService
     ) {
       this.userName$ = this.authService.currentUserName$;
     }
@@ -53,6 +56,19 @@
       this.productsService.getMarcas().subscribe(data => {
         this.marcas = (data || []).slice(0, 8);
       });
+      // Cargar info de Contacto rapido para la barra superior
+      this.siteInfoService.getContactos(true).subscribe(data => {
+        this.topContacts = (data || []).slice(0, 3);
+      });
+    }
+
+    getContactIcon(tipo: string): string {
+      const t = tipo?.toLowerCase() || '';
+      if (t.includes('whatsapp') || t.includes('tel')) return 'phone';
+      if (t.includes('mail') || t.includes('correo')) return 'email';
+      if (t.includes('facebook')) return 'thumb_up';
+      if (t.includes('instagram')) return 'photo_camera';
+      return 'info';
     }
 
 

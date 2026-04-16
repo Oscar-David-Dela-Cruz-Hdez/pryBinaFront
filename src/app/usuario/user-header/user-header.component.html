@@ -1,3 +1,13 @@
+<!-- Top bar dinamica de contactos -->
+<div *ngIf="topContacts.length > 0" class="bg-[#D4AF37] dark:bg-[#CFAA43] text-[#1E1E1E] text-[11px] font-bold py-1.5 px-6 flex justify-between items-center transition-all animate-fade-in shadow-inner border-b border-black/10">
+  <div class="max-w-screen-xl mx-auto w-full flex justify-end gap-6 overflow-hidden">
+    <div *ngFor="let c of topContacts" class="flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
+      <mat-icon class="!text-[14px] !w-[14px] !h-[14px] leading-tight">{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
+      <span class="tracking-wide">{{ c.valor }}</span>
+    </div>
+  </div>
+</div>
+
 <header class="bg-[#FFFFFF]/80 dark:bg-[#1E1E1E]/80 backdrop-blur-md sticky top-0 z-50 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30 shadow-sm animate-fade-in transition-all duration-300">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
@@ -40,6 +50,20 @@
                 </a>
               </div>
             </div>
+          </div>
+        </mat-menu>
+
+        <!-- Botón Nosotros con Dropdown (Dinámico) -->
+        <button [matMenuTriggerFor]="nosotrosMenu" 
+          class="group flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-xl hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-300">
+          <mat-icon class="!text-[20px] transition-transform group-hover:rotate-180">expand_more</mat-icon>
+          <span>NOSOTROS</span>
+        </button>
+
+        <mat-menu #nosotrosMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-2xl !shadow-2xl !border-none !p-2">
+          <div class="flex flex-col gap-1 p-2">
+            <a mat-menu-item routerLink="/historia" class="!rounded-lg hover:!bg-[#D4AF37]/5 !h-9 !text-sm font-semibold">Historia</a>
+            <a mat-menu-item routerLink="/mision-vision" class="!rounded-lg hover:!bg-[#D4AF37]/5 !h-9 !text-sm font-semibold">Misión y Visión</a>
           </div>
         </mat-menu>
 
