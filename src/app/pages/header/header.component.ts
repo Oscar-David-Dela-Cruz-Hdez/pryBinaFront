@@ -13,6 +13,7 @@ import { CartService } from "../../core/services/shop/cart.service";
 import { ThemeService } from "../../core/services/theme/theme";
 import { FamiliasService } from "../../core/services/admin/familias.service";
 import { ProductsService } from "../../core/services/admin/products.service";
+import { SiteInfoService } from "../../core/services/admin/site-info.service";
 
 @Component({
   selector: 'app-header',
@@ -38,13 +39,15 @@ export class HeaderComponent implements OnInit {
   // Datos Dinámicos para el Menú
   familias: any[] = [];
   marcas: any[] = [];
+  topContacts: any[] = [];
 
   constructor(
     private cartService: CartService,
     private router: Router,
     public themeService: ThemeService,
     private familiasService: FamiliasService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private siteInfoService: SiteInfoService
   ) { }
 
   ngOnInit() {
@@ -64,6 +67,20 @@ export class HeaderComponent implements OnInit {
     this.productsService.getMarcas().subscribe(data => {
       this.marcas = (data || []).slice(0, 8); // Solo las más populares
     });
+    
+    // Cargar info de Contacto rapido para la barra superior
+    this.siteInfoService.getContactos(true).subscribe(data => {
+      this.topContacts = (data || []).slice(0, 3);
+    });
+  }
+
+  getContactIcon(tipo: string): string {
+    const t = tipo?.toLowerCase() || '';
+    if (t.includes('whatsapp') || t.includes('tel')) return 'phone';
+    if (t.includes('mail') || t.includes('correo')) return 'email';
+    if (t.includes('facebook')) return 'thumb_up';
+    if (t.includes('instagram')) return 'photo_camera';
+    return 'info';
   }
 
   onSearch() {

@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { ProductsService } from '../../core/services/admin/products.service';
+import { SalesService } from '../../core/services/admin/sales.service';
 
 @Component({
   selector: 'app-index',
@@ -15,12 +16,14 @@ import { ProductsService } from '../../core/services/admin/products.service';
 
 export class IndexComponent implements OnInit {
   productosDestacados: any[] = [];
+  carruseles: any[] = [];
   isLoading = true;
 
   constructor(
     private authService: AuthService, 
     private router: Router,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private salesService: SalesService
   ) {
     this.authService.userRole$.subscribe(role => {
       if (role === 'admin') {
@@ -49,6 +52,11 @@ export class IndexComponent implements OnInit {
         console.error('Error fetch productos:', err);
         this.isLoading = false;
       }
+    });
+
+    this.salesService.getCarruseles(true).subscribe(data => {
+      // Tomamos solo los carruseles activos y los reordenamos (o usamos el primero para el hero)
+      this.carruseles = data || [];
     });
   }
 }

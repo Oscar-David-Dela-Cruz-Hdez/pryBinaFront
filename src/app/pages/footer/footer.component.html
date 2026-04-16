@@ -1,29 +1,56 @@
-<footer class="bg-[#FFFFFF] dark:bg-[#1E1E1E] border-t border-[#e2dcd6]/30 dark:border-[#333333]/30 transition-all duration-300">
-  <div class="max-w-screen-xl mx-auto px-6 py-8">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-      <!-- Copyright -->
-      <p class="text-sm text-[#666666] dark:text-[#A0A0A0] text-center md:text-left transition-all duration-300">
-        &copy; Oscar Deivid | Lizbet Olvera 2025 — Todos los derechos reservados
-      </p>
+<footer class="bg-[#FFFFFF] dark:bg-[#1E1E1E] border-t border-[#e2dcd6]/30 dark:border-[#333333]/30 transition-all duration-300 pt-12 pb-6">
+  <div class="max-w-screen-xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30 pb-10">
+      
+      <!-- Sobre Nosotros -->
+      <div class="flex flex-col gap-3">
+        <h3 class="text-[11px] font-black tracking-widest uppercase text-[#D4AF37] mb-2 opacity-80">Sobre Nosotros</h3>
+        <a routerLink="/historia" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Nuestra Historia</a>
+        <a routerLink="/mision-vision" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Misión y Visión</a>
+      </div>
 
-      <!-- Links legales -->
-      <nav class="flex items-center gap-5">
-        <a routerLink="/politicas"
-          class="text-sm text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-all duration-200">
-          Política de privacidad
-        </a>
-        <a routerLink="/terminos"
-          class="text-sm text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-all duration-200">
-          Términos de servicio
-        </a>
-        <a routerLink="/ayuda"
-          class="text-sm text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-all duration-200">
-          Ayuda
-        </a>
-      </nav>
+      <!-- Legal -->
+      <div class="flex flex-col gap-3">
+        <h3 class="text-[11px] font-black tracking-widest uppercase text-[#D4AF37] mb-2 opacity-80">Legal</h3>
+        <a routerLink="/politicas" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Políticas de Privacidad</a>
+        <a routerLink="/terminos" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Términos de Servicio</a>
+      </div>
 
-      <!-- QR Code -->
-      <img src="assets/images/qr.jpeg" alt="QR Código" class="h-14 w-14 rounded-xl object-cover shadow-sm dark:opacity-80 transition-opacity duration-300">
+      <!-- Ayuda y Contacto -->
+      <div class="flex flex-col gap-3">
+        <h3 class="text-[11px] font-black tracking-widest uppercase text-[#D4AF37] mb-2 opacity-80">Ayuda y Soporte</h3>
+        <a routerLink="/ayuda" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Preguntas Frecuentes (FAQ)</a>
+        
+        <div class="mt-2 flex flex-col gap-2.5">
+          <div *ngFor="let c of contactos" class="flex items-center gap-2 text-sm font-medium text-[#666666] dark:text-[#A0A0A0]">
+            <mat-icon class="!text-[16px] !w-[16px] !h-[16px] leading-tight text-[#D4AF37]">{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
+            <span>{{ c.valor }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Métodos de Pago Seguros -->
+      <div class="flex flex-col gap-3">
+        <h3 class="text-[11px] font-black tracking-widest uppercase text-[#D4AF37] mb-2 opacity-80">Pagos Seguros</h3>
+        <p class="text-[11px] font-semibold text-[#666666] dark:text-[#A0A0A0] mb-2 italic">Transacciones cifradas de extremo a extremo.</p>
+        <div class="flex flex-wrap gap-2">
+          <!-- Iterate Over Payment Methods Added By Admin -->
+          <div *ngFor="let m of metodosPago" class="h-10 px-3 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-xl flex items-center justify-center shadow-sm border border-[#e2dcd6]/50 dark:border-[#333333]/50 hover:-translate-y-0.5 transition-transform cursor-default" [title]="m.nombre">
+            <img *ngIf="m.imagenUrl" [src]="m.imagenUrl" [alt]="m.nombre" class="h-6 object-contain mix-blend-multiply dark:mix-blend-normal">
+            <span *ngIf="!m.imagenUrl" class="text-[10px] font-black uppercase text-[#2C2C2C] dark:text-[#F0F0F0]">{{ m.nombre }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Copyright Bar -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 text-[11px] font-bold uppercase tracking-wider text-[#999999]">
+      <div class="flex items-center gap-3">
+        <img src="assets/images/qr.jpeg" alt="QR Código" class="h-8 w-8 rounded object-cover shadow-sm dark:opacity-80 mix-blend-multiply dark:mix-blend-normal blur-[0.5px] hover:blur-none transition-all">
+        <p>&copy; Oscar Deivid | Lizbet Olvera 2025</p>
+      </div>
+      <p class="opacity-60 text-center">Todos los derechos reservados.</p>
     </div>
   </div>
 </footer>
