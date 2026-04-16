@@ -11,6 +11,50 @@
     </div>
   </div>
 
+  <!-- KPI: Ventas reales del periodo (filtradas) -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+
+    <!-- KPI 1: Unidades vendidas -->
+    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 to-transparent pointer-events-none rounded-2xl"></div>
+      <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center">
+        <mat-icon class="text-[#D4AF37] text-xl">shopping_bag</mat-icon>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="text-[10px] font-black uppercase tracking-widest text-[#999999]">Unidades Vendidas</span>
+        <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ ventasScopeActual }}</span>
+        <span class="text-[10px] text-[#D4AF37] font-semibold truncate">{{ scopeLabel }} &mdash; últimos 30 días</span>
+      </div>
+    </div>
+
+    <!-- KPI 2: Pedidos que contribuyeron -->
+    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none rounded-2xl"></div>
+      <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center">
+        <mat-icon class="text-blue-500 text-xl">receipt_long</mat-icon>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="text-[10px] font-black uppercase tracking-widest text-[#999999]">Pedidos Entregados</span>
+        <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ ventasHistoricas.length }}</span>
+        <span class="text-[10px] text-blue-400 font-semibold">en los últimos 30 días</span>
+      </div>
+    </div>
+
+    <!-- KPI 3: Promedio diario -->
+    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none rounded-2xl"></div>
+      <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+        <mat-icon class="text-emerald-500 text-xl">trending_down</mat-icon>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="text-[10px] font-black uppercase tracking-widest text-[#999999]">Promedio Diario</span>
+        <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ (ventasScopeActual / 30) | number:'1.1-1' }}</span>
+        <span class="text-[10px] text-emerald-400 font-semibold">unds / día &mdash; base del modelo k</span>
+      </div>
+    </div>
+
+  </div>
+
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
     <!-- Configuración del Simulador -->
     <mat-card class="lg:col-span-4 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
@@ -50,6 +94,13 @@
 
         <!-- Engine Results (Read Only for Business) -->
         <div class="px-5 py-4 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-2xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
+          <!-- Ventas reales capturadas -->
+          <div class="flex flex-col">
+            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas Reales (30 días)</label>
+            <div class="text-2xl font-black text-[#D4AF37]">{{ ventasScopeActual }} <small class="text-xs opacity-50">unds</small></div>
+            <p class="text-[9px] text-[#999] font-semibold italic">Unidades vendidas en el scope activo. Fuente de k.</p>
+          </div>
+
           <div class="flex flex-col">
             <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Condición Inicial ($x_0$)</label>
             <div class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0]">{{ inventarioInicial }} <small class="text-xs opacity-50">unds</small></div>

@@ -75,6 +75,14 @@ export class ReportesComponent implements OnInit {
   // ECharts Configuration
   chartOption: EChartsOption = {};
 
+  // Label del filtro activo para la UI
+  get scopeLabel(): string {
+    if (!this.selectedMarca) return 'Todo el Almacén (Global)';
+    if (!this.selectedFamilia) return `Marca: ${this.selectedMarcaName}`;
+    const familia = this.familias.find(f => (f._id || f.nombre) === this.selectedFamilia);
+    return `${this.selectedMarcaName} — ${familia?.nombre ?? this.selectedFamilia}`;
+  }
+
   constructor(
     private productsService: ProductsService,
     private familiasService: FamiliasService,
