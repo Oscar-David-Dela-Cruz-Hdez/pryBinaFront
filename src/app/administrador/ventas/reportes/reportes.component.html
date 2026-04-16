@@ -119,33 +119,54 @@
           </div>
         </div>
 
-        <!-- Estadísticas Rápidas -->
-        <div class="pt-6 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-[#999999] mb-4 font-heading">¿Qué nos dice el sistema?</h4>
-          
-          <!-- Recomendación en lenguaje humano -->
-          <div *ngIf="constanteK > 0" class="p-3 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/20 rounded-xl mb-4">
-            <p class="text-xs text-red-700 dark:text-red-400 leading-relaxed">
-              <span class="font-bold">🚨 Alerta:</span> Se estima que deberías realizar un pedido antes del 
-              <span class="underline font-black">{{ diaCritico !== null ? 'Día ' + diaCritico : 'horizonte final' }}</span>
-              para evitar desabastecimiento.
-            </p>
-          </div>
+        <!-- Restock Countdown — Analítico (independiente del horizonte) -->
+        <div class="pt-6 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#999999] font-heading">¿Cuándo debo reabastecer?</h4>
 
-          <div *ngIf="constanteK === 0" class="p-3 bg-green-50 dark:bg-green-900/10 border border-green-100 dark:border-green-900/20 rounded-xl mb-4">
-            <p class="text-xs text-green-700 dark:text-green-400 leading-relaxed">
-              <span class="font-bold">✅ Inventario Estable:</span> No se han detectado ventas en los últimos 30 días. Tu stock actual es suficiente para el periodo seleccionado.
-            </p>
-          </div>
+          <!-- WIDGET: días para restock (valor analítico siempre visible) -->
+          <div *ngIf="diasParaRestock !== null"
+               class="relative flex flex-col items-center justify-center gap-1 p-5 rounded-2xl overflow-hidden
+                      bg-gradient-to-br from-[#F44336]/10 to-[#D4AF37]/5
+                      border border-[#F44336]/20 dark:border-[#F44336]/10">
+            <!-- icono de fondo decorativo -->
+            <mat-icon class="absolute -right-3 -bottom-3 text-[80px] opacity-5 text-[#F44336] select-none">
+              event_available
+            </mat-icon>
 
-          <div class="space-y-3 px-1">
-            <div class="flex justify-between items-center text-sm">
-              <span class="text-[#666666] dark:text-[#A0A0A0] text-xs">Fecha de Reabastecimiento:</span>
-              <span class="font-bold text-[#F44336]">{{ diaCritico !== null ? 'Día ' + diaCritico : 'Sin riesgo' }}</span>
+            <span class="text-[10px] font-black uppercase tracking-widest text-[#F44336]/70">Restock recomendado en</span>
+
+            <div class="flex items-baseline gap-1">
+              <span class="text-5xl font-black text-[#F44336] leading-none">{{ diasParaRestock }}</span>
+              <span class="text-base font-bold text-[#F44336]/70">días</span>
             </div>
-            <div class="flex justify-between items-center text-sm">
-              <span class="text-[#666666] dark:text-[#A0A0A0] text-xs">Stock estimado en {{ tiempoTotal }} días:</span>
-              <span class="font-bold text-[#D4AF37]">{{ stockFinal }} unidades</span>
+
+            <span class="text-[10px] text-[#999999] font-semibold">≈ {{ fechaRestock }}</span>
+
+            <!-- Fórmula usada -->
+            <div class="mt-2 px-3 py-1.5 bg-black/5 dark:bg-white/5 rounded-lg w-full text-center">
+              <span class="text-[9px] font-mono text-[#999] tracking-tight">
+                t = ln({{ inventarioInicial }} / {{ puntoReorden }}) / {{ constanteK | number:'1.6-6' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Sin riesgo -->
+          <div *ngIf="diasParaRestock === null"
+               class="p-4 rounded-2xl border border-green-200 dark:border-green-900/30 bg-green-50 dark:bg-green-900/10 text-center">
+            <mat-icon class="text-green-500 text-3xl">inventory_2</mat-icon>
+            <p class="text-xs text-green-700 dark:text-green-400 font-bold mt-1">Inventario Estable</p>
+            <p class="text-[10px] text-green-600/70 dark:text-green-500/60 mt-0.5">Sin ventas detectadas. K = 0</p>
+          </div>
+
+          <!-- Datos secundarios -->
+          <div class="space-y-2 px-1">
+            <div class="flex justify-between items-center">
+              <span class="text-[#666666] dark:text-[#A0A0A0] text-xs">Stock en {{ tiempoTotal }} días:</span>
+              <span class="font-bold text-[#D4AF37] text-xs">{{ stockFinal }} unds</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-[#666666] dark:text-[#A0A0A0] text-xs">Umbral de alerta:</span>
+              <span class="font-bold text-xs">{{ puntoReorden }} unds</span>
             </div>
           </div>
         </div>

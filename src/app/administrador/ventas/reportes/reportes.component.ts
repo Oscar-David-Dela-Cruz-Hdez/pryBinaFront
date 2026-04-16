@@ -83,6 +83,27 @@ export class ReportesComponent implements OnInit {
     return `${this.selectedMarcaName} — ${familia?.nombre ?? this.selectedFamilia}`;
   }
 
+  /**
+   * Calcula analíticamente en cuántos días el inventario alcanza el punto de reorden.
+   * Despejando t de:  puntoReorden = x0 * e^(-k*t)
+   *   → t = ln(x0 / puntoReorden) / k
+   * Este valor es independiente del horizonte temporal seleccionado.
+   */
+  get diasParaRestock(): number | null {
+    if (this.constanteK <= 0 || this.inventarioInicial <= 0 || this.puntoReorden <= 0) return null;
+    if (this.puntoReorden >= this.inventarioInicial) return 0;
+    return Math.ceil(Math.log(this.inventarioInicial / this.puntoReorden) / this.constanteK);
+  }
+
+  /** Convierte diasParaRestock a una fecha calendario (hoy + N días). */
+  get fechaRestock(): string | null {
+    const dias = this.diasParaRestock;
+    if (dias === null) return null;
+    const fecha = new Date();
+    fecha.setDate(fecha.getDate() + dias);
+    return fecha.toLocaleDateString('es-MX', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
+
   constructor(
     private productsService: ProductsService,
     private familiasService: FamiliasService,
