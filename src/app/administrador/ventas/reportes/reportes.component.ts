@@ -55,14 +55,29 @@ export class ReportesComponent implements OnInit {
   selectedMarcaName = '';
   selectedFamilia = '';
   
-  // Opciones de Horizonte Temporal
-  opcionesTiempo = [
-    { label: '1 Mes', value: 30 },
-    { label: '2 Meses', value: 60 },
-    { label: '3 Meses', value: 90 },
-    { label: '6 Meses', value: 180 },
-    { label: '1 Año', value: 365 }
-  ];
+  // Opciones de Horizonte Temporal (12 meses dinámicos con cálculo exacto de días)
+  opcionesTiempo = (() => {
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const opciones = [];
+    const today = new Date();
+    
+    for (let i = 1; i <= 12; i++) {
+        // Fecha exacta en el futuro, preservando el día actual
+        const targetDate = new Date(today.getFullYear(), today.getMonth() + i, today.getDate());
+        // Cálculo exacto de los días de diferencia
+        const diffTime = targetDate.getTime() - today.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        let label = meses[targetDate.getMonth()];
+        if (i === 12) {
+            label += ' sig. año';
+        }
+        label += ` (${i} mes${i > 1 ? 'es' : ''})`;
+
+        opciones.push({ label, value: diffDays });
+    }
+    return opciones;
+  })();
 
   // Datos de Ventas Reales (Historial)
   ventasHistoricas: any[] = [];
