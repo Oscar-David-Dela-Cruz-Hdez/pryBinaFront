@@ -22,6 +22,11 @@ interface DataPoint {
   unidadesVendidas: number;
 }
 
+interface MesProyeccion {
+  mes: string;
+  totalVentas: number;
+}
+
 @Component({
   selector: 'app-reportes',
   standalone: true,
@@ -87,6 +92,7 @@ export class ReportesComponent implements OnInit {
 
   // Resultados
   datosSimulacion: DataPoint[] = [];
+  resumenMensual: MesProyeccion[] = [];
   diaCritico: number | null = null;
   stockFinal = 0;
 
@@ -140,6 +146,10 @@ export class ReportesComponent implements OnInit {
   ngOnInit() {
     this.loadInitialData();
     // No llamamos a updateStock todavía para esperar a que los pedidos carguen
+  }
+
+  getTotalVentasPeriodo(): number {
+    return this.resumenMensual.reduce((sum, item) => sum + item.totalVentas, 0);
   }
 
   loadInitialData() {
@@ -276,6 +286,9 @@ export class ReportesComponent implements OnInit {
   simular() {
     this.datosSimulacion = [];
     this.diaCritico = null;
+    this.resumenMensual = [];
+    
+    const agrupacionMensual = new Map<string, number>();
 
     for (let t = 0; t <= this.tiempoTotal; t++) {
       // Fórmula del modelo: x(t) = x(0) * e^(-kt)
@@ -298,11 +311,23 @@ export class ReportesComponent implements OnInit {
         unidadesVendidas: vendidas
       });
 
+      // Acumular mensual (excluyendo el día 0 si no hubo ventas, o siempre acumula los t>0)
+      if (t > 0) {
+         const mesKey = fechaSim.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
+         const mesCapitalized = mesKey.charAt(0).toUpperCase() + mesKey.slice(1);
+         const actual = agrupacionMensual.get(mesCapitalized) || 0;
+         agrupacionMensual.set(mesCapitalized, actual + vendidas);
+      }
+
       // Detectar punto de reorden
       if (unidades <= this.puntoReorden && this.diaCritico === null) {
         this.diaCritico = t;
       }
     }
+
+    agrupacionMensual.forEach((total, mes) => {
+        this.resumenMensual.push({ mes: mes, totalVentas: total });
+    });
 
     this.stockFinal = this.datosSimulacion[this.datosSimulacion.length - 1].unidades;
     this.updateChart();
