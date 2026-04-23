@@ -54,6 +54,8 @@ export class ReportesComponent implements OnInit {
   selectedMarca = '';
   selectedMarcaName = '';
   selectedFamilia = '';
+  selectedProducto = '';
+  productosDropdown: any[] = [];
   
   // Opciones de Horizonte Temporal (12 meses dinámicos con cálculo exacto de días)
   opcionesTiempo = (() => {
@@ -96,7 +98,16 @@ export class ReportesComponent implements OnInit {
     if (!this.selectedMarca) return 'Todo el Almacén (Global)';
     if (!this.selectedFamilia) return `Marca: ${this.selectedMarcaName}`;
     const familia = this.familias.find(f => (f._id || f.nombre) === this.selectedFamilia);
-    return `${this.selectedMarcaName} — ${familia?.nombre ?? this.selectedFamilia}`;
+    const mName = this.selectedMarcaName;
+    const fName = familia?.nombre ?? this.selectedFamilia;
+    
+    if (this.selectedProducto) {
+       const prod = this.productosDropdown.find(p => p._id === this.selectedProducto);
+       const pName = prod?.nombre ?? 'Producto Específico';
+       return `${mName} — ${fName} — ${pName}`;
+    }
+    
+    return `${mName} — ${fName}`;
   }
 
   /**
@@ -160,7 +171,9 @@ export class ReportesComponent implements OnInit {
   onMarcaChange(marcaId: string) {
     this.selectedMarca = marcaId;
     this.selectedFamilia = '';
+    this.selectedProducto = '';
     this.familias = [];
+    this.productosDropdown = [];
     
     // Buscar el nombre de la marca para mostrarlo en la UI
     const marcaSelected = this.marcas.find(m => (m._id || m.nombre) === marcaId);
@@ -174,6 +187,19 @@ export class ReportesComponent implements OnInit {
 
   onFamiliaChange(familiaId: string) {
     this.selectedFamilia = familiaId;
+    this.selectedProducto = '';
+    this.productosDropdown = [];
+
+    if (familiaId) {
+      this.productsService.getProductos({ familia: familiaId }).subscribe(data => {
+        this.productosDropdown = data || [];
+      });
+    }
+    this.updateStockFromInventory();
+  }
+
+  onProductoChange(productoId: string) {
+    this.selectedProducto = productoId;
     this.updateStockFromInventory();
   }
 
@@ -189,12 +215,18 @@ export class ReportesComponent implements OnInit {
 
     this.productsService.getProductos(filters).subscribe({
       next: (productos) => {
-        const totalStock = productos.reduce((sum, p) => sum + (p.stock || p.stockTotal || 0), 0);
+        // Filtro local si hay un producto seleccionado
+        let productosScope = productos;
+        if (this.selectedProducto) {
+          productosScope = productos.filter(p => p._id === this.selectedProducto);
+        }
+
+        const totalStock = productosScope.reduce((sum, p) => sum + (p.stock || p.stockTotal || 0), 0);
         this.inventarioInicial = totalStock;
-        this.totalProductosAnalizados = productos.length;
+        this.totalProductosAnalizados = productosScope.length;
         this.puntoReorden = Math.round(totalStock * 0.25);
         
-        this.calculateDynamicK(productos);
+        this.calculateDynamicK(productosScope);
         this.simular();
       },
       error: () => {

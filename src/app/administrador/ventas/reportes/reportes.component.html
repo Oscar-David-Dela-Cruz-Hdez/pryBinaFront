@@ -81,6 +81,10 @@
               <option value="">Todas las Familias de {{ selectedMarcaName }}</option>
               <option *ngFor="let f of familias" [value]="f._id || f.nombre">{{ f.nombre }}</option>
             </select>
+            <select *ngIf="selectedFamilia" [ngModel]="selectedProducto" (ngModelChange)="onProductoChange($event)" class="select-admin mt-2 animate-fade-in shadow-inner bg-white/50 dark:bg-black/20">
+              <option value="">Todos los Productos de la Familia</option>
+              <option *ngFor="let p of productosDropdown" [value]="p._id">{{ p.nombre }}</option>
+            </select>
           </div>
 
           <div class="field-admin">
