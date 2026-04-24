@@ -87,3 +87,40 @@
 [data-theme="dark"] .active-btn {
   color: white !important;
 }
+
+/* Estilos para el Datepicker de Material */
+::ng-deep .datepicker-custom {
+  margin-bottom: -1.25rem; /* Ajustar espacio por el subscript oculto */
+}
+
+::ng-deep .datepicker-custom .mat-mdc-text-field-wrapper {
+  background-color: #FAF8F5 !important;
+  border-radius: 12px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: 48px !important;
+  border: 1px solid #e2dcd6 !important;
+}
+
+[data-theme="dark"] ::ng-deep .datepicker-custom .mat-mdc-text-field-wrapper {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border-color: #333333 !important;
+}
+
+::ng-deep .datepicker-custom .mat-mdc-form-field-flex {
+  height: 100% !important;
+  align-items: center !important;
+}
+
+::ng-deep .datepicker-custom .mat-mdc-form-field-infix {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+::ng-deep .datepicker-custom .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+::ng-deep .datepicker-custom .mdc-notched-outline {
+  display: none !important; /* Quitar el borde por defecto de material */
+}

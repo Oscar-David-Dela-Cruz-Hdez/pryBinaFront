@@ -88,7 +88,19 @@
           </div>
 
           <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">2. Granularidad</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">2. Rango de Historial (Calibración)</label>
+            <mat-form-field appearance="outline" class="w-full mt-2 datepicker-custom">
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate [(ngModel)]="fechaInicio" (ngModelChange)="simular()" placeholder="Inicio">
+                <input matEndDate [(ngModel)]="fechaFin" (ngModelChange)="simular()" placeholder="Fin">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+          </div>
+
+          <div class="field-admin">
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">3. Granularidad</label>
             <select [(ngModel)]="selectedGranularidad" (ngModelChange)="simular()" class="select-admin mt-2">
               <option value="dia">Día</option>
               <option value="semana">Semana</option>
@@ -97,11 +109,13 @@
           </div>
 
           <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">3. Horizonte de Proyección</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">4. Horizonte de Proyección</label>
             <select [(ngModel)]="tiempoTotal" (ngModelChange)="simular()" class="select-admin mt-2 shadow-sm">
               <option *ngFor="let op of opcionesTiempo" [value]="op.value">{{ op.label }}</option>
             </select>
-            <p class="text-[9px] text-[#A0A0A0] mt-1 italic italic">Basado en el historial {{ historicalRangeLabel }}.</p>
+            <p class="text-[9px] text-[#A0A0A0] mt-1 italic">
+              Modelo calibrado con {{ diasHistorial }} días de ventas.
+            </p>
           </div>
         </div>
 
@@ -109,9 +123,9 @@
         <div class="px-5 py-4 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-2xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
           <!-- Ventas reales capturadas -->
           <div class="flex flex-col">
-            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas Reales {{ historicalRangeLabel }}</label>
+            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas Reales en el Periodo</label>
             <div class="text-2xl font-black text-[#D4AF37]">{{ ventasScopeActual }} <small class="text-xs opacity-50">unds</small></div>
-            <p class="text-[9px] text-[#999] font-semibold italic">Unidades vendidas en el scope activo.</p>
+            <p class="text-[9px] text-[#999] font-semibold italic">Basado en el rango seleccionado arriba.</p>
           </div>
 
           <div class="flex flex-col">

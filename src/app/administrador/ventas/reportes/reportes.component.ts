@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { ProductsService } from '../../../core/services/admin/products.service';
 import { FamiliasService } from '../../../core/services/admin/familias.service';
@@ -41,7 +43,9 @@ interface MesProyeccion {
     MatIconModule,
     MatTableModule,
     MatSelectModule,
-    NgxEchartsDirective
+    NgxEchartsDirective,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './reportes.component.html',
   styleUrls: ['./reportes.component.css']
@@ -68,10 +72,14 @@ export class ReportesComponent implements OnInit {
   selectedGranularidad: 'dia' | 'semana' | 'mes' = 'mes';
   diasHistorial = 0;
 
+  // Estado de Simulación Dinámica (Rango de datos fuente)
+  fechaInicio: Date = new Date(); 
+  fechaFin: Date = new Date(); 
+
   // Estado del Detalle de Historial
   historialPeriodo: 'dia' | 'semana' | 'mes' = 'dia';
   historialVista: 'tabla' | 'grafica' = 'tabla';
-  datosHistorialAgrupados: { label: string, total: number }[] = [];
+  datosHistorialAgrupados: { label: string, total: number, sortKey: string }[] = [];
   chartHistorialOption: EChartsOption = {};
   
   // Opciones de Horizonte Temporal dinámicas
@@ -181,16 +189,15 @@ export class ReportesComponent implements OnInit {
   loadSalesHistory() {
     this.ordersService.getPedidos().subscribe({
       next: (pedidos) => {
-        const inicioAnio = new Date(new Date().getFullYear(), 0, 1);
-        const hoy = new Date();
-        const diffTime = Math.abs(hoy.getTime() - inicioAnio.getTime());
-        this.diasHistorial = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        // Filtrar solo entregados
+        this.ventasHistoricas = pedidos.filter(p => p.estado === 'Entregado');
 
-        // Filtrar solo entregados desde el inicio del año
-        this.ventasHistoricas = pedidos.filter(p => 
-          p.estado === 'Entregado' && 
-          new Date(p.createdAt) >= inicioAnio
-        );
+        if (this.ventasHistoricas.length > 0) {
+          // Encontrar el rango total real de los datos para inicializar los calendarios
+          const fechas = this.ventasHistoricas.map(p => new Date(p.createdAt).getTime());
+          this.fechaInicio = new Date(Math.min(...fechas));
+          this.fechaFin = new Date(); // Hoy
+        }
 
         this.updateStockFromInventory(); // Ahora sí, calcular con ventas reales
       },
@@ -444,7 +451,7 @@ export class ReportesComponent implements OnInit {
       grid: {
         top: '12%',
         left: '4%',
-        right: '4%',
+        right: '12%',
         bottom: '8%',
         containLabel: true
       },
