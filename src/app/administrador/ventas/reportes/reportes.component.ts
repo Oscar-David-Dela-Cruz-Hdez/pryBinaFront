@@ -53,7 +53,8 @@ interface MesProyeccion {
 export class ReportesComponent implements OnInit {
   // Parámetros del modelo
   inventarioInicial = 0;
-  constanteK = 0.026; // Calibrado según Tabla 1 (behavior histórico)
+  inventarioInicialHistorico = 0; // Stock al inicio del rango seleccionado
+  constanteK = 0.026; 
   tiempoTotal = 30; // Días
   puntoReorden = 0;
   totalProductosAnalizados = 0;
@@ -74,7 +75,9 @@ export class ReportesComponent implements OnInit {
 
   // Estado de Simulación Dinámica (Rango de datos fuente)
   fechaInicio: Date = new Date(); 
-  fechaFin: Date = new Date(); 
+  fechaFin: Date = new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()); // +1 mes por defecto
+  todayDate: Date = new Date();
+  diasProyeccion = 0;
 
   // Estado del Detalle de Historial
   historialPeriodo: 'dia' | 'semana' | 'mes' = 'dia';
@@ -277,13 +280,16 @@ export class ReportesComponent implements OnInit {
   }
 
   calculateDynamicK(productosScope: any[] = []) {
-    // 1. Filtrar ventas por el rango de fechas seleccionado
+    const hoy = new Date();
+    hoy.setHours(23, 59, 59, 999);
+
+    // 1. Filtrar ventas desde fechaInicio hasta HOY
     const productIdsInScope = new Set(productosScope.map(p => p._id));
     let totalVentas = 0;
 
     this.ventasHistoricas.forEach(pedido => {
       const fechaPedido = new Date(pedido.createdAt);
-      if (fechaPedido >= this.fechaInicio && fechaPedido <= this.fechaFin) {
+      if (fechaPedido >= this.fechaInicio && fechaPedido <= hoy) {
         pedido.productos.forEach((item: any) => {
           const itemId = item.producto?._id || item.productoId || item.producto;
           if (productIdsInScope.has(itemId)) {
@@ -294,12 +300,13 @@ export class ReportesComponent implements OnInit {
     });
 
     this.ventasScopeActual = totalVentas;
+    this.inventarioInicialHistorico = this.inventarioInicial + totalVentas;
 
-    // 2. Calcular días transcurridos en el rango
-    const diffTime = Math.abs(this.fechaFin.getTime() - this.fechaInicio.getTime());
+    // 2. Calcular días de historial (Desde fechaInicio hasta hoy)
+    const diffTime = Math.abs(hoy.getTime() - this.fechaInicio.getTime());
     this.diasHistorial = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
 
-    // 3. k = ln( (x_today + ventas) / x_today ) / dias_transcurridos
+    // 3. k = ln( (x_today + ventas) / x_today ) / dias_historial
     if (this.inventarioInicial > 0 && this.ventasScopeActual > 0 && this.diasHistorial > 0) {
       const xToday = this.inventarioInicial;
       const xStart = this.inventarioInicial + this.ventasScopeActual;
@@ -316,9 +323,16 @@ export class ReportesComponent implements OnInit {
     
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
-    const inicioAnio = this.fechaInicio; 
-    
-    // 1. Agrupar ventas reales por día (desde la fecha de inicio seleccionada)
+
+    // 0. Recalcular días de proyeccion (Desde hoy hasta fechaFin)
+    const diffPred = this.fechaFin.getTime() - hoy.getTime();
+    this.tiempoTotal = Math.max(0, Math.ceil(diffPred / (1000 * 60 * 60 * 24)));
+    this.diasProyeccion = this.tiempoTotal;
+
+    const inicioHistorial = new Date(this.fechaInicio);
+    inicioHistorial.setHours(0, 0, 0, 0);
+
+    // 1. Agrupar ventas reales por día
     const ventasPorDia = new Map<string, number>();
     
     // Identificar productos en el scope actual
@@ -327,18 +341,21 @@ export class ReportesComponent implements OnInit {
     const scopeSet = new Set(ids);
 
     this.ventasHistoricas.forEach(p => {
-      const dKey = new Date(p.createdAt).toDateString();
-      let cant = 0;
-      p.productos.forEach((item: any) => {
-        const itemId = item.producto?._id || item.productoId || item.producto;
-        if (scopeSet.has(itemId)) cant += (item.cantidad || 0);
-      });
-      if (cant > 0) {
-        ventasPorDia.set(dKey, (ventasPorDia.get(dKey) || 0) + cant);
+      const fPedido = new Date(p.createdAt);
+      if (fPedido >= inicioHistorial && fPedido <= hoy) {
+        const dKey = fPedido.toDateString();
+        let cant = 0;
+        p.productos.forEach((item: any) => {
+          const itemId = item.producto?._id || item.productoId || item.producto;
+          if (scopeSet.has(itemId)) cant += (item.cantidad || 0);
+        });
+        if (cant > 0) {
+          ventasPorDia.set(dKey, (ventasPorDia.get(dKey) || 0) + cant);
+        }
       }
     });
 
-    // 2. Generar Historial (Retrocediendo desde hoy hasta el 1 de enero)
+    // 2. Generar Historial (Retrocediendo desde hoy hasta inicioHistorial)
     const puntosHistoricos: DataPoint[] = [];
     let currentStock = this.inventarioInicial;
     
@@ -354,7 +371,7 @@ export class ReportesComponent implements OnInit {
     for (let i = 1; i <= this.diasHistorial; i++) {
       const d = new Date(hoy);
       d.setDate(d.getDate() - i);
-      if (d < inicioAnio) break;
+      if (d < inicioHistorial) break;
 
       const vendidas = ventasPorDia.get(d.toDateString()) || 0;
       currentStock += vendidas; // Retrocedemos el inventario
