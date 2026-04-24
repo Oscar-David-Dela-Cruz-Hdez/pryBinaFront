@@ -283,6 +283,15 @@ export class ReportesComponent implements OnInit {
     const hoy = new Date();
     hoy.setHours(23, 59, 59, 999);
 
+    // Si no viene un scope, usar el actual (Producto seleccionado o toda la familia)
+    if (productosScope.length === 0) {
+      if (this.selectedProducto) {
+        productosScope = this.productosActuales.filter(p => p._id === this.selectedProducto);
+      } else {
+        productosScope = this.productosActuales;
+      }
+    }
+
     // 1. Filtrar ventas desde fechaInicio hasta HOY
     const productIdsInScope = new Set(productosScope.map(p => p._id));
     let totalVentas = 0;
@@ -317,15 +326,24 @@ export class ReportesComponent implements OnInit {
   }
 
   simular() {
-    this.datosSimulacion = [];
-    this.diaCritico = null;
-    this.resumenMensual = [];
-    
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
 
-    // 0. Recalcular días de proyeccion (Desde hoy hasta fechaFin)
-    const diffPred = this.fechaFin.getTime() - hoy.getTime();
+    // 0. Recalcular días de historial (Desde fechaInicio hasta hoy)
+    const diffHist = hoy.getTime() - new Date(this.fechaInicio).getTime();
+    this.diasHistorial = Math.max(1, Math.ceil(diffHist / (1000 * 60 * 60 * 24)));
+
+    // 1. Recalcular días de proyeccion (Desde hoy hasta fechaFin)
+    const diffPred = new Date(this.fechaFin).getTime() - hoy.getTime();
+    this.tiempoTotal = Math.max(0, Math.ceil(diffPred / (1000 * 60 * 60 * 24)));
+    this.diasProyeccion = this.tiempoTotal;
+
+    // 2. Recalcular el ritmo de venta (k) con estas fechas frescas
+    this.calculateDynamicK();
+
+    this.datosSimulacion = [];
+    this.diaCritico = null;
+    this.resumenMensual = [];
     this.tiempoTotal = Math.max(0, Math.ceil(diffPred / (1000 * 60 * 60 * 24)));
     this.diasProyeccion = this.tiempoTotal;
 
