@@ -116,13 +116,29 @@
               Modelo calibrado con {{ diasHistorial }} días de historial.
             </p>
           </div>
+
+          <div class="field-admin mt-4">
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37] mb-3 block">3. Granularidad de Vista</label>
+            <select [(ngModel)]="selectedGranularidad" (ngModelChange)="simular()" class="select-admin mt-1">
+              <option value="dia">Vista por Día</option>
+              <option value="semana">Vista por Semana</option>
+              <option value="mes">Vista por Mes</option>
+            </select>
+          </div>
+
+          <div class="field-admin mt-4">
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37] mb-3 block">4. Horizonte de Proyección</label>
+            <select [(ngModel)]="tiempoTotal" (ngModelChange)="simular()" class="select-admin mt-1 shadow-sm">
+              <option *ngFor="let op of opcionesTiempo" [value]="op.value">{{ op.label }}</option>
+            </select>
+          </div>
         </div>
 
         <!-- Engine Results (Read Only for Business) -->
         <div class="px-5 py-4 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-2xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
           <!-- Ventas reales capturadas -->
           <div class="flex flex-col">
-            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas en este Rango</label>
+            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas en el Rango Elegido</label>
             <div class="text-2xl font-black text-[#D4AF37]">{{ ventasScopeActual }} <small class="text-xs opacity-50">unds</small></div>
           </div>
 

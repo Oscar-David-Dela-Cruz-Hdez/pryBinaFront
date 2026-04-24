@@ -277,34 +277,35 @@ export class ReportesComponent implements OnInit {
   }
 
   calculateDynamicK(productosScope: any[] = []) {
-    // 1. Obtener ventas del scope actual (Global, Marca o Familia)
-    let totalVentas = 0;
-    
-    // Crear un Set con los IDs de los productos actualmente filtrados para búsqueda rápida
+    // 1. Filtrar ventas por el rango de fechas seleccionado
     const productIdsInScope = new Set(productosScope.map(p => p._id));
+    let totalVentas = 0;
 
     this.ventasHistoricas.forEach(pedido => {
-      pedido.productos.forEach((item: any) => {
-        // Extraemos el ID del producto (soporta un objeto populado o un ID directo)
-        const itemId = item.producto?._id || item.productoId || item.producto;
-        
-        // Solo sumamos la venta si el producto vendido está dentro del filtro actual
-        if (productIdsInScope.has(itemId)) {
-          totalVentas += (item.cantidad || 0);
-        }
-      });
+      const fechaPedido = new Date(pedido.createdAt);
+      if (fechaPedido >= this.fechaInicio && fechaPedido <= this.fechaFin) {
+        pedido.productos.forEach((item: any) => {
+          const itemId = item.producto?._id || item.productoId || item.producto;
+          if (productIdsInScope.has(itemId)) {
+            totalVentas += (item.cantidad || 0);
+          }
+        });
+      }
     });
 
-    // Asignamos el total real de ventas que pertenecen a este filtro
     this.ventasScopeActual = totalVentas;
 
-    // k = ln( (x_today + ventas) / x_today ) / dias_transcurridos
+    // 2. Calcular días transcurridos en el rango
+    const diffTime = Math.abs(this.fechaFin.getTime() - this.fechaInicio.getTime());
+    this.diasHistorial = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+
+    // 3. k = ln( (x_today + ventas) / x_today ) / dias_transcurridos
     if (this.inventarioInicial > 0 && this.ventasScopeActual > 0 && this.diasHistorial > 0) {
       const xToday = this.inventarioInicial;
       const xStart = this.inventarioInicial + this.ventasScopeActual;
       this.constanteK = -Math.log(xToday / xStart) / this.diasHistorial;
     } else {
-      this.constanteK = 0; // Sin ventas → inventario estable
+      this.constanteK = 0; 
     }
   }
 
@@ -315,9 +316,9 @@ export class ReportesComponent implements OnInit {
     
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
-    const inicioAnio = new Date(hoy.getFullYear(), 0, 1);
+    const inicioAnio = this.fechaInicio; 
     
-    // 1. Agrupar ventas reales por día (desde el 1 de enero)
+    // 1. Agrupar ventas reales por día (desde la fecha de inicio seleccionada)
     const ventasPorDia = new Map<string, number>();
     
     // Identificar productos en el scope actual
