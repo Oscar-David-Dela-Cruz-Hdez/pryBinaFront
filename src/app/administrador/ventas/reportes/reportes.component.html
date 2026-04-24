@@ -276,27 +276,24 @@
               </h2>
               <h3 *ngIf="!selectedProducto" class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Detalle de Ventas Históricas ({{ scopeLabel }})</h3>
               
-              <!-- Selectores de Periodo -->
+              <!-- Selectores de Periodo (Por Día, Por Semana, Por Mes) -->
             <div class="flex flex-wrap gap-2">
               <button 
                 (click)="setHistorialPeriodo('dia')"
-                [class.bg-[#0056b3]]="historialPeriodo === 'dia'"
-                [class.text-white]="historialPeriodo === 'dia'"
-                class="px-4 py-2 rounded-lg text-sm font-semibold border border-[#e2dcd6] transition-all hover:bg-[#0056b3] hover:text-white">
+                [class.active-btn]="historialPeriodo === 'dia'"
+                class="btn-toggle">
                 Por Día
               </button>
               <button 
                 (click)="setHistorialPeriodo('semana')"
-                [class.bg-[#0056b3]]="historialPeriodo === 'semana'"
-                [class.text-white]="historialPeriodo === 'semana'"
-                class="px-4 py-2 rounded-lg text-sm font-semibold border border-[#e2dcd6] transition-all hover:bg-[#0056b3] hover:text-white">
+                [class.active-btn]="historialPeriodo === 'semana'"
+                class="btn-toggle">
                 Por Semana
               </button>
               <button 
                 (click)="setHistorialPeriodo('mes')"
-                [class.bg-[#0056b3]]="historialPeriodo === 'mes'"
-                [class.text-white]="historialPeriodo === 'mes'"
-                class="px-4 py-2 rounded-lg text-sm font-semibold border border-[#e2dcd6] transition-all hover:bg-[#0056b3] hover:text-white">
+                [class.active-btn]="historialPeriodo === 'mes'"
+                class="btn-toggle">
                 Por Mes
               </button>
             </div>
@@ -305,16 +302,14 @@
             <div class="flex gap-2">
               <button 
                 (click)="setHistorialVista('tabla')"
-                [class.bg-[#0056b3]]="historialVista === 'tabla'"
-                [class.text-white]="historialVista === 'tabla'"
-                class="px-6 py-2 rounded-lg text-sm font-semibold border border-[#e2dcd6] transition-all">
+                [class.active-btn]="historialVista === 'tabla'"
+                class="btn-toggle px-6">
                 Tabla
               </button>
               <button 
                 (click)="setHistorialVista('grafica')"
-                [class.bg-[#0056b3]]="historialVista === 'grafica'"
-                [class.text-white]="historialVista === 'grafica'"
-                class="px-6 py-2 rounded-lg text-sm font-semibold border border-[#e2dcd6] transition-all">
+                [class.active-btn]="historialVista === 'grafica'"
+                class="btn-toggle px-6">
                 Gráfica
               </button>
             </div>

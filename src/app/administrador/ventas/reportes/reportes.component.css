@@ -53,3 +53,37 @@
 [data-theme="dark"] .overflow-x-auto::-webkit-scrollbar-thumb {
   background: #333333;
 }
+
+/* Estilos para los botones de toggle en el detalle de historial */
+.btn-toggle {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid #e2dcd6;
+  transition: all 0.3s ease;
+  color: #666666;
+  background: transparent;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .btn-toggle {
+  color: #A0A0A0;
+  border-color: #333333;
+}
+
+.btn-toggle:hover {
+  border-color: #D4AF37;
+  color: #D4AF37;
+}
+
+.active-btn {
+  background-color: #D4AF37 !important;
+  color: white !important;
+  border-color: #D4AF37 !important;
+  box-shadow: 0 10px 15px -3px rgba(212, 175, 55, 0.2), 0 4px 6px -4px rgba(212, 175, 55, 0.2) !important;
+}
+
+[data-theme="dark"] .active-btn {
+  color: white !important;
+}
