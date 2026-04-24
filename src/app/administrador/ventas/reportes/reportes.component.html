@@ -199,157 +199,87 @@
         </mat-card-content>
       </mat-card>
 
-      <!-- Tabla Detallada -->
+      <!-- TABLA UNIFICADA DE ANÁLISIS (Sustituye a las dos anteriores) -->
       <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
-        <div class="p-6 pb-2 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <h3 class="text-sm font-black uppercase tracking-widest opacity-70 font-heading">Proyección día por día</h3>
+        <div class="p-6 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h3 class="text-lg font-black uppercase tracking-widest opacity-70 font-heading">Análisis Detallado</h3>
+            <p class="text-[10px] text-[#999] mt-1 italic">Ventas reales y proyectadas agrupadas por el periodo seleccionado.</p>
+          </div>
+          
+          <!-- Los controles de Granularidad se integran aquí para simplificar -->
+          <div class="flex flex-wrap gap-2">
+            <button 
+              (click)="setGranularidadUnificada('dia')"
+              [class.active-btn]="selectedGranularidad === 'dia'"
+              class="btn-toggle">
+              Por Día
+            </button>
+            <button 
+              (click)="setGranularidadUnificada('semana')"
+              [class.active-btn]="selectedGranularidad === 'semana'"
+              class="btn-toggle">
+              Por Semana
+            </button>
+            <button 
+              (click)="setGranularidadUnificada('mes')"
+              [class.active-btn]="selectedGranularidad === 'mes'"
+              class="btn-toggle">
+              Por Mes
+            </button>
+          </div>
         </div>
-        <div class="overflow-x-auto max-h-[350px]">
+
+        <div class="overflow-x-auto max-h-[450px] overflow-y-auto">
           <table class="w-full text-left">
             <thead class="bg-[#FAF8F5]/80 dark:bg-[#2A2A2A]/80 backdrop-blur sticky top-0 z-10">
               <tr>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Fecha</th>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Stock Esperado</th>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Ventas Estimadas</th>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Nivel de Riesgo</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Periodo</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Ventas</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Estado</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Riesgo</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-[#e2dcd6]/20 dark:divide-[#333333]/20">
-              <tr *ngFor="let item of datosSimulacion" class="hover:bg-[#FAF8F5]/40 dark:hover:bg-[#2A2A2A]/40 transition-colors">
+              <!-- Usamos una nueva lista agrupada unificada -->
+              <tr *ngFor="let item of datosTablaUnificada" class="hover:bg-[#FAF8F5]/40 dark:hover:bg-[#2A2A2A]/40 transition-colors">
                 <td class="p-4">
-                  <div class="text-xs font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">{{ item.fecha | date:'dd/MM/yyyy' }}</div>
-                  <div class="text-[10px] text-[#999999]">
-                    <span *ngIf="item.tipo === 'Real'">Dato Real ({{ item.dia === 0 ? 'Hoy' : item.dia + ' días' }})</span>
-                    <span *ngIf="item.tipo === 'Predictivo'">Proyección a +{{ item.dia }} día<span *ngIf="item.dia > 1">s</span></span>
-                  </div>
+                  <div class="text-xs font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">{{ item.label }}</div>
                 </td>
                 <td class="p-4 text-xs">
-                  <span class="font-bold text-[#D4AF37]">{{ item.unidades }}</span>
+                  <span class="font-bold text-[#D4AF37]">{{ item.totalVentas | number:'1.0-0' }}</span>
                   <span class="text-[10px] opacity-50 ml-1">unds</span>
                 </td>
-                <td class="p-4 text-xs text-[#666666] dark:text-[#A0A0A0]">{{ item.unidadesVendidas }}</td>
                 <td class="p-4">
-                  <span *ngIf="item.unidades <= puntoReorden" 
-                        class="px-3 py-1 bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
-                    ⚠️ AGOTÁNDOSE
-                  </span>
-                  <span *ngIf="item.unidades > puntoReorden && item.tipo === 'Predictivo'" 
-                        class="px-3 py-1 bg-green-50 text-green-600 dark:bg-green-900/10 dark:text-green-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
-                    ✅ SEGURO
-                  </span>
-                  <span *ngIf="item.tipo === 'Real'" 
+                   <span *ngIf="item.tipo === 'Real'" 
                         class="px-3 py-1 bg-blue-50 text-blue-600 dark:bg-blue-900/10 dark:text-blue-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
                     📊 HISTÓRICO
                   </span>
+                  <span *ngIf="item.tipo === 'Predictivo'" 
+                        class="px-3 py-1 bg-[#D4AF37]/10 text-[#D4AF37] text-[9px] font-black rounded-full uppercase tracking-tighter">
+                    ✨ PROYECCIÓN
+                  </span>
                 </td>
+                <td class="p-4">
+                  <span *ngIf="item.stockFinal <= puntoReorden" 
+                        class="px-3 py-1 bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
+                    ⚠️ RIESGO
+                  </span>
+                  <span *ngIf="item.stockFinal > puntoReorden" 
+                        class="text-[9px] font-bold text-green-500 uppercase tracking-widest">
+                    Óptimo
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="datosTablaUnificada.length === 0">
+                <td colspan="4" class="p-8 text-center text-sm text-[#999] italic">No hay datos suficientes para el periodo seleccionado.</td>
               </tr>
             </tbody>
           </table>
         </div>
-        
-        <!-- Resumen Mensual de Ventas -->
-        <div class="px-6 py-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30 bg-[#FAF8F5]/30 dark:bg-[#2A2A2A]/30">
-          <h4 class="text-xs font-black uppercase tracking-widest text-[#999999] mb-4">Conteo de Ventas por Mes (Proyectado)</h4>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div *ngFor="let rm of resumenMensual" class="bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 flex flex-col justify-center items-center text-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] transition-transform hover:scale-105">
-              <span class="text-[10px] uppercase font-bold text-[#666666] dark:text-[#A0A0A0] mb-1">{{ rm.mes }}</span>
-              <div class="text-2xl font-black text-[#D4AF37]">{{ rm.totalVentas }} <span class="text-[10px] font-normal opacity-50 text-[#666666] dark:text-[#A0A0A0]">unds</span></div>
-            </div>
-          </div>
-          <div class="mt-4 flex justify-between items-center text-[10px] font-bold text-[#2C2C2C] dark:text-[#F0F0F0] px-2 py-3 bg-[#D4AF37]/5 dark:bg-[#E5C158]/5 rounded-lg border border-[#D4AF37]/20 uppercase tracking-widest">
-            <span>Total Ventas en el Periodo:</span>
-            <span class="text-sm text-[#D4AF37]">{{ getTotalVentasPeriodo() }} unds</span>
-          </div>
-        </div>
-
-
       </mat-card>
 
-      <!-- Nueva Sección: Detalle de Historial de Ventas (Según Imagen) -->
-      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
-        <mat-card-header class="p-6 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <div class="flex flex-col md:flex-row justify-between items-start w-full gap-6">
-            <div class="flex flex-col gap-4 flex-1">
-              <!-- Nombre del producto si hay uno seleccionado -->
-              <h2 *ngIf="selectedProducto" class="text-2xl font-black text-[#2C2C2C] dark:text-white uppercase tracking-tight">
-                {{ scopeLabel }}
-              </h2>
-              <h3 *ngIf="!selectedProducto" class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Detalle de Ventas Históricas ({{ scopeLabel }})</h3>
-              
-              <!-- Selectores de Periodo (Por Día, Por Semana, Por Mes) -->
-            <div class="flex flex-wrap gap-2">
-              <button 
-                (click)="setHistorialPeriodo('dia')"
-                [class.active-btn]="historialPeriodo === 'dia'"
-                class="btn-toggle">
-                Por Día
-              </button>
-              <button 
-                (click)="setHistorialPeriodo('semana')"
-                [class.active-btn]="historialPeriodo === 'semana'"
-                class="btn-toggle">
-                Por Semana
-              </button>
-              <button 
-                (click)="setHistorialPeriodo('mes')"
-                [class.active-btn]="historialPeriodo === 'mes'"
-                class="btn-toggle">
-                Por Mes
-              </button>
-            </div>
-
-            <!-- Selectores de Vista (Tabla, Gráfica) -->
-            <div class="flex gap-2">
-              <button 
-                (click)="setHistorialVista('tabla')"
-                [class.active-btn]="historialVista === 'tabla'"
-                class="btn-toggle px-6">
-                Tabla
-              </button>
-              <button 
-                (click)="setHistorialVista('grafica')"
-                [class.active-btn]="historialVista === 'grafica'"
-                class="btn-toggle px-6">
-                Gráfica
-              </button>
-            </div>
-          </div>
-
-          <!-- Imagen del producto (si aplica) -->
-          <div *ngIf="selectedProducto" class="hidden md:block w-48 h-48 rounded-2xl overflow-hidden border border-[#e2dcd6] shadow-sm bg-white p-2">
-             <img [src]="selectedProductImage" 
-                  class="w-full h-full object-contain" 
-                  alt="Imagen Producto">
-          </div>
-        </div>
-      </mat-card-header>
-
-        <mat-card-content class="p-0">
-          <div class="p-6">
-            <h4 class="text-lg font-bold mb-4">Ventas {{ historialPeriodo === 'dia' ? 'por Día' : (historialPeriodo === 'semana' ? 'por Semana' : 'por Mes') }}</h4>
-            
-            <!-- Vista Tabla con Scroll -->
-            <div *ngIf="historialVista === 'tabla'" class="overflow-x-auto max-h-[400px] overflow-y-auto">
-              <table class="w-full text-left border-collapse">
-                <tbody class="divide-y divide-[#e2dcd6]/50">
-                  <tr *ngFor="let row of datosHistorialAgrupados" class="hover:bg-[#FAF8F5]/50 transition-colors">
-                    <td class="p-4 text-sm font-medium text-[#666]">{{ row.label }}</td>
-                    <td class="p-4 text-sm font-bold text-right text-[#2C2C2C] dark:text-white">{{ row.total }}</td>
-                  </tr>
-                  <tr *ngIf="datosHistorialAgrupados.length === 0">
-                    <td colspan="2" class="p-8 text-center text-sm text-[#999] italic">No hay ventas registradas en este periodo para el filtro seleccionado.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Vista Gráfica -->
-            <div *ngIf="historialVista === 'grafica'" class="h-[400px] w-full">
-              <div echarts [options]="chartHistorialOption" class="h-full w-full"></div>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+      <!-- SECCIÓN DE HISTORIAL ANTERIOR ELIMINADA PARA SIMPLIFICAR -->
     </div>
   </div>
 </div>

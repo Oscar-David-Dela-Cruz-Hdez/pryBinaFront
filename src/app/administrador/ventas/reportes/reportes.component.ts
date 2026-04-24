@@ -68,10 +68,8 @@ export class ReportesComponent implements OnInit {
   selectedGranularidad: 'dia' | 'semana' | 'mes' = 'mes';
   diasHistorial = 0;
 
-  // Estado del Detalle de Historial
-  historialPeriodo: 'dia' | 'semana' | 'mes' = 'dia';
-  historialVista: 'tabla' | 'grafica' = 'tabla';
-  datosHistorialAgrupados: { label: string, total: number }[] = [];
+  // Estado de la Tabla Unificada
+  datosTablaUnificada: any[] = [];
   chartHistorialOption: EChartsOption = {};
   
   // Opciones de Horizonte Temporal dinámicas
@@ -400,7 +398,56 @@ export class ReportesComponent implements OnInit {
 
     this.stockFinal = this.datosSimulacion[this.datosSimulacion.length - 1].unidades;
     this.updateChart();
-    this.agruparVentasHistorial(); // Sincronizar el detalle de historial
+    this.agruparTablaUnificada(); // Generar la tabla simplificada
+  }
+
+  setGranularidadUnificada(g: 'dia' | 'semana' | 'mes') {
+    this.selectedGranularidad = g;
+    // Ajustar tiempo total si es necesario para que se vea bien en la tabla
+    this.simular();
+  }
+
+  agruparTablaUnificada() {
+    const agrupado = new Map<string, { label: string, totalVentas: number, stockFinal: number, tipo: 'Real' | 'Predictivo', sortKey: string }>();
+
+    this.datosSimulacion.forEach(dp => {
+      let label = '';
+      let sortKey = '';
+
+      if (this.selectedGranularidad === 'dia') {
+        sortKey = dp.fecha.toISOString().split('T')[0];
+        label = dp.fecha.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' });
+      } else if (this.selectedGranularidad === 'semana') {
+        const d = new Date(dp.fecha);
+        const day = d.getDay() || 7;
+        d.setDate(d.getDate() - (day - 1));
+        sortKey = d.toISOString().split('T')[0];
+        label = `Semana ${d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })}`;
+      } else {
+        const d = new Date(dp.fecha.getFullYear(), dp.fecha.getMonth(), 1);
+        sortKey = d.toISOString().split('T')[0];
+        const mesKey = dp.fecha.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
+        label = mesKey.charAt(0).toUpperCase() + mesKey.slice(1);
+      }
+
+      const existing = agrupado.get(label);
+      if (existing) {
+        existing.totalVentas += dp.unidadesVendidas;
+        // El stock final del periodo es el último stock registrado
+        existing.stockFinal = dp.unidades;
+      } else {
+        agrupado.set(label, {
+          label,
+          totalVentas: dp.unidadesVendidas,
+          stockFinal: dp.unidades,
+          tipo: dp.tipo,
+          sortKey
+        });
+      }
+    });
+
+    this.datosTablaUnificada = Array.from(agrupado.values())
+      .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
   }
 
   updateChart() {
@@ -565,87 +612,8 @@ export class ReportesComponent implements OnInit {
                 lineStyle: { color: '#F44336', type: 'dotted', width: 1.5 }
               }
             ]
-          }
-        }
-      ]
-    };
-  }
-
-  // --- NUEVOS MÉTODOS PARA EL DETALLE DE HISTORIAL ---
-
-  setHistorialPeriodo(p: 'dia' | 'semana' | 'mes') {
-    this.historialPeriodo = p;
-    this.agruparVentasHistorial();
-  }
-
-  setHistorialVista(v: 'tabla' | 'grafica') {
-    this.historialVista = v;
-    if (v === 'grafica') this.updateChartHistorial();
-  }
-
-  agruparVentasHistorial() {
-    const agrupado = new Map<string, number>();
-    
-    // Scope actual
-    let ids = this.productosActuales.map((p: any) => p._id);
-    if (this.selectedProducto) ids = [this.selectedProducto];
-    const scopeSet = new Set(ids);
-
-    this.ventasHistoricas.forEach(p => {
-      const fecha = new Date(p.createdAt);
-      let label = '';
-
-      if (this.historialPeriodo === 'dia') {
-        label = fecha.toISOString().split('T')[0]; // YYYY-MM-DD
-      } else if (this.historialPeriodo === 'semana') {
-        // Obtener el lunes de esa semana
-        const d = new Date(fecha);
-        const day = d.getDay() || 7;
-        d.setDate(d.getDate() - (day - 1));
-        label = `Semana ${d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })}`;
-      } else {
-        label = fecha.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
-        label = label.charAt(0).toUpperCase() + label.slice(1);
-      }
-
-      let cant = 0;
-      p.productos.forEach((item: any) => {
-        const itemId = item.producto?._id || item.productoId || item.producto;
-        if (scopeSet.has(itemId)) cant += (item.cantidad || 0);
-      });
-
-      if (cant > 0) {
-        agrupado.set(label, (agrupado.get(label) || 0) + cant);
-      }
-    });
-
-    // Convertir a array y ordenar si es por día (alfabéticamente/fecha)
-    this.datosHistorialAgrupados = Array.from(agrupado.entries())
-      .map(([label, total]) => ({ label, total }))
-      .sort((a, b) => {
-        if (this.historialPeriodo === 'dia') return a.label.localeCompare(b.label);
-        return 0; // Para semana/mes el orden natural de inserción suele bastar o podría refinarse
-      });
-
-    if (this.historialVista === 'grafica') this.updateChartHistorial();
-  }
-
-  updateChartHistorial() {
-    this.chartHistorialOption = {
-      tooltip: { trigger: 'axis' },
-      grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
-      xAxis: {
-        type: 'category',
-        data: this.datosHistorialAgrupados.map(d => d.label),
-        axisLabel: { rotate: 45 }
-      },
-      yAxis: { type: 'value', name: 'Ventas' },
-      series: [{
-        data: this.datosHistorialAgrupados.map(d => d.total),
-        type: 'bar',
-        itemStyle: { color: '#D4AF37' },
-        showBackground: true,
-        backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)' }
+       // --- MÉTODOS DE HISTORIAL ELIMINADOS O INTEGRADOS ---
+}
       }]
     };
   }
