@@ -326,24 +326,18 @@ export class ReportesComponent implements OnInit {
   }
 
   simular() {
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-
-    // 0. Recalcular días de historial (Desde fechaInicio hasta hoy)
-    const diffHist = hoy.getTime() - new Date(this.fechaInicio).getTime();
-    this.diasHistorial = Math.max(1, Math.ceil(diffHist / (1000 * 60 * 60 * 24)));
-
-    // 1. Recalcular días de proyeccion (Desde hoy hasta fechaFin)
-    const diffPred = new Date(this.fechaFin).getTime() - hoy.getTime();
-    this.tiempoTotal = Math.max(0, Math.ceil(diffPred / (1000 * 60 * 60 * 24)));
-    this.diasProyeccion = this.tiempoTotal;
-
-    // 2. Recalcular el ritmo de venta (k) con estas fechas frescas
+    // 1. Recalcular el ritmo de venta (k) con las nuevas fechas
     this.calculateDynamicK();
 
     this.datosSimulacion = [];
     this.diaCritico = null;
     this.resumenMensual = [];
+    
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    // 0. Recalcular días de proyeccion (Desde hoy hasta fechaFin)
+    const diffPred = this.fechaFin.getTime() - hoy.getTime();
     this.tiempoTotal = Math.max(0, Math.ceil(diffPred / (1000 * 60 * 60 * 24)));
     this.diasProyeccion = this.tiempoTotal;
 
