@@ -134,7 +134,7 @@ export class ReportesComponent implements OnInit {
 
   get selectedProductImage(): string {
     const prod = this.productosDropdown.find(p => p._id === this.selectedProducto);
-    return prod?.imagen || 'assets/no-image.png';
+    return prod?.imagenUrl || 'assets/no-image.png';
   }
 
   /**
