@@ -328,8 +328,8 @@
           <div class="p-6">
             <h4 class="text-lg font-bold mb-4">Ventas {{ historialPeriodo === 'dia' ? 'por Día' : (historialPeriodo === 'semana' ? 'por Semana' : 'por Mes') }}</h4>
             
-            <!-- Vista Tabla -->
-            <div *ngIf="historialVista === 'tabla'" class="overflow-x-auto">
+            <!-- Vista Tabla con Scroll -->
+            <div *ngIf="historialVista === 'tabla'" class="overflow-x-auto max-h-[400px] overflow-y-auto">
               <table class="w-full text-left border-collapse">
                 <tbody class="divide-y divide-[#e2dcd6]/50">
                   <tr *ngFor="let row of datosHistorialAgrupados" class="hover:bg-[#FAF8F5]/50 transition-colors">

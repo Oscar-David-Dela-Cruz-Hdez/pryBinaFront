@@ -422,40 +422,61 @@ export class ReportesComponent implements OnInit {
       legend: {
         data: ['Inventario Real', 'Inventario Proyectado', 'Ventas Reales', 'Ventas Proyectadas'],
         textStyle: { color: '#666' },
-        top: '5%'
+        top: '2%'
       },
       tooltip: {
         trigger: 'axis',
-        backgroundColor: 'rgba(30, 30, 30, 0.9)',
+        backgroundColor: 'rgba(30, 30, 30, 0.95)',
         borderColor: '#D4AF37',
-        textStyle: { color: '#fff' }
+        textStyle: { color: '#fff' },
+        formatter: (params: any) => {
+          let html = `<div style="padding: 5px;"><b style="color: #D4AF37;">${params[0].name}</b><br/>`;
+          params.forEach((p: any) => {
+            if (p.value !== null && p.value !== undefined) {
+              const marker = `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${p.color};"></span>`;
+              html += `${marker} ${p.seriesName}: <b>${Math.round(p.value)}</b><br/>`;
+            }
+          });
+          html += '</div>';
+          return html;
+        }
       },
       grid: {
         top: '15%',
         left: '5%',
         right: '5%',
-        bottom: '15%',
+        bottom: '20%',
         containLabel: true
       },
+      dataZoom: [
+        { type: 'inside', start: 0, end: 100 },
+        { type: 'slider', bottom: '2%', handleSize: '80%', start: 0, end: 100 }
+      ],
       xAxis: {
         type: 'category',
         data: dates,
         axisLine: { lineStyle: { color: '#999' } },
-        axisLabel: { color: '#666', rotate: 45 }
+        axisLabel: { 
+          color: '#666', 
+          rotate: 45,
+          interval: dates.length > 50 ? Math.floor(dates.length / 10) : 'auto'
+        }
       },
       yAxis: [
         {
           type: 'value',
           name: 'Inventario',
           axisLine: { lineStyle: { color: '#D4AF37' } },
-          splitLine: { lineStyle: { type: 'dashed', color: 'rgba(153, 153, 153, 0.1)' } }
+          splitLine: { lineStyle: { type: 'dashed', color: 'rgba(153, 153, 153, 0.1)' } },
+          min: 0
         },
         {
           type: 'value',
           name: 'Ventas',
           position: 'right',
           axisLine: { lineStyle: { color: '#4CAF50' } },
-          splitLine: { show: false }
+          splitLine: { show: false },
+          min: 0
         }
       ],
       series: [
@@ -464,16 +485,22 @@ export class ReportesComponent implements OnInit {
           type: 'line',
           data: inventoryReal,
           smooth: true,
-          lineStyle: { color: '#D4AF37', width: 3 },
+          lineStyle: { color: '#D4AF37', width: 4 },
           itemStyle: { color: '#D4AF37' },
-          symbol: 'circle'
+          areaStyle: {
+            color: new (window as any).echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: 'rgba(212, 175, 55, 0.2)' },
+              { offset: 1, color: 'rgba(212, 175, 55, 0)' }
+            ])
+          },
+          symbol: 'none'
         },
         {
           name: 'Inventario Proyectado',
           type: 'line',
           data: inventoryPred,
           smooth: true,
-          lineStyle: { color: '#D4AF37', width: 3, type: 'dashed' },
+          lineStyle: { color: '#D4AF37', width: 4, type: 'dashed' },
           itemStyle: { color: '#D4AF37' },
           symbol: 'none'
         },
@@ -482,32 +509,54 @@ export class ReportesComponent implements OnInit {
           type: 'bar',
           yAxisIndex: 1,
           data: salesReal,
-          itemStyle: { color: 'rgba(76, 175, 80, 0.6)' }
+          itemStyle: { 
+            color: new (window as any).echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#4CAF50' },
+              { offset: 1, color: 'rgba(76, 175, 80, 0.2)' }
+            ]),
+            borderRadius: [4, 4, 0, 0]
+          }
         },
         {
           name: 'Ventas Proyectadas',
           type: 'bar',
           yAxisIndex: 1,
           data: salesPred,
-          itemStyle: { color: 'rgba(76, 175, 80, 0.3)' }
-        },
-        {
-          type: 'line',
-          markLine: {
-            silent: true,
-            symbol: ['none', 'none'],
-            label: { show: false },
-            lineStyle: { color: '#F44336', type: 'solid', width: 2 },
-            data: [{ xAxis: dates[lastRealIdx] }]
+          itemStyle: { 
+            color: 'rgba(76, 175, 80, 0.3)',
+            borderRadius: [4, 4, 0, 0]
           }
         },
         {
           type: 'line',
+          markArea: {
+            silent: true,
+            data: [
+              [
+                { name: 'HISTORIAL', xAxis: dates[0], itemStyle: { color: 'rgba(150, 150, 150, 0.05)' }, label: { position: 'insideTopLeft', color: '#999', fontSize: 10, fontWeight: 'bold' } },
+                { xAxis: dates[lastRealIdx] || dates[0] }
+              ],
+              [
+                { name: 'PROYECCIÓN', xAxis: dates[lastRealIdx] || dates[0], itemStyle: { color: 'rgba(212, 175, 55, 0.03)' }, label: { position: 'insideTopLeft', color: '#D4AF37', fontSize: 10, fontWeight: 'bold' } },
+                { xAxis: dates[dates.length - 1] }
+              ]
+            ]
+          },
           markLine: {
+            silent: true,
             symbol: ['none', 'none'],
-            label: { position: 'insideEndTop', formatter: 'Umbral: {c}', color: '#F44336' },
-            lineStyle: { color: 'rgba(244, 67, 54, 0.5)', type: 'dotted' },
-            data: [{ yAxis: this.puntoReorden }]
+            data: [
+              { 
+                xAxis: dates[lastRealIdx] || dates[0], 
+                label: { show: true, formatter: 'HOY', position: 'end', backgroundColor: '#F44336', color: '#fff', padding: [2, 4], borderRadius: 4 },
+                lineStyle: { color: '#F44336', type: 'solid', width: 2 } 
+              },
+              {
+                yAxis: this.puntoReorden,
+                label: { show: true, formatter: 'Umbral: {c}', position: 'end', color: '#F44336' },
+                lineStyle: { color: '#F44336', type: 'dotted', width: 1.5 }
+              }
+            ]
           }
         }
       ]
