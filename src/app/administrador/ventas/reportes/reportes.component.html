@@ -87,42 +87,33 @@
             </select>
           </div>
 
-          <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">2. Rango de Historial (Calibración)</label>
+          <div class="field-admin mt-4">
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37] mb-3 block">2. Rango de Calibración</label>
             
-            <div class="flex flex-col gap-2 mt-2">
+            <div class="space-y-4">
               <!-- Fecha de Inicio -->
-              <mat-form-field appearance="outline" class="w-full datepicker-custom">
-                <input matInput [matDatepicker]="startPicker" [(ngModel)]="fechaInicio" (dateChange)="simular()" placeholder="Fecha de Inicio">
-                <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
-                <mat-datepicker #startPicker></mat-datepicker>
-              </mat-form-field>
+              <div class="relative">
+                <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">DESDE</span>
+                <mat-form-field appearance="outline" class="w-full datepicker-custom">
+                  <input matInput [matDatepicker]="startPicker" [(ngModel)]="fechaInicio" (dateChange)="simular()" placeholder="Fecha de Inicio">
+                  <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #startPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
 
               <!-- Fecha de Fin -->
-              <mat-form-field appearance="outline" class="w-full datepicker-custom">
-                <input matInput [matDatepicker]="endPicker" [(ngModel)]="fechaFin" (dateChange)="simular()" placeholder="Fecha de Fin">
-                <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
-                <mat-datepicker #endPicker></mat-datepicker>
-              </mat-form-field>
+              <div class="relative">
+                <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">HASTA</span>
+                <mat-form-field appearance="outline" class="w-full datepicker-custom">
+                  <input matInput [matDatepicker]="endPicker" [(ngModel)]="fechaFin" (dateChange)="simular()" placeholder="Fecha de Fin">
+                  <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #endPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
             </div>
-          </div>
-
-          <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">3. Granularidad</label>
-            <select [(ngModel)]="selectedGranularidad" (ngModelChange)="simular()" class="select-admin mt-2">
-              <option value="dia">Día</option>
-              <option value="semana">Semana</option>
-              <option value="mes">Mes</option>
-            </select>
-          </div>
-
-          <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">4. Horizonte de Proyección</label>
-            <select [(ngModel)]="tiempoTotal" (ngModelChange)="simular()" class="select-admin mt-2 shadow-sm">
-              <option *ngFor="let op of opcionesTiempo" [value]="op.value">{{ op.label }}</option>
-            </select>
-            <p class="text-[9px] text-[#A0A0A0] mt-1 italic">
-              Modelo calibrado con {{ diasHistorial }} días de ventas.
+            
+            <p class="text-[9px] text-[#A0A0A0] mt-3 italic text-center">
+              Modelo calibrado con {{ diasHistorial }} días de historial.
             </p>
           </div>
         </div>
@@ -131,9 +122,8 @@
         <div class="px-5 py-4 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-2xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
           <!-- Ventas reales capturadas -->
           <div class="flex flex-col">
-            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas Reales en el Periodo</label>
+            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas en este Rango</label>
             <div class="text-2xl font-black text-[#D4AF37]">{{ ventasScopeActual }} <small class="text-xs opacity-50">unds</small></div>
-            <p class="text-[9px] text-[#999] font-semibold italic">Basado en el rango seleccionado arriba.</p>
           </div>
 
           <div class="flex flex-col">
