@@ -68,8 +68,10 @@ export class ReportesComponent implements OnInit {
   selectedGranularidad: 'dia' | 'semana' | 'mes' = 'mes';
   diasHistorial = 0;
 
-  // Estado de la Tabla Unificada
-  datosTablaUnificada: any[] = [];
+  // Estado del Detalle de Historial
+  historialPeriodo: 'dia' | 'semana' | 'mes' = 'dia';
+  historialVista: 'tabla' | 'grafica' = 'tabla';
+  datosHistorialAgrupados: { label: string, total: number }[] = [];
   chartHistorialOption: EChartsOption = {};
   
   // Opciones de Horizonte Temporal dinámicas
@@ -398,56 +400,7 @@ export class ReportesComponent implements OnInit {
 
     this.stockFinal = this.datosSimulacion[this.datosSimulacion.length - 1].unidades;
     this.updateChart();
-    this.agruparTablaUnificada(); // Generar la tabla simplificada
-  }
-
-  setGranularidadUnificada(g: 'dia' | 'semana' | 'mes') {
-    this.selectedGranularidad = g;
-    // Ajustar tiempo total si es necesario para que se vea bien en la tabla
-    this.simular();
-  }
-
-  agruparTablaUnificada() {
-    const agrupado = new Map<string, { label: string, totalVentas: number, stockFinal: number, tipo: 'Real' | 'Predictivo', sortKey: string }>();
-
-    this.datosSimulacion.forEach(dp => {
-      let label = '';
-      let sortKey = '';
-
-      if (this.selectedGranularidad === 'dia') {
-        sortKey = dp.fecha.toISOString().split('T')[0];
-        label = dp.fecha.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' });
-      } else if (this.selectedGranularidad === 'semana') {
-        const d = new Date(dp.fecha);
-        const day = d.getDay() || 7;
-        d.setDate(d.getDate() - (day - 1));
-        sortKey = d.toISOString().split('T')[0];
-        label = `Semana ${d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })}`;
-      } else {
-        const d = new Date(dp.fecha.getFullYear(), dp.fecha.getMonth(), 1);
-        sortKey = d.toISOString().split('T')[0];
-        const mesKey = dp.fecha.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
-        label = mesKey.charAt(0).toUpperCase() + mesKey.slice(1);
-      }
-
-      const existing = agrupado.get(label);
-      if (existing) {
-        existing.totalVentas += dp.unidadesVendidas;
-        // El stock final del periodo es el último stock registrado
-        existing.stockFinal = dp.unidades;
-      } else {
-        agrupado.set(label, {
-          label,
-          totalVentas: dp.unidadesVendidas,
-          stockFinal: dp.unidades,
-          tipo: dp.tipo,
-          sortKey
-        });
-      }
-    });
-
-    this.datosTablaUnificada = Array.from(agrupado.values())
-      .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+    this.agruparVentasHistorial(); // Sincronizar el detalle de historial
   }
 
   updateChart() {
@@ -489,114 +442,53 @@ export class ReportesComponent implements OnInit {
         }
       },
       grid: {
-        top: '15%',
-        left: '5%',
-        right: '5%',
-        bottom: '20%',
+        top: '12%',
+        left: '4%',
+        right: '4%',
+        bottom: '8%',
         containLabel: true
       },
-      dataZoom: [
-        { type: 'inside', start: 0, end: 100 },
-        { type: 'slider', bottom: '2%', handleSize: '80%', start: 0, end: 100 }
-      ],
       xAxis: {
         type: 'category',
         data: dates,
-        axisLine: { lineStyle: { color: '#999' } },
+        axisLine: { lineStyle: { color: '#e2dcd6' } },
         axisLabel: { 
           color: '#666', 
           rotate: 45,
-          interval: dates.length > 50 ? Math.floor(dates.length / 10) : 'auto'
+          interval: dates.length > 30 ? 'auto' : 0
         }
       },
       yAxis: [
         {
           type: 'value',
           name: 'Inventario',
-          axisLine: { lineStyle: { color: '#D4AF37' } },
-          splitLine: { lineStyle: { type: 'dashed', color: 'rgba(153, 153, 153, 0.1)' } },
-          min: 0
-        },
-        {
-          type: 'value',
-          name: 'Ventas',
-          position: 'right',
-          axisLine: { lineStyle: { color: '#4CAF50' } },
-          splitLine: { show: false },
+          axisLine: { show: false },
+          axisLabel: { color: '#666' },
+          splitLine: { lineStyle: { type: 'solid', color: '#f0f0f0' } },
           min: 0
         }
       ],
       series: [
         {
-          name: 'Inventario Real',
+          name: 'Ventas Históricas',
           type: 'line',
           data: inventoryReal,
           smooth: true,
-          lineStyle: { color: '#D4AF37', width: 4 },
-          itemStyle: { color: '#D4AF37' },
-          areaStyle: {
-            color: {
-              type: 'linear',
-              x: 0, y: 0, x2: 0, y2: 1,
-              colorStops: [
-                { offset: 0, color: 'rgba(212, 175, 55, 0.2)' },
-                { offset: 1, color: 'rgba(212, 175, 55, 0)' }
-              ]
-            }
-          },
+          lineStyle: { color: '#4CAF50', width: 4 },
+          itemStyle: { color: '#4CAF50' },
           symbol: 'none'
         },
         {
-          name: 'Inventario Proyectado',
+          name: 'Predicción',
           type: 'line',
           data: inventoryPred,
           smooth: true,
-          lineStyle: { color: '#D4AF37', width: 4, type: 'dashed' },
+          lineStyle: { color: '#D4AF37', width: 4 },
           itemStyle: { color: '#D4AF37' },
           symbol: 'none'
         },
         {
-          name: 'Ventas Reales',
-          type: 'bar',
-          yAxisIndex: 1,
-          data: salesReal,
-          itemStyle: { 
-            color: {
-              type: 'linear',
-              x: 0, y: 0, x2: 0, y2: 1,
-              colorStops: [
-                { offset: 0, color: '#4CAF50' },
-                { offset: 1, color: 'rgba(76, 175, 80, 0.2)' }
-              ]
-            },
-            borderRadius: [4, 4, 0, 0]
-          }
-        },
-        {
-          name: 'Ventas Proyectadas',
-          type: 'bar',
-          yAxisIndex: 1,
-          data: salesPred,
-          itemStyle: { 
-            color: 'rgba(76, 175, 80, 0.3)',
-            borderRadius: [4, 4, 0, 0]
-          }
-        },
-        {
           type: 'line',
-          markArea: {
-            silent: true,
-            data: [
-              [
-                { name: 'HISTORIAL', xAxis: dates[0], itemStyle: { color: 'rgba(150, 150, 150, 0.05)' }, label: { position: 'insideTopLeft', color: '#999', fontSize: 10, fontWeight: 'bold' } },
-                { xAxis: dates[lastRealIdx] || dates[0] }
-              ],
-              [
-                { name: 'PROYECCIÓN', xAxis: dates[lastRealIdx] || dates[0], itemStyle: { color: 'rgba(212, 175, 55, 0.03)' }, label: { position: 'insideTopLeft', color: '#D4AF37', fontSize: 10, fontWeight: 'bold' } },
-                { xAxis: dates[dates.length - 1] }
-              ]
-            ]
-          },
           markLine: {
             silent: true,
             symbol: ['none', 'none'],
@@ -609,11 +501,95 @@ export class ReportesComponent implements OnInit {
               {
                 yAxis: this.puntoReorden,
                 label: { show: true, formatter: 'Umbral: {c}', position: 'end', color: '#F44336' },
-                lineStyle: { color: '#F44336', type: 'dotted', width: 1.5 }
+                lineStyle: { color: '#F44336', type: 'dashed', width: 1.5 }
               }
             ]
-       // --- MÉTODOS DE HISTORIAL ELIMINADOS O INTEGRADOS ---
-}
+          }
+        }
+      ]
+    };
+  }
+
+  // --- NUEVOS MÉTODOS PARA EL DETALLE DE HISTORIAL ---
+
+  setHistorialPeriodo(p: 'dia' | 'semana' | 'mes') {
+    this.historialPeriodo = p;
+    this.agruparVentasHistorial();
+  }
+
+  setHistorialVista(v: 'tabla' | 'grafica') {
+    this.historialVista = v;
+    if (v === 'grafica') this.updateChartHistorial();
+  }
+
+  agruparVentasHistorial() {
+    const agrupado = new Map<string, { label: string, total: number, sortKey: string }>();
+    
+    // Scope actual
+    let ids = this.productosActuales.map((p: any) => p._id);
+    if (this.selectedProducto) ids = [this.selectedProducto];
+    const scopeSet = new Set(ids);
+
+    this.ventasHistoricas.forEach(p => {
+      const fecha = new Date(p.createdAt);
+      let label = '';
+      let sortKey = '';
+
+      if (this.historialPeriodo === 'dia') {
+        sortKey = fecha.toISOString().split('T')[0]; // YYYY-MM-DD
+        label = sortKey;
+      } else if (this.historialPeriodo === 'semana') {
+        const d = new Date(fecha);
+        const day = d.getDay() || 7;
+        d.setDate(d.getDate() - (day - 1));
+        sortKey = d.toISOString().split('T')[0];
+        label = `Semana ${d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })}`;
+      } else {
+        const d = new Date(fecha.getFullYear(), fecha.getMonth(), 1);
+        sortKey = d.toISOString().split('T')[0]; // YYYY-MM-01
+        label = fecha.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
+        label = label.charAt(0).toUpperCase() + label.slice(1);
+      }
+
+      let cant = 0;
+      p.productos.forEach((item: any) => {
+        const itemId = item.producto?._id || item.productoId || item.producto;
+        if (scopeSet.has(itemId)) cant += (item.cantidad || 0);
+      });
+
+      if (cant > 0) {
+        const existing = agrupado.get(label);
+        if (existing) {
+          existing.total += cant;
+        } else {
+          agrupado.set(label, { label, total: cant, sortKey });
+        }
+      }
+    });
+
+    // Convertir a array y ordenar ASCENDENTE por sortKey
+    this.datosHistorialAgrupados = Array.from(agrupado.values())
+      .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+
+    if (this.historialVista === 'grafica') this.updateChartHistorial();
+  }
+
+  updateChartHistorial() {
+    this.chartHistorialOption = {
+      tooltip: { trigger: 'axis' },
+      grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+      xAxis: {
+        type: 'category',
+        data: this.datosHistorialAgrupados.map(d => d.label),
+        axisLabel: { rotate: 45 }
+      },
+      yAxis: { type: 'value', name: 'Ventas' },
+      series: [{
+        data: this.datosHistorialAgrupados.map(d => d.total),
+        type: 'bar',
+        itemStyle: { color: '#D4AF37' },
+        showBackground: true,
+        backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)' }
       }]
     };
   }
