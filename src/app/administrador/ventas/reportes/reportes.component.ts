@@ -20,6 +20,7 @@ interface DataPoint {
   fecha: Date;
   unidades: number;
   unidadesVendidas: number;
+  tipo: 'Real' | 'Predictivo';
 }
 
 interface MesProyeccion {
@@ -61,30 +62,35 @@ export class ReportesComponent implements OnInit {
   selectedFamilia = '';
   selectedProducto = '';
   productosDropdown: any[] = [];
+  productosActuales: any[] = []; // Cache para evitar subscribes en simular()
+
+  // Granularidad
+  selectedGranularidad: 'dia' | 'semana' | 'mes' = 'mes';
+  diasHistorial = 0;
   
-  // Opciones de Horizonte Temporal (12 meses dinámicos con cálculo exacto de días)
-  opcionesTiempo = (() => {
+  // Opciones de Horizonte Temporal dinámicas
+  get opcionesTiempo() {
     const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    const opciones = [];
     const today = new Date();
-    
-    for (let i = 1; i <= 12; i++) {
-        // Fecha exacta en el futuro, preservando el día actual
+    const opciones = [];
+
+    if (this.selectedGranularidad === 'dia') {
+      [7, 14, 30, 60, 90].forEach(d => opciones.push({ label: `${d} días`, value: d }));
+    } else if (this.selectedGranularidad === 'semana') {
+      [1, 2, 4, 8, 12, 24].forEach(w => opciones.push({ label: `${w} semana${w > 1 ? 's' : ''}`, value: w * 7 }));
+    } else {
+      for (let i = 1; i <= 12; i++) {
         const targetDate = new Date(today.getFullYear(), today.getMonth() + i, today.getDate());
-        // Cálculo exacto de los días de diferencia
         const diffTime = targetDate.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
         let label = meses[targetDate.getMonth()];
-        if (i === 12) {
-            label += ' sig. año';
-        }
+        if (i === 12) label += ' sig. año';
         label += ` (${i} mes${i > 1 ? 'es' : ''})`;
-
         opciones.push({ label, value: diffDays });
+      }
     }
     return opciones;
-  })();
+  }
 
   // Datos de Ventas Reales (Historial)
   ventasHistoricas: any[] = [];
@@ -114,6 +120,10 @@ export class ReportesComponent implements OnInit {
     }
     
     return `${mName} — ${fName}`;
+  }
+
+  get historicalRangeLabel(): string {
+    return `desde el 01 de Enero (${this.diasHistorial} días)`;
   }
 
   /**
@@ -160,13 +170,15 @@ export class ReportesComponent implements OnInit {
   loadSalesHistory() {
     this.ordersService.getPedidos().subscribe({
       next: (pedidos) => {
-        const treintaDiasAtras = new Date();
-        treintaDiasAtras.setDate(treintaDiasAtras.getDate() - 30);
+        const inicioAnio = new Date(new Date().getFullYear(), 0, 1);
+        const hoy = new Date();
+        const diffTime = Math.abs(hoy.getTime() - inicioAnio.getTime());
+        this.diasHistorial = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        // Filtrar solo entregados de los últimos 30 días
+        // Filtrar solo entregados desde el inicio del año
         this.ventasHistoricas = pedidos.filter(p => 
           p.estado === 'Entregado' && 
-          new Date(p.createdAt) >= treintaDiasAtras
+          new Date(p.createdAt) >= inicioAnio
         );
 
         this.updateStockFromInventory(); // Ahora sí, calcular con ventas reales
@@ -225,6 +237,7 @@ export class ReportesComponent implements OnInit {
 
     this.productsService.getProductos(filters).subscribe({
       next: (productos) => {
+        this.productosActuales = productos;
         // Filtro local si hay un producto seleccionado
         let productosScope = productos;
         if (this.selectedProducto) {
@@ -267,17 +280,11 @@ export class ReportesComponent implements OnInit {
     // Asignamos el total real de ventas que pertenecen a este filtro
     this.ventasScopeActual = totalVentas;
 
-    // Fórmula: k = -ln( x(30) / x(0) ) / 30
-    //   Donde:
-    //     x(0)  = stock HACE 30 días = stock actual + ventas del período (dato histórico real)
-    //     x(30) = stock HOY          = inventarioInicial                  (dato histórico real)
-    //
-    //   Dos puntos reales observados → k más riguroso para dx/dt = -kx.
-    //   k = ln( (x₀ + ventas) / x₀ ) / 30
-    if (this.inventarioInicial > 0 && this.ventasScopeActual > 0) {
-      const x30 = this.inventarioInicial;                          // hoy
-      const x0  = this.inventarioInicial + this.ventasScopeActual; // hace 30 días
-      this.constanteK = -Math.log(x30 / x0) / 30;                 // siempre positivo
+    // k = ln( (x_today + ventas) / x_today ) / dias_transcurridos
+    if (this.inventarioInicial > 0 && this.ventasScopeActual > 0 && this.diasHistorial > 0) {
+      const xToday = this.inventarioInicial;
+      const xStart = this.inventarioInicial + this.ventasScopeActual;
+      this.constanteK = -Math.log(xToday / xStart) / this.diasHistorial;
     } else {
       this.constanteK = 0; // Sin ventas → inventario estable
     }
@@ -288,36 +295,79 @@ export class ReportesComponent implements OnInit {
     this.diaCritico = null;
     this.resumenMensual = [];
     
-    const agrupacionMensual = new Map<string, number>();
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const inicioAnio = new Date(hoy.getFullYear(), 0, 1);
+    
+    // 1. Agrupar ventas reales por día (desde el 1 de enero)
+    const ventasPorDia = new Map<string, number>();
+    
+    // Identificar productos en el scope actual
+    let ids = this.productosActuales.map((p: any) => p._id);
+    if (this.selectedProducto) ids = [this.selectedProducto];
+    const scopeSet = new Set(ids);
 
-    for (let t = 0; t <= this.tiempoTotal; t++) {
-      // Fórmula del modelo: x(t) = x(0) * e^(-kt)
-      const unidades = Math.round(this.inventarioInicial * Math.exp(-this.constanteK * t));
-      
-      // Cálculo de unidades vendidas ese día
-      let vendidas = 0;
-      if (t > 0) {
-        const prevUnidades = Math.round(this.inventarioInicial * Math.exp(-this.constanteK * (t - 1)));
-        vendidas = prevUnidades - unidades;
+    this.ventasHistoricas.forEach(p => {
+      const dKey = new Date(p.createdAt).toDateString();
+      let cant = 0;
+      p.productos.forEach((item: any) => {
+        const itemId = item.producto?._id || item.productoId || item.producto;
+        if (scopeSet.has(itemId)) cant += (item.cantidad || 0);
+      });
+      if (cant > 0) {
+        ventasPorDia.set(dKey, (ventasPorDia.get(dKey) || 0) + cant);
       }
+    });
 
-      const fechaSim = new Date();
+    // 2. Generar Historial (Retrocediendo desde hoy hasta el 1 de enero)
+    const puntosHistoricos: DataPoint[] = [];
+    let currentStock = this.inventarioInicial;
+    
+    // Hoy (Día 0)
+    puntosHistoricos.push({
+      dia: 0,
+      fecha: new Date(hoy),
+      unidades: currentStock,
+      unidadesVendidas: ventasPorDia.get(hoy.toDateString()) || 0,
+      tipo: 'Real'
+    });
+
+    for (let i = 1; i <= this.diasHistorial; i++) {
+      const d = new Date(hoy);
+      d.setDate(d.getDate() - i);
+      if (d < inicioAnio) break;
+
+      const vendidas = ventasPorDia.get(d.toDateString()) || 0;
+      currentStock += vendidas; // Retrocedemos el inventario
+
+      puntosHistoricos.push({
+        dia: -i,
+        fecha: d,
+        unidades: currentStock,
+        unidadesVendidas: vendidas,
+        tipo: 'Real'
+      });
+    }
+    // Invertir para que vaya de Enero a Hoy
+    this.datosSimulacion = puntosHistoricos.reverse();
+
+    // 3. Generar Predicción (Desde mañana hasta tiempoTotal)
+    for (let t = 1; t <= this.tiempoTotal; t++) {
+      const unidades = Math.round(this.inventarioInicial * Math.exp(-this.constanteK * t));
+      let vendidas = 0;
+      const prevUnidades = Math.round(this.inventarioInicial * Math.exp(-this.constanteK * (t - 1)));
+      vendidas = Math.max(0, prevUnidades - unidades);
+
+      const fechaSim = new Date(hoy);
       fechaSim.setDate(fechaSim.getDate() + t);
 
       this.datosSimulacion.push({
         dia: t,
         fecha: fechaSim,
         unidades: unidades,
-        unidadesVendidas: vendidas
+        unidadesVendidas: vendidas,
+        tipo: 'Predictivo'
       });
-
-      // Acumular mensual (excluyendo el día 0 si no hubo ventas, o siempre acumula los t>0)
-      if (t > 0) {
-         const mesKey = fechaSim.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
-         const mesCapitalized = mesKey.charAt(0).toUpperCase() + mesKey.slice(1);
-         const actual = agrupacionMensual.get(mesCapitalized) || 0;
-         agrupacionMensual.set(mesCapitalized, actual + vendidas);
-      }
 
       // Detectar punto de reorden
       if (unidades <= this.puntoReorden && this.diaCritico === null) {
@@ -325,8 +375,16 @@ export class ReportesComponent implements OnInit {
       }
     }
 
+    // 4. Resumen Mensual (Real + Predictivo)
+    const agrupacionMensual = new Map<string, number>();
+    this.datosSimulacion.forEach(dp => {
+      const mesKey = dp.fecha.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
+      const mesCapitalized = mesKey.charAt(0).toUpperCase() + mesKey.slice(1);
+      agrupacionMensual.set(mesCapitalized, (agrupacionMensual.get(mesCapitalized) || 0) + dp.unidadesVendidas);
+    });
+
     agrupacionMensual.forEach((total, mes) => {
-        this.resumenMensual.push({ mes: mes, totalVentas: total });
+      this.resumenMensual.push({ mes: mes, totalVentas: Math.round(total) });
     });
 
     this.stockFinal = this.datosSimulacion[this.datosSimulacion.length - 1].unidades;
@@ -334,17 +392,28 @@ export class ReportesComponent implements OnInit {
   }
 
   updateChart() {
-    const days = this.datosSimulacion.map(d => d.fecha.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' }));
-    const units = this.datosSimulacion.map(d => d.unidades);
+    const dates = this.datosSimulacion.map(d => d.fecha.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' }));
+    const inventoryReal = this.datosSimulacion.map(d => d.tipo === 'Real' ? d.unidades : null);
+    const inventoryPred = this.datosSimulacion.map(d => d.tipo === 'Predictivo' ? d.unidades : null);
+    
+    // Conectar el último punto real con el primero predictivo para continuidad visual
+    const lastRealIdx = this.datosSimulacion.findIndex((d, i) => d.tipo === 'Real' && this.datosSimulacion[i+1]?.tipo === 'Predictivo');
+    if (lastRealIdx !== -1) {
+      inventoryPred[lastRealIdx] = inventoryReal[lastRealIdx];
+    }
+
+    const salesReal = this.datosSimulacion.map(d => d.tipo === 'Real' ? d.unidadesVendidas : null);
+    const salesPred = this.datosSimulacion.map(d => d.tipo === 'Predictivo' ? d.unidadesVendidas : null);
 
     this.chartOption = {
       backgroundColor: 'transparent',
+      legend: {
+        data: ['Inventario Real', 'Inventario Proyectado', 'Ventas Reales', 'Ventas Proyectadas'],
+        textStyle: { color: '#666' },
+        top: '5%'
+      },
       tooltip: {
         trigger: 'axis',
-        formatter: (params: any) => {
-          const p = params[0];
-          return `<strong>Fecha: ${p.name}</strong><br/>Inventario Restante: ${p.value} unidades`;
-        },
         backgroundColor: 'rgba(30, 30, 30, 0.9)',
         borderColor: '#D4AF37',
         textStyle: { color: '#fff' }
@@ -358,57 +427,74 @@ export class ReportesComponent implements OnInit {
       },
       xAxis: {
         type: 'category',
-        name: 'Fecha de Proyección',
-        nameLocation: 'middle',
-        nameGap: 35,
-        data: days,
+        data: dates,
         axisLine: { lineStyle: { color: '#999' } },
-        axisLabel: { color: '#666' }
+        axisLabel: { color: '#666', rotate: 45 }
       },
-      yAxis: {
-        type: 'value',
-        name: 'Cantidad de Inventario',
-        nameLocation: 'end',
-        nameGap: 20,
-        axisLine: { lineStyle: { color: '#999' } },
-        axisLabel: { color: '#666' },
-        splitLine: { lineStyle: { type: 'dashed', color: 'rgba(153, 153, 153, 0.1)' } }
-      },
+      yAxis: [
+        {
+          type: 'value',
+          name: 'Inventario',
+          axisLine: { lineStyle: { color: '#D4AF37' } },
+          splitLine: { lineStyle: { type: 'dashed', color: 'rgba(153, 153, 153, 0.1)' } }
+        },
+        {
+          type: 'value',
+          name: 'Ventas',
+          position: 'right',
+          axisLine: { lineStyle: { color: '#4CAF50' } },
+          splitLine: { show: false }
+        }
+      ],
       series: [
         {
-          data: units,
+          name: 'Inventario Real',
           type: 'line',
+          data: inventoryReal,
           smooth: true,
-          symbolSize: 8,
-          lineStyle: {
-            color: '#D4AF37',
-            width: 3,
-            shadowColor: 'rgba(212, 175, 55, 0.3)',
-            shadowBlur: 10
-          },
+          lineStyle: { color: '#D4AF37', width: 3 },
           itemStyle: { color: '#D4AF37' },
-          areaStyle: {
-            color: {
-              type: 'linear',
-              x: 0, y: 0, x2: 0, y2: 1,
-              colorStops: [
-                { offset: 0, color: 'rgba(212, 175, 55, 0.2)' },
-                { offset: 1, color: 'rgba(212, 175, 55, 0)' }
-              ]
-            }
-          },
+          symbol: 'circle'
+        },
+        {
+          name: 'Inventario Proyectado',
+          type: 'line',
+          data: inventoryPred,
+          smooth: true,
+          lineStyle: { color: '#D4AF37', width: 3, type: 'dashed' },
+          itemStyle: { color: '#D4AF37' },
+          symbol: 'none'
+        },
+        {
+          name: 'Ventas Reales',
+          type: 'bar',
+          yAxisIndex: 1,
+          data: salesReal,
+          itemStyle: { color: 'rgba(76, 175, 80, 0.6)' }
+        },
+        {
+          name: 'Ventas Proyectadas',
+          type: 'bar',
+          yAxisIndex: 1,
+          data: salesPred,
+          itemStyle: { color: 'rgba(76, 175, 80, 0.3)' }
+        },
+        {
+          type: 'line',
+          markLine: {
+            silent: true,
+            symbol: ['none', 'none'],
+            label: { show: false },
+            lineStyle: { color: '#F44336', type: 'solid', width: 2 },
+            data: [{ xAxis: dates[lastRealIdx] }]
+          }
+        },
+        {
+          type: 'line',
           markLine: {
             symbol: ['none', 'none'],
-            label: {
-              position: 'insideEndTop',
-              formatter: 'Umbral: {c}',
-              color: '#F44336',
-              fontWeight: 'bold'
-            },
-            lineStyle: {
-              color: 'rgba(244, 67, 54, 0.5)',
-              type: 'dashed'
-            },
+            label: { position: 'insideEndTop', formatter: 'Umbral: {c}', color: '#F44336' },
+            lineStyle: { color: 'rgba(244, 67, 54, 0.5)', type: 'dotted' },
             data: [{ yAxis: this.puntoReorden }]
           }
         }

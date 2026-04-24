@@ -23,7 +23,7 @@
       <div class="flex flex-col min-w-0">
         <span class="text-[10px] font-black uppercase tracking-widest text-[#999999]">Unidades Vendidas</span>
         <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ ventasScopeActual }}</span>
-        <span class="text-[10px] text-[#D4AF37] font-semibold truncate">{{ scopeLabel }} &mdash; últimos 30 días</span>
+        <span class="text-[10px] text-[#D4AF37] font-semibold truncate">{{ scopeLabel }} &mdash; {{ historicalRangeLabel }}</span>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
       <div class="flex flex-col min-w-0">
         <span class="text-[10px] font-black uppercase tracking-widest text-[#999999]">Pedidos Entregados</span>
         <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ ventasHistoricas.length }}</span>
-        <span class="text-[10px] text-blue-400 font-semibold">en los últimos 30 días</span>
+        <span class="text-[10px] text-blue-400 font-semibold">{{ historicalRangeLabel }}</span>
       </div>
     </div>
 
@@ -48,7 +48,7 @@
       </div>
       <div class="flex flex-col min-w-0">
         <span class="text-[10px] font-black uppercase tracking-widest text-[#999999]">Promedio Diario</span>
-        <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ (ventasScopeActual / 30) | number:'1.1-1' }}</span>
+        <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ (ventasScopeActual / diasHistorial) | number:'1.1-1' }}</span>
         <span class="text-[10px] text-emerald-400 font-semibold">unds / día &mdash; base del modelo k</span>
       </div>
     </div>
@@ -88,11 +88,20 @@
           </div>
 
           <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">2. Horizonte de Proyección</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">2. Granularidad</label>
+            <select [(ngModel)]="selectedGranularidad" (ngModelChange)="simular()" class="select-admin mt-2">
+              <option value="dia">Día</option>
+              <option value="semana">Semana</option>
+              <option value="mes">Mes</option>
+            </select>
+          </div>
+
+          <div class="field-admin">
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">3. Horizonte de Proyección</label>
             <select [(ngModel)]="tiempoTotal" (ngModelChange)="simular()" class="select-admin mt-2 shadow-sm">
               <option *ngFor="let op of opcionesTiempo" [value]="op.value">{{ op.label }}</option>
             </select>
-            <p class="text-[9px] text-[#A0A0A0] mt-1 italic italic">Basado en el ritmo de los últimos 30 días.</p>
+            <p class="text-[9px] text-[#A0A0A0] mt-1 italic italic">Basado en el historial {{ historicalRangeLabel }}.</p>
           </div>
         </div>
 
@@ -100,9 +109,9 @@
         <div class="px-5 py-4 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-2xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
           <!-- Ventas reales capturadas -->
           <div class="flex flex-col">
-            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas Reales (30 días)</label>
+            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas Reales {{ historicalRangeLabel }}</label>
             <div class="text-2xl font-black text-[#D4AF37]">{{ ventasScopeActual }} <small class="text-xs opacity-50">unds</small></div>
-            <p class="text-[9px] text-[#999] font-semibold italic">Unidades vendidas en el scope activo. Fuente de k.</p>
+            <p class="text-[9px] text-[#999] font-semibold italic">Unidades vendidas en el scope activo.</p>
           </div>
 
           <div class="flex flex-col">
@@ -210,8 +219,8 @@
                 <td class="p-4">
                   <div class="text-xs font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">{{ item.fecha | date:'dd/MM/yyyy' }}</div>
                   <div class="text-[10px] text-[#999999]">
-                    <span *ngIf="item.dia === 0">Punto de partida (Hoy)</span>
-                    <span *ngIf="item.dia > 0">Proyección a +{{ item.dia }} día<span *ngIf="item.dia > 1">s</span></span>
+                    <span *ngIf="item.tipo === 'Real'">Dato Real ({{ item.dia === 0 ? 'Hoy' : item.dia + ' días' }})</span>
+                    <span *ngIf="item.tipo === 'Predictivo'">Proyección a +{{ item.dia }} día<span *ngIf="item.dia > 1">s</span></span>
                   </div>
                 </td>
                 <td class="p-4 text-xs">
@@ -224,9 +233,13 @@
                         class="px-3 py-1 bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
                     ⚠️ AGOTÁNDOSE
                   </span>
-                  <span *ngIf="item.unidades > puntoReorden" 
+                  <span *ngIf="item.unidades > puntoReorden && item.tipo === 'Predictivo'" 
                         class="px-3 py-1 bg-green-50 text-green-600 dark:bg-green-900/10 dark:text-green-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
                     ✅ SEGURO
+                  </span>
+                  <span *ngIf="item.tipo === 'Real'" 
+                        class="px-3 py-1 bg-blue-50 text-blue-600 dark:bg-blue-900/10 dark:text-blue-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
+                    📊 HISTÓRICO
                   </span>
                 </td>
               </tr>
