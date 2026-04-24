@@ -488,10 +488,14 @@ export class ReportesComponent implements OnInit {
           lineStyle: { color: '#D4AF37', width: 4 },
           itemStyle: { color: '#D4AF37' },
           areaStyle: {
-            color: new (window as any).echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: 'rgba(212, 175, 55, 0.2)' },
-              { offset: 1, color: 'rgba(212, 175, 55, 0)' }
-            ])
+            color: {
+              type: 'linear',
+              x: 0, y: 0, x2: 0, y2: 1,
+              colorStops: [
+                { offset: 0, color: 'rgba(212, 175, 55, 0.2)' },
+                { offset: 1, color: 'rgba(212, 175, 55, 0)' }
+              ]
+            }
           },
           symbol: 'none'
         },
@@ -510,10 +514,14 @@ export class ReportesComponent implements OnInit {
           yAxisIndex: 1,
           data: salesReal,
           itemStyle: { 
-            color: new (window as any).echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: '#4CAF50' },
-              { offset: 1, color: 'rgba(76, 175, 80, 0.2)' }
-            ]),
+            color: {
+              type: 'linear',
+              x: 0, y: 0, x2: 0, y2: 1,
+              colorStops: [
+                { offset: 0, color: '#4CAF50' },
+                { offset: 1, color: 'rgba(76, 175, 80, 0.2)' }
+              ]
+            },
             borderRadius: [4, 4, 0, 0]
           }
         },
