@@ -184,6 +184,12 @@ export class ReportesComponent implements OnInit {
     return this.resumenMensual.reduce((sum, item) => sum + item.totalVentas, 0);
   }
 
+  getTotalVentasProyectadas(): number {
+    return this.datosSimulacion
+      .filter(dp => dp.tipo === 'Predictivo')
+      .reduce((sum, dp) => sum + dp.unidadesVendidas, 0);
+  }
+
   loadInitialData() {
     this.productsService.getMarcas().subscribe(data => this.marcas = data || []);
     this.loadSalesHistory();

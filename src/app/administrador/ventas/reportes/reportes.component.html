@@ -278,9 +278,15 @@
               <div class="text-2xl font-black text-[#D4AF37]">{{ rm.totalVentas }} <span class="text-[10px] font-normal opacity-50 text-[#666666] dark:text-[#A0A0A0]">unds</span></div>
             </div>
           </div>
-          <div class="mt-4 flex justify-between items-center text-[10px] font-bold text-[#2C2C2C] dark:text-[#F0F0F0] px-2 py-3 bg-[#D4AF37]/5 dark:bg-[#E5C158]/5 rounded-lg border border-[#D4AF37]/20 uppercase tracking-widest">
-            <span>Total Ventas en el Periodo:</span>
-            <span class="text-sm text-[#D4AF37]">{{ getTotalVentasPeriodo() }} unds</span>
+          <div class="mt-4 flex flex-col gap-2 text-[10px] font-bold text-[#2C2C2C] dark:text-[#F0F0F0] px-4 py-3 bg-[#D4AF37]/5 dark:bg-[#E5C158]/5 rounded-lg border border-[#D4AF37]/20 uppercase tracking-widest">
+            <div class="flex justify-between items-center opacity-70">
+              <span>Total Ventas (Histórico + Proyectado):</span>
+              <span class="text-xs">{{ getTotalVentasPeriodo() }} unds</span>
+            </div>
+            <div class="flex justify-between items-center text-[#D4AF37]">
+              <span>Ventas Proyectadas (Próx. {{ diasProyeccion }} días):</span>
+              <span class="text-sm font-black">{{ getTotalVentasProyectadas() }} unds</span>
+            </div>
           </div>
         </div>
 
