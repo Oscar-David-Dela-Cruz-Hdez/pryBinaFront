@@ -291,6 +291,9 @@ export class ReportesComponent implements OnInit {
     const pivot = new Date(this.fechaInicioPrediccion);
     pivot.setHours(23, 59, 59, 999);
 
+    const hoy = new Date();
+    hoy.setHours(23, 59, 59, 999);
+
     // Si el pivot es en el futuro, tomamos datos hasta hoy para no alterar K falsamente
     const limiteHistorial = pivot > hoy ? hoy : pivot;
 
@@ -337,6 +340,9 @@ export class ReportesComponent implements OnInit {
     
     const pivot = new Date(this.fechaInicioPrediccion);
     pivot.setHours(0, 0, 0, 0);
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
 
     // Si el pivote es mayor a la fecha final (error del usuario), lo ajustamos
     if (pivot > this.fechaFinPrediccion) {
