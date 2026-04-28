@@ -297,6 +297,15 @@ export class ReportesComponent implements OnInit {
     // Si el pivot es en el futuro, tomamos datos hasta hoy para no alterar K falsamente
     const limiteHistorial = pivot > hoy ? hoy : pivot;
 
+    // Si no viene un scope, usar el actual (Producto seleccionado o toda la familia)
+    if (productosScope.length === 0) {
+      if (this.selectedProducto) {
+        productosScope = this.productosActuales.filter(p => p._id === this.selectedProducto);
+      } else {
+        productosScope = this.productosActuales;
+      }
+    }
+
     // 1. Filtrar ventas desde fechaInicioHistorial hasta limiteHistorial
     const productIdsInScope = new Set(productosScope.map(p => p._id));
     let totalVentas = 0;
