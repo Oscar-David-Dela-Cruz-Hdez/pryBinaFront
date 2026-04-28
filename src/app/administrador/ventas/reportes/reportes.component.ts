@@ -74,8 +74,9 @@ export class ReportesComponent implements OnInit {
   diasHistorial = 0;
 
   // Estado de Simulación Dinámica (Rango de datos fuente)
-  fechaInicio: Date = new Date(); 
-  fechaFin: Date = new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()); // +1 mes por defecto
+  fechaInicioHistorial: Date = new Date(); 
+  fechaInicioPrediccion: Date = new Date(); // Día 1 de la predicción
+  fechaFinPrediccion: Date = new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()); // Día X de la predicción
   todayDate: Date = new Date();
   diasProyeccion = 0;
 
@@ -204,8 +205,9 @@ export class ReportesComponent implements OnInit {
         if (this.ventasHistoricas.length > 0) {
           // Encontrar el rango total real de los datos para inicializar los calendarios
           const fechas = this.ventasHistoricas.map(p => new Date(p.createdAt).getTime());
-          this.fechaInicio = new Date(Math.min(...fechas));
-          this.fechaFin = new Date(); // Hoy
+          this.fechaInicioHistorial = new Date(Math.min(...fechas));
+          this.fechaInicioPrediccion = new Date(); // Día 1 por defecto es hoy
+          this.fechaFinPrediccion = new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()); // +1 mes
         }
 
         this.updateStockFromInventory(); // Ahora sí, calcular con ventas reales
@@ -286,25 +288,19 @@ export class ReportesComponent implements OnInit {
   }
 
   calculateDynamicK(productosScope: any[] = []) {
-    const hoy = new Date();
-    hoy.setHours(23, 59, 59, 999);
+    const pivot = new Date(this.fechaInicioPrediccion);
+    pivot.setHours(23, 59, 59, 999);
 
-    // Si no viene un scope, usar el actual (Producto seleccionado o toda la familia)
-    if (productosScope.length === 0) {
-      if (this.selectedProducto) {
-        productosScope = this.productosActuales.filter(p => p._id === this.selectedProducto);
-      } else {
-        productosScope = this.productosActuales;
-      }
-    }
+    // Si el pivot es en el futuro, tomamos datos hasta hoy para no alterar K falsamente
+    const limiteHistorial = pivot > hoy ? hoy : pivot;
 
-    // 1. Filtrar ventas desde fechaInicio hasta HOY
+    // 1. Filtrar ventas desde fechaInicioHistorial hasta limiteHistorial
     const productIdsInScope = new Set(productosScope.map(p => p._id));
     let totalVentas = 0;
 
     this.ventasHistoricas.forEach(pedido => {
       const fechaPedido = new Date(pedido.createdAt);
-      if (fechaPedido >= this.fechaInicio && fechaPedido <= hoy) {
+      if (fechaPedido >= this.fechaInicioHistorial && fechaPedido <= limiteHistorial) {
         pedido.productos.forEach((item: any) => {
           const itemId = item.producto?._id || item.productoId || item.producto;
           if (productIdsInScope.has(itemId)) {
@@ -317,8 +313,8 @@ export class ReportesComponent implements OnInit {
     this.ventasScopeActual = totalVentas;
     this.inventarioInicialHistorico = this.inventarioInicial + totalVentas;
 
-    // 2. Calcular días de historial (Desde fechaInicio hasta hoy)
-    const diffTime = Math.abs(hoy.getTime() - this.fechaInicio.getTime());
+    // 2. Calcular días de historial (Desde fechaInicioHistorial hasta limiteHistorial)
+    const diffTime = Math.abs(limiteHistorial.getTime() - this.fechaInicioHistorial.getTime());
     this.diasHistorial = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
 
     // 3. k = ln( (x_today + ventas) / x_today ) / dias_historial
@@ -339,15 +335,20 @@ export class ReportesComponent implements OnInit {
     this.diaCritico = null;
     this.resumenMensual = [];
     
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
+    const pivot = new Date(this.fechaInicioPrediccion);
+    pivot.setHours(0, 0, 0, 0);
 
-    // 0. Recalcular días de proyeccion (Desde hoy hasta fechaFin)
-    const diffPred = this.fechaFin.getTime() - hoy.getTime();
+    // Si el pivote es mayor a la fecha final (error del usuario), lo ajustamos
+    if (pivot > this.fechaFinPrediccion) {
+      this.fechaFinPrediccion = new Date(pivot.getTime() + (1000 * 60 * 60 * 24 * 30));
+    }
+
+    // 0. Recalcular días de proyeccion (Desde pivot hasta fechaFinPrediccion)
+    const diffPred = this.fechaFinPrediccion.getTime() - pivot.getTime();
     this.tiempoTotal = Math.max(0, Math.ceil(diffPred / (1000 * 60 * 60 * 24)));
     this.diasProyeccion = this.tiempoTotal;
 
-    const inicioHistorial = new Date(this.fechaInicio);
+    const inicioHistorial = new Date(this.fechaInicioHistorial);
     inicioHistorial.setHours(0, 0, 0, 0);
 
     // 1. Agrupar ventas reales por día
@@ -373,34 +374,37 @@ export class ReportesComponent implements OnInit {
       }
     });
 
-    // 2. Generar Historial (Retrocediendo desde hoy hasta inicioHistorial)
+    // 2. Generar Historial (Retrocediendo desde el Pivot hasta inicioHistorial)
     const puntosHistoricos: DataPoint[] = [];
-    let currentStock = this.inventarioInicial;
+    let currentStock = this.inventarioInicial; // Asumimos inventario inicial en el Pivot
     
-    // Hoy (Día 0)
+    // Pivot (Día 0 de la predicción)
     puntosHistoricos.push({
       dia: 0,
-      fecha: new Date(hoy),
+      fecha: new Date(pivot),
       unidades: currentStock,
-      unidadesVendidas: ventasPorDia.get(hoy.toDateString()) || 0,
+      unidadesVendidas: ventasPorDia.get(pivot.toDateString()) || 0,
       tipo: 'Real'
     });
 
-    for (let i = 1; i <= this.diasHistorial; i++) {
-      const d = new Date(hoy);
-      d.setDate(d.getDate() - i);
-      if (d < inicioHistorial) break;
+    // Recorremos hacia atrás desde el pivot para construir la curva histórica
+    let dIter = new Date(pivot);
+    dIter.setDate(dIter.getDate() - 1);
 
-      const vendidas = ventasPorDia.get(d.toDateString()) || 0;
+    let diasAtras = 1;
+    while (dIter >= inicioHistorial && diasAtras <= this.diasHistorial + 30) {
+      const vendidas = ventasPorDia.get(dIter.toDateString()) || 0;
       currentStock += vendidas; // Retrocedemos el inventario
 
       puntosHistoricos.push({
-        dia: -i,
-        fecha: d,
+        dia: -diasAtras,
+        fecha: new Date(dIter),
         unidades: currentStock,
         unidadesVendidas: vendidas,
         tipo: 'Real'
       });
+      dIter.setDate(dIter.getDate() - 1);
+      diasAtras++;
     }
     // Invertir para que vaya de Enero a Hoy
     this.datosSimulacion = puntosHistoricos.reverse();
@@ -412,7 +416,7 @@ export class ReportesComponent implements OnInit {
       const prevUnidades = Math.round(this.inventarioInicial * Math.exp(-this.constanteK * (t - 1)));
       vendidas = Math.max(0, prevUnidades - unidades);
 
-      const fechaSim = new Date(hoy);
+      const fechaSim = new Date(pivot);
       fechaSim.setDate(fechaSim.getDate() + t);
 
       this.datosSimulacion.push({
@@ -538,7 +542,7 @@ export class ReportesComponent implements OnInit {
             data: [
               { 
                 xAxis: dates[lastRealIdx] || dates[0], 
-                label: { show: true, formatter: 'HOY', position: 'end', backgroundColor: '#F44336', color: '#fff', padding: [2, 4], borderRadius: 4 },
+                label: { show: true, formatter: 'DÍA 1 (Inicio)', position: 'end', backgroundColor: '#F44336', color: '#fff', padding: [2, 4], borderRadius: 4 },
                 lineStyle: { color: '#F44336', type: 'solid', width: 2 } 
               },
               {
