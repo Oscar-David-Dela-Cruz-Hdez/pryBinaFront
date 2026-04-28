@@ -75,10 +75,9 @@ export class ReportesComponent implements OnInit {
 
   // Estado de Simulación Dinámica (Rango de datos fuente)
   fechaInicioHistorial: Date = new Date(); 
-  fechaInicioPrediccion: Date = new Date(); // Día 1 de la predicción
-  fechaFinPrediccion: Date = new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()); // Día X de la predicción
+  fechaInicioPrediccion: Date = new Date(); // Día 0 de la predicción
   todayDate: Date = new Date();
-  diasProyeccion = 0;
+  diasProyeccion = 30; // Días a predecir
 
   // Estado del Detalle de Historial
   historialPeriodo: 'dia' | 'semana' | 'mes' = 'dia';
@@ -206,8 +205,7 @@ export class ReportesComponent implements OnInit {
           // Encontrar el rango total real de los datos para inicializar los calendarios
           const fechas = this.ventasHistoricas.map(p => new Date(p.createdAt).getTime());
           this.fechaInicioHistorial = new Date(Math.min(...fechas));
-          this.fechaInicioPrediccion = new Date(); // Día 1 por defecto es hoy
-          this.fechaFinPrediccion = new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()); // +1 mes
+          this.fechaInicioPrediccion = new Date(); // Día 0 por defecto es hoy
         }
 
         this.updateStockFromInventory(); // Ahora sí, calcular con ventas reales
@@ -353,15 +351,8 @@ export class ReportesComponent implements OnInit {
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
 
-    // Si el pivote es mayor a la fecha final (error del usuario), lo ajustamos
-    if (pivot > this.fechaFinPrediccion) {
-      this.fechaFinPrediccion = new Date(pivot.getTime() + (1000 * 60 * 60 * 24 * 30));
-    }
-
-    // 0. Recalcular días de proyeccion (Desde pivot hasta fechaFinPrediccion)
-    const diffPred = this.fechaFinPrediccion.getTime() - pivot.getTime();
-    this.tiempoTotal = Math.max(0, Math.ceil(diffPred / (1000 * 60 * 60 * 24)));
-    this.diasProyeccion = this.tiempoTotal;
+    // 0. Usar la cantidad de días solicitados
+    this.tiempoTotal = Number(this.diasProyeccion);
 
     const inicioHistorial = new Date(this.fechaInicioHistorial);
     inicioHistorial.setHours(0, 0, 0, 0);
@@ -557,7 +548,7 @@ export class ReportesComponent implements OnInit {
             data: [
               { 
                 xAxis: dates[lastRealIdx] || dates[0], 
-                label: { show: true, formatter: 'DÍA 1 (Inicio)', position: 'end', backgroundColor: '#F44336', color: '#fff', padding: [2, 4], borderRadius: 4 },
+                label: { show: true, formatter: 'DÍA 0 (Inicio)', position: 'end', backgroundColor: '#F44336', color: '#fff', padding: [2, 4], borderRadius: 4 },
                 lineStyle: { color: '#F44336', type: 'solid', width: 2 } 
               },
               {
