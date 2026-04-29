@@ -118,9 +118,7 @@
                 <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">
                   ¿HASTA QUÉ FECHA PREDECIR? <span class="text-[#D4AF37] ml-1">(+{{ tiempoTotal }} días)</span>
                 </span>
-                <mat-form-field appearance="outline" class="w-full datepicker-custom" 
-                                matTooltip="El modelo está proyectando a {{ tiempoTotal }} días en el futuro a partir de la Fecha 1."
-                                matTooltipPosition="above">
+                <mat-form-field appearance="outline" class="w-full datepicker-custom">
                   <input matInput [matDatepicker]="endPicker" [(ngModel)]="fecha3" [min]="fecha2"
                          (dateChange)="simular(true)" placeholder="Selecciona la fecha límite">
                   <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
