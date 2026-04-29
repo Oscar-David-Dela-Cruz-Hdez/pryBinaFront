@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { ProductsService } from '../../../core/services/admin/products.service';
 import { FamiliasService } from '../../../core/services/admin/familias.service';
@@ -50,7 +50,10 @@ interface MesProyeccion {
     MatNativeDateModule
   ],
   templateUrl: './reportes.component.html',
-  styleUrls: ['./reportes.component.css']
+  styleUrls: ['./reportes.component.css'],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+  ]
 })
 export class ReportesComponent implements OnInit {
   // Parámetros del modelo (Ventas por Día)
