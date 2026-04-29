@@ -2,8 +2,8 @@
   <!-- Header de la Herramienta -->
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
     <div>
-      <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Predicción del Inventario</h2>
-      <p class="text-[#666666] dark:text-[#A0A0A0] mt-1">¿Cuándo debo comprar más producto según mi ritmo de ventas?</p>
+      <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Predicción de Ventas (Exponencial)</h2>
+      <p class="text-[#666666] dark:text-[#A0A0A0] mt-1">Estimación de ventas futuras basada en el ritmo de crecimiento entre dos fechas.</p>
     </div>
     <div class="flex items-center gap-2 px-4 py-2 bg-[#D4AF37]/10 dark:bg-[#E5C158]/5 rounded-xl border border-[#D4AF37]/20">
       <mat-icon class="text-[#D4AF37] dark:text-[#E5C158]">auto_graph</mat-icon>
@@ -88,17 +88,28 @@
           </div>
 
           <div class="field-admin mt-4">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37] mb-3 block">2. Rango de Predicción</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37] mb-3 block">2. Fechas de Análisis</label>
             
             <div class="space-y-4">
-              <!-- Día 0 (Inicio de Predicción) -->
+              <!-- Fecha 1 -->
               <div class="relative">
-                <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">DÍA 0 (Calendario)</span>
+                <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">FECHA 1 (DÍA 0)</span>
                 <mat-form-field appearance="outline" class="w-full datepicker-custom">
-                  <input matInput [matDatepicker]="startPicker" [(ngModel)]="fechaInicioPrediccion" 
-                         (dateChange)="simular()" placeholder="Selecciona el Día 0">
+                  <input matInput [matDatepicker]="startPicker" [(ngModel)]="fecha1" 
+                         (dateChange)="simular()" placeholder="Selecciona la Fecha 1">
                   <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
                   <mat-datepicker #startPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <!-- Fecha 2 -->
+              <div class="relative">
+                <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">FECHA 2 (Rango K)</span>
+                <mat-form-field appearance="outline" class="w-full datepicker-custom">
+                  <input matInput [matDatepicker]="kPicker" [(ngModel)]="fecha2" 
+                         (dateChange)="simular()" placeholder="Selecciona la Fecha 2">
+                  <mat-datepicker-toggle matIconSuffix [for]="kPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #kPicker></mat-datepicker>
                 </mat-form-field>
               </div>
 
@@ -107,6 +118,7 @@
                 <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">¿A CUÁNTOS DÍAS PREDECIR?</span>
                 <select [(ngModel)]="diasProyeccion" (ngModelChange)="simular()" class="select-admin w-full p-4 h-[56px] border border-[#e2dcd6]/80 rounded-xl bg-transparent focus:outline-none focus:border-[#D4AF37]">
                   <option [value]="7">7 días</option>
+                  <option [value]="10">10 días</option>
                   <option [value]="15">15 días</option>
                   <option [value]="30">30 días</option>
                   <option [value]="60">60 días</option>
@@ -114,98 +126,34 @@
                 </select>
               </div>
             </div>
-            
-            <p class="text-[9px] text-[#A0A0A0] mt-3 italic text-center text-pretty">
-              El modelo se calibra con el historial de ventas antes del Día 0.
-            </p>
           </div>
 
         </div>
 
         <!-- Engine Results -->
         <div class="px-5 py-4 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-2xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
-          <!-- Stock inicial del historial -->
+          
           <div class="flex flex-col">
-            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Stock al inicio del análisis</label>
-            <div class="text-2xl font-black text-[#666]">{{ inventarioInicialHistorico }} <small class="text-xs opacity-50">unds</small></div>
-            <p class="text-[9px] text-[#999] font-semibold italic">Stock que tenías el día {{ fechaInicioHistorial | date:'dd/MM/yyyy' }}.</p>
-          </div>
-
-          <!-- Ventas reales capturadas -->
-          <div class="flex flex-col">
-            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas en el Rango Elegido</label>
-            <div class="text-2xl font-black text-[#4CAF50]">{{ ventasScopeActual }} <small class="text-xs opacity-50">unds</small></div>
+            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas en Fecha 1 ($P_0$)</label>
+            <div class="text-2xl font-black text-[#666]">{{ ventasFecha1 }} <small class="text-xs opacity-50">unds</small></div>
+            <p class="text-[9px] text-[#999] font-semibold italic">Ventas del día {{ fecha1 | date:'dd/MM/yyyy' }}.</p>
           </div>
 
           <div class="flex flex-col">
-            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Condición Inicial ($X_0$)</label>
-            <div class="text-2xl font-black text-[#D4AF37]">{{ inventarioInicial }} <small class="text-xs opacity-50">unds</small></div>
-            <p class="text-[9px] text-[#D4AF37] font-bold italic">Stock actual. Punto de partida para la predicción.</p>
+            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas en Fecha 2 ($P_t$)</label>
+            <div class="text-2xl font-black text-[#4CAF50]">{{ ventasFecha2 }} <small class="text-xs opacity-50">unds</small></div>
+            <p class="text-[9px] text-[#4CAF50] font-semibold italic">Ventas del día {{ fecha2 | date:'dd/MM/yyyy' }} ({{ diasHistorial }} días después).</p>
           </div>
           
           <div class="flex justify-between items-center opacity-60">
             <div class="flex flex-col">
-              <label class="text-[9px] font-bold uppercase text-[#999999]">Ritmo de Venta ($k$)</label>
-              <span class="text-xs font-mono font-bold">{{ constanteK }} (Calibrado)</span>
-            </div>
-            <div class="flex flex-col text-right">
-              <label class="text-[9px] font-bold uppercase text-[#999999]">Nivel de Alerta</label>
-              <span class="text-xs font-mono font-bold">{{ puntoReorden }} unds</span>
+              <label class="text-[9px] font-bold uppercase text-[#999999]">Ritmo Constante ($k$)</label>
+              <span class="text-xs font-mono font-bold">{{ constanteK | number:'1.5-5' }}</span>
             </div>
           </div>
         </div>
 
-        <!-- Restock Countdown — Analítico (independiente del horizonte) -->
-        <div class="pt-6 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-[#999999] font-heading">¿Cuándo debo reabastecer?</h4>
-
-          <!-- WIDGET: días para restock (valor analítico siempre visible) -->
-          <div *ngIf="diasParaRestock !== null"
-               class="relative flex flex-col items-center justify-center gap-1 p-5 rounded-2xl overflow-hidden
-                      bg-gradient-to-br from-[#F44336]/10 to-[#D4AF37]/5
-                      border border-[#F44336]/20 dark:border-[#F44336]/10">
-            <!-- icono de fondo decorativo -->
-            <mat-icon class="absolute -right-3 -bottom-3 text-[80px] opacity-5 text-[#F44336] select-none">
-              event_available
-            </mat-icon>
-
-            <span class="text-[10px] font-black uppercase tracking-widest text-[#F44336]/70">Restock recomendado en</span>
-
-            <div class="flex items-baseline gap-1">
-              <span class="text-5xl font-black text-[#F44336] leading-none">{{ diasParaRestock }}</span>
-              <span class="text-base font-bold text-[#F44336]/70">días</span>
-            </div>
-
-            <span class="text-[10px] text-[#999999] font-semibold">≈ {{ fechaRestock }}</span>
-
-            <!-- Fórmula usada -->
-            <div class="mt-2 px-3 py-1.5 bg-black/5 dark:bg-white/5 rounded-lg w-full text-center">
-              <span class="text-[9px] font-mono text-[#999] tracking-tight">
-                t = ln({{ inventarioInicial }} / {{ puntoReorden }}) / {{ constanteK | number:'1.6-6' }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Sin riesgo -->
-          <div *ngIf="diasParaRestock === null"
-               class="p-4 rounded-2xl border border-green-200 dark:border-green-900/30 bg-green-50 dark:bg-green-900/10 text-center">
-            <mat-icon class="text-green-500 text-3xl">inventory_2</mat-icon>
-            <p class="text-xs text-green-700 dark:text-green-400 font-bold mt-1">Inventario Estable</p>
-            <p class="text-[10px] text-green-600/70 dark:text-green-500/60 mt-0.5">Sin ventas detectadas. K = 0</p>
-          </div>
-
-          <!-- Datos secundarios -->
-          <div class="space-y-2 px-1">
-            <div class="flex justify-between items-center">
-              <span class="text-[#666666] dark:text-[#A0A0A0] text-xs">Stock en {{ tiempoTotal }} días:</span>
-              <span class="font-bold text-[#D4AF37] text-xs">{{ stockFinal }} unds</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-[#666666] dark:text-[#A0A0A0] text-xs">Umbral de alerta:</span>
-              <span class="font-bold text-xs">{{ puntoReorden }} unds</span>
-            </div>
-          </div>
-        </div>
+      <!-- Ya no mostramos la caja de Restock, eliminada en esta versión de ventas -->
       </mat-card-content>
     </mat-card>
 
@@ -213,13 +161,65 @@
     <div class="lg:col-span-8 space-y-6">
       <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
         <mat-card-header class="p-6 pb-2">
-          <mat-card-title class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] font-heading">Gráfica de Reservas</mat-card-title>
+          <mat-card-title class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] font-heading">Curva Exponencial de Ventas</mat-card-title>
         </mat-card-header>
         <mat-card-content class="p-6">
           <div class="chart-container relative h-[450px] w-full bg-[#FAF8F5]/30 dark:bg-[#121212]/30 rounded-xl border border-[#e2dcd6]/20 dark:border-[#333333]/20 overflow-hidden">
             <div echarts [options]="chartOption" class="h-full w-full"></div>
           </div>
         </mat-card-content>
+      </mat-card>
+
+      <!-- Tabla Matemática del Modelo (x vs t) -->
+      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+        <div class="p-6 pb-2 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
+          <h3 class="text-sm font-black uppercase tracking-widest opacity-70 font-heading">Tabla Matemática (Ecuación Diferencial)</h3>
+        </div>
+        <div class="p-6 overflow-x-auto">
+          <table class="w-full text-center border-collapse">
+            <thead>
+              <tr class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
+                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 w-1/3"></th>
+                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 text-lg font-black text-[#D4AF37]">p <span class="text-[10px] font-normal block text-[#666]">(Ventas)</span></th>
+                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 text-lg font-black text-[#D4AF37]">t <span class="text-[10px] font-normal block text-[#666]">(Días)</span></th>
+                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 text-lg font-black text-[#D4AF37]">Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- c1: Inicio del historial -->
+              <tr class="hover:bg-[#FAF8F5]/40 dark:hover:bg-[#2A2A2A]/40 transition-colors">
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-bold text-left text-[#666] dark:text-[#A0A0A0]">
+                  CI
+                </td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ ventasFecha1 | number:'1.0-0' }}</td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">0 días</td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ fecha1 | date:'dd/MM/yy' }}</td>
+              </tr>
+              <!-- k: Día de inicio de predicción -->
+              <tr class="hover:bg-[#FAF8F5]/40 dark:hover:bg-[#2A2A2A]/40 transition-colors bg-[#D4AF37]/5 dark:bg-[#E5C158]/5">
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-bold text-left text-[#666] dark:text-[#A0A0A0]">
+                  K
+                </td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#D4AF37]">{{ ventasFecha2 | number:'1.0-0' }}</td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#D4AF37]">{{ diasHistorial }} días</td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#D4AF37]">{{ fecha2 | date:'dd/MM/yy' }}</td>
+              </tr>
+              <!-- p1: Predicción Final -->
+              <tr class="hover:bg-[#FAF8F5]/40 dark:hover:bg-[#2A2A2A]/40 transition-colors">
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-bold text-left text-[#666] dark:text-[#A0A0A0]">
+                  P1
+                </td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ stockFinal | number:'1.0-0' }}</td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ diasProyeccion }} días</td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">...</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <div class="mt-4 px-4 py-2 bg-black/5 dark:bg-white/5 rounded-lg text-center">
+            <span class="text-xs text-[#666] dark:text-[#A0A0A0]">Modelo empleado: <strong class="font-mono text-[#2C2C2C] dark:text-white text-sm">P(t) = {{ ventasFecha1 }} · e<sup class="text-[10px]">{{ constanteK | number:'1.5-5' }}t</sup></strong></span>
+          </div>
+        </div>
       </mat-card>
 
       <!-- Tabla Detallada -->
