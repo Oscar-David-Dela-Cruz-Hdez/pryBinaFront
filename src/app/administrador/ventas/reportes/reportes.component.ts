@@ -186,7 +186,7 @@ export class ReportesComponent implements OnInit {
 
   getStockEnDia(diaProyeccion: number): number {
     const diaRedondeado = Math.round(diaProyeccion);
-    if (diaRedondeado === 0) return this.inventarioInicial;
+    if (diaRedondeado === 0) return this.ventasFecha1;
     const item = this.datosSimulacion.find(d => d.tipo === 'Predictivo' && d.dia === diaRedondeado);
     return item ? item.unidades : 0;
   }

@@ -232,9 +232,9 @@
             <thead class="bg-[#FAF8F5]/80 dark:bg-[#2A2A2A]/80 backdrop-blur sticky top-0 z-10">
               <tr>
                 <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Fecha</th>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Stock Esperado</th>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Ventas Estimadas</th>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Nivel de Riesgo</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Ventas Estimadas (Modelo)</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Ventas Reales Detectadas</th>
+                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Estado</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-[#e2dcd6]/20 dark:divide-[#333333]/20">
@@ -247,18 +247,14 @@
                   </div>
                 </td>
                 <td class="p-4 text-xs">
-                  <span class="font-bold text-[#D4AF37]">{{ item.unidades }}</span>
+                  <span class="font-bold text-[#D4AF37]">{{ item.unidades | number:'1.0-0' }}</span>
                   <span class="text-[10px] opacity-50 ml-1">unds</span>
                 </td>
                 <td class="p-4 text-xs text-[#666666] dark:text-[#A0A0A0]">{{ item.unidadesVendidas }}</td>
                 <td class="p-4">
-                  <span *ngIf="item.unidades <= puntoReorden" 
-                        class="px-3 py-1 bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
-                    ⚠️ AGOTÁNDOSE
-                  </span>
-                  <span *ngIf="item.unidades > puntoReorden && item.tipo === 'Predictivo'" 
-                        class="px-3 py-1 bg-green-50 text-green-600 dark:bg-green-900/10 dark:text-green-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
-                    ✅ SEGURO
+                  <span *ngIf="item.tipo === 'Predictivo'" 
+                        class="px-3 py-1 bg-yellow-50 text-yellow-600 dark:bg-yellow-900/10 dark:text-yellow-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
+                    🔮 PROYECCIÓN
                   </span>
                   <span *ngIf="item.tipo === 'Real'" 
                         class="px-3 py-1 bg-blue-50 text-blue-600 dark:bg-blue-900/10 dark:text-blue-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
