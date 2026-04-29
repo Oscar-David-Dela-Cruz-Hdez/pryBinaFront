@@ -179,9 +179,9 @@ export class ReportesComponent implements OnInit {
   }
 
   getTotalVentasProyectadas(): number {
-    return this.datosSimulacion
+    return Math.round(this.datosSimulacion
       .filter(dp => dp.tipo === 'Predictivo')
-      .reduce((sum, dp) => sum + dp.unidadesVendidas, 0);
+      .reduce((sum, dp) => sum + dp.unidades, 0));
   }
 
   getStockEnDia(diaProyeccion: number): number {
@@ -361,7 +361,7 @@ export class ReportesComponent implements OnInit {
     };
 
     this.tiempoTotal = Number(this.diasProyeccion);
-    const totalDaysToGraph = this.diasHistorial + this.tiempoTotal;
+    const totalDaysToGraph = Math.max(this.diasHistorial, this.tiempoTotal);
 
     // 1. Agrupar ventas reales por día para graficar historial vs predicción
     const ventasPorDia = new Map<string, number>();
@@ -416,7 +416,9 @@ export class ReportesComponent implements OnInit {
       this.resumenMensual.push({ mes: mes, totalVentas: Math.round(total) });
     });
 
-    this.stockFinal = this.datosSimulacion[this.datosSimulacion.length - 1].unidades;
+    const puntoFinal = this.datosSimulacion.find(d => d.dia === this.tiempoTotal);
+    this.stockFinal = puntoFinal ? puntoFinal.unidades : 0;
+    
     this.updateChart();
     this.agruparVentasHistorial(); 
   }
