@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ProductsService } from '../../../core/services/admin/products.service';
 import { FamiliasService } from '../../../core/services/admin/familias.service';
@@ -47,7 +48,8 @@ interface MesProyeccion {
     MatSelectModule,
     NgxEchartsDirective,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTooltipModule
   ],
   templateUrl: './reportes.component.html',
   styleUrls: ['./reportes.component.css'],
