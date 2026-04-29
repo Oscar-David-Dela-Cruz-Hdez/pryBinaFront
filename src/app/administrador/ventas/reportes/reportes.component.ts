@@ -283,32 +283,38 @@ export class ReportesComponent implements OnInit {
   }
 
   calculateDynamicK(productosScope: any[] = [], fromDatePicker = false) {
-    const d1 = new Date(this.fecha1); d1.setHours(0, 0, 0, 0);
-    const d2 = new Date(this.fecha2); d2.setHours(0, 0, 0, 0);
+    const formatDate = (date: Date) => {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    };
+
+    const d1Str = formatDate(new Date(this.fecha1));
+    const d2Str = formatDate(new Date(this.fecha2));
 
     // Si no viene un scope, usar el actual (Producto seleccionado o toda la familia)
     if (productosScope.length === 0) {
       if (this.selectedProducto) {
-        productosScope = this.productosActuales.filter(p => p._id === this.selectedProducto);
+        productosScope = this.productosActuales.filter(p => String(p._id) === String(this.selectedProducto));
       } else {
         productosScope = this.productosActuales;
       }
     }
 
-    const productIdsInScope = new Set(productosScope.map(p => p._id));
+    const productIdsInScope = new Set(productosScope.map(p => String(p._id)));
     let v1 = 0;
     let v2 = 0;
 
     this.ventasHistoricas.forEach(pedido => {
-      const fechaPedido = new Date(pedido.createdAt);
-      fechaPedido.setHours(0, 0, 0, 0);
+      const pedStr = new Date(pedido.createdAt).toISOString().split('T')[0];
       
-      if (fechaPedido.getTime() === d1.getTime() || fechaPedido.getTime() === d2.getTime()) {
+      if (pedStr === d1Str || pedStr === d2Str) {
         pedido.productos.forEach((item: any) => {
-          const itemId = item.producto?._id || item.productoId || item.producto;
+          const itemId = String(item.producto?._id || item.productoId || item.producto);
           if (productIdsInScope.has(itemId)) {
-            if (fechaPedido.getTime() === d1.getTime()) v1 += (item.cantidad || 0);
-            if (fechaPedido.getTime() === d2.getTime()) v2 += (item.cantidad || 0);
+            if (pedStr === d1Str) v1 += (item.cantidad || 0);
+            if (pedStr === d2Str) v2 += (item.cantidad || 0);
           }
         });
       }
@@ -318,6 +324,8 @@ export class ReportesComponent implements OnInit {
     this.ventasFecha2 = v2;
     this.ventasScopeActual = v1 + v2; // Como indicador global
 
+    const d1 = new Date(this.fecha1); d1.setHours(0, 0, 0, 0);
+    const d2 = new Date(this.fecha2); d2.setHours(0, 0, 0, 0);
     const diffTime = d2.getTime() - d1.getTime();
     this.diasHistorial = Math.max(1, Math.round(diffTime / (1000 * 60 * 60 * 24)));
 
@@ -345,6 +353,13 @@ export class ReportesComponent implements OnInit {
     const f1 = new Date(this.fecha1);
     f1.setHours(0, 0, 0, 0);
 
+    const formatDate = (date: Date) => {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    };
+
     this.tiempoTotal = Number(this.diasProyeccion);
     const totalDaysToGraph = this.diasHistorial + this.tiempoTotal;
 
@@ -352,18 +367,17 @@ export class ReportesComponent implements OnInit {
     const ventasPorDia = new Map<string, number>();
     const ids = this.selectedProducto ? [this.selectedProducto] : this.productosActuales.map((p: any) => p._id);
     const scopeSet = new Set(ids.map(id => String(id)));
+    const f1Str = formatDate(f1);
 
     this.ventasHistoricas.forEach(p => {
-      const fPedido = new Date(p.createdAt);
-      fPedido.setHours(0, 0, 0, 0);
-      if (fPedido >= f1) {
-        const dKey = fPedido.toDateString();
+      const pedStr = new Date(p.createdAt).toISOString().split('T')[0];
+      if (pedStr >= f1Str) {
         let cant = 0;
         p.productos.forEach((item: any) => {
           const itemId = String(item.producto?._id || item.productoId || item.producto);
           if (scopeSet.has(itemId)) cant += (item.cantidad || 0);
         });
-        if (cant > 0) ventasPorDia.set(dKey, (ventasPorDia.get(dKey) || 0) + cant);
+        if (cant > 0) ventasPorDia.set(pedStr, (ventasPorDia.get(pedStr) || 0) + cant);
       }
     });
 
@@ -372,7 +386,8 @@ export class ReportesComponent implements OnInit {
       const currentDate = new Date(f1);
       currentDate.setDate(currentDate.getDate() + t);
       
-      const realSales = ventasPorDia.get(currentDate.toDateString()) || 0;
+      const dKey = formatDate(currentDate);
+      const realSales = ventasPorDia.get(dKey) || 0;
       
       let expectedSales = 0;
       if (this.ventasFecha1 > 0) {
@@ -530,7 +545,7 @@ export class ReportesComponent implements OnInit {
     // Scope actual
     let ids = this.productosActuales.map((p: any) => p._id);
     if (this.selectedProducto) ids = [this.selectedProducto];
-    const scopeSet = new Set(ids);
+    const scopeSet = new Set(ids.map(id => String(id)));
 
     this.ventasHistoricas.forEach(p => {
       const fecha = new Date(p.createdAt);
@@ -555,7 +570,7 @@ export class ReportesComponent implements OnInit {
 
       let cant = 0;
       p.productos.forEach((item: any) => {
-        const itemId = item.producto?._id || item.productoId || item.producto;
+        const itemId = String(item.producto?._id || item.productoId || item.producto);
         if (scopeSet.has(itemId)) cant += (item.cantidad || 0);
       });
 
