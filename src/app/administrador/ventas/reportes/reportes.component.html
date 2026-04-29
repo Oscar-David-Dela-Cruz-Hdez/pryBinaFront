@@ -106,7 +106,7 @@
               <div class="relative">
                 <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">FECHA 2 (Rango K)</span>
                 <mat-form-field appearance="outline" class="w-full datepicker-custom">
-                  <input matInput [matDatepicker]="kPicker" [(ngModel)]="fecha2" 
+                  <input matInput [matDatepicker]="kPicker" [(ngModel)]="fecha2" [min]="fecha1"
                          (dateChange)="simular(true)" placeholder="Selecciona la Fecha 2">
                   <mat-datepicker-toggle matIconSuffix [for]="kPicker"></mat-datepicker-toggle>
                   <mat-datepicker #kPicker></mat-datepicker>
@@ -115,15 +115,13 @@
 
               <!-- Días a Predecir -->
               <div class="relative mt-2">
-                <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">¿A CUÁNTOS DÍAS PREDECIR?</span>
-                <select [(ngModel)]="diasProyeccion" (ngModelChange)="simular()" class="select-admin w-full p-4 h-[56px] border border-[#e2dcd6]/80 rounded-xl bg-transparent focus:outline-none focus:border-[#D4AF37]">
-                  <option [value]="7">7 días</option>
-                  <option [value]="10">10 días</option>
-                  <option [value]="15">15 días</option>
-                  <option [value]="30">30 días</option>
-                  <option [value]="60">60 días</option>
-                  <option [value]="90">90 días</option>
-                </select>
+                <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">¿HASTA QUÉ FECHA PREDECIR?</span>
+                <mat-form-field appearance="outline" class="w-full datepicker-custom">
+                  <input matInput [matDatepicker]="endPicker" [(ngModel)]="fecha3" [min]="fecha2"
+                         (dateChange)="simular(true)" placeholder="Selecciona la fecha límite">
+                  <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #endPicker></mat-datepicker>
+                </mat-form-field>
               </div>
             </div>
           </div>
@@ -210,7 +208,7 @@
                   P1
                 </td>
                 <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ stockFinal | number:'1.0-0' }}</td>
-                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ diasProyeccion }} días</td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ tiempoTotal }} días</td>
                 <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ getFechaFutura() | date:'dd/MM/yy' }}</td>
               </tr>
             </tbody>
@@ -281,7 +279,7 @@
               <span class="text-xs">{{ getTotalVentasPeriodo() }} unds</span>
             </div>
             <div class="flex justify-between items-center text-[#D4AF37]">
-              <span>Ventas Proyectadas (Próx. {{ diasProyeccion }} días):</span>
+              <span>Ventas Proyectadas (Próx. {{ tiempoTotal }} días):</span>
               <span class="text-sm font-black">{{ getTotalVentasProyectadas() }} unds</span>
             </div>
           </div>

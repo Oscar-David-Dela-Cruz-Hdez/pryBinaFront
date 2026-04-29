@@ -81,7 +81,7 @@ export class ReportesComponent implements OnInit {
   fecha1: Date = new Date(new Date().setDate(new Date().getDate() - 10)); // Día 0 (hace 10 días por defecto)
   fecha2: Date = new Date(); // Día T (hoy)
   todayDate: Date = new Date();
-  diasProyeccion = 30; // Días a predecir
+  fecha3: Date = new Date(new Date().setDate(new Date().getDate() + 30)); // Fecha límite de proyección
 
   // Estado del Detalle de Historial
   historialPeriodo: 'dia' | 'semana' | 'mes' = 'dia';
@@ -363,7 +363,19 @@ export class ReportesComponent implements OnInit {
       return `${y}-${m}-${d}`;
     };
 
-    this.tiempoTotal = Number(this.diasProyeccion);
+    if (this.fecha2.getTime() < this.fecha1.getTime()) {
+      this.fecha2 = new Date(this.fecha1.getTime() + (1000 * 60 * 60 * 24));
+    }
+    
+    if (this.fecha3.getTime() < this.fecha2.getTime()) {
+      this.fecha3 = new Date(this.fecha2.getTime() + (1000 * 60 * 60 * 24));
+    }
+
+    const d1_sim = new Date(this.fecha1); d1_sim.setHours(0, 0, 0, 0);
+    const d3_sim = new Date(this.fecha3); d3_sim.setHours(0, 0, 0, 0);
+    const diffTime3 = d3_sim.getTime() - d1_sim.getTime();
+    this.tiempoTotal = Math.max(1, Math.round(diffTime3 / (1000 * 60 * 60 * 24)));
+    
     const totalDaysToGraph = Math.max(this.diasHistorial, this.tiempoTotal);
 
     // 1. Agrupar ventas reales por día para graficar historial vs predicción
@@ -427,9 +439,7 @@ export class ReportesComponent implements OnInit {
   }
 
   getFechaFutura(): Date {
-    const f = new Date(this.fecha1);
-    f.setDate(f.getDate() + Number(this.diasProyeccion));
-    return f;
+    return this.fecha3;
   }
 
   updateChart() {
