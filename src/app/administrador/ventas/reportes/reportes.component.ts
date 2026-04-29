@@ -282,7 +282,7 @@ export class ReportesComponent implements OnInit {
     });
   }
 
-  calculateDynamicK(productosScope: any[] = []) {
+  calculateDynamicK(productosScope: any[] = [], fromDatePicker = false) {
     const d1 = new Date(this.fecha1); d1.setHours(0, 0, 0, 0);
     const d2 = new Date(this.fecha2); d2.setHours(0, 0, 0, 0);
 
@@ -322,18 +322,22 @@ export class ReportesComponent implements OnInit {
     this.diasHistorial = Math.max(1, Math.round(diffTime / (1000 * 60 * 60 * 24)));
 
     if (v1 === 0 || v2 === 0) {
-      Swal.fire('Atención', 'Una de las fechas seleccionadas tiene 0 ventas para estos productos. El modelo requiere ventas en ambos días para calcular el crecimiento.', 'warning');
+      if (fromDatePicker) {
+        Swal.fire('Atención', 'Una de las fechas seleccionadas tiene 0 ventas para estos productos. El modelo requiere ventas en ambos días para calcular el crecimiento.', 'warning');
+      }
       this.constanteK = 0;
     } else if (this.diasHistorial <= 0) {
-      Swal.fire('Error de Fechas', 'La Fecha 2 debe ser posterior a la Fecha 1.', 'warning');
+      if (fromDatePicker) {
+        Swal.fire('Error de Fechas', 'La Fecha 2 debe ser posterior a la Fecha 1.', 'warning');
+      }
       this.constanteK = 0;
     } else {
       this.constanteK = Math.log(v2 / v1) / this.diasHistorial;
     }
   }
 
-  simular() {
-    this.calculateDynamicK();
+  simular(fromDatePicker = false) {
+    this.calculateDynamicK([], fromDatePicker);
 
     this.datosSimulacion = [];
     this.resumenMensual = [];
@@ -347,7 +351,7 @@ export class ReportesComponent implements OnInit {
     // 1. Agrupar ventas reales por día para graficar historial vs predicción
     const ventasPorDia = new Map<string, number>();
     const ids = this.selectedProducto ? [this.selectedProducto] : this.productosActuales.map((p: any) => p._id);
-    const scopeSet = new Set(ids);
+    const scopeSet = new Set(ids.map(id => String(id)));
 
     this.ventasHistoricas.forEach(p => {
       const fPedido = new Date(p.createdAt);
@@ -356,7 +360,7 @@ export class ReportesComponent implements OnInit {
         const dKey = fPedido.toDateString();
         let cant = 0;
         p.productos.forEach((item: any) => {
-          const itemId = item.producto?._id || item.productoId || item.producto;
+          const itemId = String(item.producto?._id || item.productoId || item.producto);
           if (scopeSet.has(itemId)) cant += (item.cantidad || 0);
         });
         if (cant > 0) ventasPorDia.set(dKey, (ventasPorDia.get(dKey) || 0) + cant);
@@ -400,6 +404,12 @@ export class ReportesComponent implements OnInit {
     this.stockFinal = this.datosSimulacion[this.datosSimulacion.length - 1].unidades;
     this.updateChart();
     this.agruparVentasHistorial(); 
+  }
+
+  getFechaFutura(): Date {
+    const f = new Date(this.fecha1);
+    f.setDate(f.getDate() + Number(this.diasProyeccion));
+    return f;
   }
 
   updateChart() {

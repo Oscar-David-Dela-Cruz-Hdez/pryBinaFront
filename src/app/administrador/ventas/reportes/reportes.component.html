@@ -96,7 +96,7 @@
                 <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">FECHA 1 (DÍA 0)</span>
                 <mat-form-field appearance="outline" class="w-full datepicker-custom">
                   <input matInput [matDatepicker]="startPicker" [(ngModel)]="fecha1" 
-                         (dateChange)="simular()" placeholder="Selecciona la Fecha 1">
+                         (dateChange)="simular(true)" placeholder="Selecciona la Fecha 1">
                   <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
                   <mat-datepicker #startPicker></mat-datepicker>
                 </mat-form-field>
@@ -107,7 +107,7 @@
                 <span class="absolute -top-2 left-3 px-1 bg-[#FDFCFB] dark:bg-[#1E1E1E] text-[9px] font-bold text-[#999] z-10">FECHA 2 (Rango K)</span>
                 <mat-form-field appearance="outline" class="w-full datepicker-custom">
                   <input matInput [matDatepicker]="kPicker" [(ngModel)]="fecha2" 
-                         (dateChange)="simular()" placeholder="Selecciona la Fecha 2">
+                         (dateChange)="simular(true)" placeholder="Selecciona la Fecha 2">
                   <mat-datepicker-toggle matIconSuffix [for]="kPicker"></mat-datepicker-toggle>
                   <mat-datepicker #kPicker></mat-datepicker>
                 </mat-form-field>
@@ -211,7 +211,7 @@
                 </td>
                 <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ stockFinal | number:'1.0-0' }}</td>
                 <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ diasProyeccion }} días</td>
-                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">...</td>
+                <td class="border border-[#e2dcd6] dark:border-[#333333] p-3 font-mono text-lg text-[#2C2C2C] dark:text-white">{{ getFechaFutura() | date:'dd/MM/yy' }}</td>
               </tr>
             </tbody>
           </table>
