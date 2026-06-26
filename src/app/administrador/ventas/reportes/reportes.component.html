@@ -15,40 +15,40 @@
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
 
     <!-- KPI 1: Unidades vendidas -->
-    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 to-transparent pointer-events-none rounded-2xl"></div>
       <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center">
         <mat-icon class="text-[#D4AF37] text-xl">shopping_bag</mat-icon>
       </div>
       <div class="flex flex-col min-w-0">
-        <span class="text-[10px] font-black uppercase tracking-widest text-[#999999]">Unidades Vendidas</span>
-        <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ ventasScopeActual }}</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-[#999999]">Unidades Vendidas</span>
+        <span class="text-2xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ ventasScopeActual }}</span>
         <span class="text-[10px] text-[#D4AF37] font-semibold truncate">{{ scopeLabel }} &mdash; {{ historicalRangeLabel }}</span>
       </div>
     </div>
 
     <!-- KPI 2: Pedidos que contribuyeron -->
-    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none rounded-2xl"></div>
       <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center">
         <mat-icon class="text-blue-500 text-xl">receipt_long</mat-icon>
       </div>
       <div class="flex flex-col min-w-0">
-        <span class="text-[10px] font-black uppercase tracking-widest text-[#999999]">Pedidos Entregados</span>
-        <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ ventasHistoricas.length }}</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-[#999999]">Pedidos Entregados</span>
+        <span class="text-2xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ ventasHistoricas.length }}</span>
         <span class="text-[10px] text-blue-400 font-semibold">{{ historicalRangeLabel }}</span>
       </div>
     </div>
 
     <!-- KPI 3: Promedio diario -->
-    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none rounded-2xl"></div>
       <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center">
         <mat-icon class="text-emerald-500 text-xl">trending_down</mat-icon>
       </div>
       <div class="flex flex-col min-w-0">
-        <span class="text-[10px] font-black uppercase tracking-widest text-[#999999]">Promedio Diario</span>
-        <span class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ (ventasScopeActual / diasHistorial) | number:'1.1-1' }}</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-[#999999]">Promedio Diario</span>
+        <span class="text-2xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] leading-tight">{{ (ventasScopeActual / diasHistorial) | number:'1.1-1' }}</span>
         <span class="text-[10px] text-emerald-400 font-semibold">unds / día &mdash; base del modelo k</span>
       </div>
     </div>
@@ -57,7 +57,7 @@
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
     <!-- Configuración del Simulador -->
-    <mat-card class="lg:col-span-4 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+    <mat-card class="lg:col-span-4 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
       <mat-card-header class="bg-[#FAF8F5] dark:bg-[#2A2A2A] p-4 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
         <mat-card-title class="text-lg font-bold flex items-center gap-2">
           <mat-icon class="text-[#D4AF37]">tune</mat-icon> Datos de mi Negocio
@@ -67,28 +67,28 @@
         <!-- Selectores Dinámicos -->
         <div class="space-y-4 p-4 bg-[#D4AF37]/5 dark:bg-[#E5C158]/5 rounded-2xl border border-[#D4AF37]/20 border-dashed relative">
           <!-- Badge de Contexto -->
-          <div class="absolute -top-3 right-4 px-3 py-1 bg-[#D4AF37] text-white text-[9px] font-black rounded-full shadow-sm animate-bounce-slow">
+          <div class="absolute -top-3 right-4 px-3 py-1 bg-[#D4AF37] text-white text-[9px] font-bold rounded-full shadow-sm animate-bounce-slow">
             {{ totalProductosAnalizados }} ARTÍCULOS EN ANÁLISIS
           </div>
 
           <div class="field-admin">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37]">1. Ámbito del Análisis</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-bold text-[#D4AF37]">1. Ámbito del Análisis</label>
             <select [ngModel]="selectedMarca" (ngModelChange)="onMarcaChange($event)" class="select-admin mt-2">
               <option value="">Análisis Global (Todo el Almacén)</option>
               <option *ngFor="let m of marcas" [value]="m._id || m.nombre">{{ m.nombre }}</option>
             </select>
-            <select *ngIf="selectedMarca" [ngModel]="selectedFamilia" (ngModelChange)="onFamiliaChange($event)" class="select-admin mt-2 animate-fade-in shadow-inner">
+            <select *ngIf="selectedMarca" [ngModel]="selectedFamilia" (ngModelChange)="onFamiliaChange($event)" class="select-admin mt-2 animate-fade-in shadow-sm-inner">
               <option value="">Todas las Familias de {{ selectedMarcaName }}</option>
               <option *ngFor="let f of familias" [value]="f._id || f.nombre">{{ f.nombre }}</option>
             </select>
-            <select *ngIf="selectedFamilia" [ngModel]="selectedProducto" (ngModelChange)="onProductoChange($event)" class="select-admin mt-2 animate-fade-in shadow-inner bg-white/50 dark:bg-black/20">
+            <select *ngIf="selectedFamilia" [ngModel]="selectedProducto" (ngModelChange)="onProductoChange($event)" class="select-admin mt-2 animate-fade-in shadow-sm-inner bg-white/50 dark:bg-black/20">
               <option value="">Todos los Productos de la Familia</option>
               <option *ngFor="let p of productosDropdown" [value]="p._id">{{ p.nombre }}</option>
             </select>
           </div>
 
           <div class="field-admin mt-4">
-            <label class="label-admin uppercase text-[10px] tracking-widest font-black text-[#D4AF37] mb-3 block">2. Fechas de Análisis</label>
+            <label class="label-admin uppercase text-[10px] tracking-widest font-bold text-[#D4AF37] mb-3 block">2. Fechas de Análisis</label>
             
             <div class="space-y-4">
               <!-- Fecha 1 -->
@@ -134,14 +134,14 @@
         <div class="px-5 py-4 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-2xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 space-y-4">
           
           <div class="flex flex-col">
-            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas en Fecha 1 ($P_0$)</label>
-            <div class="text-2xl font-black text-[#666]">{{ ventasFecha1 }} <small class="text-xs opacity-50">unds</small></div>
+            <label class="text-[10px] font-bold uppercase text-[#999999] tracking-tighter">Ventas en Fecha 1 ($P_0$)</label>
+            <div class="text-2xl font-bold text-[#666]">{{ ventasFecha1 }} <small class="text-xs opacity-50">unds</small></div>
             <p class="text-[9px] text-[#999] font-semibold italic">Ventas del día {{ fecha1 | date:'dd/MM/yyyy' }}.</p>
           </div>
 
           <div class="flex flex-col">
-            <label class="text-[10px] font-black uppercase text-[#999999] tracking-tighter">Ventas en Fecha 2 ($P_t$)</label>
-            <div class="text-2xl font-black text-[#4CAF50]">{{ ventasFecha2 }} <small class="text-xs opacity-50">unds</small></div>
+            <label class="text-[10px] font-bold uppercase text-[#999999] tracking-tighter">Ventas en Fecha 2 ($P_t$)</label>
+            <div class="text-2xl font-bold text-[#4CAF50]">{{ ventasFecha2 }} <small class="text-xs opacity-50">unds</small></div>
             <p class="text-[9px] text-[#4CAF50] font-semibold italic">Ventas del día {{ fecha2 | date:'dd/MM/yyyy' }} ({{ diasHistorial }} días después).</p>
           </div>
           
@@ -159,7 +159,7 @@
 
     <!-- Visualización y Gráfica -->
     <div class="lg:col-span-8 space-y-6">
-      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
         <mat-card-header class="p-6 pb-2">
           <mat-card-title class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] font-heading">Curva Exponencial de Ventas</mat-card-title>
         </mat-card-header>
@@ -171,18 +171,18 @@
       </mat-card>
 
       <!-- Tabla Matemática del Modelo (x vs t) -->
-      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
         <div class="p-6 pb-2 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <h3 class="text-sm font-black uppercase tracking-widest opacity-70 font-heading">Tabla Matemática (Ecuación Diferencial)</h3>
+          <h3 class="text-sm font-bold uppercase tracking-widest opacity-70 font-heading">Tabla Matemática (Ecuación Diferencial)</h3>
         </div>
         <div class="p-6 overflow-x-auto">
           <table class="w-full text-center border-collapse">
             <thead>
               <tr class="bg-[#FAF8F5] dark:bg-[#2A2A2A]">
                 <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 w-1/3"></th>
-                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 text-lg font-black text-[#D4AF37]">p <span class="text-[10px] font-normal block text-[#666]">(Ventas)</span></th>
-                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 text-lg font-black text-[#D4AF37]">t <span class="text-[10px] font-normal block text-[#666]">(Días)</span></th>
-                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 text-lg font-black text-[#D4AF37]">Fecha</th>
+                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 text-lg font-bold text-[#D4AF37]">p <span class="text-[10px] font-normal block text-[#666]">(Ventas)</span></th>
+                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 text-lg font-bold text-[#D4AF37]">t <span class="text-[10px] font-normal block text-[#666]">(Días)</span></th>
+                <th class="border border-[#e2dcd6] dark:border-[#333333] p-3 text-lg font-bold text-[#D4AF37]">Fecha</th>
               </tr>
             </thead>
             <tbody>
@@ -223,18 +223,18 @@
       </mat-card>
 
       <!-- Tabla Detallada -->
-      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
         <div class="p-6 pb-2 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <h3 class="text-sm font-black uppercase tracking-widest opacity-70 font-heading">Proyección día por día</h3>
+          <h3 class="text-sm font-bold uppercase tracking-widest opacity-70 font-heading">Proyección día por día</h3>
         </div>
         <div class="overflow-x-auto max-h-[350px]">
           <table class="w-full text-left">
             <thead class="bg-[#FAF8F5]/80 dark:bg-[#2A2A2A]/80 backdrop-blur sticky top-0 z-10">
               <tr>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Fecha</th>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Ventas Estimadas (Modelo)</th>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Ventas Reales Detectadas</th>
-                <th class="p-4 text-[10px] font-black uppercase tracking-widest text-[#999999]">Estado</th>
+                <th class="p-4 text-[10px] font-bold uppercase tracking-widest text-[#999999]">Fecha</th>
+                <th class="p-4 text-[10px] font-bold uppercase tracking-widest text-[#999999]">Ventas Estimadas (Modelo)</th>
+                <th class="p-4 text-[10px] font-bold uppercase tracking-widest text-[#999999]">Ventas Reales Detectadas</th>
+                <th class="p-4 text-[10px] font-bold uppercase tracking-widest text-[#999999]">Estado</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-[#e2dcd6]/20 dark:divide-[#333333]/20">
@@ -253,11 +253,11 @@
                 <td class="p-4 text-xs text-[#666666] dark:text-[#A0A0A0]">{{ item.unidadesVendidas }}</td>
                 <td class="p-4">
                   <span *ngIf="item.tipo === 'Predictivo'" 
-                        class="px-3 py-1 bg-yellow-50 text-yellow-600 dark:bg-yellow-900/10 dark:text-yellow-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
+                        class="px-3 py-1 bg-yellow-50 text-yellow-600 dark:bg-yellow-900/10 dark:text-yellow-400 text-[9px] font-bold rounded-full uppercase tracking-tighter">
                     🔮 PROYECCIÓN
                   </span>
                   <span *ngIf="item.tipo === 'Real'" 
-                        class="px-3 py-1 bg-blue-50 text-blue-600 dark:bg-blue-900/10 dark:text-blue-400 text-[9px] font-black rounded-full uppercase tracking-tighter">
+                        class="px-3 py-1 bg-blue-50 text-blue-600 dark:bg-blue-900/10 dark:text-blue-400 text-[9px] font-bold rounded-full uppercase tracking-tighter">
                     📊 HISTÓRICO
                   </span>
                 </td>
@@ -268,11 +268,11 @@
         
         <!-- Resumen Mensual de Ventas -->
         <div class="px-6 py-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30 bg-[#FAF8F5]/30 dark:bg-[#2A2A2A]/30">
-          <h4 class="text-xs font-black uppercase tracking-widest text-[#999999] mb-4">Conteo de Ventas por Mes (Proyectado)</h4>
+          <h4 class="text-xs font-bold uppercase tracking-widest text-[#999999] mb-4">Conteo de Ventas por Mes (Proyectado)</h4>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div *ngFor="let rm of resumenMensual" class="bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 flex flex-col justify-center items-center text-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] transition-transform hover:scale-105">
+            <div *ngFor="let rm of resumenMensual" class="bg-white dark:bg-[#1E1E1E] p-4 rounded-xl border border-[#e2dcd6]/30 dark:border-[#333333]/30 flex flex-col justify-center items-center text-center shadow-sm-[inset_0_2px_4px_rgba(0,0,0,0.02)] transition-transform hover:-translate-y-0.5">
               <span class="text-[10px] uppercase font-bold text-[#666666] dark:text-[#A0A0A0] mb-1">{{ rm.mes }}</span>
-              <div class="text-2xl font-black text-[#D4AF37]">{{ rm.totalVentas }} <span class="text-[10px] font-normal opacity-50 text-[#666666] dark:text-[#A0A0A0]">unds</span></div>
+              <div class="text-2xl font-bold text-[#D4AF37]">{{ rm.totalVentas }} <span class="text-[10px] font-normal opacity-50 text-[#666666] dark:text-[#A0A0A0]">unds</span></div>
             </div>
           </div>
           <div class="mt-4 flex flex-col gap-2 text-[10px] font-bold text-[#2C2C2C] dark:text-[#F0F0F0] px-4 py-3 bg-[#D4AF37]/5 dark:bg-[#E5C158]/5 rounded-lg border border-[#D4AF37]/20 uppercase tracking-widest">
@@ -282,7 +282,7 @@
             </div>
             <div class="flex justify-between items-center text-[#D4AF37]">
               <span>Ventas Proyectadas (Próx. {{ tiempoTotal }} días):</span>
-              <span class="text-sm font-black">{{ getTotalVentasProyectadas() }} unds</span>
+              <span class="text-sm font-bold">{{ getTotalVentasProyectadas() }} unds</span>
             </div>
           </div>
         </div>
@@ -291,12 +291,12 @@
       </mat-card>
 
       <!-- Nueva Sección: Detalle de Historial de Ventas (Según Imagen) -->
-      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+      <mat-card class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
         <mat-card-header class="p-6 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
           <div class="flex flex-col md:flex-row justify-between items-start w-full gap-6">
             <div class="flex flex-col gap-4 flex-1">
               <!-- Nombre del producto si hay uno seleccionado -->
-              <h2 *ngIf="selectedProducto" class="text-2xl font-black text-[#2C2C2C] dark:text-white uppercase tracking-tight">
+              <h2 *ngIf="selectedProducto" class="text-2xl font-bold text-[#2C2C2C] dark:text-white uppercase tracking-tight">
                 {{ scopeLabel }}
               </h2>
               <h3 *ngIf="!selectedProducto" class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Detalle de Ventas Históricas ({{ scopeLabel }})</h3>

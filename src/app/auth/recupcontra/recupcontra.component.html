@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-[#FAF8F5] dark:bg-[#121212] flex items-center justify-center px-4 py-12 transition-all duration-300">
   <div class="w-full max-w-md">
-    <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/40 hover:shadow-xl dark:border dark:border-[#333333] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ease-out animate-fade-in">
+    <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm dark:border dark:border-[#333333] overflow-hidden transition-all duration-300 hover:shadow-xl ease-out animate-fade-in">
       <div class="p-8">
         <div class="text-center mb-8">
           <div class="w-14 h-14 bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -35,7 +35,7 @@
               <p *ngIf="email?.hasError('email') && email?.touched" class="mt-1.5 text-xs text-red-500">Email no válido</p>
             </div>
             <button type="button" (click)="verificarCorreo()" [disabled]="isLoading"
-              class="w-full py-3 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+              class="w-full py-3 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:-translate-y-0.5 active:scale-95 ease-out">
               Siguiente
             </button>
           </div>
@@ -57,11 +57,11 @@
             </div>
             <div class="flex gap-3">
               <button type="button" (click)="goBack(0)" [disabled]="isLoading"
-                class="flex-1 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="flex-1 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:-translate-y-0.5 active:scale-95 ease-out">
                 Atrás
               </button>
               <button type="button" (click)="verificarRespuesta()" [disabled]="isLoading"
-                class="flex-1 py-3 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="flex-1 py-3 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:-translate-y-0.5 active:scale-95 ease-out">
                 Verificar
               </button>
             </div>
@@ -76,7 +76,7 @@
                 <input [type]="showPassword ? 'text' : 'password'" formControlName="nuevaPassword"
                   class="w-full px-4 py-3 pr-12 bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] placeholder-gray-400 dark:placeholder-[#A0A0A0] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] dark:focus:ring-[#E5C158] focus:border-transparent transition-all duration-300">
                 <button type="button" (click)="togglePasswordVisibility()"
-                  class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-all duration-200 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:-translate-y-0.5 active:scale-95 ease-out">
                   <mat-icon class="!text-xl">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
               </div>
@@ -92,11 +92,11 @@
             </div>
             <div class="flex gap-3">
               <button type="button" (click)="goBack(1)" [disabled]="isLoading"
-                class="flex-1 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="flex-1 py-3 border-2 border-[#e2dcd6] dark:border-[#333333] text-[#2C2C2C] dark:text-[#F0F0F0] rounded-xl font-semibold text-sm hover:bg-[#FAF8F5]/50 dark:hover:bg-[#2A2A2A]/50 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:-translate-y-0.5 active:scale-95 ease-out">
                 Atrás
               </button>
               <button type="button" (click)="cambiarContrasena()" [disabled]="isLoading"
-                class="flex-1 py-3 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:-translate-y-1 active:scale-95 ease-out">
+                class="flex-1 py-3 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl font-semibold text-sm hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:-translate-y-0.5 active:scale-95 ease-out">
                 Cambiar Contraseña
               </button>
             </div>

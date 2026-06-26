@@ -1047,3 +1047,276 @@ h1, h2, h3, h4, h5, h6 {
 .mat-mdc-form-field *::after {
   box-sizing: border-box;
 }
+
+/* =============================================================
+   MODERN BRAND REFRESH
+   Base visual minimalista usando la paleta solicitada por cliente.
+   ============================================================= */
+
+:root {
+  --color-primary: #D4AF37;
+  --color-primary-dark: #C39A24;
+  --color-primary-hover: #B88D1F;
+  --color-blush: #F8D8D8;
+  --color-lavender: #E6E6FA;
+  --color-mint: #66CDAA;
+  --color-text: #333333;
+  --color-text-secondary: #666666;
+  --color-bg: #FAF7F2;
+  --color-surface: #FFFFFF;
+  --color-surface-raised: #F5F1EA;
+  --color-border: #E8DED2;
+  --color-border-light: rgba(51, 51, 51, 0.08);
+  --shadow-sm: 0 10px 30px rgba(51, 51, 51, 0.06);
+  --shadow-md: 0 18px 48px rgba(51, 51, 51, 0.1);
+  --transition-fast: 180ms ease;
+  --transition-normal: 260ms ease;
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+}
+
+[data-theme="dark"] {
+  --color-primary: #E5C158;
+  --color-primary-dark: #D4AF37;
+  --color-primary-hover: #F0CC69;
+  --color-blush: #4B3439;
+  --color-lavender: #37344C;
+  --color-mint: #7FD8BC;
+  --color-text: #F5F3EF;
+  --color-text-secondary: #B8B2AA;
+  --color-bg: #151412;
+  --color-surface: #201F1D;
+  --color-surface-raised: #2A2824;
+  --color-border: #39352F;
+  --color-border-light: rgba(255, 255, 255, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(248, 216, 216, 0.32), transparent 32rem),
+    linear-gradient(180deg, var(--color-bg), #FFFFFF 42rem);
+  color: var(--color-text);
+  letter-spacing: 0;
+}
+
+[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at top left, rgba(230, 230, 250, 0.08), transparent 32rem),
+    linear-gradient(180deg, var(--color-bg), #11100F 42rem);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: 0;
+}
+
+a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+button,
+a,
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-icon-button {
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+button:hover,
+a:hover {
+  transform: translateY(-1px);
+}
+
+.mat-mdc-card,
+.admin-data-table,
+.mat-elevation-z8,
+.bg-\[\#FFFFFF\],
+[data-theme="dark"] .dark\:bg-\[\#1E1E1E\] {
+  border-radius: 12px !important;
+  border: 1px solid var(--color-border-light) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.rounded-2xl,
+.rounded-xl {
+  border-radius: 10px !important;
+}
+
+.shadow-xl,
+.hover\:shadow-xl:hover,
+.hover\:shadow-md:hover {
+  box-shadow: var(--shadow-md) !important;
+}
+
+.bg-\[\#FAF8F5\] {
+  background-color: var(--color-bg) !important;
+}
+
+.bg-\[\#D4AF37\],
+.btn-admin-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.text-\[\#D4AF37\] {
+  color: var(--color-primary) !important;
+}
+
+.border-\[\#e2dcd6\],
+.dark\:border-\[\#333333\] {
+  border-color: var(--color-border) !important;
+}
+
+.text-\[\#2C2C2C\] {
+  color: var(--color-text) !important;
+}
+
+.text-\[\#666666\],
+.text-\[\#999999\] {
+  color: var(--color-text-secondary) !important;
+}
+
+.btn-admin-primary,
+.mat-mdc-raised-button.mat-primary {
+  border-radius: 8px !important;
+  box-shadow: 0 10px 22px rgba(212, 175, 55, 0.22) !important;
+  text-transform: none !important;
+}
+
+.btn-admin-primary:hover,
+.mat-mdc-raised-button.mat-primary:hover:not([disabled]) {
+  background-color: var(--color-primary-hover) !important;
+  transform: translateY(-1px);
+}
+
+.btn-admin-secondary {
+  border-radius: 8px !important;
+  background-color: transparent !important;
+}
+
+.input-admin,
+.textarea-admin,
+.select-admin,
+.mat-mdc-text-field-wrapper,
+.mat-mdc-paginator .mat-mdc-text-field-wrapper {
+  border-radius: 8px !important;
+}
+
+.mat-mdc-menu-panel,
+.mat-menu-panel,
+.mat-mdc-select-panel,
+.mdc-menu-surface {
+  border-radius: 12px !important;
+  border: 1px solid var(--color-border-light) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.mat-mdc-list-option,
+.mat-mdc-option,
+.mat-mdc-menu-item {
+  font-family: var(--font-body) !important;
+}
+
+.mat-mdc-progress-spinner circle,
+.mat-mdc-spinner circle {
+  stroke: var(--color-primary) !important;
+}
+
+::selection {
+  background: rgba(248, 216, 216, 0.78);
+  color: #333333;
+}
+
+/* Refinamiento amplio para pantallas heredadas */
+.min-h-screen {
+  background-color: var(--color-bg) !important;
+}
+
+.bg-white,
+.bg-\[\#FFFFFF\] {
+  background-color: var(--color-surface) !important;
+}
+
+[data-theme="dark"] .dark\:bg-\[\#1E1E1E\],
+[data-theme="dark"] .dark\:bg-\[\#121212\] {
+  background-color: var(--color-surface) !important;
+}
+
+input,
+select,
+textarea {
+  border-radius: 8px !important;
+  border-color: var(--color-border) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.16) !important;
+}
+
+.mat-stepper-horizontal,
+.mat-stepper-vertical {
+  background: transparent !important;
+}
+
+.mat-horizontal-stepper-header-container {
+  border-radius: 10px;
+  background: rgba(250, 240, 230, 0.55);
+  padding: 4px;
+}
+
+[data-theme="dark"] .mat-horizontal-stepper-header-container {
+  background: rgba(42, 40, 36, 0.7);
+}
+
+.mat-step-icon-selected,
+.mat-step-icon-state-edit {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+details {
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+details:hover {
+  box-shadow: var(--shadow-md) !important;
+}
+
+.prose {
+  color: var(--color-text-secondary) !important;
+}
+
+iframe {
+  filter: saturate(0.92) contrast(0.96);
+}
+
+.mat-mdc-progress-bar .mdc-linear-progress__bar-inner {
+  border-color: var(--color-primary) !important;
+}
+
+@media (max-width: 640px) {
+  .p-20 {
+    padding: 3rem 1.25rem !important;
+  }
+
+  .p-8,
+  .md\:p-10,
+  .md\:p-12 {
+    padding: 1.5rem !important;
+  }
+}

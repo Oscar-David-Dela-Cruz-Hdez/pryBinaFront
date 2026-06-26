@@ -10,8 +10,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
       <!-- Contactos -->
-      <div class="bg-white dark:bg-[#1E1E1E] rounded-3xl p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-[#e2dcd6]/50 dark:border-[#333333]/50">
-        <h1 class="text-3xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] mb-6 flex items-center gap-4">
+      <div class="bg-white dark:bg-[#1E1E1E] rounded-2xl p-8 md:p-10 shadow-sm border border-[#e2dcd6]/50 dark:border-[#333333]/50">
+        <h1 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mb-6 flex items-center gap-4">
           Ponte en Contacto
         </h1>
         <p class="text-[#666666] dark:text-[#A0A0A0] mb-8 leading-relaxed">
@@ -29,7 +29,7 @@
               <mat-icon>{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
             </div>
             <div>
-              <p class="text-[10px] font-black uppercase text-[#999999] tracking-wider">{{ c.tipo }}</p>
+              <p class="text-[10px] font-bold uppercase text-[#999999] tracking-wider">{{ c.tipo }}</p>
               <p class="font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">{{ c.valor }}</p>
             </div>
           </div>
@@ -38,11 +38,11 @@
       </div>
 
       <!-- Ubicacion Fija o Textual -->
-      <div class="bg-white dark:bg-[#1E1E1E] rounded-3xl p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-[#e2dcd6]/50 dark:border-[#333333]/50 flex flex-col justify-center">
+      <div class="bg-white dark:bg-[#1E1E1E] rounded-2xl p-8 md:p-10 shadow-sm border border-[#e2dcd6]/50 dark:border-[#333333]/50 flex flex-col justify-center">
         <div class="w-16 h-16 rounded-full bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-6">
           <mat-icon class="!text-3xl !w-8 !h-8">location_on</mat-icon>
         </div>
-        <h2 class="text-2xl font-black text-[#2C2C2C] dark:text-[#F0F0F0] mb-4">Nuestra Ubicación</h2>
+        <h2 class="text-2xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mb-4">Nuestra Ubicación</h2>
         <div *ngIf="isLoading" class="animate-pulse space-y-2">
           <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
           <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3"></div>
