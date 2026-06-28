@@ -1,52 +1,52 @@
 
-import { IndexComponent } from './pages/index/index.component';
+import { IndexComponent } from './features/public/index/index.component';
 import { Routes } from '@angular/router';
-import { authGuard } from './auth/auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { RecupcontraComponent } from './auth/recupcontra/recupcontra.component';
-import { PrivacidadComponent } from './static/privacidad/privacidad.component';
-import { TerminosComponent } from './static/terminos/terminos.component';
-import { HistoriaPublicComponent } from './static/historia/historia.component';
-import { MisionVisionPublicComponent } from './static/mision-vision/mision-vision.component';
-import { AyudaPublicComponent } from './static/ayuda/ayuda.component';
-import { ContactoPublicComponent } from './static/contacto/contacto.component';
-import { UserdataComponent } from "./usuario/userdata/userdata.component";
-import { PasswordComponent } from "./usuario/password/password.component";
-import { PreguntaComponent } from "./usuario/pregunta/pregunta.component";
+import { LoginComponent } from './features/auth/login/login.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { RecupcontraComponent } from './features/auth/recupcontra/recupcontra.component';
+import { PrivacidadComponent } from './features/public-static/privacidad/privacidad.component';
+import { TerminosComponent } from './features/public-static/terminos/terminos.component';
+import { HistoriaPublicComponent } from './features/public-static/historia/historia.component';
+import { MisionVisionPublicComponent } from './features/public-static/mision-vision/mision-vision.component';
+import { AyudaPublicComponent } from './features/public-static/ayuda/ayuda.component';
+import { ContactoPublicComponent } from './features/public-static/contacto/contacto.component';
+import { UserdataComponent } from "./features/user/userdata/userdata.component";
+import { PasswordComponent } from "./features/user/password/password.component";
+import { PreguntaComponent } from "./features/user/pregunta/pregunta.component";
 
-import { ProfileComponent } from './pages/profile/profile.component';
+import { ProfileComponent } from './features/public/profile/profile.component';
 
 
 
-import { Error400Component } from './pages/errores/error400/error400.component';
-import { Error404Component } from './pages/errores/error404/error404.component';
-import { UbicacionComponent } from './pages/ubicacion/ubicacion.component';
-import { MisionComponent } from './administrador/sitio/informacion/mision/mision.component';
-import { HistoriaComponent } from './administrador/sitio/informacion/historia/historia.component';
-import { VisionComponent } from './administrador/sitio/informacion/vision/vision.component';
-import { PoliticasComponent } from './administrador/sitio/informacion/politicas/politicas.component';
-import { TerminosComponent as AdminTerminosComponent } from './administrador/sitio/informacion/terminos/terminos.component';
-import { AdminUbicacionComponent } from './administrador/sitio/informacion/ubicacion/ubicacion.component';
-import { FaqsComponent } from './administrador/sitio/faqs/faqs.component';
-import { ContactosComponent } from './administrador/sitio/contactos/contactos.component';
-import { UserListComponent } from './administrador/usuarios/user-list/user-list.component';
-import { MetodosPagoComponent } from './administrador/ventas/metodos-pago/metodos-pago.component';
-import { DashboardComponent } from './administrador/dashboard/dashboard.component';
-import { OfertasComponent } from './administrador/ventas/ofertas/ofertas.component';
-import { CarruselComponent } from './administrador/ventas/carrusel/carrusel.component';
-import { ProductsComponent } from './administrador/inventario/productos/products.component';
-import { MarcasComponent } from './administrador/inventario/marcas/marcas.component';
-import { FamiliasComponent } from './administrador/inventario/familias/familias.component';
-import { MetodosEnvioComponent } from './administrador/pedidos/metodos-envio/metodos-envio.component';
-import { PedidosComponent } from './administrador/pedidos/pedidos-list/pedidos-list.component';
-import { CatalogComponent } from './pages/shop/catalog/catalog.component';
-import { CartComponent } from './pages/shop/cart/cart.component';
-import { Herramientas } from './administrador/herramientas/herramientas';
-import { Respaldos } from './administrador/herramientas/respaldos/respaldos';
-import { MonitoreoComponent } from './administrador/herramientas/monitoreo/monitoreo.component';
-import { ReportesComponent } from './administrador/ventas/reportes/reportes.component';
+import { Error400Component } from './features/public/errores/error400/error400.component';
+import { Error404Component } from './features/public/errores/error404/error404.component';
+import { UbicacionComponent } from './features/public/ubicacion/ubicacion.component';
+import { MisionComponent } from './features/admin/sitio/informacion/mision/mision.component';
+import { HistoriaComponent } from './features/admin/sitio/informacion/historia/historia.component';
+import { VisionComponent } from './features/admin/sitio/informacion/vision/vision.component';
+import { PoliticasComponent } from './features/admin/sitio/informacion/politicas/politicas.component';
+import { TerminosComponent as AdminTerminosComponent } from './features/admin/sitio/informacion/terminos/terminos.component';
+import { AdminUbicacionComponent } from './features/admin/sitio/informacion/ubicacion/ubicacion.component';
+import { FaqsComponent } from './features/admin/sitio/faqs/faqs.component';
+import { ContactosComponent } from './features/admin/sitio/contactos/contactos.component';
+import { UserListComponent } from './features/admin/usuarios/user-list/user-list.component';
+import { MetodosPagoComponent } from './features/admin/ventas/metodos-pago/metodos-pago.component';
+import { DashboardComponent } from './features/admin/dashboard/dashboard.component';
+import { OfertasComponent } from './features/admin/ventas/ofertas/ofertas.component';
+import { CarruselComponent } from './features/admin/ventas/carrusel/carrusel.component';
+import { ProductsComponent } from './features/admin/inventario/productos/products.component';
+import { MarcasComponent } from './features/admin/inventario/marcas/marcas.component';
+import { FamiliasComponent } from './features/admin/inventario/familias/familias.component';
+import { MetodosEnvioComponent } from './features/admin/pedidos/metodos-envio/metodos-envio.component';
+import { PedidosComponent } from './features/admin/pedidos/pedidos-list/pedidos-list.component';
+import { CatalogComponent } from './features/public/shop/catalog/catalog.component';
+import { CartComponent } from './features/public/shop/cart/cart.component';
+import { Herramientas } from './features/admin/herramientas/herramientas';
+import { Respaldos } from './features/admin/herramientas/respaldos/respaldos';
+import { MonitoreoComponent } from './features/admin/herramientas/monitoreo/monitoreo.component';
+import { ReportesComponent } from './features/admin/ventas/reportes/reportes.component';
 
 export const routes: Routes = [
   {

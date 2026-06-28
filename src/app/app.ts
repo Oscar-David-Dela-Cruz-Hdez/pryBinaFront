@@ -3,12 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
-import { HeaderComponent } from './pages/header/header.component';
-import { UserHeaderComponent } from './usuario/user-header/user-header.component';
-import { AdminHeaderComponent } from './administrador/admin-header/admin-header.component';
-import { FooterComponent } from './pages/footer/footer.component';
+import { HeaderComponent } from './layout/public/header/header.component';
+import { UserHeaderComponent } from './layout/user-header/user-header.component';
+import { AdminHeaderComponent } from './layout/admin-header/admin-header.component';
+import { FooterComponent } from './layout/public/footer/footer.component';
 import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './core/services/auth.service';
 import { ThemeService } from './core/services/theme/theme';
 
 @Component({

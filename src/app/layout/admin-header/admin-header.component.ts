@@ -1,0 +1,41 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+
+import { AuthService } from '../../core/services/auth.service';
+import { ThemeService } from '../../core/services/theme/theme';
+
+@Component({
+  selector: 'app-admin-header',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule
+  ],
+  templateUrl: './admin-header.component.html',
+  styleUrls: ['./admin-header.component.css']
+})
+export class AdminHeaderComponent {
+
+  public adminName$: Observable<string | null>;
+
+  constructor(
+    private authService: AuthService,
+    public themeService: ThemeService
+  ) {
+    this.adminName$ = this.authService.currentUserName$;
+  }
+
+
+  logout(): void {
+    this.authService.logout();
+  }
+}
