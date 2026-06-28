@@ -1,109 +1,99 @@
-<!-- Top bar din?mica de contactos -->
-<div *ngIf="topContacts.length > 0" class="bg-[#D4AF37] dark:bg-[#CFAA43] text-[#1E1E1E] text-[11px] font-bold py-1.5 px-6 flex justify-between items-center transition-all animate-fade-in shadow-inner border-b border-black/10">
-  <div class="max-w-screen-xl mx-auto w-full flex justify-end gap-6 overflow-hidden">
-    <div *ngFor="let c of topContacts" class="flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
-      <mat-icon class="!text-[14px] !w-[14px] !h-[14px] leading-tight">{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
-      <span class="tracking-wide">{{ c.valor }}</span>
+<div class="topbar" *ngIf="topContacts.length > 0">
+  <div class="topbar__inner">
+    <span class="topbar__message">Atención personalizada para pedidos y asesoría</span>
+    <div class="topbar__contacts">
+      <span *ngFor="let c of topContacts" class="topbar__contact">
+        <mat-icon>{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
+        {{ c.valor }}
+      </span>
     </div>
   </div>
 </div>
 
-<header class="bg-[#FFFFFF]/80 dark:bg-[#1E1E1E] backdrop-blur-md sticky top-0 z-50 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30 shadow-sm animate-fade-in transition-all duration-300">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-20">
-      <div class="flex-shrink-0 hover:-translate-y-0.5 transition-transform duration-300">
-        <a routerLink="/" class="flex items-center gap-3">
-          <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana" class="h-12 w-auto object-contain">
-        </a>
-      </div>
+<header class="user-header">
+  <div class="user-header__inner">
+    <a routerLink="/" class="brand" aria-label="Ir al inicio">
+      <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana">
+    </a>
 
-      <nav class="hidden lg:flex items-center gap-1">
-        <!-- Botón Explorar con Dropdown -->
-        <button [matMenuTriggerFor]="exploreMenu" 
-          class="group flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-xl hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-300">
-          <mat-icon class="!text-[20px] transition-transform group-hover:rotate-180">expand_more</mat-icon>
-          <span>EXPLORAR</span>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <button class="nav-link nav-link--button" [matMenuTriggerFor]="catalogMenu">
+        Catálogo
+        <mat-icon>expand_more</mat-icon>
+      </button>
+
+      <mat-menu #catalogMenu="matMenu" class="soft-menu">
+        <div class="catalog-menu">
+          <section>
+            <h4>Categorías</h4>
+            <a mat-menu-item routerLink="/productos">
+              <mat-icon>storefront</mat-icon>
+              Todos los productos
+            </a>
+            <a *ngFor="let fam of familias" mat-menu-item [routerLink]="['/productos']" [queryParams]="{ familia: fam._id }">
+              <mat-icon>category</mat-icon>
+              {{ fam.nombre }}
+            </a>
+          </section>
+
+          <section>
+            <h4>Marcas</h4>
+            <a *ngFor="let marca of marcas" mat-menu-item [routerLink]="['/productos']" [queryParams]="{ marca: marca._id }">
+              <mat-icon>sell</mat-icon>
+              {{ marca.nombre }}
+            </a>
+          </section>
+        </div>
+      </mat-menu>
+
+      <a routerLink="/productos" class="nav-link">Productos</a>
+      <a routerLink="/ubicacion" class="nav-link">Ubicación</a>
+      <a routerLink="/contacto" class="nav-link">Contacto</a>
+
+      <button class="nav-link nav-link--button" [matMenuTriggerFor]="aboutMenu">
+        Empresa
+        <mat-icon>expand_more</mat-icon>
+      </button>
+
+      <mat-menu #aboutMenu="matMenu" class="soft-menu">
+        <a mat-menu-item routerLink="/historia"><mat-icon>history_edu</mat-icon>Historia</a>
+        <a mat-menu-item routerLink="/mision-vision"><mat-icon>flag</mat-icon>Misión y Visión</a>
+        <a mat-menu-item routerLink="/ayuda"><mat-icon>help_outline</mat-icon>Ayuda</a>
+      </mat-menu>
+    </nav>
+
+    <div class="header-actions">
+      <form class="search-box" (ngSubmit)="onSearch()">
+        <mat-icon>search</mat-icon>
+        <input type="text" name="search" placeholder="Buscar producto" [(ngModel)]="searchQuery">
+      </form>
+
+      <button type="button" class="icon-action" (click)="themeService.toggleTheme()"
+        [title]="themeService.isDarkMode() ? 'Modo claro' : 'Modo oscuro'">
+        <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
+      <a routerLink="/carrito" class="icon-action" title="Carrito">
+        <mat-icon [matBadge]="cartCount > 0 ? cartCount : null" matBadgeColor="warn">shopping_bag</mat-icon>
+      </a>
+
+      <button class="account-button" [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario">
+        <mat-icon>account_circle</mat-icon>
+        <span>{{ (userName$ | async) || 'Mi cuenta' }}</span>
+      </button>
+
+      <mat-menu #userMenu="matMenu" class="soft-menu">
+        <div class="user-menu-header">
+          <span>Sesión iniciada</span>
+          <strong>{{ (userName$ | async) || 'Usuario' }}</strong>
+        </div>
+        <a mat-menu-item routerLink="/perfil"><mat-icon>settings</mat-icon>Editar perfil</a>
+        <a mat-menu-item routerLink="/datos"><mat-icon>badge</mat-icon>Mis datos</a>
+        <button mat-menu-item class="logout-item" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Cerrar sesión
         </button>
-
-        <mat-menu #exploreMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-2xl !shadow-2xl !border-none !p-2 !min-w-[420px]">
-          <div class="grid grid-cols-2 gap-4 p-4 min-w-[400px]">
-            <!-- Columna Familias -->
-            <div class="space-y-3">
-              <h4 class="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] mb-2 px-3">Categorías</h4>
-              <div class="flex flex-col gap-1">
-                <a *ngFor="let fam of familias" mat-menu-item 
-                  [routerLink]="['/productos']" [queryParams]="{ familia: fam._id }"
-                  class="!h-9 !py-0 !px-3 !rounded-lg !text-sm text-[#2C2C2C] dark:text-[#F0F0F0] hover:!bg-[#D4AF37]/5">
-                  {{ fam.nombre }}
-                </a>
-              </div>
-            </div>
-
-            <!-- Columna Marcas -->
-            <div class="space-y-3 border-l border-[#e2dcd6]/30 dark:border-[#333333]/30 pl-4">
-              <h4 class="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] mb-2 px-3">Marcas Destacadas</h4>
-              <div class="flex flex-col gap-1">
-                <a *ngFor="let marca of marcas" mat-menu-item 
-                  [routerLink]="['/productos']" [queryParams]="{ marca: marca._id }"
-                  class="!h-9 !py-0 !px-3 !rounded-lg !text-sm text-[#2C2C2C] dark:text-[#F0F0F0] hover:!bg-[#D4AF37]/5">
-                  {{ marca.nombre }}
-                </a>
-              </div>
-            </div>
-          </div>
-        </mat-menu>
-
-        <!-- Botón Nosotros con Dropdown (Dinámico) -->
-        <button [matMenuTriggerFor]="nosotrosMenu" 
-          class="group flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] rounded-xl hover:bg-[#D4AF37]/5 dark:hover:bg-[#E5C158]/10 transition-all duration-300">
-          <mat-icon class="!text-[20px] transition-transform group-hover:rotate-180">expand_more</mat-icon>
-          <span>NOSOTROS</span>
-        </button>
-
-        <mat-menu #nosotrosMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-2xl !shadow-2xl !border-none !p-2">
-          <div class="flex flex-col gap-1 p-2">
-            <a mat-menu-item routerLink="/historia" class="!rounded-lg hover:!bg-[#D4AF37]/5 !h-9 !text-sm font-semibold">Historia</a>
-            <a mat-menu-item routerLink="/mision-vision" class="!rounded-lg hover:!bg-[#D4AF37]/5 !h-9 !text-sm font-semibold">Misión y Visión</a>
-          </div>
-        </mat-menu>
-
-        <!-- Enlaces Fijos -->
-        <a routerLink="/productos" class="px-4 py-2 font-semibold text-sm tracking-wide text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">Productos</a>
-        <a routerLink="/ubicacion" class="px-4 py-2 font-semibold text-sm tracking-wide text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">Ubicación</a>
-        <a routerLink="/contacto" class="px-4 py-2 font-semibold text-sm tracking-wide text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors duration-200">Contacto</a>
-      </nav>
-
-      <div class="flex items-center gap-4">
-        <span class="hidden lg:block text-sm font-medium text-[#666666] dark:text-[#A0A0A0]">
-          Bienvenido, <span class="text-[#D4AF37] dark:text-[#E5C158]">{{ userName$ | async }}</span>
-        </span>
-
-        <button mat-icon-button (click)="themeService.toggleTheme()" [title]="themeService.isDarkMode() ? 'Modo Claro' : 'Modo Oscuro'"
-          class="text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors hover:-translate-y-0.5 active:scale-95">
-          <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
-        </button>
-
-        <a routerLink="/carrito" class="flex items-center gap-2 bg-[#FAF8F5] dark:bg-[#2A2A2A] px-4 py-2 rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] hover:bg-[#D4AF37] dark:hover:bg-[#E5C158] hover:text-white dark:hover:text-[#0F172A] transition-all duration-300 shadow-sm hover:shadow-sm hover:-translate-y-0.5 active:scale-95">
-          <mat-icon class="!text-[20px] mb-1">shopping_cart</mat-icon>
-          <span class="hidden sm:block font-semibold text-sm">Carrito</span>
-        </a>
-
-        <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario"
-          class="text-[#2C2C2C] dark:text-[#F0F0F0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors bg-gray-100/50 dark:bg-[#2A2A2A] rounded-full hover:shadow-sm hover:-translate-y-0.5 active:scale-95">
-          <mat-icon>account_circle</mat-icon>
-        </button>
-
-        <mat-menu #userMenu="matMenu" class="!bg-[#FFFFFF] dark:!bg-[#1E1E1E] !rounded-xl !shadow-lg dark:!border dark:!border-[#333333]/30">
-          <a mat-menu-item routerLink="/perfil" class="!text-[#2C2C2C] dark:!text-[#F0F0F0] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A]/50 transition-colors">
-            <mat-icon class="!text-[#666666] dark:!text-[#A0A0A0]">settings</mat-icon>
-            <span>Editar Perfil</span>
-          </a>
-          <button mat-menu-item (click)="logout()" class="!text-[#d32f2f] dark:!text-[#ef5350] hover:!bg-[#FAF8F5] dark:hover:!bg-[#2A2A2A]/50 transition-colors">
-            <mat-icon class="!text-[#d32f2f] dark:!text-[#ef5350]">logout</mat-icon>
-            <span>Cerrar Sesión</span>
-          </button>
-        </mat-menu>
-      </div>
+      </mat-menu>
     </div>
   </div>
 </header>

@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { SiteInfoService } from '../../core/services/admin/site-info.service';
 import { SalesService } from '../../core/services/admin/sales.service';
+import { FamiliasService } from '../../core/services/admin/familias.service';
+import { ProductsService } from '../../core/services/admin/products.service';
 
 @Component({
   selector: 'app-footer',
@@ -15,10 +17,15 @@ import { SalesService } from '../../core/services/admin/sales.service';
 export class FooterComponent implements OnInit {
   contactos: any[] = [];
   metodosPago: any[] = [];
+  familias: any[] = [];
+  marcas: any[] = [];
+  currentYear = new Date().getFullYear();
 
   constructor(
     private siteInfoService: SiteInfoService,
-    private salesService: SalesService
+    private salesService: SalesService,
+    private familiasService: FamiliasService,
+    private productsService: ProductsService
   ) {}
 
   ngOnInit() {
@@ -28,6 +35,14 @@ export class FooterComponent implements OnInit {
 
     this.salesService.getMetodosPago(true).subscribe(data => {
       this.metodosPago = data || [];
+    });
+
+    this.familiasService.getFamilias().subscribe(data => {
+      this.familias = (data || []).slice(0, 6);
+    });
+
+    this.productsService.getMarcas().subscribe(data => {
+      this.marcas = (data || []).slice(0, 6);
     });
   }
 

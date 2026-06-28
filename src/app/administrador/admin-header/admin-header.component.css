@@ -1,1 +1,204 @@
-/* Estilos migrados a Tailwind CSS en el template HTML */
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: color-mix(in srgb, var(--surface-card, #ffffff) 92%, transparent);
+  border-bottom: 1px solid var(--border-soft, #eadfd9);
+  box-shadow: 0 14px 34px rgba(51, 51, 51, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.admin-header__inner {
+  width: min(1440px, calc(100% - 28px));
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  margin: 0 auto;
+}
+
+.admin-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-main, #333333);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.admin-brand img {
+  width: 116px;
+  max-height: 42px;
+  object-fit: contain;
+}
+
+.admin-brand span {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent, #d4af37) 14%, transparent);
+  color: var(--color-accent, #d4af37);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.admin-nav,
+.admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-nav {
+  justify-content: center;
+  min-width: 0;
+}
+
+.admin-nav__link {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 11px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-main, #333333);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+
+.admin-nav__link mat-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-accent, #d4af37);
+  font-size: 18px;
+}
+
+.admin-nav__link .chevron {
+  color: var(--text-muted, #666666);
+}
+
+.admin-nav__link:hover {
+  background: color-mix(in srgb, var(--color-accent, #d4af37) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-accent, #d4af37) 20%, transparent);
+  color: var(--color-accent, #d4af37);
+  transform: translateY(-1px);
+}
+
+.admin-user {
+  padding-right: 12px;
+  border-right: 1px solid var(--border-soft, #eadfd9);
+  color: var(--text-muted, #666666);
+  font-size: 0.86rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-user strong {
+  color: var(--color-accent, #d4af37);
+}
+
+.admin-icon-button,
+.admin-account {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-main, #333333);
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.admin-icon-button:hover,
+.admin-account:hover {
+  background: color-mix(in srgb, var(--color-primary, #f8d8d8) 42%, transparent);
+  color: var(--color-accent, #d4af37);
+  transform: translateY(-1px);
+}
+
+.admin-menu-user {
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border-soft, #eadfd9);
+}
+
+.admin-menu-user span {
+  display: block;
+  color: var(--color-accent, #d4af37);
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.admin-menu-user strong {
+  color: var(--text-main, #333333);
+}
+
+:host ::ng-deep .soft-menu .mat-mdc-menu-content,
+:host ::ng-deep .soft-menu .mat-mdc-menu-item {
+  background: var(--surface-card, #ffffff);
+}
+
+:host ::ng-deep .soft-menu .mat-mdc-menu-content {
+  padding: 6px;
+}
+
+:host ::ng-deep .soft-menu .mat-mdc-menu-item {
+  min-height: 40px;
+  border-radius: 8px;
+  color: var(--text-main, #333333);
+  --mat-menu-item-label-text-size: 0.9rem;
+}
+
+:host ::ng-deep .soft-menu .mat-mdc-menu-item:hover {
+  background: color-mix(in srgb, var(--color-primary, #f8d8d8) 38%, #ffffff);
+}
+
+:host ::ng-deep .logout-item,
+:host ::ng-deep .logout-item mat-icon {
+  color: #d32f2f;
+}
+
+:host-context(.dark) .admin-header {
+  background: #1e1e1e;
+}
+
+:host-context(.dark) .admin-brand,
+:host-context(.dark) .admin-nav__link,
+:host-context(.dark) .admin-icon-button,
+:host-context(.dark) .admin-account,
+:host-context(.dark) .admin-menu-user strong {
+  color: #f4f1ec;
+}
+
+:host-context(.dark) .admin-user {
+  color: #c9c2bb;
+  border-right-color: rgba(255, 255, 255, 0.12);
+}
+
+:host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-content,
+:host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-item {
+  background: #1e1e1e !important;
+  color: #f4f1ec;
+}
+
+@media (max-width: 1200px) {
+  .admin-brand span,
+  .admin-user {
+    display: none;
+  }
+}
+
+@media (max-width: 1040px) {
+  .admin-nav {
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+}

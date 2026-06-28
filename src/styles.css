@@ -3,6 +3,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Angular Material menus should render as solid surfaces over page content. */
+.cdk-overlay-pane .mat-mdc-menu-panel,
+.mat-mdc-menu-panel.soft-menu {
+  overflow: hidden !important;
+  max-width: calc(100vw - 20px) !important;
+  border: 1px solid var(--border-soft, #eadfd9) !important;
+  border-radius: 8px !important;
+  background: var(--surface-card, #ffffff) !important;
+  box-shadow: 0 22px 55px rgba(51, 51, 51, 0.18) !important;
+  opacity: 1 !important;
+}
+
+.mat-mdc-menu-panel .mat-mdc-menu-content,
+.mat-mdc-menu-panel .mat-mdc-menu-item {
+  background: var(--surface-card, #ffffff) !important;
+}
+
+.mat-mdc-menu-panel .mat-mdc-menu-item:hover {
+  background: color-mix(in srgb, var(--color-primary, #f8d8d8) 38%, #ffffff) !important;
+}
+
+.dark .cdk-overlay-pane .mat-mdc-menu-panel,
+.dark .mat-mdc-menu-panel.soft-menu,
+.dark .mat-mdc-menu-panel .mat-mdc-menu-content,
+.dark .mat-mdc-menu-panel .mat-mdc-menu-item {
+  background: #1e1e1e !important;
+}
+
 /* =============================================================
    ADMIN FORM UTILITIES - mismo estilo que login/register
    Usar estas clases en los componentes admin en lugar de mat-form-field
@@ -1319,4 +1347,201 @@ iframe {
   .md\:p-12 {
     padding: 1.5rem !important;
   }
+}
+
+/* =============================================================
+   ADMIN MODE REFRESH
+   ============================================================= */
+.admin-mode {
+  background:
+    radial-gradient(circle at top left, rgba(248, 216, 216, 0.34), transparent 28rem),
+    radial-gradient(circle at 90% 12%, rgba(212, 175, 55, 0.12), transparent 24rem),
+    var(--surface-page, #fbf8f5) !important;
+}
+
+.admin-mode .admin-main {
+  padding: clamp(24px, 4vw, 44px) 0 72px;
+}
+
+.admin-mode .admin-main > app-breadcrumb,
+.admin-mode .admin-main > router-outlet + * {
+  width: min(1440px, calc(100% - 32px));
+  margin-inline: auto;
+}
+
+.admin-mode .dashboard-container,
+.admin-mode .admin-page,
+.admin-mode .users-admin-page {
+  max-width: min(1440px, calc(100% - 32px));
+}
+
+.admin-mode h1,
+.admin-mode h2,
+.admin-mode h3,
+.admin-mode .mat-mdc-card-title,
+.admin-mode .mat-mdc-header-cell {
+  color: var(--text-main, #333333) !important;
+}
+
+.admin-mode p,
+.admin-mode .mat-mdc-cell,
+.admin-mode .mat-mdc-paginator,
+.admin-mode .stat-label,
+.admin-mode .subtext {
+  color: var(--text-muted, #666666) !important;
+}
+
+.admin-mode .mat-mdc-card,
+.admin-mode .mat-elevation-z8,
+.admin-mode .admin-data-table,
+.admin-mode .users-table-card,
+.admin-mode .admin-empty-state,
+.admin-mode .empty-state,
+.admin-mode .bg-white,
+.admin-mode .bg-\[\#FFFFFF\] {
+  border: 1px solid color-mix(in srgb, var(--border-soft, #eadfd9) 72%, transparent) !important;
+  border-radius: 8px !important;
+  background: color-mix(in srgb, var(--surface-page, #fbf8f5) 86%, #ffffff) !important;
+  box-shadow: 0 18px 42px rgba(51, 51, 51, 0.06) !important;
+}
+
+.admin-mode .stat-card,
+.admin-mode .quick-actions button,
+.admin-mode .mat-mdc-raised-button,
+.admin-mode .mat-mdc-unelevated-button {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease !important;
+}
+
+.admin-mode .stat-card:hover,
+.admin-mode .quick-actions button:hover,
+.admin-mode .mat-mdc-raised-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 22px 46px rgba(51, 51, 51, 0.1) !important;
+}
+
+.admin-mode .mat-mdc-table,
+.admin-mode table {
+  background: transparent !important;
+}
+
+.admin-mode .mat-mdc-header-row,
+.admin-mode .admin-table-head {
+  background: color-mix(in srgb, var(--surface-muted, #faf0e6) 72%, #ffffff) !important;
+}
+
+.admin-mode .mat-mdc-row,
+.admin-mode .admin-table-row {
+  border-bottom-color: color-mix(in srgb, var(--border-soft, #eadfd9) 66%, transparent) !important;
+}
+
+.admin-mode .mat-mdc-row:hover,
+.admin-mode .admin-table-row:hover {
+  background: color-mix(in srgb, var(--color-primary, #f8d8d8) 34%, transparent) !important;
+}
+
+.admin-mode input,
+.admin-mode select,
+.admin-mode textarea,
+.admin-mode .mat-mdc-text-field-wrapper,
+.admin-mode .input-admin,
+.admin-mode .textarea-admin,
+.admin-mode .select-admin {
+  border-color: color-mix(in srgb, var(--border-soft, #eadfd9) 82%, transparent) !important;
+  border-radius: 8px !important;
+  background: color-mix(in srgb, var(--surface-muted, #faf0e6) 70%, #ffffff) !important;
+  color: var(--text-main, #333333) !important;
+}
+
+.admin-mode input:focus,
+.admin-mode select:focus,
+.admin-mode textarea:focus {
+  border-color: var(--color-accent, #d4af37) !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.16) !important;
+}
+
+.admin-mode .mat-mdc-raised-button.mat-primary,
+.admin-mode .btn-admin-primary,
+.admin-mode .bg-\[\#D4AF37\] {
+  background: var(--color-accent, #d4af37) !important;
+  color: #ffffff !important;
+}
+
+.admin-mode .text-\[\#D4AF37\],
+.admin-mode .mat-icon.text-\[\#D4AF37\] {
+  color: var(--color-accent, #d4af37) !important;
+}
+
+.admin-mode .badge-admin,
+.admin-mode .badge-active,
+.admin-mode .badge-paid,
+.admin-mode .badge-shipped,
+.admin-mode .badge-delivered {
+  border-radius: 999px !important;
+}
+
+.admin-mode .mat-mdc-paginator {
+  border-top: 1px solid color-mix(in srgb, var(--border-soft, #eadfd9) 72%, transparent) !important;
+  background: transparent !important;
+}
+
+.admin-mode app-footer {
+  display: none;
+}
+
+[data-theme="dark"] .admin-mode {
+  background:
+    radial-gradient(circle at top left, rgba(212, 175, 55, 0.1), transparent 28rem),
+    #181818 !important;
+}
+
+[data-theme="dark"] .admin-mode h1,
+[data-theme="dark"] .admin-mode h2,
+[data-theme="dark"] .admin-mode h3,
+[data-theme="dark"] .admin-mode .mat-mdc-card-title,
+[data-theme="dark"] .admin-mode .mat-mdc-header-cell {
+  color: #f4f1ec !important;
+}
+
+[data-theme="dark"] .admin-mode p,
+[data-theme="dark"] .admin-mode .mat-mdc-cell,
+[data-theme="dark"] .admin-mode .mat-mdc-paginator,
+[data-theme="dark"] .admin-mode .stat-label,
+[data-theme="dark"] .admin-mode .subtext {
+  color: #c9c2bb !important;
+}
+
+[data-theme="dark"] .admin-mode .mat-mdc-card,
+[data-theme="dark"] .admin-mode .mat-elevation-z8,
+[data-theme="dark"] .admin-mode .admin-data-table,
+[data-theme="dark"] .admin-mode .users-table-card,
+[data-theme="dark"] .admin-mode .admin-empty-state,
+[data-theme="dark"] .admin-mode .empty-state,
+[data-theme="dark"] .admin-mode .bg-white,
+[data-theme="dark"] .admin-mode .bg-\[\#FFFFFF\],
+[data-theme="dark"] .admin-mode .dark\:bg-\[\#1E1E1E\] {
+  border-color: rgba(212, 175, 55, 0.2) !important;
+  background: #1f1f1f !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28) !important;
+}
+
+[data-theme="dark"] .admin-mode .mat-mdc-header-row,
+[data-theme="dark"] .admin-mode .admin-table-head {
+  background: #242424 !important;
+}
+
+[data-theme="dark"] .admin-mode .mat-mdc-row:hover,
+[data-theme="dark"] .admin-mode .admin-table-row:hover {
+  background: rgba(212, 175, 55, 0.1) !important;
+}
+
+[data-theme="dark"] .admin-mode input,
+[data-theme="dark"] .admin-mode select,
+[data-theme="dark"] .admin-mode textarea,
+[data-theme="dark"] .admin-mode .mat-mdc-text-field-wrapper,
+[data-theme="dark"] .admin-mode .input-admin,
+[data-theme="dark"] .admin-mode .textarea-admin,
+[data-theme="dark"] .admin-mode .select-admin {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: #242424 !important;
+  color: #f4f1ec !important;
 }

@@ -79,10 +79,10 @@ module.exports = {
           '@apply transition-transform transition-shadow duration-300 ease-in-out hover:shadow-premium-md dark:hover:shadow-premium-dark-md hover:-translate-y-1': {},
         },
         '.btn-primary': {
-          '@apply bg-primary DEFAULT text-white dark:text-[#0F172A] rounded-xl font-semibold hover:opacity-90 transition-all duration-300 hover:scale-105 active:scale-95': {},
+          '@apply bg-primary text-white dark:text-[#0F172A] rounded-xl font-semibold hover:opacity-90 transition-all duration-300 hover:scale-105 active:scale-95': {},
         },
         '.input-premium': {
-          '@apply bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-primary DEFAULT dark:focus:ring-primary-dark focus:border-transparent': {},
+          '@apply bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark focus:border-transparent': {},
         },
       });
     },

@@ -1,1 +1,134 @@
-/* Estilos migrados a Tailwind CSS en el template HTML */
+.profile-page {
+  min-height: calc(100vh - 110px);
+  padding: clamp(32px, 5vw, 64px) 0 80px;
+  background:
+    radial-gradient(circle at top left, rgba(248, 216, 216, 0.38), transparent 26rem),
+    radial-gradient(circle at 85% 20%, rgba(212, 175, 55, 0.12), transparent 22rem),
+    var(--surface-page, #fbf8f5);
+  color: var(--text-main, #333333);
+}
+
+.profile-shell {
+  width: min(1180px, calc(100% - 32px));
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 28px;
+  margin: 0 auto;
+}
+
+.profile-sidebar,
+.profile-content {
+  border: 1px solid color-mix(in srgb, var(--border-soft, #eadfd9) 72%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-page, #fbf8f5) 84%, white);
+  box-shadow: 0 18px 42px rgba(51, 51, 51, 0.06);
+}
+
+.profile-sidebar {
+  align-self: start;
+  padding: 24px;
+}
+
+.section-kicker {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--color-accent, #d4af37);
+  font-size: 0.74rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.profile-sidebar h1 {
+  margin: 0;
+  color: var(--text-main, #333333);
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.profile-sidebar p {
+  margin: 14px 0 22px;
+  color: var(--text-muted, #666666);
+  line-height: 1.6;
+}
+
+.profile-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.profile-nav button {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-main, #333333);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  text-align: left;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.profile-nav button:hover {
+  background: color-mix(in srgb, var(--color-primary, #f8d8d8) 42%, transparent);
+  transform: translateX(2px);
+}
+
+.profile-nav button.is-active {
+  background: var(--color-accent, #d4af37);
+  color: #fff;
+  box-shadow: 0 12px 26px rgba(212, 175, 55, 0.24);
+}
+
+.profile-nav mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+
+.profile-content {
+  min-width: 0;
+  overflow: hidden;
+}
+
+:host-context(.dark) .profile-page {
+  background:
+    radial-gradient(circle at top left, rgba(212, 175, 55, 0.1), transparent 26rem),
+    #181818;
+}
+
+:host-context(.dark) .profile-sidebar,
+:host-context(.dark) .profile-content {
+  background: #1f1f1f;
+  border-color: rgba(212, 175, 55, 0.2);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+}
+
+:host-context(.dark) .profile-sidebar h1,
+:host-context(.dark) .profile-nav button {
+  color: #f4f1ec;
+}
+
+:host-context(.dark) .profile-sidebar p {
+  color: #c9c2bb;
+}
+
+:host-context(.dark) .profile-nav button:hover {
+  background: rgba(212, 175, 55, 0.12);
+}
+
+:host-context(.dark) .profile-nav button.is-active {
+  background: #d4af37;
+  color: #171717;
+}
+
+@media (max-width: 900px) {
+  .profile-shell {
+    grid-template-columns: 1fr;
+  }
+}

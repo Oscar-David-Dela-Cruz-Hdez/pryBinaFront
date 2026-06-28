@@ -1,48 +1,79 @@
-<footer class="bg-[#FFFFFF] dark:bg-[#1E1E1E] border-t border-[#e2dcd6]/50 dark:border-[#333333]/50 transition-all duration-300 pt-12 pb-6">
-  <div class="max-w-screen-xl mx-auto px-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 border-b border-[#e2dcd6]/40 dark:border-[#333333]/40 pb-10">
-      <div class="flex flex-col gap-3">
-        <h3 class="text-[11px] font-bold tracking-widest uppercase text-[#D4AF37] mb-2 opacity-90">Sobre Nosotros</h3>
-        <a routerLink="/historia" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Nuestra Historia</a>
-        <a routerLink="/mision-vision" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Misión y Visión</a>
-      </div>
-
-      <div class="flex flex-col gap-3">
-        <h3 class="text-[11px] font-bold tracking-widest uppercase text-[#D4AF37] mb-2 opacity-90">Legal</h3>
-        <a routerLink="/privacidad" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Políticas de Privacidad</a>
-        <a routerLink="/terminos" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Términos de Servicio</a>
-      </div>
-
-      <div class="flex flex-col gap-3">
-        <h3 class="text-[11px] font-bold tracking-widest uppercase text-[#D4AF37] mb-2 opacity-90">Ayuda y Soporte</h3>
-        <a routerLink="/ayuda" class="text-sm font-semibold text-[#666666] dark:text-[#A0A0A0] hover:text-[#D4AF37] dark:hover:text-[#E5C158] transition-colors">Preguntas Frecuentes</a>
-
-        <div class="mt-2 flex flex-col gap-2.5">
-          <div *ngFor="let c of contactos" class="flex items-center gap-2 text-sm font-medium text-[#666666] dark:text-[#A0A0A0]">
-            <mat-icon class="!text-[16px] !w-[16px] !h-[16px] leading-tight text-[#D4AF37]">{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
-            <span>{{ c.valor }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-3">
-        <h3 class="text-[11px] font-bold tracking-widest uppercase text-[#D4AF37] mb-2 opacity-90">Pagos Seguros</h3>
-        <p class="text-[11px] font-semibold text-[#666666] dark:text-[#A0A0A0] mb-2 italic">Transacciones cifradas de extremo a extremo.</p>
-        <div class="flex flex-wrap gap-2">
-          <div *ngFor="let m of metodosPago" class="h-10 px-3 bg-[#FAF8F5] dark:bg-[#2A2A2A] rounded-xl flex items-center justify-center shadow-sm border border-[#e2dcd6]/50 dark:border-[#333333]/50 transition-transform cursor-default" [title]="m.nombre">
-            <img *ngIf="m.imagenUrl" [src]="m.imagenUrl" [alt]="m.nombre" class="h-6 object-contain mix-blend-multiply dark:mix-blend-normal">
-            <span *ngIf="!m.imagenUrl" class="text-[10px] font-bold uppercase text-[#2C2C2C] dark:text-[#F0F0F0]">{{ m.nombre }}</span>
-          </div>
-        </div>
-      </div>
+<footer class="site-footer">
+  <div class="footer-cta">
+    <div>
+      <span class="section-kicker">Distribuidora Panamericana</span>
+      <h2>Productos, atención y confianza en un solo lugar.</h2>
     </div>
+    <a routerLink="/productos" class="footer-cta__button">
+      Ver catálogo
+      <mat-icon>arrow_forward</mat-icon>
+    </a>
+  </div>
 
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 text-[11px] font-bold uppercase tracking-wider text-[#999999]">
-      <div class="flex items-center gap-3">
-        <img src="assets/images/qr.jpeg" alt="Código QR" class="h-8 w-8 rounded object-cover shadow-sm dark:opacity-80 mix-blend-multiply dark:mix-blend-normal">
-        <p>&copy; Oscar Deivid | Lizbet Olvera 2025</p>
+  <div class="footer-grid">
+    <section class="footer-brand">
+      <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana">
+      <p>
+        Productos de belleza, barbería y cuidado personal con atención cercana,
+        opciones de pago y soluciones para cada compra.
+      </p>
+      <div class="footer-socials">
+        <span *ngFor="let c of contactos.slice(0, 4)" [title]="c.tipo">
+          <mat-icon>{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
+        </span>
       </div>
-      <p class="opacity-70 text-center">Todos los derechos reservados.</p>
+    </section>
+
+    <section>
+      <h3>Comprar</h3>
+      <a routerLink="/productos">Todos los productos</a>
+      <a *ngFor="let fam of familias" [routerLink]="['/productos']" [queryParams]="{ familia: fam._id }">
+        {{ fam.nombre }}
+      </a>
+    </section>
+
+    <section>
+      <h3>Marcas</h3>
+      <a *ngFor="let marca of marcas" [routerLink]="['/productos']" [queryParams]="{ marca: marca._id }">
+        {{ marca.nombre }}
+      </a>
+      <a routerLink="/productos" *ngIf="marcas.length === 0">Explorar catálogo</a>
+    </section>
+
+    <section>
+      <h3>Empresa</h3>
+      <a routerLink="/historia">Historia</a>
+      <a routerLink="/mision-vision">Misión y visión</a>
+      <a routerLink="/ubicacion">Ubicación</a>
+      <a routerLink="/contacto">Contacto</a>
+      <a routerLink="/ayuda">Ayuda</a>
+    </section>
+
+    <section>
+      <h3>Contacto</h3>
+      <div class="footer-contact" *ngFor="let c of contactos.slice(0, 5)">
+        <mat-icon>{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
+        <span>{{ c.valor }}</span>
+      </div>
+      <a routerLink="/contacto" *ngIf="contactos.length === 0">Ver datos de contacto</a>
+    </section>
+  </div>
+
+  <div class="footer-payments" *ngIf="metodosPago.length > 0">
+    <span>Métodos de pago</span>
+    <div>
+      <figure *ngFor="let m of metodosPago.slice(0, 8)" [title]="m.nombre">
+        <img *ngIf="m.imagenUrl" [src]="m.imagenUrl" [alt]="m.nombre">
+        <figcaption *ngIf="!m.imagenUrl">{{ m.nombre }}</figcaption>
+      </figure>
     </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; {{ currentYear }} Distribuidora Panamericana. Todos los derechos reservados.</p>
+    <nav>
+      <a routerLink="/privacidad">Privacidad</a>
+      <a routerLink="/terminos">Términos</a>
+    </nav>
   </div>
 </footer>
