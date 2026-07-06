@@ -47,6 +47,7 @@ import { Herramientas } from './features/admin/herramientas/herramientas';
 import { Respaldos } from './features/admin/herramientas/respaldos/respaldos';
 import { MonitoreoComponent } from './features/admin/herramientas/monitoreo/monitoreo.component';
 import { ReportesComponent } from './features/admin/ventas/reportes/reportes.component';
+import { AlexaAccessComponent } from './features/admin/herramientas/alexa-access/alexa-access.component';
 
 export const routes: Routes = [
   {
@@ -288,6 +289,12 @@ export const routes: Routes = [
     component: MonitoreoComponent,
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Monitor de Rendimiento' }
+  },
+  {
+    path: 'admin/herramientas/alexa',
+    component: AlexaAccessComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Admin / Acceso de Alexa' }
   },
 
   // Ruta Wildcard para manejar 404 (Debe ir siempre al final)

@@ -1352,6 +1352,172 @@ iframe {
 /* =============================================================
    ADMIN MODE REFRESH
    ============================================================= */
+
+/* =============================================================
+   GLOBAL FORM REFRESH
+   ============================================================= */
+form:not(.search-box) {
+  color: var(--text-main, #333333);
+}
+
+form:not(.search-box) label,
+form:not(.search-box) .mat-mdc-form-field-label,
+form:not(.search-box) .mdc-floating-label {
+  color: var(--text-main, #333333) !important;
+  font-size: 0.9rem !important;
+  font-weight: 800 !important;
+}
+
+form:not(.search-box) input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+form:not(.search-box) select,
+form:not(.search-box) textarea,
+.input-admin,
+.select-admin,
+.textarea-admin,
+.account-input {
+  min-height: 48px;
+  border: 1px solid color-mix(in srgb, var(--border-soft, #eadfd9) 82%, transparent) !important;
+  border-radius: 8px !important;
+  background: color-mix(in srgb, var(--surface-muted, #faf0e6) 70%, #ffffff) !important;
+  color: var(--text-main, #333333) !important;
+  font: inherit;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+form:not(.search-box) textarea,
+.textarea-admin {
+  min-height: 112px;
+  padding-block: 12px;
+  resize: vertical;
+}
+
+form:not(.search-box) input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+form:not(.search-box) select:focus,
+form:not(.search-box) textarea:focus,
+.input-admin:focus,
+.select-admin:focus,
+.textarea-admin:focus,
+.account-input:focus {
+  border-color: var(--color-accent, #d4af37) !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.16) !important;
+}
+
+form:not(.search-box) input::placeholder,
+form:not(.search-box) textarea::placeholder {
+  color: color-mix(in srgb, var(--text-muted, #666666) 68%, transparent) !important;
+}
+
+form:not(.search-box) .relative mat-icon,
+form:not(.search-box) .input-wrap mat-icon {
+  color: var(--text-muted, #666666) !important;
+}
+
+form:not(.search-box) p.text-red-500,
+form:not(.search-box) .field-error,
+form:not(.search-box) .mat-mdc-form-field-error {
+  color: #d32f2f !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+}
+
+form:not(.search-box) button[type="submit"],
+form:not(.search-box) .account-submit,
+form:not(.search-box) .btn-admin-primary,
+form:not(.search-box) .bg-\[\#D4AF37\] {
+  min-height: 46px;
+  border-radius: 8px !important;
+  background: var(--color-accent, #d4af37) !important;
+  color: #ffffff !important;
+  font-weight: 850 !important;
+  box-shadow: 0 14px 28px rgba(212, 175, 55, 0.18);
+}
+
+form:not(.search-box) button[type="submit"]:hover:not(:disabled),
+form:not(.search-box) .account-submit:hover:not(:disabled),
+form:not(.search-box) .btn-admin-primary:hover:not(:disabled) {
+  opacity: 0.94;
+  transform: translateY(-1px);
+}
+
+form:not(.search-box) button:disabled,
+form:not(.search-box) input:disabled,
+form:not(.search-box) select:disabled,
+form:not(.search-box) textarea:disabled,
+form:not(.search-box) input[readonly] {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+form:not(.search-box) .mat-mdc-text-field-wrapper,
+form:not(.search-box) .mdc-text-field,
+.mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  min-height: 48px;
+  border-radius: 8px !important;
+  background: color-mix(in srgb, var(--surface-muted, #faf0e6) 70%, #ffffff) !important;
+}
+
+form:not(.search-box) .mdc-notched-outline__leading,
+form:not(.search-box) .mdc-notched-outline__notch,
+form:not(.search-box) .mdc-notched-outline__trailing {
+  border-color: color-mix(in srgb, var(--border-soft, #eadfd9) 82%, transparent) !important;
+}
+
+form:not(.search-box) .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+form:not(.search-box) .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+form:not(.search-box) .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--color-accent, #d4af37) !important;
+}
+
+form:not(.search-box) .mat-horizontal-stepper-header-container {
+  margin-bottom: 18px;
+  border: 1px solid color-mix(in srgb, var(--border-soft, #eadfd9) 70%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-muted, #faf0e6) 72%, #ffffff);
+}
+
+form:not(.search-box) .mat-stepper-horizontal,
+form:not(.search-box) .mat-stepper-vertical {
+  background: transparent !important;
+}
+
+[data-theme="dark"] form:not(.search-box) label,
+[data-theme="dark"] form:not(.search-box) .mat-mdc-form-field-label,
+[data-theme="dark"] form:not(.search-box) .mdc-floating-label {
+  color: #f4f1ec !important;
+}
+
+[data-theme="dark"] form:not(.search-box) input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+[data-theme="dark"] form:not(.search-box) select,
+[data-theme="dark"] form:not(.search-box) textarea,
+[data-theme="dark"] .input-admin,
+[data-theme="dark"] .select-admin,
+[data-theme="dark"] .textarea-admin,
+[data-theme="dark"] .account-input,
+[data-theme="dark"] form:not(.search-box) .mat-mdc-text-field-wrapper,
+[data-theme="dark"] form:not(.search-box) .mdc-text-field,
+[data-theme="dark"] .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: #242424 !important;
+  color: #f4f1ec !important;
+}
+
+[data-theme="dark"] form:not(.search-box) input::placeholder,
+[data-theme="dark"] form:not(.search-box) textarea::placeholder {
+  color: #8f8882 !important;
+}
+
+[data-theme="dark"] form:not(.search-box) .relative mat-icon,
+[data-theme="dark"] form:not(.search-box) .input-wrap mat-icon {
+  color: #b8b1aa !important;
+}
+
+[data-theme="dark"] form:not(.search-box) .mat-horizontal-stepper-header-container {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: #242424;
+}
+
 .admin-mode {
   background:
     radial-gradient(circle at top left, rgba(248, 216, 216, 0.34), transparent 28rem),

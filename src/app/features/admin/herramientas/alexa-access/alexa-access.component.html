@@ -1,0 +1,65 @@
+<section class="alexa-page animate-fade-in">
+  <header class="alexa-header">
+    <div>
+      <p class="section-kicker">Herramientas</p>
+      <h2>Acceso de Alexa</h2>
+      <p class="section-copy">Genera tokens permanentes para que los administradores puedan usar el asistente de voz.</p>
+    </div>
+  </header>
+
+  <div class="alexa-info">
+    <mat-icon>security</mat-icon>
+    <div>
+      <strong>Alexa pedira este token al abrir el asistente.</strong>
+      <span>El codigo completo solo aparece al generarlo. En la lista se conserva una referencia de los ultimos 4 digitos.</span>
+    </div>
+  </div>
+
+  <div class="alexa-list" *ngIf="!cargando; else loadingState">
+    <article class="alexa-card" *ngFor="let admin of admins">
+      <div class="admin-profile">
+        <span class="admin-avatar">{{ (admin.nombre || admin.email || 'A').charAt(0) }}</span>
+        <div>
+          <h3>{{ getNombreCompleto(admin) }}</h3>
+          <p>{{ admin.email }}</p>
+        </div>
+      </div>
+
+      <div class="token-status" [class.has-token]="admin.alexaTokenLast4">
+        <mat-icon>{{ admin.alexaTokenLast4 ? 'verified_user' : 'lock_open' }}</mat-icon>
+        <div>
+          <strong>{{ admin.alexaTokenLast4 ? 'Token activo' : 'Sin token' }}</strong>
+          <span *ngIf="admin.alexaTokenLast4">Termina en {{ admin.alexaTokenLast4 }}</span>
+          <span *ngIf="!admin.alexaTokenLast4">Genera uno para habilitar Alexa</span>
+        </div>
+      </div>
+
+      <div class="token-date" *ngIf="admin.alexaTokenUpdatedAt">
+        Actualizado: {{ admin.alexaTokenUpdatedAt | date:'dd/MM/yyyy HH:mm' }}
+      </div>
+
+      <div class="actions">
+        <button type="button" class="primary-action" (click)="generateToken(admin)">
+          <mat-icon>password</mat-icon>
+          {{ admin.alexaTokenLast4 ? 'Regenerar' : 'Generar' }}
+        </button>
+        <button type="button" class="danger-action" (click)="revokeToken(admin)" [disabled]="!admin.alexaTokenLast4">
+          <mat-icon>block</mat-icon>
+          Revocar
+        </button>
+      </div>
+    </article>
+
+    <div class="empty-state" *ngIf="admins.length === 0">
+      <mat-icon>admin_panel_settings</mat-icon>
+      <span>No hay usuarios administradores para asignar tokens.</span>
+    </div>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="loading-state">
+      <mat-icon>hourglass_empty</mat-icon>
+      <span>Cargando administradores...</span>
+    </div>
+  </ng-template>
+</section>
