@@ -2,7 +2,9 @@
   <section class="hero">
     <img *ngIf="carruseles.length > 0 && carruseles[currentCarouselIndex]?.imagenUrl"
       [src]="carruseles[currentCarouselIndex]?.imagenUrl"
-      [alt]="carruseles[currentCarouselIndex]?.titulo || 'Promoción principal'"
+      alt=""
+      aria-hidden="true"
+      (error)="hideBrokenHeroImage($event)"
       class="hero__image">
 
     <div class="hero__content">

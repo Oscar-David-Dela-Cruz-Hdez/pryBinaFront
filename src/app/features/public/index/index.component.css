@@ -99,9 +99,10 @@
 
 .btn-secondary,
 .about-preview__actions a {
-  border: 1px solid var(--border-soft, #eadfd9);
-  background: color-mix(in srgb, #ffffff 70%, transparent);
-  color: var(--text-main, #333333);
+  border: 1px solid transparent;
+  background: var(--color-accent, #d4af37);
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(212, 175, 55, 0.26);
 }
 
 .btn-primary:hover,
@@ -391,7 +392,7 @@
 }
 
 :host-context(.dark) .btn-secondary {
-  background: rgba(30, 30, 30, 0.72);
+  background: var(--color-accent, #b7767b);
 }
 
 :host-context(.dark) .offers-section {
@@ -419,8 +420,8 @@
 
 :host-context(.dark) .btn-secondary,
 :host-context(.dark) .about-preview__actions a {
-  border-color: rgba(255, 255, 255, 0.14);
-  color: #f4f1ec;
+  border-color: transparent;
+  color: #fff;
 }
 
 @keyframes pulse {
