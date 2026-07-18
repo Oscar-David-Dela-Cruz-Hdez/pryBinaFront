@@ -97,5 +97,38 @@
         </aside>
       </div>
     </ng-template>
+
+    <section *ngIf="showCheckout" id="checkout-form"
+      class="mt-8 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm p-6 max-w-3xl mx-auto">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Datos de envío y pago</h2>
+          <p class="text-sm text-[#666666] dark:text-[#A0A0A0] mt-1">El importe se valida nuevamente en el servidor.</p>
+        </div>
+        <button type="button" (click)="showCheckout = false" class="text-[#666666]" aria-label="Cerrar">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <input [(ngModel)]="direccion.calle" placeholder="Calle y número" class="checkout-input md:col-span-2">
+        <input [(ngModel)]="direccion.ciudad" placeholder="Ciudad" class="checkout-input">
+        <input [(ngModel)]="direccion.estado" placeholder="Estado" class="checkout-input">
+        <input [(ngModel)]="direccion.cp" placeholder="Código postal" maxlength="10" class="checkout-input">
+        <input [(ngModel)]="direccion.telefono" placeholder="Teléfono" maxlength="20" class="checkout-input">
+      </div>
+
+      <div class="border-t border-[#e2dcd6]/40 dark:border-[#333333] pt-5">
+        <h3 class="font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] mb-2">Pagar con PayPal</h3>
+        <p class="text-sm text-[#666666] dark:text-[#A0A0A0] mb-4">
+          PayPal mostrará las fuentes de pago disponibles para tu cuenta y ubicación.
+        </p>
+        <button *ngIf="!paypalRendered" type="button" (click)="prepararPaypal()" [disabled]="paypalLoading"
+          class="w-full py-3 bg-[#0070ba] text-white rounded-xl font-semibold disabled:opacity-50">
+          {{ paypalLoading ? 'Cargando PayPal…' : 'Continuar con PayPal' }}
+        </button>
+        <div id="paypal-button-container" class="min-h-[45px]"></div>
+      </div>
+    </section>
   </div>
 </div>

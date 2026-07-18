@@ -1,1 +1,15 @@
-/* Estilos migrados a Tailwind CSS en el template HTML */
+/* Campo del checkout compartido por los datos de envío. */
+.checkout-input {
+  width: 100%;
+  border: 1px solid rgba(226, 220, 214, .8);
+  border-radius: .75rem;
+  padding: .75rem 1rem;
+  background: transparent;
+  color: inherit;
+  outline: none;
+}
+
+.checkout-input:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, .15);
+}
