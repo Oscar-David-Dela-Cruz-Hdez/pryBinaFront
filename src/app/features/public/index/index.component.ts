@@ -125,6 +125,11 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
   }
 
+  hideBrokenHeroImage(event: Event) {
+    const image = event.target as HTMLImageElement;
+    image.style.display = 'none';
+  }
+
   getPrice(producto: any): number {
     return producto?.precioOferta || producto?.precioNormal || producto?.precioBase || producto?.precio || 0;
   }
