@@ -14,6 +14,7 @@ export interface DireccionEnvio {
 @Injectable({ providedIn: 'root' })
 export class CheckoutService {
   private readonly apiUrl = 'https://prybinaback.onrender.com/api/pagos';
+  private readonly pendingKey = 'paypal_pending_pedido';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -42,5 +43,25 @@ export class CheckoutService {
       {},
       { headers: this.authHeaders() }
     );
+  }
+
+  cancelPaypalOrder(pedidoId: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/paypal/pedido/${encodeURIComponent(pedidoId)}/cancelar`,
+      {},
+      { headers: this.authHeaders() }
+    );
+  }
+
+  getPendingPedidoId(): string | null {
+    return localStorage.getItem(this.pendingKey);
+  }
+
+  rememberPendingPedido(pedidoId: string): void {
+    localStorage.setItem(this.pendingKey, pedidoId);
+  }
+
+  clearPendingPedido(pedidoId?: string): void {
+    if (!pedidoId || this.getPendingPedidoId() === pedidoId) localStorage.removeItem(this.pendingKey);
   }
 }

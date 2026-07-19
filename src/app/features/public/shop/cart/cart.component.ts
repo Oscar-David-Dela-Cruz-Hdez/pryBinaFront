@@ -66,6 +66,17 @@ export class CartComponent implements OnInit {
             return;
         }
 
+        const pedidoPendiente = this.checkoutService.getPendingPedidoId();
+        if (pedidoPendiente) {
+            Swal.fire({
+                title: 'Ya tienes un pago pendiente',
+                text: 'Para evitar pedidos duplicados, continúa o cancela primero el pedido reservado.',
+                icon: 'info',
+                confirmButtonText: 'Ver pedido'
+            }).then(() => this.router.navigate(['/mis-compras'], { queryParams: { pedido: pedidoPendiente } }));
+            return;
+        }
+
         this.showCheckout = true;
         setTimeout(() => document.getElementById('checkout-form')?.scrollIntoView({ behavior: 'smooth' }));
     }
@@ -111,10 +122,12 @@ export class CartComponent implements OnInit {
             createOrder: async () => {
                 const productos = this.cartService.getCartItems().map(item => ({ producto: item._id, cantidad: item.cantidad }));
                 const respuesta = await firstValueFrom(this.checkoutService.createPaypalOrder(productos, this.direccion));
+                this.checkoutService.rememberPendingPedido(respuesta.pedidoId);
                 return respuesta.orderId;
             },
             onApprove: async (data: any) => {
                 const respuesta = await firstValueFrom(this.checkoutService.capturePaypalOrder(data.orderID));
+                this.checkoutService.clearPendingPedido(respuesta.pedido._id);
                 this.cartService.clearCart();
                 this.showCheckout = false;
                 await Swal.fire('Pago confirmado', `Tu pedido ${respuesta.pedido._id} quedó registrado y pagado.`, 'success');
@@ -122,7 +135,13 @@ export class CartComponent implements OnInit {
             },
             onError: async (error: any) => {
                 console.error('PayPal Checkout:', error);
-                await Swal.fire('No se completó el pago', 'Tu carrito se conserva. Intenta nuevamente.', 'error');
+                const pedidoId = this.checkoutService.getPendingPedidoId();
+                await Swal.fire(
+                    'Pago pendiente',
+                    'No se realizó ningún cargo. El pedido quedó reservado durante una hora y puedes reintentarlo en Mis compras.',
+                    'warning'
+                );
+                if (pedidoId) await this.router.navigate(['/mis-compras'], { queryParams: { pedido: pedidoId } });
             }
         }).render('#paypal-button-container');
     }

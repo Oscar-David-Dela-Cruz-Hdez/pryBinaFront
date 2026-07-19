@@ -77,6 +77,10 @@
             <p *ngIf="pedido.pago?.fechaPago"><strong>Confirmado:</strong> {{ pedido.pago.fechaPago | date:'d MMM y, h:mm a' }}</p>
             <div *ngIf="puedePagar(pedido)" class="mt-4 pt-4 border-t border-[#eee8df] dark:border-[#333]">
               <p>Este pedido todavía no ha sido pagado.</p>
+              <p class="font-semibold text-[#a86600] mt-1">
+                <mat-icon class="!text-base !w-4 !h-4 align-middle">schedule</mat-icon>
+                Reserva disponible: {{ tiempoRestante(pedido) }}
+              </p>
               <button *ngIf="!botonesRenderizados.has(pedido._id)" type="button"
                 class="w-full mt-3 py-3 px-4 rounded-xl bg-[#0070ba] text-white font-bold flex items-center justify-center gap-2 disabled:opacity-50"
                 [disabled]="preparandoPago === pedido._id" (click)="pagarAhora(pedido)">
@@ -84,7 +88,14 @@
                 {{ preparandoPago === pedido._id ? 'Preparando PayPal…' : 'Pagar ahora' }}
               </button>
               <div [id]="'paypal-retry-' + pedido._id" class="mt-3 min-h-px"></div>
+              <button type="button" (click)="cancelarPedido(pedido)"
+                class="w-full mt-2 py-2 px-4 rounded-xl border border-red-300 text-red-600 font-semibold hover:bg-red-50">
+                Cancelar pedido
+              </button>
             </div>
+            <p *ngIf="pedido.estado === 'Cancelado' && pedido.pago?.motivoCancelacion" class="mt-4 text-red-600">
+              <strong>Motivo:</strong> {{ pedido.pago.motivoCancelacion }}
+            </p>
           </section>
         </div>
       </article>

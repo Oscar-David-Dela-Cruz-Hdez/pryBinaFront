@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,7 @@ declare global {
   templateUrl: './compras.component.html',
   styleUrls: ['./compras.component.css']
 })
-export class ComprasComponent implements OnInit {
+export class ComprasComponent implements OnInit, OnDestroy {
   pedidos: any[] = [];
   cargando = true;
   error = '';
@@ -26,6 +26,8 @@ export class ComprasComponent implements OnInit {
   pedidoExpandido = '';
   preparandoPago = '';
   botonesRenderizados = new Set<string>();
+  ahora = Date.now();
+  private reloj?: ReturnType<typeof setInterval>;
 
   constructor(
     private ordersService: OrdersService,
@@ -37,6 +39,11 @@ export class ComprasComponent implements OnInit {
     this.pedidoDestacado = this.route.snapshot.queryParamMap.get('pedido') || '';
     this.pedidoExpandido = this.pedidoDestacado;
     this.cargarPedidos();
+    this.reloj = setInterval(() => this.ahora = Date.now(), 30000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.reloj) clearInterval(this.reloj);
   }
 
   cargarPedidos(): void {
@@ -45,6 +52,11 @@ export class ComprasComponent implements OnInit {
     this.ordersService.getPedidos().subscribe({
       next: pedidos => {
         this.pedidos = pedidos || [];
+        const recordado = this.checkoutService.getPendingPedidoId();
+        const pedidoRecordado = this.pedidos.find(p => p._id === recordado);
+        if (recordado && (!pedidoRecordado || pedidoRecordado.estado !== 'Pendiente')) {
+          this.checkoutService.clearPendingPedido(recordado);
+        }
         this.cargando = false;
         if (this.pedidoDestacado) {
           setTimeout(() => document.getElementById(`pedido-${this.pedidoDestacado}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
@@ -74,7 +86,20 @@ export class ComprasComponent implements OnInit {
   }
 
   puedePagar(pedido: any): boolean {
-    return pedido.estado === 'Pendiente' && pedido.metodoPago === 'PayPal' && pedido.pago?.estado === 'pendiente';
+    return pedido.estado === 'Pendiente' && pedido.metodoPago === 'PayPal' &&
+      pedido.pago?.estado === 'pendiente' && !this.estaVencido(pedido);
+  }
+
+  estaVencido(pedido: any): boolean {
+    return !!pedido.pago?.expiraEn && new Date(pedido.pago.expiraEn).getTime() <= this.ahora;
+  }
+
+  tiempoRestante(pedido: any): string {
+    if (!pedido.pago?.expiraEn) return 'Pendiente de pago';
+    const restante = Math.max(0, new Date(pedido.pago.expiraEn).getTime() - this.ahora);
+    const minutos = Math.ceil(restante / 60000);
+    if (minutos <= 0) return 'Reserva vencida';
+    return `${Math.floor(minutos / 60)} h ${minutos % 60} min`;
   }
 
   async pagarAhora(pedido: any): Promise<void> {
@@ -113,6 +138,7 @@ export class ComprasComponent implements OnInit {
       onApprove: async (data: any) => {
         const respuesta = await firstValueFrom(this.checkoutService.capturePaypalOrder(data.orderID));
         Object.assign(pedido, respuesta.pedido);
+        this.checkoutService.clearPendingPedido(pedido._id);
         this.botonesRenderizados.delete(pedido._id);
         await Swal.fire('Pago confirmado', 'Tu pedido ahora aparece como pagado.', 'success');
       },
@@ -121,5 +147,29 @@ export class ComprasComponent implements OnInit {
         await Swal.fire('No se completó el pago', 'El pedido seguirá pendiente para que puedas intentarlo después.', 'error');
       }
     }).render(`#paypal-retry-${pedido._id}`);
+  }
+
+  async cancelarPedido(pedido: any): Promise<void> {
+    const confirmacion = await Swal.fire({
+      title: '¿Cancelar pedido?',
+      text: 'La reserva se eliminará y los productos volverán al inventario.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cancelar pedido',
+      cancelButtonText: 'Conservar pedido',
+      confirmButtonColor: '#d14343'
+    });
+    if (!confirmacion.isConfirmed) return;
+
+    try {
+      const respuesta = await firstValueFrom(this.checkoutService.cancelPaypalOrder(pedido._id));
+      Object.assign(pedido, respuesta.pedido);
+      this.botonesRenderizados.delete(pedido._id);
+      this.checkoutService.clearPendingPedido(pedido._id);
+      await Swal.fire('Pedido cancelado', 'La reserva fue cancelada y el inventario quedó disponible.', 'success');
+    } catch (error: any) {
+      await Swal.fire('No se pudo cancelar', error?.error?.error || 'Actualiza la página e intenta nuevamente.', 'error');
+      this.cargarPedidos();
+    }
   }
 }
