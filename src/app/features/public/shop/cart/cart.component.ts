@@ -118,6 +118,7 @@ export class CartComponent implements OnInit {
                 this.cartService.clearCart();
                 this.showCheckout = false;
                 await Swal.fire('Pago confirmado', `Tu pedido ${respuesta.pedido._id} quedó registrado y pagado.`, 'success');
+                await this.router.navigate(['/mis-compras'], { queryParams: { pedido: respuesta.pedido._id } });
             },
             onError: async (error: any) => {
                 console.error('PayPal Checkout:', error);

@@ -15,6 +15,7 @@ import { ContactoPublicComponent } from './features/public-static/contacto/conta
 import { UserdataComponent } from "./features/user/userdata/userdata.component";
 import { PasswordComponent } from "./features/user/password/password.component";
 import { PreguntaComponent } from "./features/user/pregunta/pregunta.component";
+import { ComprasComponent } from './features/user/compras/compras.component';
 
 import { ProfileComponent } from './features/public/profile/profile.component';
 
@@ -138,6 +139,12 @@ export const routes: Routes = [
     path: 'pregunta',
     component: PreguntaComponent,
     data: { breadcrumb: 'Pregunta de Seguridad' }
+  },
+  {
+    path: 'mis-compras',
+    component: ComprasComponent,
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Mis compras' }
   },
 
   {

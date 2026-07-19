@@ -1,0 +1,83 @@
+<main class="compras-page">
+  <div class="compras-wrap">
+    <header class="page-heading">
+      <div>
+        <p class="eyebrow">TU CUENTA</p>
+        <h1>Mis compras</h1>
+        <p>Consulta tus pedidos, pagos y el avance de cada envío.</p>
+      </div>
+      <a routerLink="/productos" class="catalogo-link"><mat-icon>storefront</mat-icon> Seguir comprando</a>
+    </header>
+
+    <section *ngIf="cargando" class="estado-vacio">
+      <mat-icon class="spin">progress_activity</mat-icon>
+      <p>Cargando tus compras…</p>
+    </section>
+
+    <section *ngIf="!cargando && error" class="estado-vacio error-box">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ error }}</p>
+      <button type="button" (click)="cargarPedidos()">Reintentar</button>
+    </section>
+
+    <section *ngIf="!cargando && !error && pedidos.length === 0" class="estado-vacio">
+      <mat-icon>shopping_bag</mat-icon>
+      <h2>Aún no tienes compras</h2>
+      <p>Los pedidos que completes aparecerán en este apartado.</p>
+      <a routerLink="/productos" class="catalogo-link">Explorar catálogo</a>
+    </section>
+
+    <section *ngIf="!cargando && !error && pedidos.length > 0" class="pedidos-lista">
+      <article *ngFor="let pedido of pedidos" [id]="'pedido-' + pedido._id" class="pedido-card"
+        [class.destacado]="pedido._id === pedidoDestacado">
+        <div class="pedido-resumen">
+          <div class="pedido-identidad">
+            <span class="pedido-icon"><mat-icon>receipt_long</mat-icon></span>
+            <div>
+              <p class="pedido-label">Pedido</p>
+              <h2>#{{ pedido._id | slice:-8 }}</h2>
+              <p>{{ pedido.createdAt | date:'d MMM y, h:mm a' }}</p>
+            </div>
+          </div>
+
+          <div class="dato"><span>Total</span><strong>{{ pedido.total | currency:'MXN':'symbol-narrow' }}</strong></div>
+          <div class="dato"><span>Pago</span><strong>{{ pedido.metodoPago }}</strong></div>
+          <span class="estado" [ngClass]="claseEstado(pedido.estado)">{{ pedido.estado }}</span>
+          <button type="button" class="detalle-button" (click)="alternarDetalle(pedido._id)">
+            {{ pedidoExpandido === pedido._id ? 'Ocultar' : 'Ver detalle' }}
+            <mat-icon>{{ pedidoExpandido === pedido._id ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </div>
+
+        <div *ngIf="pedidoExpandido === pedido._id" class="pedido-detalle">
+          <section>
+            <h3>Productos</h3>
+            <div *ngFor="let item of pedido.productos" class="producto-linea">
+              <div><strong>{{ item.nombre || 'Producto' }}</strong><span>Cantidad: {{ item.cantidad }}</span></div>
+              <strong>{{ (item.precio * item.cantidad) | currency:'MXN':'symbol-narrow' }}</strong>
+            </div>
+            <div class="totales">
+              <span>Envío <strong>{{ pedido.costoEnvio | currency:'MXN':'symbol-narrow' }}</strong></span>
+              <span>Total <strong>{{ pedido.total | currency:'MXN':'symbol-narrow' }}</strong></span>
+            </div>
+          </section>
+
+          <section>
+            <h3>Entrega</h3>
+            <p>{{ pedido.direccionEnvio?.calle }}</p>
+            <p>{{ pedido.direccionEnvio?.ciudad }}, {{ pedido.direccionEnvio?.estado }}, CP {{ pedido.direccionEnvio?.cp }}</p>
+            <p>Tel. {{ pedido.direccionEnvio?.telefono }}</p>
+          </section>
+
+          <section>
+            <h3>Información del pago</h3>
+            <p><strong>Método:</strong> {{ pedido.metodoPago }}</p>
+            <p><strong>Estado:</strong> {{ pedido.pago?.estado || pedido.estado }}</p>
+            <p *ngIf="pedido.pago?.capturaId" class="referencia"><strong>Referencia:</strong> {{ pedido.pago.capturaId }}</p>
+            <p *ngIf="pedido.pago?.fechaPago"><strong>Confirmado:</strong> {{ pedido.pago.fechaPago | date:'d MMM y, h:mm a' }}</p>
+          </section>
+        </div>
+      </article>
+    </section>
+  </div>
+</main>
