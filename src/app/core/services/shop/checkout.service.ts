@@ -35,4 +35,12 @@ export class CheckoutService {
   capturePaypalOrder(orderId: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/paypal/orden/${encodeURIComponent(orderId)}/capturar`, {}, { headers: this.authHeaders() });
   }
+
+  retryPaypalOrder(pedidoId: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/paypal/pedido/${encodeURIComponent(pedidoId)}/orden`,
+      {},
+      { headers: this.authHeaders() }
+    );
+  }
 }

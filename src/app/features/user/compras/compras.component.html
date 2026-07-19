@@ -75,6 +75,16 @@
             <p><strong>Estado:</strong> {{ pedido.pago?.estado || pedido.estado }}</p>
             <p *ngIf="pedido.pago?.capturaId" class="referencia"><strong>Referencia:</strong> {{ pedido.pago.capturaId }}</p>
             <p *ngIf="pedido.pago?.fechaPago"><strong>Confirmado:</strong> {{ pedido.pago.fechaPago | date:'d MMM y, h:mm a' }}</p>
+            <div *ngIf="puedePagar(pedido)" class="mt-4 pt-4 border-t border-[#eee8df] dark:border-[#333]">
+              <p>Este pedido todavía no ha sido pagado.</p>
+              <button *ngIf="!botonesRenderizados.has(pedido._id)" type="button"
+                class="w-full mt-3 py-3 px-4 rounded-xl bg-[#0070ba] text-white font-bold flex items-center justify-center gap-2 disabled:opacity-50"
+                [disabled]="preparandoPago === pedido._id" (click)="pagarAhora(pedido)">
+                <mat-icon>payments</mat-icon>
+                {{ preparandoPago === pedido._id ? 'Preparando PayPal…' : 'Pagar ahora' }}
+              </button>
+              <div [id]="'paypal-retry-' + pedido._id" class="mt-3 min-h-px"></div>
+            </div>
           </section>
         </div>
       </article>
