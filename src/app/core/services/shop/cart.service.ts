@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -18,7 +19,10 @@ export class CartService {
     private cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
     public cartItems$ = this.cartItemsSubject.asObservable();
 
-    constructor(private snackBar: MatSnackBar) {
+    constructor(
+        private snackBar: MatSnackBar,
+        private router: Router
+    ) {
         this.loadCart();
     }
 
@@ -50,7 +54,7 @@ export class CartService {
         if (existingItem) {
             existingItem.cantidad += quantity;
             this.saveCart([...currentItems]);
-            this.snackBar.open(`${product.nombre} actualizado en el carrito`, 'Ok', { duration: 2000 });
+            this.showCartNotification(product.nombre, true);
         } else {
             const newItem: CartItem = {
                 _id: product._id,
@@ -61,8 +65,27 @@ export class CartService {
                 slug: product.slug || product._id // Fallback if slug missing
             };
             this.saveCart([...currentItems, newItem]);
-            this.snackBar.open(`${product.nombre} agregado al carrito`, 'Ok', { duration: 2000 });
+            this.showCartNotification(product.nombre, false);
         }
+    }
+
+    private showCartNotification(productName: string, updated: boolean) {
+        const totalItems = this.getItemCount();
+        const itemText = totalItems === 1 ? 'producto' : 'productos';
+        const actionText = updated ? 'actualizado' : 'agregado';
+
+        this.snackBar.open(
+            `${productName} ${actionText}. Ahora tienes ${totalItems} ${itemText} en el carrito.`,
+            'Ver carrito',
+            {
+                duration: 3500,
+                horizontalPosition: 'right',
+                verticalPosition: 'top',
+                panelClass: ['cart-snackbar']
+            }
+        ).onAction().subscribe(() => {
+            this.router.navigate(['/carrito']);
+        });
     }
 
     removeFromCart(productId: string) {

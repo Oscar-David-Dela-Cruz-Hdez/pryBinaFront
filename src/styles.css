@@ -1711,3 +1711,42 @@ form:not(.search-box) .mat-stepper-vertical {
   background: #242424 !important;
   color: #f4f1ec !important;
 }
+
+/* Cart notification */
+.mat-mdc-snack-bar-container.cart-snackbar {
+  margin-top: 92px !important;
+  margin-right: 20px !important;
+}
+
+.mat-mdc-snack-bar-container.cart-snackbar .mdc-snackbar__surface {
+  min-width: min(420px, calc(100vw - 32px)) !important;
+  max-width: min(460px, calc(100vw - 32px)) !important;
+  border: 1px solid color-mix(in srgb, var(--color-accent, #d4af37) 34%, transparent) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--color-primary, #f8d8d8) 72%, #ffffff), #ffffff) !important;
+  color: var(--text-main, #333333) !important;
+  box-shadow: 0 22px 55px rgba(51, 51, 51, 0.18) !important;
+}
+
+.mat-mdc-snack-bar-container.cart-snackbar .mdc-snackbar__label {
+  color: var(--text-main, #333333) !important;
+  font-weight: 750 !important;
+  line-height: 1.45 !important;
+}
+
+.mat-mdc-snack-bar-container.cart-snackbar .mat-mdc-snack-bar-action {
+  color: var(--color-accent, #d4af37) !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="dark"] .mat-mdc-snack-bar-container.cart-snackbar .mdc-snackbar__surface {
+  border-color: rgba(212, 175, 55, 0.34) !important;
+  background: linear-gradient(135deg, #252119, #1f1f1f) !important;
+  color: #f4f1ec !important;
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.42) !important;
+}
+
+[data-theme="dark"] .mat-mdc-snack-bar-container.cart-snackbar .mdc-snackbar__label {
+  color: #f4f1ec !important;
+}
