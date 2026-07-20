@@ -28,6 +28,10 @@ export class CartComponent implements OnInit {
     showCheckout = false;
     paypalLoading = false;
     paypalRendered = false;
+    pasoCheckout = 1;
+    direccionesGuardadas: any[] = [];
+    direccionSeleccionadaId = '';
+    usarOtraDireccion = false;
     direccion: DireccionEnvio = { calle: '', ciudad: '', estado: '', cp: '', telefono: '' };
 
     constructor(
@@ -77,12 +81,58 @@ export class CartComponent implements OnInit {
             return;
         }
 
+        this.pasoCheckout = 1;
+        this.paypalRendered = false;
+        this.cargarDirecciones();
         this.showCheckout = true;
         setTimeout(() => document.getElementById('checkout-form')?.scrollIntoView({ behavior: 'smooth' }));
     }
 
     private direccionCompleta(): boolean {
         return Object.values(this.direccion).every(valor => String(valor).trim().length > 0);
+    }
+
+    private cargarDirecciones(): void {
+        this.authService.getDirecciones().subscribe({
+            next: direcciones => {
+                this.direccionesGuardadas = direcciones || [];
+                const elegida = this.direccionesGuardadas.find(d => d.predeterminada) || this.direccionesGuardadas[0];
+                if (elegida) this.seleccionarDireccion(elegida);
+                else this.usarOtraDireccion = true;
+            },
+            error: () => this.usarOtraDireccion = true
+        });
+    }
+
+    seleccionarDireccion(direccion: any): void {
+        this.direccionSeleccionadaId = direccion._id;
+        this.usarOtraDireccion = false;
+        this.direccion = {
+            calle: [direccion.calle, direccion.colonia].filter(Boolean).join(', '),
+            ciudad: direccion.ciudad,
+            estado: direccion.estado,
+            cp: direccion.cp,
+            telefono: direccion.telefono
+        };
+    }
+
+    elegirOtraDireccion(): void {
+        this.direccionSeleccionadaId = '';
+        this.usarOtraDireccion = true;
+        this.direccion = { calle: '', ciudad: '', estado: '', cp: '', telefono: '' };
+    }
+
+    async continuarAMetodo(): Promise<void> {
+        if (!this.direccionCompleta()) {
+            await Swal.fire('Dirección incompleta', 'Selecciona una dirección guardada o completa todos los campos.', 'warning');
+            return;
+        }
+        this.pasoCheckout = 2;
+    }
+
+    continuarAResumen(): void {
+        this.pasoCheckout = 3;
+        this.paypalRendered = false;
     }
 
     async prepararPaypal() {

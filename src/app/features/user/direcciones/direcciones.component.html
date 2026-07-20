@@ -1,0 +1,32 @@
+<div class="address-panel">
+  <header>
+    <div><span>ENTREGAS</span><h2>Mis direcciones</h2><p>Guarda hasta 10 direcciones y elige una como predeterminada.</p></div>
+    <button type="button" (click)="nueva()"><mat-icon>add_location_alt</mat-icon>Nueva dirección</button>
+  </header>
+
+  <div *ngIf="direcciones.length === 0 && !mostrarFormulario" class="empty-address">
+    <mat-icon>location_off</mat-icon><h3>No tienes direcciones guardadas</h3><p>Agrega una para agilizar tus próximas compras.</p>
+  </div>
+
+  <div class="address-grid" *ngIf="direcciones.length">
+    <article *ngFor="let d of direcciones" [class.default]="d.predeterminada">
+      <div class="address-title"><h3>{{ d.alias }}</h3><span *ngIf="d.predeterminada">Predeterminada</span></div>
+      <p>{{ d.calle }}<span *ngIf="d.colonia">, {{ d.colonia }}</span></p>
+      <p>{{ d.ciudad }}, {{ d.estado }}, CP {{ d.cp }}</p><p>Tel. {{ d.telefono }}</p>
+      <div class="address-actions"><button (click)="editar(d)">Editar</button><button *ngIf="!d.predeterminada" (click)="predeterminada(d)">Usar por defecto</button><button class="delete" (click)="eliminar(d)">Eliminar</button></div>
+    </article>
+  </div>
+
+  <form *ngIf="mostrarFormulario" [formGroup]="form" (ngSubmit)="guardar()" class="address-form">
+    <h3>{{ editandoId ? 'Editar dirección' : 'Nueva dirección' }}</h3>
+    <div class="form-grid">
+      <label>Nombre de la dirección<input formControlName="alias" placeholder="Casa, oficina..."></label>
+      <label class="wide">Calle y número<input formControlName="calle"></label>
+      <label>Colonia<input formControlName="colonia"></label><label>Ciudad o municipio<input formControlName="ciudad"></label>
+      <label>Estado<input formControlName="estado"></label><label>Código postal<input formControlName="cp" maxlength="5"></label>
+      <label>Teléfono<input formControlName="telefono"></label><label class="wide">Referencias<input formControlName="referencias" placeholder="Entre calles, color de fachada..."></label>
+      <label class="check wide"><input type="checkbox" formControlName="predeterminada"> Usar como dirección predeterminada</label>
+    </div>
+    <div class="form-buttons"><button type="button" (click)="cerrar()">Cancelar</button><button type="submit" [disabled]="guardando">{{ guardando ? 'Guardando…' : 'Guardar dirección' }}</button></div>
+  </form>
+</div>

@@ -88,7 +88,6 @@
           <strong>{{ (userName$ | async) || 'Usuario' }}</strong>
         </div>
         <a mat-menu-item routerLink="/perfil"><mat-icon>settings</mat-icon>Editar perfil</a>
-        <a mat-menu-item routerLink="/datos"><mat-icon>badge</mat-icon>Mis datos</a>
         <a mat-menu-item routerLink="/mis-compras"><mat-icon>receipt_long</mat-icon>Mis compras</a>
         <button mat-menu-item class="logout-item" (click)="logout()">
           <mat-icon>logout</mat-icon>

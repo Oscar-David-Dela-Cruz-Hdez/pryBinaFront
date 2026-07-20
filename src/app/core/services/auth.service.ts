@@ -231,6 +231,26 @@ export class AuthService {
     });
   }
 
+  public getDirecciones(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/direcciones`, { headers: this.getAuthHeaders() });
+  }
+
+  public createDireccion(direccion: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/direcciones`, direccion, { headers: this.getAuthHeaders() });
+  }
+
+  public updateDireccion(id: string, direccion: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/direcciones/${id}`, direccion, { headers: this.getAuthHeaders() });
+  }
+
+  public deleteDireccion(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/direcciones/${id}`, { headers: this.getAuthHeaders() });
+  }
+
+  public setDireccionPredeterminada(id: string): Observable<any[]> {
+    return this.http.put<any[]>(`${this.apiUrl}/direcciones/${id}/predeterminada`, {}, { headers: this.getAuthHeaders() });
+  }
+
   public updateLocalUserName(newName: string): void {
     localStorage.setItem('user_name', newName);
     this.userNameSubject.next(newName);

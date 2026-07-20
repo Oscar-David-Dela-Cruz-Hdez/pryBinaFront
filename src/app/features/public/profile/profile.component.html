@@ -3,7 +3,7 @@
     <aside class="profile-sidebar">
       <span class="section-kicker">Mi cuenta</span>
       <h1>Perfil</h1>
-      <p>Administra tus datos personales, contraseña y pregunta de seguridad.</p>
+      <p>Administra tus datos personales, direcciones y seguridad.</p>
 
       <nav class="profile-nav" aria-label="Opciones de perfil">
         <button type="button" (click)="selectSection('userdata')" [class.is-active]="selectedSection === 'userdata'">
@@ -13,6 +13,10 @@
         <button type="button" (click)="selectSection('password')" [class.is-active]="selectedSection === 'password'">
           <mat-icon>lock</mat-icon>
           <span>Contraseña</span>
+        </button>
+        <button type="button" (click)="selectSection('direcciones')" [class.is-active]="selectedSection === 'direcciones'">
+          <mat-icon>location_on</mat-icon>
+          <span>Mis direcciones</span>
         </button>
         <button type="button" (click)="selectSection('pregunta')" [class.is-active]="selectedSection === 'pregunta'">
           <mat-icon>security</mat-icon>
@@ -24,6 +28,7 @@
     <div class="profile-content">
       <app-userdata *ngIf="selectedSection === 'userdata'"></app-userdata>
       <app-password *ngIf="selectedSection === 'password'"></app-password>
+      <app-direcciones *ngIf="selectedSection === 'direcciones'"></app-direcciones>
       <app-pregunta *ngIf="selectedSection === 'pregunta'"></app-pregunta>
     </div>
   </div>

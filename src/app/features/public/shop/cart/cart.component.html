@@ -102,24 +102,59 @@
       class="mt-8 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm p-6 max-w-3xl mx-auto">
       <div class="flex items-center justify-between mb-6">
         <div>
-          <h2 class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Datos de envío y pago</h2>
-          <p class="text-sm text-[#666666] dark:text-[#A0A0A0] mt-1">El importe se valida nuevamente en el servidor.</p>
+          <h2 class="text-xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Finalizar compra</h2>
+          <p class="text-sm text-[#666666] dark:text-[#A0A0A0] mt-1">Revisa la entrega y el pedido antes de abrir PayPal.</p>
         </div>
         <button type="button" (click)="showCheckout = false" class="text-[#666666]" aria-label="Cerrar">
           <mat-icon>close</mat-icon>
         </button>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-4 mb-6">
+      <div class="grid grid-cols-3 gap-2 mb-7">
+        <div class="checkout-step" [class.active]="pasoCheckout === 1" [class.done]="pasoCheckout > 1"><span>1</span>Dirección de envío</div>
+        <div class="checkout-step" [class.active]="pasoCheckout === 2" [class.done]="pasoCheckout > 2"><span>2</span>Método de pago</div>
+        <div class="checkout-step" [class.active]="pasoCheckout === 3"><span>3</span>Resumen del pedido</div>
+      </div>
+
+      <div *ngIf="pasoCheckout === 1">
+        <h3 class="font-bold mb-3">Selecciona una dirección</h3>
+        <div class="grid md:grid-cols-2 gap-3 mb-4" *ngIf="direccionesGuardadas.length">
+          <button *ngFor="let d of direccionesGuardadas" type="button" (click)="seleccionarDireccion(d)"
+            class="saved-address" [class.selected]="direccionSeleccionadaId === d._id">
+            <span><strong>{{ d.alias }}</strong><small *ngIf="d.predeterminada">Predeterminada</small></span>
+            <p>{{ d.calle }}<span *ngIf="d.colonia">, {{ d.colonia }}</span></p>
+            <p>{{ d.ciudad }}, {{ d.estado }}, CP {{ d.cp }}</p>
+          </button>
+        </div>
+        <button type="button" (click)="elegirOtraDireccion()" class="text-[#9a7912] font-semibold mb-4 flex items-center gap-1">
+          <mat-icon>add_location_alt</mat-icon> Usar otra dirección para esta compra
+        </button>
+
+      <div *ngIf="usarOtraDireccion" class="grid md:grid-cols-2 gap-4 mb-6">
         <input [(ngModel)]="direccion.calle" placeholder="Calle y número" class="checkout-input md:col-span-2">
         <input [(ngModel)]="direccion.ciudad" placeholder="Ciudad" class="checkout-input">
         <input [(ngModel)]="direccion.estado" placeholder="Estado" class="checkout-input">
         <input [(ngModel)]="direccion.cp" placeholder="Código postal" maxlength="10" class="checkout-input">
         <input [(ngModel)]="direccion.telefono" placeholder="Teléfono" maxlength="20" class="checkout-input">
       </div>
+        <div class="flex justify-end"><button type="button" (click)="continuarAMetodo()" class="checkout-next">Continuar</button></div>
+      </div>
 
-      <div class="border-t border-[#e2dcd6]/40 dark:border-[#333333] pt-5">
-        <h3 class="font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] mb-2">Pagar con PayPal</h3>
+      <div *ngIf="pasoCheckout === 2" class="payment-choice">
+        <h3>Método de pago</h3>
+        <div class="paypal-choice"><strong>PayPal</strong><span>Cuenta PayPal, tarjeta de débito o crédito según disponibilidad.</span><mat-icon>check_circle</mat-icon></div>
+        <div class="flex justify-between mt-6"><button type="button" (click)="pasoCheckout = 1" class="checkout-back">Volver</button><button type="button" (click)="continuarAResumen()" class="checkout-next">Revisar pedido</button></div>
+      </div>
+
+      <div *ngIf="pasoCheckout === 3" class="order-review">
+        <section><h3>Dirección de envío</h3><p>{{ direccion.calle }}</p><p>{{ direccion.ciudad }}, {{ direccion.estado }}, CP {{ direccion.cp }}</p><p>Tel. {{ direccion.telefono }}</p><button type="button" (click)="pasoCheckout = 1">Cambiar</button></section>
+        <section><h3>Método de pago</h3><p><strong>PayPal</strong></p><button type="button" (click)="pasoCheckout = 2">Cambiar</button></section>
+        <section class="wide-review"><h3>Resumen del pedido</h3>
+          <div *ngFor="let item of (cartItems$ | async)" class="review-product"><span>{{ item.cantidad }} × {{ item.nombre }}</span><strong>{{ (item.precio * item.cantidad) | currency:'MXN':'symbol-narrow' }}</strong></div>
+          <div class="review-total"><span>Envío</span><strong>$0.00</strong></div><div class="review-total final"><span>Total</span><strong>{{ total | currency:'MXN':'symbol-narrow' }}</strong></div>
+        </section>
+        <div class="wide-review border-t border-[#e2dcd6]/40 dark:border-[#333333] pt-5">
+        <h3 class="font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] mb-2">Confirmar y pagar con PayPal</h3>
         <p class="text-sm text-[#666666] dark:text-[#A0A0A0] mb-4">
           PayPal mostrará las fuentes de pago disponibles para tu cuenta y ubicación.
         </p>
@@ -128,6 +163,8 @@
           {{ paypalLoading ? 'Cargando PayPal…' : 'Continuar con PayPal' }}
         </button>
         <div id="paypal-button-container" class="min-h-[45px]"></div>
+        <button type="button" (click)="pasoCheckout = 2" class="checkout-back mt-3">Volver</button>
+        </div>
       </div>
     </section>
   </div>

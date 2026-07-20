@@ -6,6 +6,7 @@ import { PasswordComponent } from '../../user/password/password.component';
 import { PreguntaComponent } from '../../user/pregunta/pregunta.component';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { DireccionesComponent } from '../../user/direcciones/direcciones.component';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
     UserdataComponent,
     PasswordComponent,
     PreguntaComponent,
+    DireccionesComponent,
     MatListModule,
     MatIconModule
   ],
