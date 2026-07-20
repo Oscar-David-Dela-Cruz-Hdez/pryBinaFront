@@ -4,14 +4,14 @@
   </div>
 
   <section class="analytics-panel">
-    <div class="analytics-heading"><div><span>Clasificación predictiva</span><h3>Riesgo de cancelación</h3></div><p>{{ modeloRiesgo }} · Entrenado con {{ entrenamiento.pedidos }} pedidos finalizados</p></div>
+    <div class="analytics-heading"><div><span>Clasificación predictiva</span><h3>Riesgo de cancelación</h3></div><div class="refresh-area"><p>{{ modeloRiesgo }} · Entrenado con {{ entrenamiento.pedidos }} pedidos finalizados</p><button type="button" (click)="loadPedidos()" [disabled]="actualizando"><mat-icon>refresh</mat-icon>{{ actualizando ? 'Actualizando…' : 'Actualizar ahora' }}</button><small *ngIf="ultimaActualizacion">Actualización automática cada 30 s · {{ ultimaActualizacion | date:'mediumTime' }}</small></div></div>
     <div class="metric-grid">
       <article><small>Pedidos analizados</small><strong>{{ resumenRiesgo.analizados }}</strong><mat-icon>analytics</mat-icon></article>
       <article class="high"><small>Riesgo alto</small><strong>{{ resumenRiesgo.riesgoAlto }}</strong><mat-icon>priority_high</mat-icon></article>
       <article class="medium"><small>Riesgo medio</small><strong>{{ resumenRiesgo.riesgoMedio }}</strong><mat-icon>schedule</mat-icon></article>
       <article class="low"><small>Riesgo bajo</small><strong>{{ resumenRiesgo.riesgoBajo }}</strong><mat-icon>verified</mat-icon></article>
     </div>
-    <p class="analytics-note">La predicción ayuda a priorizar la confirmación; no cancela pedidos automáticamente. Cuando no hay pedidos pendientes se muestran los pedidos históricos para demostrar el clasificador.</p>
+    <p class="analytics-note">La predicción analiza pedidos registrados, no carritos del navegador. Ayuda a priorizar la confirmación y no cancela pedidos automáticamente. Cuando no hay pedidos pendientes se muestran pedidos históricos para demostrar el clasificador.</p>
   </section>
 
   <!-- Filtro de búsqueda -->

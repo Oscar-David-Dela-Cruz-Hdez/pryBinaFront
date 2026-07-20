@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
@@ -16,8 +16,8 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { OrdersService } from '../../../../core/services/admin/orders.service';
-import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { forkJoin, interval, of, Subject } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-admin-pedidos',
@@ -41,7 +41,7 @@ import { catchError } from 'rxjs/operators';
     styleUrls: ['./pedidos-list.component.css'],
     animations: []
 })
-export class PedidosComponent implements OnInit {
+export class PedidosComponent implements OnInit, OnDestroy {
     displayedColumns: string[] = ['id', 'usuario', 'fecha', 'total', 'estado', 'riesgo', 'acciones'];
     dataSource!: MatTableDataSource<any>;
     expandedElement: any | null;
@@ -49,6 +49,9 @@ export class PedidosComponent implements OnInit {
     resumenRiesgo = { analizados: 0, riesgoAlto: 0, riesgoMedio: 0, riesgoBajo: 0 };
     entrenamiento = { pedidos: 0, cancelados: 0 };
     modeloRiesgo = 'k-NN sobre pedidos históricos';
+    actualizando = false;
+    ultimaActualizacion?: Date;
+    private destruir$ = new Subject<void>();
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -59,9 +62,13 @@ export class PedidosComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadPedidos();
+        interval(30000).pipe(takeUntil(this.destruir$)).subscribe(() => this.loadPedidos(false));
     }
 
-    loadPedidos() {
+    ngOnDestroy(): void { this.destruir$.next(); this.destruir$.complete(); }
+
+    loadPedidos(mostrarIndicador = true) {
+        if (mostrarIndicador) this.actualizando = true;
         forkJoin({
             pedidos: this.ordersService.getPedidos(),
             analitica: this.ordersService.getRiesgoCancelacion().pipe(catchError(() => of(null)))
@@ -90,8 +97,13 @@ export class PedidosComponent implements OnInit {
                     const dataStr = JSON.stringify(data).toLowerCase();
                     return dataStr.indexOf(filter) !== -1;
                 };
+                this.ultimaActualizacion = new Date();
+                this.actualizando = false;
             },
-            error: () => Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar los pedidos.' })
+            error: () => {
+                this.actualizando = false;
+                if (mostrarIndicador) Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar los pedidos.' });
+            }
         });
     }
 
