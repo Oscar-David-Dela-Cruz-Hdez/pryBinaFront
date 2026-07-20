@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CartService, CartItem } from '../../../../core/services/shop/cart.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { CheckoutService, DireccionEnvio } from '../../../../core/services/shop/checkout.service';
+import { ProductRecommendationsComponent } from '../product-recommendations/product-recommendations.component';
 
 declare global {
     interface Window { paypal: any; }
@@ -18,7 +19,7 @@ declare global {
 @Component({
     selector: 'app-cart',
     standalone: true,
-    imports: [CommonModule, RouterModule, FormsModule, MatCardModule, MatButtonModule, MatIconModule],
+    imports: [CommonModule, RouterModule, FormsModule, MatCardModule, MatButtonModule, MatIconModule, ProductRecommendationsComponent],
     templateUrl: './cart.component.html',
     styleUrls: ['./cart.component.css']
 })
@@ -33,6 +34,7 @@ export class CartComponent implements OnInit {
     direccionSeleccionadaId = '';
     usarOtraDireccion = false;
     direccion: DireccionEnvio = { calle: '', ciudad: '', estado: '', cp: '', telefono: '' };
+    recommendationProductIds: string[] = [];
 
     constructor(
         private cartService: CartService,
@@ -44,7 +46,10 @@ export class CartComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.cartItems$.subscribe(() => this.total = this.cartService.getTotal());
+        this.cartItems$.subscribe(items => {
+            this.total = this.cartService.getTotal();
+            this.recommendationProductIds = items.map(item => item._id);
+        });
     }
 
     updateQuantity(item: CartItem, quantity: number) {

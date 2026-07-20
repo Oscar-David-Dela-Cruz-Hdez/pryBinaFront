@@ -49,7 +49,7 @@
       </div>
 
       <div *ngIf="!isLoading && products.length > 0" class="products-grid">
-        <article *ngFor="let product of products" class="product-card">
+        <article *ngFor="let product of products" class="product-card" [routerLink]="['/productos', product._id]" tabindex="0">
           <figure>
             <img [src]="product.imagenUrl || product.imagenUrlPrincipal || 'assets/images/no-image.png'" [alt]="product.nombre">
           </figure>
@@ -59,7 +59,7 @@
             <h2 [title]="product.nombre">{{ product.nombre }}</h2>
             <div class="product-card__footer">
               <strong>{{ (product.precioNormal || product.precio) | currency }}</strong>
-              <button (click)="addToCart(product)">
+              <button (click)="addToCart(product); $event.stopPropagation()">
                 <mat-icon>add_shopping_cart</mat-icon>
                 Agregar
               </button>

@@ -44,6 +44,7 @@ import { MetodosEnvioComponent } from './features/admin/pedidos/metodos-envio/me
 import { PedidosComponent } from './features/admin/pedidos/pedidos-list/pedidos-list.component';
 import { CatalogComponent } from './features/public/shop/catalog/catalog.component';
 import { CartComponent } from './features/public/shop/cart/cart.component';
+import { ProductDetailComponent } from './features/public/shop/product-detail/product-detail.component';
 import { Herramientas } from './features/admin/herramientas/herramientas';
 import { Respaldos } from './features/admin/herramientas/respaldos/respaldos';
 import { MonitoreoComponent } from './features/admin/herramientas/monitoreo/monitoreo.component';
@@ -156,6 +157,11 @@ export const routes: Routes = [
     path: 'productos',
     component: CatalogComponent,
     data: { breadcrumb: 'Catálogo' }
+  },
+  {
+    path: 'productos/:id',
+    component: ProductDetailComponent,
+    data: { breadcrumb: 'Detalle del producto' }
   },
   {
     path: 'carrito',

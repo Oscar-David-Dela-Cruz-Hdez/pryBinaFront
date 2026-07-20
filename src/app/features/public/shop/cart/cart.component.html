@@ -98,6 +98,12 @@
       </div>
     </ng-template>
 
+    <app-product-recommendations
+      *ngIf="recommendationProductIds.length"
+      [productIds]="recommendationProductIds"
+      title="Completa tu compra">
+    </app-product-recommendations>
+
     <section *ngIf="showCheckout" id="checkout-form"
       class="mt-8 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm p-6 max-w-3xl mx-auto">
       <div class="flex items-center justify-between mb-6">

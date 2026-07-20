@@ -3,6 +3,17 @@
     <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Pedidos</h2>
   </div>
 
+  <section class="analytics-panel">
+    <div class="analytics-heading"><div><span>Clasificación predictiva</span><h3>Riesgo de cancelación</h3></div><p>{{ modeloRiesgo }} · Entrenado con {{ entrenamiento.pedidos }} pedidos finalizados</p></div>
+    <div class="metric-grid">
+      <article><small>Pedidos analizados</small><strong>{{ resumenRiesgo.analizados }}</strong><mat-icon>analytics</mat-icon></article>
+      <article class="high"><small>Riesgo alto</small><strong>{{ resumenRiesgo.riesgoAlto }}</strong><mat-icon>priority_high</mat-icon></article>
+      <article class="medium"><small>Riesgo medio</small><strong>{{ resumenRiesgo.riesgoMedio }}</strong><mat-icon>schedule</mat-icon></article>
+      <article class="low"><small>Riesgo bajo</small><strong>{{ resumenRiesgo.riesgoBajo }}</strong><mat-icon>verified</mat-icon></article>
+    </div>
+    <p class="analytics-note">La predicción ayuda a priorizar la confirmación; no cancela pedidos automáticamente. Cuando no hay pedidos pendientes se muestran los pedidos históricos para demostrar el clasificador.</p>
+  </section>
+
   <!-- Filtro de búsqueda -->
   <div class="field-admin mb-6">
     <input type="text" (keyup)="applyFilter($event)" placeholder="Buscar por ID, usuario, etc." #input class="input-admin">
@@ -15,6 +26,13 @@
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">ID Pedido</th>
         <td mat-cell *matCellDef="let row" class="p-3">{{ row._id | slice: -6 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="riesgo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3">Predicción</th>
+        <td mat-cell *matCellDef="let row" class="p-3">
+          <div class="risk-cell"><span class="risk-pill" [ngClass]="getRiskClass(row.riesgo?.nivel)">{{ row.riesgo?.porcentaje }}% · {{ row.riesgo?.nivel }}</span><small>cancelación</small></div>
+        </td>
       </ng-container>
 
       <!-- Usuario -->
@@ -129,7 +147,7 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell p-3 text-center" colspan="6">No hay datos que coincidan con "{{input.value}}"</td>
+        <td class="mat-cell p-3 text-center" colspan="7">No hay datos que coincidan con "{{input.value}}"</td>
       </tr>
     </table>
     <mat-paginator [pageSizeOptions]="[10, 25, 50]" aria-label="Select page of orders" class="bg-[#FAF8F5] dark:bg-[#1E1E1E]"></mat-paginator>

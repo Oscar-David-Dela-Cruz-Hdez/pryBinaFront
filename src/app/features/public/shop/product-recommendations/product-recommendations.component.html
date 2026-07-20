@@ -1,0 +1,20 @@
+<section class="recommendations" *ngIf="loading || recommendations.length">
+  <header>
+    <div><span>Recomendación item-item</span><h2>{{ title }}</h2></div>
+    <p>Productos que suelen comprarse junto con tu selección.</p>
+  </header>
+  <div *ngIf="loading" class="loading">Buscando productos relacionados…</div>
+  <div class="recommendation-grid" *ngIf="!loading">
+    <article *ngFor="let product of recommendations" class="recommendation-card">
+      <a [routerLink]="['/productos', product._id]" class="image-link">
+        <img [src]="product.imagenUrl || product.imagenUrlPrincipal || 'assets/images/no-image.png'" [alt]="product.nombre">
+      </a>
+      <div class="card-body">
+        <small>{{ product.motivo || 'Sugerido para ti' }}</small>
+        <a [routerLink]="['/productos', product._id]">{{ product.nombre }}</a>
+        <strong>{{ (product.precioNormalFinal || product.precioNormal || product.precio) | currency }}</strong>
+        <button type="button" (click)="addToCart(product)"><mat-icon>add_shopping_cart</mat-icon>Agregar</button>
+      </div>
+    </article>
+  </div>
+</section>

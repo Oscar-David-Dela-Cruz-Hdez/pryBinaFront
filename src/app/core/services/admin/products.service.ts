@@ -39,6 +39,10 @@ export class ProductsService {
     return this.http.get<any>(`${this.apiProductos}/${id}`);
   }
 
+  getRecomendaciones(productos: string[]): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiProductos}/recomendaciones`, { productos });
+  }
+
   createProducto(data: any): Observable<any> {
     return this.http.post(this.apiProductos, data, { headers: this.getAuthHeaders() });
   }

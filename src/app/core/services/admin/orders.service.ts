@@ -24,6 +24,10 @@ export class OrdersService {
         return this.http.get<any[]>(this.apiUrl, { headers: this.getAuthHeaders() });
     }
 
+    getRiesgoCancelacion(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/analitica/riesgo-cancelacion`, { headers: this.getAuthHeaders() });
+    }
+
     // Obtener detalle de pedido
     getPedidoById(id: string): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
