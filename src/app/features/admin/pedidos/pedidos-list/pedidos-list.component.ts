@@ -49,6 +49,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
     resumenRiesgo = { analizados: 0, riesgoAlto: 0, riesgoMedio: 0, riesgoBajo: 0 };
     entrenamiento = { pedidos: 0, cancelados: 0 };
     modeloRiesgo = 'k-NN sobre pedidos históricos';
+    analiticaReal = false;
     actualizando = false;
     ultimaActualizacion?: Date;
     private destruir$ = new Subject<void>();
@@ -74,6 +75,8 @@ export class PedidosComponent implements OnInit, OnDestroy {
             analitica: this.ordersService.getRiesgoCancelacion().pipe(catchError(() => of(null)))
         }).subscribe({
             next: ({ pedidos, analitica }) => {
+                this.analiticaReal = Boolean(analitica);
+                this.modeloRiesgo = analitica?.modelo || 'Vista local de demostración · despliega el backend analítico';
                 const riesgos = new Map((analitica?.predicciones || []).map((p: any) => [p.pedidoId, p.riesgo]));
                 this.pedidos = pedidos.map(p => ({ ...p, tempEstado: p.estado, riesgo: riesgos.get(p._id) || this.riesgoDemostrativo(p) }));
                 const universo = this.pedidos.filter(p => ['Pendiente', 'Pagado'].includes(p.estado));
@@ -111,7 +114,23 @@ export class PedidosComponent implements OnInit, OnDestroy {
         const texto = `${pedido._id || ''}${pedido.metodoPago || ''}`;
         const semilla = [...texto].reduce((suma, caracter) => suma + caracter.charCodeAt(0), 0);
         const porcentaje = 18 + (semilla % 65);
-        return { porcentaje, nivel: porcentaje >= 60 ? 'Alto' : porcentaje >= 35 ? 'Medio' : 'Bajo', vecinosUsados: 0 };
+        return {
+            porcentaje,
+            nivel: porcentaje >= 60 ? 'Alto' : porcentaje >= 35 ? 'Medio' : 'Bajo',
+            vecinosUsados: 0,
+            factores: [
+                `Método de pago: ${pedido.metodoPago || 'sin definir'}`,
+                `Total del pedido: $${Number(pedido.total || 0).toLocaleString('es-MX')}`,
+                `${pedido.productos?.length || 0} productos distintos`,
+                'Valor demostrativo: el endpoint analítico aún no está desplegado'
+            ]
+        };
+    }
+
+    getRecommendation(riesgo: any): string {
+        if (riesgo?.nivel === 'Alto') return 'Contactar al cliente antes de preparar el envío.';
+        if (riesgo?.nivel === 'Medio') return 'Revisar pago y datos de entrega.';
+        return 'Continuar con el flujo normal del pedido.';
     }
 
     getRiskClass(nivel: string): string { return `risk-${(nivel || 'Bajo').toLowerCase()}`; }
