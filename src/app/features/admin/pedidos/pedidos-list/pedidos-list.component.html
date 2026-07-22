@@ -11,7 +11,7 @@
       <article class="medium"><small>Riesgo medio</small><strong>{{ resumenRiesgo.riesgoMedio }}</strong><mat-icon>schedule</mat-icon></article>
       <article class="low"><small>Riesgo bajo</small><strong>{{ resumenRiesgo.riesgoBajo }}</strong><mat-icon>verified</mat-icon></article>
     </div>
-    <p class="analytics-note">La predicción analiza pedidos registrados, no carritos del navegador. Ayuda a priorizar la confirmación y no cancela pedidos automáticamente. Cuando no hay pedidos pendientes se muestran pedidos históricos para demostrar el clasificador.</p>
+    <p class="analytics-note">La tabla muestra exclusivamente pedidos pendientes. Los pedidos entregados y cancelados se utilizan como historial de entrenamiento, pero no aparecen en esta lista operativa.</p>
   </section>
 
   <!-- Filtro de búsqueda -->
@@ -156,7 +156,7 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell p-3 text-center" colspan="7">No hay datos que coincidan con "{{input.value}}"</td>
+        <td class="mat-cell p-3 text-center" colspan="7">{{ input.value ? 'No hay pedidos pendientes que coincidan con "' + input.value + '"' : 'No hay pedidos pendientes por analizar' }}</td>
       </tr>
     </table>
     <mat-paginator [pageSizeOptions]="[10, 25, 50]" aria-label="Select page of orders" class="bg-[#FAF8F5] dark:bg-[#1E1E1E]"></mat-paginator>

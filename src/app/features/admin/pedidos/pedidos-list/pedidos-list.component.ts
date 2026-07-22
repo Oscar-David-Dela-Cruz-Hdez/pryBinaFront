@@ -78,13 +78,13 @@ export class PedidosComponent implements OnInit, OnDestroy {
                 this.analiticaReal = Boolean(analitica);
                 this.modeloRiesgo = analitica?.modelo || 'Vista local de demostración · despliega el backend analítico';
                 const riesgos = new Map((analitica?.predicciones || []).map((p: any) => [p.pedidoId, p.riesgo]));
-                this.pedidos = pedidos.map(p => ({
+                const pedidosConRiesgo = pedidos.map(p => ({
                     ...p,
                     tempEstado: p.estado,
                     riesgo: riesgos.get(p._id) || (!analitica ? this.riesgoDemostrativo(p) : null)
                 }));
-                const universo = this.pedidos.filter(p => ['Pendiente', 'Pagado'].includes(p.estado));
-                const medidos = universo.length ? universo : this.pedidos;
+                this.pedidos = pedidosConRiesgo.filter(p => p.estado === 'Pendiente');
+                const medidos = this.pedidos.filter(p => p.riesgo);
                 this.resumenRiesgo = analitica?.resumen || {
                     analizados: medidos.length,
                     riesgoAlto: medidos.filter(p => p.riesgo.nivel === 'Alto').length,
@@ -178,6 +178,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
                     next: (res) => {
                         pedido.estado = nuevoEstado;
                         Swal.fire({ icon: 'success', title: 'Estado actualizado', text: `Pedido cambiado a ${nuevoEstado}.`, timer: 1800, showConfirmButton: false });
+                        if (nuevoEstado !== 'Pendiente') this.loadPedidos(false);
                     },
                     error: () => {
                         Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo actualizar el estado.' });
