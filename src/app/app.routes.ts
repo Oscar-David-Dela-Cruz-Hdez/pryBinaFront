@@ -23,6 +23,7 @@ import { ProfileComponent } from './features/public/profile/profile.component';
 
 import { Error400Component } from './features/public/errores/error400/error400.component';
 import { Error404Component } from './features/public/errores/error404/error404.component';
+import { Error500Component } from './features/public/errores/error500/error500.component';
 import { UbicacionComponent } from './features/public/ubicacion/ubicacion.component';
 import { MisionComponent } from './features/admin/sitio/informacion/mision/mision.component';
 import { HistoriaComponent } from './features/admin/sitio/informacion/historia/historia.component';
@@ -314,6 +315,10 @@ export const routes: Routes = [
   {
     path: 'error-400',
     component: Error400Component
+  },
+  {
+    path: 'error-500',
+    component: Error500Component
   },
   {
     path: '**',
