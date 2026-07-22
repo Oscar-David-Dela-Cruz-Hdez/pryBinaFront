@@ -21,7 +21,7 @@ export class OrdersService {
 
     // Obtener pedidos (Admin ve todos, Usuario ve suyos)
     getPedidos(): Observable<any[]> {
-        return this.http.get<any[]>(this.apiUrl, { headers: this.getAuthHeaders() });
+        return this.http.get<any[]>(`${this.apiUrl}?limite=250`, { headers: this.getAuthHeaders() });
     }
 
     getRiesgoCancelacion(): Observable<any> {

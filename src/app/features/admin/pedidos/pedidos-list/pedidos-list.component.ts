@@ -78,7 +78,11 @@ export class PedidosComponent implements OnInit, OnDestroy {
                 this.analiticaReal = Boolean(analitica);
                 this.modeloRiesgo = analitica?.modelo || 'Vista local de demostración · despliega el backend analítico';
                 const riesgos = new Map((analitica?.predicciones || []).map((p: any) => [p.pedidoId, p.riesgo]));
-                this.pedidos = pedidos.map(p => ({ ...p, tempEstado: p.estado, riesgo: riesgos.get(p._id) || this.riesgoDemostrativo(p) }));
+                this.pedidos = pedidos.map(p => ({
+                    ...p,
+                    tempEstado: p.estado,
+                    riesgo: riesgos.get(p._id) || (!analitica ? this.riesgoDemostrativo(p) : null)
+                }));
                 const universo = this.pedidos.filter(p => ['Pendiente', 'Pagado'].includes(p.estado));
                 const medidos = universo.length ? universo : this.pedidos;
                 this.resumenRiesgo = analitica?.resumen || {

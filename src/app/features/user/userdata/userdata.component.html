@@ -27,12 +27,12 @@
       </div>
 
       <div class="field">
-        <label>Nombre de usuario</label>
+        <label>Fecha de nacimiento</label>
         <div class="input-wrap">
-          <input formControlName="username" class="account-input has-icon">
-          <mat-icon>account_circle</mat-icon>
+          <input type="date" formControlName="fechaNacimiento" [max]="maxFechaNacimiento" class="account-input has-icon">
+          <mat-icon>calendar_month</mat-icon>
         </div>
-        <p *ngIf="userdataForm.get('username')?.hasError('required') && userdataForm.get('username')?.touched" class="field-error">El usuario es requerido</p>
+        <p *ngIf="userdataForm.get('fechaNacimiento')?.hasError('required') && userdataForm.get('fechaNacimiento')?.touched" class="field-error">La fecha de nacimiento es requerida</p>
       </div>
 
       <div class="field field--wide">

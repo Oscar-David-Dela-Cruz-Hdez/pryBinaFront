@@ -148,6 +148,7 @@ function noPersonalData(control: AbstractControl): ValidationErrors | null {
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   showPassword = false;
+  maxFechaNacimiento = new Date().toISOString().slice(0, 10);
 
   //private apiUrl = 'http://localhost:4000/api/usuarios/register';
   private apiUrl = 'https://prybinaback.onrender.com/api/usuarios/register';
@@ -192,7 +193,7 @@ export class RegisterComponent implements OnInit {
       nombre: 'Nombre',
       ap: 'Apellido Paterno',
       am: 'Apellido Materno',
-      username: 'Usuario',
+      fechaNacimiento: 'Fecha de nacimiento',
       email: 'Correo Electrónico',
       password: 'Contraseña',
       confirmPassword: 'Confirmar Contraseña',
@@ -226,10 +227,7 @@ export class RegisterComponent implements OnInit {
         am: ['', [Validators.required, Validators.pattern(this.soloLetras)]]
       }),
       step2: this.fb.group({
-        username: ['', {
-          validators: [Validators.required, Validators.pattern(this.letrasYNumeros)],
-          asyncValidators: [usernameAvailabilityValidator(this.authService)]
-        }],
+        fechaNacimiento: ['', Validators.required],
         email: ['', {
           validators: [Validators.required, Validators.email],
           asyncValidators: [emailAvailabilityValidator(this.authService)]

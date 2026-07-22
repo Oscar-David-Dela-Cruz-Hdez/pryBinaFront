@@ -28,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class UserdataComponent implements OnInit {
   userdataForm!: FormGroup;
+  maxFechaNacimiento = new Date().toISOString().slice(0, 10);
 
   constructor(
     private fb: FormBuilder,
@@ -39,14 +40,17 @@ export class UserdataComponent implements OnInit {
       nombre: ['', Validators.required],
       ap: [''],
       am: [''],
-      username: ['', Validators.required],
+      fechaNacimiento: ['', Validators.required],
       email: [{ value: '', disabled: true }],
       telefono: ['', Validators.required]
     });
 
     this.authService.getProfile().subscribe({
       next: (userData) => {
-        this.userdataForm.patchValue(userData);
+        this.userdataForm.patchValue({
+          ...userData,
+          fechaNacimiento: userData.fechaNacimiento ? String(userData.fechaNacimiento).slice(0, 10) : ''
+        });
       },
       error: (err) => {
         Swal.fire('Error', 'No se pudo cargar tu información de perfil.', 'error');

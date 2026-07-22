@@ -163,10 +163,16 @@ export class CartComponent implements OnInit {
     private loadPaypalScript(clientId: string, currency: string): Promise<void> {
         if (window.paypal) return Promise.resolve();
         return new Promise((resolve, reject) => {
+            document.getElementById('paypal-sdk')?.remove();
             const script = document.createElement('script');
+            script.id = 'paypal-sdk';
             script.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(clientId)}&currency=${encodeURIComponent(currency)}&intent=capture&components=buttons`;
-            script.onload = () => resolve();
-            script.onerror = () => reject(new Error('No se pudo descargar PayPal'));
+            const timeoutId = window.setTimeout(() => {
+                script.remove();
+                reject(new Error('PayPal tardó demasiado en responder. Intenta nuevamente.'));
+            }, 20000);
+            script.onload = () => { window.clearTimeout(timeoutId); resolve(); };
+            script.onerror = () => { window.clearTimeout(timeoutId); script.remove(); reject(new Error('No se pudo descargar PayPal')); };
             document.body.appendChild(script);
         });
     }

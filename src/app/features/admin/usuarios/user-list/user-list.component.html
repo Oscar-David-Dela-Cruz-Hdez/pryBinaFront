@@ -23,7 +23,8 @@
             <span class="user-avatar">{{ (row.nombre || row.email || 'U').charAt(0) }}</span>
             <div>
               <strong>{{ row.nombre }} {{ row.ap }} {{ row.am }}</strong>
-              <small>{{ row.username || 'Usuario registrado' }}</small>
+              <small *ngIf="row.fechaNacimiento; else sinFecha">{{ row.fechaNacimiento | date:'dd/MM/yyyy' }} · {{ calcularEdad(row.fechaNacimiento) }} años</small>
+              <ng-template #sinFecha><small>Fecha de nacimiento pendiente</small></ng-template>
             </div>
           </div>
         </td>

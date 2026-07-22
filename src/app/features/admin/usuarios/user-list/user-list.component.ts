@@ -68,6 +68,17 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  calcularEdad(fechaNacimiento: string | Date | null): number | null {
+    if (!fechaNacimiento) return null;
+    const nacimiento = new Date(fechaNacimiento);
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const antesDelCumple = hoy.getMonth() < nacimiento.getMonth() ||
+      (hoy.getMonth() === nacimiento.getMonth() && hoy.getDate() < nacimiento.getDate());
+    if (antesDelCumple) edad--;
+    return edad >= 0 ? edad : null;
+  }
+
   toggleRole(user: any, event: any) {
     const newRole = event.checked ? 'admin' : 'usuario';
     // Revert visual change until confirmed (optional, but good UX)

@@ -31,7 +31,8 @@
       <ng-container matColumnDef="riesgo">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3">Predicción</th>
         <td mat-cell *matCellDef="let row" class="p-3">
-          <div class="risk-cell"><span class="risk-pill" [ngClass]="getRiskClass(row.riesgo?.nivel)">{{ row.riesgo?.porcentaje }}% · {{ row.riesgo?.nivel }}</span><small>cancelación</small></div>
+          <div class="risk-cell" *ngIf="row.riesgo; else knownResult"><span class="risk-pill" [ngClass]="getRiskClass(row.riesgo?.nivel)">{{ row.riesgo?.porcentaje }}% · {{ row.riesgo?.nivel }}</span><small>cancelación</small></div>
+          <ng-template #knownResult><span class="known-result">Resultado: {{ row.estado }}</span></ng-template>
         </td>
       </ng-container>
 
@@ -106,7 +107,7 @@
                 <p class="mt-4 font-medium"><strong>Envío:</strong> {{ element.costoEnvio | currency }}</p>
               </div>
 
-              <div class="detail-section prediction-detail">
+              <div class="detail-section prediction-detail" *ngIf="element.riesgo">
                 <h4 class="text-lg font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-4">¿Por qué tiene este riesgo?</h4>
                 <div class="prediction-person"><strong>{{ element.usuario?.nombre || 'Usuario desconocido' }}</strong><span>{{ element.usuario?.email }}</span></div>
                 <ul><li *ngFor="let factor of element.riesgo?.factores">{{ factor }}</li></ul>
