@@ -8,34 +8,35 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#D4AF37',
-          dark: '#E5C158',
-          hover: '#b5952f',
-          text: '#2C2C2C',
+          DEFAULT: '#111111',
+          dark: '#F0F0F0',
+          hover: '#222222',
+          text: '#111111',
           'text-dark': '#F0F0F0',
-          border: '#e2dcd6',
+          border: '#E5E5E5',
           'border-dark': '#333333',
           warn: '#d32f2f',
           'warn-dark': '#ef5350',
         },
         surface: {
           DEFAULT: '#FFFFFF',
-          raised: '#f7f3ee',
+          raised: '#FAFAFA',
           dark: '#1E1E1E',
           'raised-dark': '#2a2a2a',
         },
         background: {
-          DEFAULT: '#FAF8F5',
+          DEFAULT: '#FFFFFF',
           dark: '#121212',
         },
         accent: {
-          DEFAULT: '#e8b4b8',
-          dark: '#b7767b',
+          DEFAULT: '#C88A78',
+          dark: '#D99B89',
         },
       },
       fontFamily: {
-        heading: ['Montserrat', 'sans-serif'],
-        body: ['Roboto', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'serif'],
+        heading: ['Cormorant Garamond', 'Montserrat', 'serif'],
+        body: ['Montserrat', 'Roboto', 'sans-serif'],
       },
       keyframes: {
         'fade-in': {
@@ -57,15 +58,12 @@ module.exports = {
         'scale-in': 'scale-in 0.3s ease-out forwards',
       },
       boxShadow: {
-        'premium-sm': '0 4px 12px rgba(0, 0, 0, 0.05)',
-        'premium-md': '0 8px 24px rgba(0, 0, 0, 0.08)',
-        'premium-lg': '0 12px 32px rgba(0, 0, 0, 0.12)',
-        'premium-dark-sm': '0 4px 12px rgba(0, 0, 0, 0.3)',
-        'premium-dark-md': '0 8px 24px rgba(0, 0, 0, 0.4)',
+        'none': 'none',
+        'subtle': '0 1px 2px rgba(0, 0, 0, 0.03)',
       },
       borderRadius: {
-        'xl': '16px',
-        '2xl': '24px',
+        'none': '0px',
+        'sm': '2px',
       },
     },
   },
@@ -73,16 +71,19 @@ module.exports = {
     function({ addComponents }) {
       addComponents({
         '.glass-panel': {
-          '@apply bg-white/80 dark:bg-[#1E1E1E]/80 backdrop-blur-md border border-white/20 dark:border-[#333333]/20 rounded-xl shadow-premium-sm dark:shadow-premium-dark-sm': {},
+          '@apply bg-white dark:bg-[#1E1E1E] border border-[#E5E5E5] dark:border-[#333333] shadow-none': {},
         },
         '.card-hover': {
-          '@apply transition-transform transition-shadow duration-300 ease-in-out hover:shadow-premium-md dark:hover:shadow-premium-dark-md hover:-translate-y-1': {},
+          '@apply transition-all duration-300 ease-in-out hover:border-[#111111] dark:hover:border-white': {},
         },
         '.btn-primary': {
-          '@apply bg-primary text-white dark:text-[#0F172A] rounded-xl font-semibold hover:opacity-90 transition-all duration-300 hover:scale-105 active:scale-95': {},
+          '@apply bg-[#111111] text-white dark:bg-white dark:text-[#111111] border border-[#111111] dark:border-white px-6 py-2.5 font-normal tracking-[1px] text-xs uppercase transition-all duration-300 hover:bg-white hover:text-[#111111] dark:hover:bg-[#111111] dark:hover:text-white': {},
+        },
+        '.btn-secondary': {
+          '@apply bg-white text-[#111111] dark:bg-[#1E1E1E] dark:text-white border border-[#111111] dark:border-white px-6 py-2.5 font-normal tracking-[1px] text-xs uppercase transition-all duration-300 hover:bg-[#111111] hover:text-white dark:hover:bg-white dark:hover:text-[#111111]': {},
         },
         '.input-premium': {
-          '@apply bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6] dark:border-[#333333] rounded-xl text-[#2C2C2C] dark:text-[#F0F0F0] focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark focus:border-transparent': {},
+          '@apply bg-white dark:bg-[#2A2A2A] border border-[#E5E5E5] dark:border-[#333333] text-[#111111] dark:text-[#F0F0F0] focus:outline-none focus:border-[#111111] dark:focus:border-white transition-all duration-300': {},
         },
       });
     },

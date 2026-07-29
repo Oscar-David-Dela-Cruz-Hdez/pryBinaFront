@@ -1,42 +1,42 @@
-<div class="min-h-screen bg-[#FAF8F5] dark:bg-[#121212] transition-all duration-300 px-6 py-10">
+<div class="min-h-screen bg-[#FFFFFF] dark:bg-[#121212] transition-all duration-300 px-6 py-10">
   <div class="max-w-4xl mx-auto">
     <!-- Page Header -->
     <div class="mb-10">
-      <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">
+      <h2 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
         Herramientas y Administración
       </h2>
-      <p class="mt-2 text-[#666666] dark:text-[#A0A0A0] transition-all duration-300">
+      <p class="mt-2 text-xs uppercase tracking-wider text-[#666666] dark:text-[#A0A0A0]">
         Gestiona las importaciones y exportaciones de datos del sistema.
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-slide-up">
       <!-- PRODUCTOS -->
-      <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 hover:shadow-xl dark:border dark:border-[#333333] overflow-hidden transition-all duration-300 hover:shadow-xl ease-out animate-fade-in">
+      <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] overflow-hidden transition-all duration-300">
         <div class="p-6">
           <div class="flex items-center gap-4 mb-5">
-            <div class="w-12 h-12 bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-              <mat-icon class="text-[#D4AF37] dark:text-[#E5C158]">inventory_2</mat-icon>
+            <div class="w-10 h-10 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center flex-shrink-0 text-[#C88A78]">
+              <mat-icon class="!text-xl">inventory_2</mat-icon>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">
+              <h3 class="text-lg font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
                 Inventario / Productos
               </h3>
-              <p class="text-sm text-[#666666] dark:text-[#A0A0A0]">Añade masivamente o respalda tu catálogo</p>
+              <p class="text-xs text-[#666666] dark:text-[#A0A0A0]">Añade masivamente o respalda tu catálogo</p>
             </div>
           </div>
-          <p class="text-sm text-[#666666] dark:text-[#A0A0A0] mb-6 leading-relaxed transition-all duration-300">
+          <p class="text-xs text-[#666666] dark:text-[#A0A0A0] mb-6 leading-relaxed font-light">
             Exporta todos los productos actuales a Excel o importa un archivo <strong>.xlsx</strong> para crear/actualizar datos.
           </p>
           <div class="flex gap-3 flex-wrap">
             <input type="file" #fileInput hidden accept=".xlsx, .xls" (change)="onFileSelectedProductos($event)">
             <button (click)="fileInput.click()" [disabled]="isImportingProducts"
-              class="flex items-center gap-2 px-4 py-2.5 bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-all duration-300 cursor-pointer hover:scale-105 hover:-translate-y-1 active:scale-95 ease-out">
+              class="flex items-center gap-2 px-4 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 cursor-pointer">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">upload_file</mat-icon>
               {{ isImportingProducts ? 'Importando...' : 'Importar Excel' }}
             </button>
             <button (click)="exportarProductosExcel()" [disabled]="isExportingProducts"
-              class="flex items-center gap-2 px-4 py-2.5 border-2 border-[#D4AF37] dark:border-[#E5C158] text-[#D4AF37] dark:text-[#E5C158] rounded-xl text-sm font-semibold hover:bg-[#D4AF37]/10 dark:hover:bg-[#E5C158]/10 disabled:opacity-50 transition-all duration-300 cursor-pointer hover:scale-105 hover:-translate-y-1 active:scale-95 ease-out">
+              class="flex items-center gap-2 px-4 py-2.5 bg-white text-[#111111] border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-[#111111] hover:text-white disabled:opacity-45 transition-all duration-300 cursor-pointer">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">download</mat-icon>
               {{ isExportingProducts ? 'Exportando...' : 'Exportar Excel' }}
             </button>
@@ -45,25 +45,25 @@
       </div>
 
       <!-- PEDIDOS -->
-      <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 hover:shadow-xl dark:border dark:border-[#333333] overflow-hidden transition-all duration-300 hover:shadow-xl ease-out animate-fade-in">
+      <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] overflow-hidden transition-all duration-300">
         <div class="p-6">
           <div class="flex items-center gap-4 mb-5">
-            <div class="w-12 h-12 bg-emerald-500/10 dark:bg-emerald-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
-              <mat-icon class="text-emerald-500 dark:text-emerald-400">local_shipping</mat-icon>
+            <div class="w-10 h-10 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center flex-shrink-0 text-[#C88A78]">
+              <mat-icon class="!text-xl">local_shipping</mat-icon>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">
+              <h3 class="text-lg font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
                 Pedidos y Ventas
               </h3>
-              <p class="text-sm text-[#666666] dark:text-[#A0A0A0]">Historial y reportes</p>
+              <p class="text-xs text-[#666666] dark:text-[#A0A0A0]">Historial y reportes</p>
             </div>
           </div>
-          <p class="text-sm text-[#666666] dark:text-[#A0A0A0] mb-6 leading-relaxed transition-all duration-300">
+          <p class="text-xs text-[#666666] dark:text-[#A0A0A0] mb-6 leading-relaxed font-light">
             Exporta el historial de pedidos generados en el sitio para análisis de ventas y logística.
           </p>
           <div class="flex gap-3 flex-wrap">
             <button (click)="exportarPedidosExcel()" [disabled]="isExportingOrders"
-              class="flex items-center gap-2 px-4 py-2.5 bg-emerald-500 dark:bg-emerald-500 text-white rounded-xl text-sm font-semibold hover:bg-emerald-600 dark:hover:bg-emerald-400 disabled:opacity-50 transition-all duration-300 cursor-pointer hover:scale-105 hover:-translate-y-1 active:scale-95 ease-out">
+              class="flex items-center gap-2 px-4 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 cursor-pointer">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">download</mat-icon>
               {{ isExportingOrders ? 'Generando...' : 'Exportar Pedidos a Excel' }}
             </button>

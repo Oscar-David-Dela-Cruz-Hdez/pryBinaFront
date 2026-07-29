@@ -1,16 +1,16 @@
 <div class="admin-container w-full max-w-4xl mx-auto p-4 md:p-8 animate-slide-up transition-all duration-300 min-h-[calc(100vh-80px)]">
-  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4 gap-4">
-    <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Contactos</h2>
-    <button class="btn-admin-primary" (click)="toggleForm()">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#E5E5E5] dark:border-[#333333] pb-4 gap-4">
+    <h2 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Gestión de Contactos</h2>
+    <button class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] transition-all cursor-pointer flex items-center gap-2" (click)="toggleForm()">
       <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
       {{ showForm ? 'Cancelar' : 'Nuevo Contacto' }}
     </button>
   </div>
 
   <!-- Formulario -->
-  <mat-card *ngIf="showForm" class="mb-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 animate-fade-in">
+  <mat-card *ngIf="showForm" class="mb-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] shadow-none">
     <mat-card-header class="p-6 pb-0">
-      <mat-card-title class="text-xl font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">
+      <mat-card-title class="text-xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
         {{ editingId ? 'Editar Contacto' : 'Agregar Nuevo Contacto' }}
       </mat-card-title>
     </mat-card-header>
@@ -18,8 +18,8 @@
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-5">
 
         <div class="field-admin">
-          <label class="label-admin">Tipo <span class="text-red-500">*</span></label>
-          <select formControlName="tipo" class="select-admin">
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Tipo <span class="text-red-500">*</span></label>
+          <select formControlName="tipo" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-xs uppercase tracking-wider text-[#111111]">
             <option value="" disabled selected>Selecciona un tipo</option>
             <option value="email">Email</option>
             <option value="telefono">Teléfono</option>
@@ -32,12 +32,12 @@
         </div>
 
         <div class="field-admin">
-          <label class="label-admin">Valor / Enlace <span class="text-red-500">*</span></label>
-          <input type="text" formControlName="valor" placeholder="Ej: +52 55 1234 5678 o enlace al perfil" class="input-admin">
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Valor / Enlace <span class="text-red-500">*</span></label>
+          <input type="text" formControlName="valor" placeholder="Ej: +52 55 1234 5678 o enlace al perfil" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-sm text-[#111111]">
         </div>
 
         <div class="field-admin">
-          <label class="label-admin">Ícono</label>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Ícono</label>
           <app-icon-picker
             iconSet="contact"
             [value]="contactForm.get('icono')?.value || ''"
@@ -45,9 +45,9 @@
           </app-icon-picker>
         </div>
 
-        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <button type="button" class="btn-admin-secondary" (click)="toggleForm()">Cancelar</button>
-          <button type="submit" class="btn-admin-primary" [disabled]="contactForm.invalid || isLoading">
+        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#E5E5E5] dark:border-[#333333]">
+          <button type="button" class="px-5 py-2.5 bg-white text-[#111111] border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-[#111111] hover:text-white transition-all cursor-pointer" (click)="toggleForm()">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all cursor-pointer" [disabled]="contactForm.invalid || isLoading">
             {{ isLoading ? 'Guardando...' : (editingId ? 'Actualizar' : 'Guardar') }}
           </button>
         </div>
@@ -56,34 +56,34 @@
   </mat-card>
 
   <!-- Tabla de Contactos -->
-  <div class="admin-data-table animate-fade-in" *ngIf="contactos.length > 0; else noData">
+  <div class="admin-data-table" *ngIf="contactos.length > 0; else noData">
     <table>
       <thead>
         <tr class="admin-table-head">
-          <th class="admin-th" style="width:56px">Ícono</th>
-          <th class="admin-th">Tipo</th>
-          <th class="admin-th">Valor / Enlace</th>
-          <th class="admin-th text-right">Acciones</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal" style="width:56px">Ícono</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Tipo</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Valor / Enlace</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal text-right">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let contacto of contactos" class="admin-table-row">
           <td class="admin-td">
-            <div class="admin-thumb-placeholder">
+            <div class="w-8 h-8 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78]">
               <mat-icon style="font-size:18px;width:18px;height:18px">{{ getIcon(contacto) }}</mat-icon>
             </div>
           </td>
           <td class="admin-td">
-            <span class="badge-admin badge-active">{{ contacto.tipo | titlecase }}</span>
+            <span class="px-2.5 py-1 text-[10px] font-normal uppercase tracking-wider border border-[#111111] text-[#111111]">{{ contacto.tipo | titlecase }}</span>
           </td>
           <td class="admin-td">
-            <span class="font-medium text-[#2C2C2C] dark:text-[#F0F0F0]">{{ contacto.valor }}</span>
+            <span class="font-normal text-[#111111] dark:text-[#F0F0F0] text-sm">{{ contacto.valor }}</span>
           </td>
           <td class="admin-td text-right">
-            <button class="admin-btn-edit" (click)="editContacto(contacto)" title="Editar">
+            <button class="text-[#111111] hover:text-[#C88A78] p-1" (click)="editContacto(contacto)" title="Editar">
               <mat-icon style="font-size:18px;width:18px;height:18px">edit</mat-icon>
             </button>
-            <button class="admin-btn-delete" (click)="deleteContacto(contacto._id)" title="Eliminar">
+            <button class="text-red-500 hover:text-red-700 p-1" (click)="deleteContacto(contacto._id)" title="Eliminar">
               <mat-icon style="font-size:18px;width:18px;height:18px">delete</mat-icon>
             </button>
           </td>
@@ -93,9 +93,9 @@
   </div>
 
   <ng-template #noData>
-    <div class="empty-state flex flex-col items-center justify-center gap-4 py-12 bg-[#FAF8F5] dark:bg-[#2A2A2A]/50 rounded-2xl">
-      <mat-icon class="text-4xl text-[#D4AF37] dark:text-[#E5C158]">contact_phone</mat-icon>
-      <p class="text-[#666666] dark:text-[#A0A0A0]">No hay contactos registrados.</p>
+    <div class="empty-state flex flex-col items-center justify-center gap-4 py-12 bg-white border border-[#E5E5E5] rounded-none">
+      <mat-icon class="text-4xl text-[#C88A78]">contact_phone</mat-icon>
+      <p class="text-xs uppercase tracking-wider text-[#666666]">No hay contactos registrados.</p>
     </div>
   </ng-template>
 </div>

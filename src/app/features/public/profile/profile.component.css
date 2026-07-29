@@ -1,11 +1,8 @@
 .profile-page {
   min-height: calc(100vh - 110px);
   padding: clamp(32px, 5vw, 64px) 0 80px;
-  background:
-    radial-gradient(circle at top left, rgba(248, 216, 216, 0.38), transparent 26rem),
-    radial-gradient(circle at 85% 20%, rgba(212, 175, 55, 0.12), transparent 22rem),
-    var(--surface-page, #fbf8f5);
-  color: var(--text-main, #333333);
+  background: #FFFFFF;
+  color: #111111;
 }
 
 .profile-shell {
@@ -18,10 +15,10 @@
 
 .profile-sidebar,
 .profile-content {
-  border: 1px solid color-mix(in srgb, var(--border-soft, #eadfd9) 72%, transparent);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--surface-page, #fbf8f5) 84%, white);
-  box-shadow: 0 18px 42px rgba(51, 51, 51, 0.06);
+  border: 1px solid #E5E5E5;
+  border-radius: 0;
+  background: #FFFFFF;
+  box-shadow: none;
 }
 
 .profile-sidebar {
@@ -31,64 +28,74 @@
 
 .section-kicker {
   display: inline-block;
-  margin-bottom: 10px;
-  color: var(--color-accent, #d4af37);
-  font-size: 0.74rem;
-  font-weight: 850;
+  margin-bottom: 8px;
+  color: #C88A78;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
 }
 
 .profile-sidebar h1 {
   margin: 0;
-  color: var(--text-main, #333333);
-  font-size: 2.4rem;
+  color: #111111;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 300;
   line-height: 1;
 }
 
 .profile-sidebar p {
-  margin: 14px 0 22px;
-  color: var(--text-muted, #666666);
-  line-height: 1.6;
+  margin: 12px 0 22px;
+  color: #666666;
+  font-weight: 300;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
 .profile-nav {
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .profile-nav button {
-  min-height: 48px;
+  min-height: 46px;
   display: flex;
   align-items: center;
   gap: 12px;
   width: 100%;
   padding: 0 14px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--text-main, #333333);
+  border: 1px solid #E5E5E5;
+  border-radius: 0;
+  background: #FFFFFF;
+  color: #111111;
   cursor: pointer;
-  font: inherit;
-  font-weight: 800;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   text-align: left;
-  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+  transition: all 180ms ease;
 }
 
 .profile-nav button:hover {
-  background: color-mix(in srgb, var(--color-primary, #f8d8d8) 42%, transparent);
-  transform: translateX(2px);
+  border-color: #111111;
+  color: #111111;
 }
 
 .profile-nav button.is-active {
-  background: var(--color-accent, #d4af37);
-  color: #fff;
-  box-shadow: 0 12px 26px rgba(212, 175, 55, 0.24);
+  background: #111111;
+  color: #FFFFFF;
+  border-color: #111111;
+  box-shadow: none;
 }
 
 .profile-nav mat-icon {
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  color: inherit;
 }
 
 .profile-content {
@@ -97,16 +104,13 @@
 }
 
 :host-context(.dark) .profile-page {
-  background:
-    radial-gradient(circle at top left, rgba(212, 175, 55, 0.1), transparent 26rem),
-    #181818;
+  background: #121212;
 }
 
 :host-context(.dark) .profile-sidebar,
 :host-context(.dark) .profile-content {
-  background: #1f1f1f;
-  border-color: rgba(212, 175, 55, 0.2);
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+  background: #1e1e1e;
+  border-color: #333333;
 }
 
 :host-context(.dark) .profile-sidebar h1,
@@ -114,17 +118,9 @@
   color: #f4f1ec;
 }
 
-:host-context(.dark) .profile-sidebar p {
-  color: #c9c2bb;
-}
-
-:host-context(.dark) .profile-nav button:hover {
-  background: rgba(212, 175, 55, 0.12);
-}
-
 :host-context(.dark) .profile-nav button.is-active {
-  background: #d4af37;
-  color: #171717;
+  background: #ffffff;
+  color: #111111;
 }
 
 @media (max-width: 900px) {

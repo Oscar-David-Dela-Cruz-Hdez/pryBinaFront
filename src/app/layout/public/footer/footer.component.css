@@ -1,8 +1,8 @@
 .site-footer {
-  background: linear-gradient(180deg, var(--surface-card, #ffffff), var(--surface-muted, #faf0e6));
-  border-top: 1px solid var(--border-soft, #eadfd9);
-  color: var(--text-main, #333333);
-  padding: 44px max(20px, calc((100vw - 1180px) / 2)) 22px;
+  background: #FFFFFF;
+  border-top: 1px solid #E5E5E5;
+  color: #111111;
+  padding: 48px max(20px, calc((100vw - 1240px) / 2)) 28px;
 }
 
 .footer-cta {
@@ -10,87 +10,106 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 26px;
-  border: 1px solid color-mix(in srgb, var(--color-accent, #d4af37) 34%, transparent);
-  border-radius: 8px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary, #f8d8d8) 70%, white), #fff);
-  box-shadow: var(--shadow-soft, 0 18px 40px rgba(51, 51, 51, 0.08));
+  padding: 32px;
+  border: 1px solid #E5E5E5;
+  border-radius: 0;
+  background: #FFFFFF;
+  box-shadow: none;
 }
 
 .section-kicker {
   display: inline-block;
   margin-bottom: 8px;
-  color: var(--color-accent, #d4af37);
+  color: #C88A78;
   font-size: 0.72rem;
-  font-weight: 850;
+  font-weight: 400;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
 }
 
 .footer-cta h2 {
   margin: 0;
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  line-height: 1.1;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  color: #111111;
 }
 
 .footer-cta__button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 44px;
-  padding: 0 18px;
-  border-radius: 999px;
-  background: var(--color-accent, #d4af37);
-  color: #fff;
-  font-weight: 800;
+  min-height: 42px;
+  padding: 0 24px;
+  border-radius: 0;
+  background: #111111;
+  color: #FFFFFF;
+  border: 1px solid #111111;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
+  transition: all 200ms ease;
+}
+
+.footer-cta__button:hover {
+  background: #FFFFFF;
+  color: #111111;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 1.4fr repeat(4, 1fr);
-  gap: 30px;
-  padding: 42px 0 30px;
+  gap: 32px;
+  padding: 48px 0 36px;
 }
 
 .footer-grid section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .footer-grid h3 {
-  margin: 0 0 6px;
-  color: var(--text-main, #333333);
-  font-size: 0.82rem;
-  font-weight: 850;
+  margin: 0 0 8px;
+  color: #111111;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 .footer-grid a {
-  color: var(--text-muted, #666666);
-  font-size: 0.93rem;
-  font-weight: 650;
+  color: #555555;
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.3px;
   text-decoration: none;
-  transition: color 180ms ease, transform 180ms ease;
+  transition: color 180ms ease;
 }
 
 .footer-grid a:hover {
-  color: var(--color-accent, #d4af37);
-  transform: translateX(3px);
+  color: #C88A78;
+  transform: none;
 }
 
 .footer-brand img {
-  width: 172px;
-  max-height: 54px;
+  width: 160px;
+  max-height: 50px;
   object-fit: contain;
 }
 
 .footer-brand p {
   max-width: 330px;
-  margin: 6px 0;
-  color: var(--text-muted, #666666);
-  line-height: 1.65;
+  margin: 8px 0;
+  color: #666666;
+  font-weight: 300;
+  font-size: 0.88rem;
+  line-height: 1.6;
 }
 
 .footer-socials {
@@ -100,31 +119,40 @@
 
 .footer-socials span,
 .footer-contact mat-icon {
-  color: var(--color-accent, #d4af37);
+  color: #111111;
 }
 
 .footer-socials span {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--color-accent, #d4af37) 12%, transparent);
+  border-radius: 0;
+  border: 1px solid #E5E5E5;
+  background: #FFFFFF;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+
+.footer-socials span:hover {
+  border-color: #111111;
+  color: #C88A78;
 }
 
 .footer-contact {
   display: flex;
   align-items: flex-start;
   gap: 9px;
-  color: var(--text-muted, #666666);
-  font-size: 0.92rem;
+  color: #666666;
+  font-size: 0.85rem;
+  font-weight: 300;
   line-height: 1.4;
 }
 
 .footer-contact mat-icon {
-  width: 18px;
-  height: 18px;
-  font-size: 18px;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  color: #C88A78;
 }
 
 .footer-payments,
@@ -133,18 +161,19 @@
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  border-top: 1px solid var(--border-soft, #eadfd9);
-  padding-top: 20px;
+  border-top: 1px solid #E5E5E5;
+  padding-top: 24px;
 }
 
 .footer-payments {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .footer-payments > span {
-  color: var(--text-muted, #666666);
-  font-size: 0.82rem;
-  font-weight: 800;
+  color: #111111;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
@@ -156,32 +185,33 @@
 }
 
 .footer-payments figure {
-  min-width: 74px;
-  height: 42px;
+  min-width: 70px;
+  height: 38px;
   display: grid;
   place-items: center;
   margin: 0;
-  padding: 6px 10px;
-  border: 1px solid var(--border-soft, #eadfd9);
-  border-radius: 8px;
-  background: var(--surface-card, #ffffff);
+  padding: 4px 8px;
+  border: 1px solid #E5E5E5;
+  border-radius: 0;
+  background: #FFFFFF;
 }
 
 .footer-payments img {
-  max-width: 70px;
-  max-height: 28px;
+  max-width: 65px;
+  max-height: 24px;
   object-fit: contain;
 }
 
 .footer-payments figcaption {
-  color: var(--text-main, #333333);
+  color: #111111;
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 400;
 }
 
 .footer-bottom {
-  color: var(--text-muted, #666666);
-  font-size: 0.85rem;
+  color: #777777;
+  font-size: 0.8rem;
+  font-weight: 300;
 }
 
 .footer-bottom p {
@@ -194,19 +224,25 @@
 }
 
 .footer-bottom a {
-  color: var(--text-muted, #666666);
-  font-weight: 700;
+  color: #777777;
+  font-weight: 400;
   text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.footer-bottom a:hover {
+  color: #111111;
 }
 
 :host-context(.dark) .site-footer {
-  background: linear-gradient(180deg, #1e1e1e, #171717);
+  background: #121212;
+  border-color: #333333;
   color: #f4f1ec;
 }
 
 :host-context(.dark) .footer-cta {
-  background: linear-gradient(135deg, #2a2424, #23212c);
-  border-color: rgba(212, 175, 55, 0.24);
+  background: #1e1e1e;
+  border-color: #333333;
 }
 
 :host-context(.dark) .footer-cta h2,

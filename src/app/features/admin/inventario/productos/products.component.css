@@ -1,11 +1,11 @@
 .thumb-img {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e2dcd6;
-  transition: all 0.2s ease-in-out;
+  background: #FFFFFF;
+  border-radius: 0;
+  border: 1px solid #E5E5E5;
+  transition: border-color 0.2s ease-in-out;
   padding: 2px;
 }
 
@@ -15,13 +15,13 @@
 }
 
 .thumb-img:hover {
-  transform: scale(1.15);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-color: #111111;
+  box-shadow: none;
 }
 
 .preview-img {
-  border: 1px solid #e2dcd6;
-  background: white;
+  border: 1px solid #E5E5E5;
+  background: #FFFFFF;
   padding: 4px;
 }
 

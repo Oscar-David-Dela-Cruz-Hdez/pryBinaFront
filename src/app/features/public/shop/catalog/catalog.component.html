@@ -3,16 +3,16 @@
     <aside class="catalog-filters">
       <div class="filters-header">
         <div>
-          <span>Filtros</span>
-          <strong>Refinar catálogo</strong>
+          <span class="filter-kicker">Filtrar Colección</span>
+          <strong>Refinar Selección</strong>
         </div>
         <mat-icon>tune</mat-icon>
       </div>
 
       <div class="filter-group">
-        <p>Marca</p>
+        <p class="filter-title">Marca</p>
         <mat-selection-list [multiple]="false" (selectionChange)="onMarcaChange($event)">
-          <mat-list-option [value]="null" [selected]="!selectedMarca">Todas</mat-list-option>
+          <mat-list-option [value]="null" [selected]="!selectedMarca">Todas las marcas</mat-list-option>
           <mat-list-option *ngFor="let m of marcas" [value]="m._id" [selected]="selectedMarca === m._id">
             {{ m.nombre }}
           </mat-list-option>
@@ -20,9 +20,9 @@
       </div>
 
       <div class="filter-group" *ngIf="selectedMarca">
-        <p>Familia</p>
+        <p class="filter-title">Familia</p>
         <mat-selection-list [multiple]="false" (selectionChange)="onFamiliaChange($event)">
-          <mat-list-option [value]="null" [selected]="!selectedFamilia">Todas</mat-list-option>
+          <mat-list-option [value]="null" [selected]="!selectedFamilia">Todas las familias</mat-list-option>
           <mat-list-option *ngFor="let f of familias" [value]="f._id" [selected]="selectedFamilia === f._id">
             {{ f.nombre }}
           </mat-list-option>
@@ -33,14 +33,14 @@
     <main class="catalog-content">
       <div class="catalog-heading">
         <div>
-          <span>Catálogo</span>
-          <h1>Productos</h1>
+          <span class="catalog-kicker">Colección Exclusiva</span>
+          <h1>Catálogo de Productos</h1>
         </div>
-        <p *ngIf="!isLoading">{{ products.length }} productos disponibles</p>
+        <p *ngIf="!isLoading" class="catalog-count">{{ products.length }} piezas disponibles</p>
       </div>
 
       <div *ngIf="isLoading" class="catalog-loading">
-        <mat-spinner diameter="44"></mat-spinner>
+        <mat-spinner diameter="36" strokeWidth="2"></mat-spinner>
       </div>
 
       <div *ngIf="!isLoading && products.length === 0" class="catalog-empty">
@@ -50,18 +50,19 @@
 
       <div *ngIf="!isLoading && products.length > 0" class="products-grid">
         <article *ngFor="let product of products" class="product-card" [routerLink]="['/productos', product._id]" tabindex="0">
-          <figure>
+          <figure class="product-card__image-wrap">
             <img [src]="product.imagenUrl || product.imagenUrlPrincipal || 'assets/images/no-image.png'" [alt]="product.nombre">
+            <span *ngIf="product.ofertaEspecial || product.precioOferta" class="product-card__badge">Oferta</span>
           </figure>
 
           <div class="product-card__body">
-            <p class="product-card__meta">{{ product.marca?.nombre || 'Sin marca' }} {{ product.familia ? ' / ' + product.familia.nombre : '' }}</p>
-            <h2 [title]="product.nombre">{{ product.nombre }}</h2>
+            <p class="product-card__meta">{{ product.marca?.nombre || 'Cosmecos' }}{{ product.familia ? ' / ' + product.familia.nombre : '' }}</p>
+            <h2 [title]="product.nombre" class="product-card__title">{{ product.nombre }}</h2>
             <div class="product-card__footer">
-              <strong>{{ (product.precioNormal || product.precio) | currency }}</strong>
-              <button (click)="addToCart(product); $event.stopPropagation()">
-                <mat-icon>add_shopping_cart</mat-icon>
-                Agregar
+              <strong class="product-card__price">{{ (product.precioOferta || product.precioNormal || product.precio) | currency }}</strong>
+              <button class="btn-add-cart" (click)="addToCart(product); $event.stopPropagation()">
+                <mat-icon>shopping_bag</mat-icon>
+                <span>Añadir</span>
               </button>
             </div>
           </div>

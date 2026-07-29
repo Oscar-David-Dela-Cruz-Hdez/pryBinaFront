@@ -1,16 +1,16 @@
 <div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
-  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4 gap-4">
-    <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Paquetería y Métodos de Envío</h2>
-    <button class="btn-admin-primary" (click)="toggleForm()">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#E5E5E5] dark:border-[#333333] pb-4 gap-4">
+    <h2 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Paquetería y Métodos de Envío</h2>
+    <button class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] transition-all cursor-pointer flex items-center gap-2" (click)="toggleForm()">
       <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
       {{ showForm ? 'Cancelar' : 'Nuevo Método' }}
     </button>
   </div>
 
   <!-- Formulario -->
-  <mat-card *ngIf="showForm" class="mb-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 animate-fade-in">
+  <mat-card *ngIf="showForm" class="mb-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] shadow-none">
     <mat-card-header class="p-6 pb-0">
-      <mat-card-title class="text-xl font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">
+      <mat-card-title class="text-xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
         {{ isEditing ? 'Editar Método' : 'Agregar Método' }}
       </mat-card-title>
     </mat-card-header>
@@ -18,31 +18,31 @@
       <form [formGroup]="shippingForm" (ngSubmit)="onSubmit()" class="space-y-5">
 
         <div class="field-admin">
-          <label class="label-admin">Nombre <span class="text-red-500">*</span></label>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Nombre <span class="text-red-500">*</span></label>
           <input type="text" formControlName="nombre" placeholder="Ej: Envío Estándar" class="input-admin">
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="field-admin">
-            <label class="label-admin">Costo</label>
+            <label class="label-admin uppercase tracking-wider text-xs font-normal">Costo</label>
             <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666] dark:text-[#A0A0A0] font-medium">$</span>
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666] font-normal">$</span>
               <input type="number" formControlName="costo" class="input-admin pl-7" placeholder="0.00">
             </div>
           </div>
           <div class="field-admin">
-            <label class="label-admin">Tiempo Estimado</label>
+            <label class="label-admin uppercase tracking-wider text-xs font-normal">Tiempo Estimado</label>
             <input type="text" formControlName="tiempoEstimado" placeholder="Ej: 3-5 días" class="input-admin">
           </div>
         </div>
 
         <div class="field-admin">
-          <label class="label-admin">Tipo</label>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Tipo</label>
           <input type="text" formControlName="tipo" placeholder="nacional, local, etc." class="input-admin">
         </div>
 
         <div class="field-admin">
-          <label class="label-admin">Descripción</label>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Descripción</label>
           <textarea formControlName="descripcion" rows="2" class="textarea-admin" placeholder="Información adicional..."></textarea>
         </div>
 
@@ -50,9 +50,9 @@
           <mat-slide-toggle formControlName="activo" color="primary">Activo</mat-slide-toggle>
         </div>
 
-        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <button type="button" class="btn-admin-secondary" (click)="toggleForm()">Cancelar</button>
-          <button type="submit" class="btn-admin-primary" [disabled]="shippingForm.invalid || isLoading">
+        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#E5E5E5] dark:border-[#333333]">
+          <button type="button" class="px-5 py-2.5 bg-white text-[#111111] border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-[#111111] hover:text-white transition-all cursor-pointer" (click)="toggleForm()">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all cursor-pointer" [disabled]="shippingForm.invalid || isLoading">
             {{ isLoading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
           </button>
         </div>
@@ -60,47 +60,46 @@
     </mat-card-content>
   </mat-card>
 
-
   <!-- Tabla de métodos de envío -->
-  <div class="admin-data-table animate-fade-in" *ngIf="metodos.length > 0; else noData">
+  <div class="admin-data-table" *ngIf="metodos.length > 0; else noData">
     <table>
       <thead>
         <tr class="admin-table-head">
-          <th class="admin-th">Nombre</th>
-          <th class="admin-th">Tiempo Estimado</th>
-          <th class="admin-th">Costo</th>
-          <th class="admin-th">Tipo</th>
-          <th class="admin-th text-center">Estado</th>
-          <th class="admin-th text-right">Acciones</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Nombre</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Tiempo Estimado</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Costo</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Tipo</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal text-center">Estado</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal text-right">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let metodo of metodos" class="admin-table-row">
           <td class="admin-td">
             <div class="flex items-center gap-2">
-              <div class="admin-thumb-placeholder">
+              <div class="w-8 h-8 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78]">
                 <mat-icon style="font-size:16px;width:16px;height:16px">local_shipping</mat-icon>
               </div>
-              <span class="font-medium">{{ metodo.nombre }}</span>
+              <span class="font-normal text-[#111111] dark:text-[#F0F0F0] text-sm">{{ metodo.nombre }}</span>
             </div>
           </td>
           <td class="admin-td">
-            <span class="subtext">{{ metodo.tiempoEstimado || '—' }}</span>
+            <span class="text-xs text-[#666666] font-light">{{ metodo.tiempoEstimado || '—' }}</span>
           </td>
-          <td class="admin-td font-medium">{{ metodo.costo | currency }}</td>
+          <td class="admin-td font-normal text-[#C88A78]">{{ metodo.costo | currency }}</td>
           <td class="admin-td">
-            <span class="subtext" style="text-transform:capitalize">{{ metodo.tipo || '—' }}</span>
+            <span class="text-xs text-[#666666] font-light uppercase tracking-wider">{{ metodo.tipo || '—' }}</span>
           </td>
           <td class="admin-td text-center">
-            <span class="badge-admin" [class.badge-active]="metodo.activo" [class.badge-inactive]="!metodo.activo">
+            <span class="px-2.5 py-1 text-[10px] font-normal uppercase tracking-wider border" [class.border-[#111111]]="metodo.activo" [class.text-[#111111]]="metodo.activo" [class.border-[#E5E5E5]]="!metodo.activo" [class.text-[#888888]]="!metodo.activo">
               {{ metodo.activo ? 'Activo' : 'Inactivo' }}
             </span>
           </td>
           <td class="admin-td text-right">
-            <button class="admin-btn-edit" (click)="editMethod(metodo)" title="Editar">
+            <button class="text-[#111111] hover:text-[#C88A78] p-1" (click)="editMethod(metodo)" title="Editar">
               <mat-icon style="font-size:18px;width:18px;height:18px">edit</mat-icon>
             </button>
-            <button class="admin-btn-delete" (click)="deleteMethod(metodo)" title="Eliminar">
+            <button class="text-red-500 hover:text-red-700 p-1" (click)="deleteMethod(metodo)" title="Eliminar">
               <mat-icon style="font-size:18px;width:18px;height:18px">delete</mat-icon>
             </button>
           </td>
@@ -110,9 +109,9 @@
   </div>
 
   <ng-template #noData>
-    <div class="admin-empty-state">
-      <mat-icon>flight_takeoff</mat-icon>
-      <p>No hay métodos de envío registrados.</p>
+    <div class="admin-empty-state border border-[#E5E5E5] p-12 text-center bg-white">
+      <mat-icon class="text-[#C88A78]">flight_takeoff</mat-icon>
+      <p class="text-xs uppercase tracking-wider text-[#666666] mt-2">No hay métodos de envío registrados.</p>
     </div>
   </ng-template>
 </div>

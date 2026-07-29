@@ -1,15 +1,15 @@
-<div class="min-h-screen bg-[#FAF8F5] dark:bg-[#121212] transition-all duration-300 px-6 py-10">
+<div class="min-h-screen bg-[#FFFFFF] dark:bg-[#121212] transition-all duration-300 px-6 py-10">
   <div class="max-w-4xl mx-auto">
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] transition-all duration-300">
+      <h1 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
         Nuestra Ubicación
       </h1>
-      <p class="mt-2 text-[#666666] dark:text-[#A0A0A0]">Visítanos en nuestra sucursal principal</p>
+      <p class="mt-2 text-xs uppercase tracking-wider text-[#666666] dark:text-[#A0A0A0]">Visítanos en nuestra sucursal principal</p>
     </div>
 
-    <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden transition-all duration-300 hover:shadow-xl animate-fade-in">
+    <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] shadow-none overflow-hidden">
       <!-- Mapa -->
-      <div class="w-full bg-gray-100 dark:bg-black/20 min-h-[420px] flex items-center justify-center">
+      <div class="w-full bg-[#FFFFFF] dark:bg-black/20 min-h-[420px] flex items-center justify-center border-b border-[#E5E5E5] dark:border-[#333333]">
         <iframe
           *ngIf="safeMapUrl"
           [src]="safeMapUrl"
@@ -20,45 +20,45 @@
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
-        <div *ngIf="!safeMapUrl" class="text-[#999] text-sm flex flex-col items-center gap-2">
-          <mat-icon class="scale-150 mb-2">map</mat-icon>
+        <div *ngIf="!safeMapUrl" class="text-[#666666] text-xs uppercase tracking-wider flex flex-col items-center gap-2">
+          <mat-icon class="scale-150 mb-2 text-[#C88A78]">map</mat-icon>
           Cargando mapa interactivo...
         </div>
       </div>
 
       <!-- Info de contacto -->
-      <div class="p-6 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-4 animate-slide-up">
-        <div class="flex items-start gap-3">
-          <div class="w-10 h-10 bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
-            <mat-icon class="text-[#D4AF37] dark:text-[#E5C158] !text-xl">location_on</mat-icon>
+      <div class="p-8 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6">
+        <div class="flex items-start gap-4 p-4 border border-[#E5E5E5] dark:border-[#333333] rounded-none">
+          <div class="w-10 h-10 border border-[#E5E5E5] flex items-center justify-center flex-shrink-0 text-[#C88A78]">
+            <mat-icon class="!text-xl">location_on</mat-icon>
           </div>
           <div>
-            <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-1">Dirección</p>
-            <p class="text-sm text-[#2C2C2C] dark:text-[#F0F0F0] font-medium leading-relaxed">
+            <p class="text-[10px] font-normal text-[#666666] uppercase tracking-wider mb-1">Dirección</p>
+            <p class="text-xs text-[#111111] dark:text-[#F0F0F0] font-light leading-relaxed">
               {{ ubicacion?.direccion || 'Huejutla de Reyes, Hidalgo, México' }}
             </p>
           </div>
         </div>
         
-        <div class="flex items-start gap-3">
-          <div class="w-10 h-10 bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
-            <mat-icon class="text-[#D4AF37] dark:text-[#E5C158] !text-xl">schedule</mat-icon>
+        <div class="flex items-start gap-4 p-4 border border-[#E5E5E5] dark:border-[#333333] rounded-none">
+          <div class="w-10 h-10 border border-[#E5E5E5] flex items-center justify-center flex-shrink-0 text-[#C88A78]">
+            <mat-icon class="!text-xl">schedule</mat-icon>
           </div>
           <div>
-            <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-1">Horario</p>
-            <p class="text-sm text-[#2C2C2C] dark:text-[#F0F0F0] font-medium leading-relaxed">
+            <p class="text-[10px] font-normal text-[#666666] uppercase tracking-wider mb-1">Horario</p>
+            <p class="text-xs text-[#111111] dark:text-[#F0F0F0] font-light leading-relaxed">
               {{ ubicacion?.horario || 'Lunes a Viernes de 9:00 AM a 6:00 PM' }}
             </p>
           </div>
         </div>
 
-        <div class="flex items-start gap-3">
-          <div class="w-10 h-10 bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
-            <mat-icon class="text-[#D4AF37] dark:text-[#E5C158] !text-xl">phone</mat-icon>
+        <div class="flex items-start gap-4 p-4 border border-[#E5E5E5] dark:border-[#333333] rounded-none">
+          <div class="w-10 h-10 border border-[#E5E5E5] flex items-center justify-center flex-shrink-0 text-[#C88A78]">
+            <mat-icon class="!text-xl">phone</mat-icon>
           </div>
           <div>
-            <p class="text-xs font-semibold text-[#666666] dark:text-[#A0A0A0] uppercase tracking-wider mb-1">Teléfono</p>
-            <p class="text-sm text-[#2C2C2C] dark:text-[#F0F0F0] font-medium leading-relaxed">
+            <p class="text-[10px] font-normal text-[#666666] uppercase tracking-wider mb-1">Teléfono</p>
+            <p class="text-xs text-[#111111] dark:text-[#F0F0F0] font-light leading-relaxed">
               {{ ubicacion?.telefono || '+52 000 000 0000' }}
             </p>
           </div>

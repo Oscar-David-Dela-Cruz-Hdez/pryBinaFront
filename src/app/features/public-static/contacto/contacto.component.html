@@ -1,20 +1,20 @@
-<main class="bg-[#FAF8F5] dark:bg-[#121212] min-h-[60vh] py-16 px-6 transition-all duration-300">
+<main class="bg-[#FFFFFF] dark:bg-[#121212] min-h-[60vh] py-16 px-6 transition-all duration-300">
   <div class="max-w-4xl mx-auto">
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-sm text-[#666666] dark:text-[#A0A0A0] mb-10 font-semibold">
-      <a routerLink="/" class="hover:text-[#D4AF37] transition-colors">Inicio</a>
+    <nav class="flex items-center gap-2 text-xs uppercase tracking-wider text-[#666666] dark:text-[#A0A0A0] mb-10 font-normal">
+      <a routerLink="/" class="hover:text-[#C88A78] transition-colors">Inicio</a>
       <span>/</span>
-      <span class="text-[#D4AF37]">Contacto</span>
+      <span class="text-[#C88A78]">Contacto</span>
     </nav>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
       <!-- Contactos -->
-      <div class="bg-white dark:bg-[#1E1E1E] rounded-2xl p-8 md:p-10 shadow-sm border border-[#e2dcd6]/50 dark:border-[#333333]/50">
-        <h1 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mb-6 flex items-center gap-4">
+      <div class="bg-white dark:bg-[#1E1E1E] rounded-none p-8 md:p-10 border border-[#E5E5E5] dark:border-[#333333]">
+        <h1 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0] mb-6 flex items-center gap-4">
           Ponte en Contacto
         </h1>
-        <p class="text-[#666666] dark:text-[#A0A0A0] mb-8 leading-relaxed">
+        <p class="text-[#666666] dark:text-[#A0A0A0] mb-8 leading-relaxed font-light text-sm">
           Estamos aquí para escucharte. Puedes utilizar cualquiera de nuestros medios de contacto oficiales.
         </p>
 
@@ -24,13 +24,13 @@
         </div>
 
         <div *ngIf="!isLoading" class="flex flex-col gap-4">
-          <div *ngFor="let c of contactos" class="flex items-center gap-4 p-4 rounded-2xl bg-[#FAF8F5] dark:bg-[#2A2A2A] border border-[#e2dcd6]/30 dark:border-[#333333]/30">
-            <div class="w-10 h-10 rounded-full bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37]">
+          <div *ngFor="let c of contactos" class="flex items-center gap-4 p-4 rounded-none bg-white dark:bg-[#2A2A2A] border border-[#E5E5E5] dark:border-[#333333]">
+            <div class="w-10 h-10 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78]">
               <mat-icon>{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
             </div>
             <div>
-              <p class="text-[10px] font-bold uppercase text-[#999999] tracking-wider">{{ c.tipo }}</p>
-              <p class="font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">{{ c.valor }}</p>
+              <p class="text-[10px] font-normal uppercase text-[#C88A78] tracking-widest">{{ c.tipo }}</p>
+              <p class="font-normal text-[#111111] dark:text-[#F0F0F0] text-sm">{{ c.valor }}</p>
             </div>
           </div>
           <div *ngIf="contactos.length === 0" class="text-[#666666] dark:text-[#A0A0A0]">N/A</div>
@@ -38,19 +38,19 @@
       </div>
 
       <!-- Ubicacion Fija o Textual -->
-      <div class="bg-white dark:bg-[#1E1E1E] rounded-2xl p-8 md:p-10 shadow-sm border border-[#e2dcd6]/50 dark:border-[#333333]/50 flex flex-col justify-center">
-        <div class="w-16 h-16 rounded-full bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-6">
-          <mat-icon class="!text-3xl !w-8 !h-8">location_on</mat-icon>
+      <div class="bg-white dark:bg-[#1E1E1E] rounded-none p-8 md:p-10 border border-[#E5E5E5] dark:border-[#333333] flex flex-col justify-center">
+        <div class="w-12 h-12 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78] mb-6">
+          <mat-icon class="!text-2xl !w-6 !h-6">location_on</mat-icon>
         </div>
-        <h2 class="text-2xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0] mb-4">Nuestra Ubicación</h2>
+        <h2 class="text-2xl font-serif font-light text-[#111111] dark:text-[#F0F0F0] mb-4">Nuestra Ubicación</h2>
         <div *ngIf="isLoading" class="animate-pulse space-y-2">
           <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
           <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3"></div>
         </div>
-        <div *ngIf="!isLoading && ubicacion" class="text-lg font-medium text-[#666666] dark:text-[#A0A0A0] leading-relaxed">
+        <div *ngIf="!isLoading && ubicacion" class="text-base font-light text-[#666666] dark:text-[#A0A0A0] leading-relaxed">
           {{ ubicacion.direccion || 'Dirección no configurada.' }}
         </div>
-        <div *ngIf="!isLoading && !ubicacion" class="text-lg font-medium text-[#666666] dark:text-[#A0A0A0] leading-relaxed">
+        <div *ngIf="!isLoading && !ubicacion" class="text-base font-light text-[#666666] dark:text-[#A0A0A0] leading-relaxed">
           No disponible.
         </div>
       </div>

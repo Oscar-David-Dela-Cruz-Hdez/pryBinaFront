@@ -1,5 +1,5 @@
 .users-admin-page {
-  width: min(100%, 1180px);
+  width: min(100%, 1240px);
   margin: 0 auto;
   padding: 24px;
   min-height: calc(100vh - 80px);
@@ -12,30 +12,32 @@
   gap: 20px;
   margin-bottom: 22px;
   padding-bottom: 18px;
-  border-bottom: 1px solid var(--color-border, #e8ded2);
+  border-bottom: 1px solid #E5E5E5;
 }
 
 .section-kicker {
   margin: 0 0 6px;
-  color: var(--color-primary, #d4af37);
+  color: #C88A78;
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 400;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
 }
 
 .users-header h2 {
   margin: 0;
-  color: var(--color-text, #333333);
+  color: #111111;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 300;
 }
 
 .section-copy {
   max-width: 620px;
   margin: 8px 0 0;
-  color: var(--color-text-secondary, #666666);
+  color: #666666;
   font-size: 14px;
+  font-weight: 300;
 }
 
 .users-toolbar {
@@ -52,14 +54,14 @@
   gap: 10px;
   width: min(100%, 460px);
   padding: 10px 14px;
-  border: 1px solid var(--color-border, #e8ded2);
-  border-radius: 10px;
-  background: var(--color-surface, #ffffff);
-  box-shadow: var(--shadow-sm, 0 10px 30px rgba(51, 51, 51, 0.06));
+  border: 1px solid #E5E5E5;
+  border-radius: 0;
+  background: #FFFFFF;
+  box-shadow: none;
 }
 
 .users-search mat-icon {
-  color: var(--color-primary, #d4af37);
+  color: #111111;
 }
 
 .users-search input {
@@ -67,16 +69,16 @@
   border: 0 !important;
   outline: 0;
   background: transparent;
-  color: var(--color-text, #333333);
+  color: #111111;
   font-size: 14px;
 }
 
 .users-table-card {
   overflow: hidden;
-  border: 1px solid var(--color-border-light, rgba(51, 51, 51, 0.08));
-  border-radius: 12px;
-  background: var(--color-surface, #ffffff);
-  box-shadow: var(--shadow-sm, 0 10px 30px rgba(51, 51, 51, 0.06));
+  border: 1px solid #E5E5E5;
+  border-radius: 0;
+  background: #FFFFFF;
+  box-shadow: none;
 }
 
 .users-table {
@@ -85,15 +87,15 @@
 }
 
 .users-table th {
-  color: var(--color-text-secondary, #666666);
+  color: #666666;
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
 }
 
 .users-table td {
-  color: var(--color-text, #333333);
+  color: #111111;
 }
 
 .user-identity {
@@ -106,25 +108,27 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: rgba(248, 216, 216, 0.58);
-  color: var(--color-text, #333333);
-  font-weight: 700;
+  width: 36px;
+  height: 36px;
+  border-radius: 0;
+  border: 1px solid #E5E5E5;
+  background: #FFFFFF;
+  color: #C88A78;
+  font-weight: 400;
   text-transform: uppercase;
 }
 
 .user-identity strong {
   display: block;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .user-identity small,
 .email-text {
-  color: var(--color-text-secondary, #666666);
+  color: #666666;
   font-size: 13px;
+  font-weight: 300;
 }
 
 .actions-heading,
@@ -143,17 +147,17 @@
 .empty-row td {
   padding: 42px 20px !important;
   text-align: center;
-  color: var(--color-text-secondary, #666666);
+  color: #666666;
 }
 
 .empty-row mat-icon {
   display: block;
   margin: 0 auto 8px;
-  color: var(--color-primary, #d4af37);
+  color: #C88A78;
 }
 
 mat-paginator {
-  border-top: 1px solid var(--color-border-light, rgba(51, 51, 51, 0.08));
+  border-top: 1px solid #E5E5E5;
 }
 
 @media (max-width: 720px) {

@@ -8,20 +8,20 @@
   gap: 10px;
   width: 100%;
   padding: 10px 14px;
-  background: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #e8ded2);
-  border-radius: 8px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 0;
   cursor: pointer;
   font-size: 14px;
-  color: var(--color-text, #333333);
-  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  color: #111111;
+  transition: border-color 180ms ease;
   text-align: left;
 }
 
 .icon-picker-trigger:hover,
 .icon-picker-trigger.open {
-  border-color: var(--color-primary, #d4af37);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.14);
+  border-color: #111111;
+  box-shadow: none;
 }
 
 .icon-picker-trigger.open {
@@ -33,12 +33,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: var(--color-bg, #faf7f2);
-  border: 1px solid var(--color-border, #e8ded2);
-  border-radius: 8px;
-  color: var(--color-primary, #d4af37);
+  width: 34px;
+  height: 34px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 0;
+  color: #C88A78;
   flex-shrink: 0;
 }
 
@@ -51,7 +51,7 @@
 }
 
 .trigger-arrow {
-  color: var(--color-text-secondary, #666666);
+  color: #666666;
   font-size: 20px !important;
   width: 20px !important;
   height: 20px !important;
@@ -60,12 +60,12 @@
 
 .icon-picker-panel {
   width: 100%;
-  background: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-primary, #d4af37);
+  background: #FFFFFF;
+  border: 1px solid #111111;
   border-top: none;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  box-shadow: var(--shadow-sm, 0 10px 30px rgba(51, 51, 51, 0.06));
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
   overflow: hidden;
   animation: slideDown 180ms ease-out;
 }
@@ -78,7 +78,7 @@
 .picker-search {
   position: relative;
   padding: 10px 12px;
-  border-bottom: 1px solid var(--color-border, #e8ded2);
+  border-bottom: 1px solid #E5E5E5;
 }
 
 .search-icon-hint {
@@ -86,7 +86,7 @@
   left: 22px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--color-text-secondary, #666666);
+  color: #666666;
   font-size: 18px !important;
   width: 18px !important;
   height: 18px !important;
@@ -95,18 +95,18 @@
 .picker-search-input {
   width: 100%;
   padding: 8px 10px 8px 32px;
-  border: 1px solid var(--color-border, #e8ded2);
-  border-radius: 8px;
+  border: 1px solid #E5E5E5;
+  border-radius: 0;
   font-size: 13px;
-  background: var(--color-bg, #faf7f2);
-  color: var(--color-text, #333333);
+  background: #FFFFFF;
+  color: #111111;
   outline: none;
-  transition: border-color 180ms ease, box-shadow 180ms ease;
+  transition: border-color 180ms ease;
 }
 
 .picker-search-input:focus {
-  border-color: var(--color-primary, #d4af37);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+  border-color: #111111;
+  box-shadow: none;
 }
 
 .picker-grid {
@@ -123,8 +123,8 @@
 }
 
 .picker-grid::-webkit-scrollbar-thumb {
-  background: var(--color-border, #e8ded2);
-  border-radius: 99px;
+  background: #E5E5E5;
+  border-radius: 0;
 }
 
 .icon-option {
@@ -134,23 +134,23 @@
   gap: 3px;
   padding: 7px 4px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   background: transparent;
-  color: var(--color-text-secondary, #666666);
+  color: #666666;
   transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
 }
 
 .icon-option:hover {
-  background: var(--color-bg, #faf7f2);
-  border-color: var(--color-border, #e8ded2);
-  color: var(--color-primary, #d4af37);
+  background: #F7F7F7;
+  border-color: #E5E5E5;
+  color: #C88A78;
 }
 
 .icon-option.selected {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: var(--color-primary, #d4af37);
-  color: var(--color-primary, #d4af37);
+  background: #F7F7F7;
+  border-color: #C88A78;
+  color: #C88A78;
 }
 
 .icon-label {
@@ -169,6 +169,6 @@
   align-items: center;
   gap: 6px;
   padding: 20px;
-  color: var(--color-text-secondary, #666666);
+  color: #666666;
   font-size: 13px;
 }

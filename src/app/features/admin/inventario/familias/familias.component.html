@@ -1,16 +1,16 @@
 <div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
-  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4 gap-4">
-    <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Familias</h2>
-    <button class="btn-admin-primary" (click)="toggleForm()">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#E5E5E5] dark:border-[#333333] pb-4 gap-4">
+    <h2 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Gestión de Familias</h2>
+    <button class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] transition-all cursor-pointer flex items-center gap-2" (click)="toggleForm()">
       <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
       {{ showForm ? 'Cancelar' : 'Nueva Familia' }}
     </button>
   </div>
 
   <!-- Formulario -->
-  <mat-card *ngIf="showForm" class="mb-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 animate-fade-in">
+  <mat-card *ngIf="showForm" class="mb-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] shadow-none">
     <mat-card-header class="p-6 pb-0">
-      <mat-card-title class="text-xl font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">
+      <mat-card-title class="text-xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
         {{ isEditing ? 'Editar Familia' : 'Agregar Familia' }}
       </mat-card-title>
     </mat-card-header>
@@ -19,29 +19,29 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="field-admin">
-            <label class="label-admin">Nombre <span class="text-red-500">*</span></label>
-            <input type="text" formControlName="nombre" placeholder="Ej: Tintes Alfaparf" class="input-admin">
-            <p *ngIf="familiaForm.get('nombre')?.hasError('required') && familiaForm.get('nombre')?.touched" class="field-error">El nombre es requerido</p>
+            <label class="label-admin uppercase tracking-wider text-xs font-normal">Nombre <span class="text-red-500">*</span></label>
+            <input type="text" formControlName="nombre" placeholder="Ej: Tintes Alfaparf" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-sm text-[#111111]">
+            <p *ngIf="familiaForm.get('nombre')?.hasError('required') && familiaForm.get('nombre')?.touched" class="text-red-500 text-xs mt-1">El nombre es requerido</p>
           </div>
           
           <div class="field-admin">
-            <label class="label-admin">Marca <span class="text-red-500">*</span></label>
-            <select formControlName="marca" class="select-admin">
+            <label class="label-admin uppercase tracking-wider text-xs font-normal">Marca <span class="text-red-500">*</span></label>
+            <select formControlName="marca" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-xs uppercase tracking-wider text-[#111111]">
               <option value="">Seleccione una marca</option>
               <option *ngFor="let m of marcas" [value]="m._id || m.nombre">{{ m.nombre }}</option>
             </select>
-            <p *ngIf="familiaForm.get('marca')?.hasError('required') && familiaForm.get('marca')?.touched" class="field-error">La marca es requerida</p>
+            <p *ngIf="familiaForm.get('marca')?.hasError('required') && familiaForm.get('marca')?.touched" class="text-red-500 text-xs mt-1">La marca es requerida</p>
           </div>
         </div>
 
         <div class="field-admin">
-          <label class="label-admin">Descripción</label>
-          <textarea formControlName="descripcion" rows="3" placeholder="Descripción de la familia..." class="textarea-admin"></textarea>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Descripción</label>
+          <textarea formControlName="descripcion" rows="3" placeholder="Descripción de la familia..." class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-sm text-[#111111]"></textarea>
         </div>
 
-        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <button type="button" class="btn-admin-secondary" (click)="toggleForm()">Cancelar</button>
-          <button type="submit" class="btn-admin-primary" [disabled]="familiaForm.invalid || isLoading">
+        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#E5E5E5] dark:border-[#333333]">
+          <button type="button" class="px-5 py-2.5 bg-white text-[#111111] border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-[#111111] hover:text-white transition-all cursor-pointer" (click)="toggleForm()">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all cursor-pointer" [disabled]="familiaForm.invalid || isLoading">
             {{ isLoading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
           </button>
         </div>
@@ -50,38 +50,38 @@
   </mat-card>
 
   <!-- Tabla de Familias -->
-  <div class="admin-data-table animate-fade-in" *ngIf="familias.length > 0; else noData">
+  <div class="admin-data-table" *ngIf="familias.length > 0; else noData">
     <table>
       <thead>
         <tr class="admin-table-head">
-          <th class="admin-th" style="width:48px"></th>
-          <th class="admin-th">Nombre</th>
-          <th class="admin-th">Marca Perteneciente</th>
-          <th class="admin-th">Descripción</th>
-          <th class="admin-th text-right">Acciones</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal" style="width:48px"></th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Nombre</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Marca Perteneciente</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Descripción</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal text-right">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let f of familias" class="admin-table-row">
           <td class="admin-td">
-            <div class="admin-thumb-placeholder">
+            <div class="w-8 h-8 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78]">
               <mat-icon style="font-size:18px;width:18px;height:18px">account_tree</mat-icon>
             </div>
           </td>
           <td class="admin-td">
-            <span class="font-medium">{{ f.nombre }}</span>
+            <span class="font-normal text-[#111111] text-sm">{{ f.nombre }}</span>
           </td>
           <td class="admin-td">
-            <span class="px-3 py-1 bg-[#FAF8F5] dark:bg-[#333333] text-xs font-semibold rounded-full border border-[#e2dcd6]/50 dark:border-[#444444] text-[#D4AF37] dark:text-[#E5C158]">{{ getMarcaName(f.marca) }}</span>
+            <span class="px-2.5 py-1 text-[10px] uppercase tracking-wider border border-[#111111] text-[#111111]">{{ getMarcaName(f.marca) }}</span>
           </td>
           <td class="admin-td">
-            <span class="subtext">{{ f.descripcion || '—' }}</span>
+            <span class="text-xs text-[#666666] font-light">{{ f.descripcion || '—' }}</span>
           </td>
           <td class="admin-td text-right">
-            <button class="admin-btn-edit" (click)="editFamilia(f)" title="Editar">
+            <button class="text-[#111111] hover:text-[#C88A78] p-1" (click)="editFamilia(f)" title="Editar">
               <mat-icon style="font-size:18px;width:18px;height:18px">edit</mat-icon>
             </button>
-            <button class="admin-btn-delete" (click)="deleteFamilia(f)" title="Eliminar">
+            <button class="text-red-500 hover:text-red-700 p-1" (click)="deleteFamilia(f)" title="Eliminar">
               <mat-icon style="font-size:18px;width:18px;height:18px">delete</mat-icon>
             </button>
           </td>
@@ -91,9 +91,9 @@
   </div>
 
   <ng-template #noData>
-    <div class="admin-empty-state">
-      <mat-icon>account_tree</mat-icon>
-      <p>No hay familias registradas.</p>
+    <div class="admin-empty-state border border-[#E5E5E5] p-12 text-center bg-white">
+      <mat-icon class="text-[#C88A78]">account_tree</mat-icon>
+      <p class="text-xs uppercase tracking-wider text-[#666666] mt-2">No hay familias registradas.</p>
     </div>
   </ng-template>
 </div>

@@ -1,5 +1,6 @@
 .reportes-container {
   min-height: calc(100vh - 80px);
+  background: #FFFFFF;
 }
 
 .chart-line {
@@ -19,20 +20,23 @@
 }
 
 .input-admin:hover {
-  border-color: #D4AF37;
+  border-color: #111111;
 }
 
 .mat-mdc-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease;
+  border: 1px solid #E5E5E5 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
 }
 
 .mat-mdc-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-color: #111111 !important;
 }
 
 [data-theme="dark"] .mat-mdc-card {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: none !important;
+  border-color: #333333 !important;
 }
 
 /* Scrollbar personalizado para la tabla */
@@ -46,8 +50,8 @@
 }
 
 .overflow-x-auto::-webkit-scrollbar-thumb {
-  background: #e2dcd6;
-  border-radius: 10px;
+  background: #E5E5E5;
+  border-radius: 0;
 }
 
 [data-theme="dark"] .overflow-x-auto::-webkit-scrollbar-thumb {
@@ -57,10 +61,12 @@
 /* Estilos para los botones de toggle en el detalle de historial */
 .btn-toggle {
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  border: 1px solid #e2dcd6;
+  border-radius: 0;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border: 1px solid #E5E5E5;
   transition: all 0.3s ease;
   color: #666666;
   background: transparent;
@@ -73,15 +79,15 @@
 }
 
 .btn-toggle:hover {
-  border-color: #D4AF37;
-  color: #D4AF37;
+  border-color: #111111;
+  color: #111111;
 }
 
 .active-btn {
-  background-color: #D4AF37 !important;
+  background-color: #111111 !important;
   color: white !important;
-  border-color: #D4AF37 !important;
-  box-shadow: 0 10px 15px -3px rgba(212, 175, 55, 0.2), 0 4px 6px -4px rgba(212, 175, 55, 0.2) !important;
+  border-color: #111111 !important;
+  box-shadow: none !important;
 }
 
 [data-theme="dark"] .active-btn {
@@ -95,11 +101,11 @@
 
 ::ng-deep .datepicker-custom .mat-mdc-text-field-wrapper {
   background-color: transparent !important;
-  border-radius: 12px !important;
+  border-radius: 0 !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   height: 44px !important;
-  border: 1px solid #e2dcd6 !important;
+  border: 1px solid #E5E5E5 !important;
   transition: all 0.3s ease;
 }
 
@@ -108,7 +114,7 @@
 }
 
 ::ng-deep .datepicker-custom .mat-mdc-text-field-wrapper:hover {
-  border-color: #D4AF37 !important;
+  border-color: #111111 !important;
 }
 
 ::ng-deep .datepicker-custom .mat-mdc-form-field-flex {

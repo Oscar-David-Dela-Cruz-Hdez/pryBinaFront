@@ -1,16 +1,16 @@
 <div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
-  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4 gap-4">
-    <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Ofertas</h2>
-    <button class="btn-admin-primary" (click)="toggleForm()">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#E5E5E5] dark:border-[#333333] pb-4 gap-4">
+    <h2 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Gestión de Ofertas</h2>
+    <button class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] transition-all cursor-pointer flex items-center gap-2" (click)="toggleForm()">
       <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
       {{ showForm ? 'Cancelar' : 'Nueva Oferta' }}
     </button>
   </div>
 
   <!-- Formulario -->
-  <mat-card *ngIf="showForm" class="mb-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 animate-fade-in">
+  <mat-card *ngIf="showForm" class="mb-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] shadow-none">
     <mat-card-header class="p-6 pb-0">
-      <mat-card-title class="text-xl font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">
+      <mat-card-title class="text-xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
         {{ isEditing ? 'Editar Oferta' : 'Agregar Oferta' }}
       </mat-card-title>
     </mat-card-header>
@@ -18,33 +18,33 @@
       <form [formGroup]="offerForm" (ngSubmit)="onSubmit()" class="space-y-5">
 
         <div class="field-admin">
-          <label class="label-admin">Nombre de la Oferta <span class="text-red-500">*</span></label>
-          <input type="text" formControlName="nombre" class="input-admin" placeholder="Ej: Descuento de verano">
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Nombre de la Oferta <span class="text-red-500">*</span></label>
+          <input type="text" formControlName="nombre" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-sm text-[#111111]" placeholder="Ej: Descuento de verano">
         </div>
 
         <div class="field-admin">
-          <label class="label-admin">Descripción</label>
-          <textarea formControlName="descripcion" rows="2" class="textarea-admin" placeholder="Descripción de la oferta..."></textarea>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Descripción</label>
+          <textarea formControlName="descripcion" rows="2" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-sm text-[#111111]" placeholder="Descripción de la oferta..."></textarea>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="field-admin">
-            <label class="label-admin">Tipo de Descuento</label>
-            <select formControlName="tipoDescuento" class="select-admin">
+            <label class="label-admin uppercase tracking-wider text-xs font-normal">Tipo de Descuento</label>
+            <select formControlName="tipoDescuento" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-xs uppercase tracking-wider text-[#111111]">
               <option value="porcentaje">Porcentaje (%)</option>
               <option value="monto_fijo">Monto Fijo ($)</option>
             </select>
           </div>
           <div class="field-admin">
-            <label class="label-admin">Valor del Descuento</label>
-            <input type="number" formControlName="valorDescuento" class="input-admin" placeholder="0">
+            <label class="label-admin uppercase tracking-wider text-xs font-normal">Valor del Descuento</label>
+            <input type="number" formControlName="valorDescuento" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-sm text-[#111111]" placeholder="0">
           </div>
         </div>
 
-        <!-- Fechas: usan mat-datepicker, se mantiene mat-form-field pero con clases ajustadas -->
+        <!-- Fechas: usan mat-datepicker -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="field-admin">
-            <label class="label-admin">Fecha de Inicio</label>
+            <label class="label-admin uppercase tracking-wider text-xs font-normal">Fecha de Inicio</label>
             <mat-form-field appearance="outline" class="w-full">
               <input matInput [matDatepicker]="pickerInicio" formControlName="fechaInicio">
               <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
@@ -52,7 +52,7 @@
             </mat-form-field>
           </div>
           <div class="field-admin">
-            <label class="label-admin">Fecha de Fin</label>
+            <label class="label-admin uppercase tracking-wider text-xs font-normal">Fecha de Fin</label>
             <mat-form-field appearance="outline" class="w-full">
               <input matInput [matDatepicker]="pickerFin" formControlName="fechaFin">
               <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
@@ -61,9 +61,9 @@
           </div>
         </div>
 
-        <!-- Marcas y Productos: mat-select múltiple: se mantiene mat-form-field -->
+        <!-- Marcas y Productos -->
         <div class="field-admin">
-          <label class="label-admin">Aplicar a Marcas</label>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Aplicar a Marcas</label>
           <mat-form-field appearance="outline" class="w-full">
             <mat-select formControlName="marcas" multiple placeholder="Selecciona marcas">
               <mat-option *ngFor="let m of marcasDisponibles" [value]="m._id || m.nombre">
@@ -74,7 +74,7 @@
         </div>
 
         <div class="field-admin">
-          <label class="label-admin">Aplicar a Productos (Opcional)</label>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal">Aplicar a Productos (Opcional)</label>
           <mat-form-field appearance="outline" class="w-full">
             <mat-select formControlName="productos" multiple placeholder="Selecciona productos">
               <mat-option *ngFor="let prod of productosDisponibles" [value]="prod._id">
@@ -88,9 +88,9 @@
           <mat-slide-toggle formControlName="activo" color="primary">Oferta Activa</mat-slide-toggle>
         </div>
 
-        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e2dcd6]/30 dark:border-[#333333]/30">
-          <button type="button" class="btn-admin-secondary" (click)="toggleForm()">Cancelar</button>
-          <button type="submit" class="btn-admin-primary" [disabled]="offerForm.invalid || isLoading">
+        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#E5E5E5] dark:border-[#333333]">
+          <button type="button" class="px-5 py-2.5 bg-white text-[#111111] border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-[#111111] hover:text-white transition-all cursor-pointer" (click)="toggleForm()">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all cursor-pointer" [disabled]="offerForm.invalid || isLoading">
             {{ isLoading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
           </button>
         </div>
@@ -98,52 +98,51 @@
     </mat-card-content>
   </mat-card>
 
-
   <!-- Tabla de ofertas -->
-  <div class="admin-data-table animate-fade-in" *ngIf="ofertas.length > 0; else noData">
+  <div class="admin-data-table" *ngIf="ofertas.length > 0; else noData">
     <table>
       <thead>
         <tr class="admin-table-head">
-          <th class="admin-th">Nombre</th>
-          <th class="admin-th">Descuento</th>
-          <th class="admin-th">Vigencia</th>
-          <th class="admin-th text-center">Alcance</th>
-          <th class="admin-th text-center">Estado</th>
-          <th class="admin-th text-right">Acciones</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Nombre</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Descuento</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal">Vigencia</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal text-center">Alcance</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal text-center">Estado</th>
+          <th class="admin-th uppercase tracking-wider text-xs font-normal text-right">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let oferta of ofertas" class="admin-table-row">
           <td class="admin-td">
-            <span class="font-medium">{{ oferta.nombre }}</span>
-            <div class="subtext">{{ oferta.descripcion }}</div>
+            <span class="font-normal text-[#111111] text-sm">{{ oferta.nombre }}</span>
+            <div class="text-xs text-[#666666] font-light">{{ oferta.descripcion }}</div>
           </td>
           <td class="admin-td">
-            <span class="font-semibold" style="color:#D4AF37">
+            <span class="font-normal text-[#C88A78]">
               {{ oferta.tipoDescuento === 'porcentaje' ? oferta.valorDescuento + '%' : (oferta.valorDescuento | currency) }}
             </span>
-            <div class="subtext">{{ oferta.tipoDescuento === 'porcentaje' ? 'Porcentaje' : 'Monto fijo' }}</div>
+            <div class="text-xs text-[#666666] font-light">{{ oferta.tipoDescuento === 'porcentaje' ? 'Porcentaje' : 'Monto fijo' }}</div>
           </td>
           <td class="admin-td">
-            <div class="subtext">{{ oferta.fechaInicio | date:'dd/MM/yy' }} → {{ oferta.fechaFin | date:'dd/MM/yy' }}</div>
+            <div class="text-xs text-[#666666] font-light">{{ oferta.fechaInicio | date:'dd/MM/yy' }} → {{ oferta.fechaFin | date:'dd/MM/yy' }}</div>
           </td>
           <td class="admin-td text-center">
             <div class="flex flex-col items-center gap-0.5">
-              <span *ngIf="oferta.categorias?.length" class="subtext">{{ oferta.categorias.length }} cat.</span>
-              <span *ngIf="oferta.productos?.length" class="subtext">{{ oferta.productos.length }} prod.</span>
-              <span *ngIf="!oferta.categorias?.length && !oferta.productos?.length" class="subtext">Global</span>
+              <span *ngIf="oferta.categorias?.length" class="text-xs text-[#666666] font-light">{{ oferta.categorias.length }} cat.</span>
+              <span *ngIf="oferta.productos?.length" class="text-xs text-[#666666] font-light">{{ oferta.productos.length }} prod.</span>
+              <span *ngIf="!oferta.categorias?.length && !oferta.productos?.length" class="text-xs text-[#666666] font-light">Global</span>
             </div>
           </td>
           <td class="admin-td text-center">
-            <span class="badge-admin" [class.badge-active]="oferta.activo" [class.badge-inactive]="!oferta.activo">
+            <span class="px-2.5 py-1 text-[10px] font-normal uppercase tracking-wider border" [class.border-[#111111]]="oferta.activo" [class.text-[#111111]]="oferta.activo" [class.border-[#E5E5E5]]="!oferta.activo" [class.text-[#888888]]="!oferta.activo">
               {{ oferta.activo ? 'Activa' : 'Inactiva' }}
             </span>
           </td>
           <td class="admin-td text-right">
-            <button class="admin-btn-edit" (click)="editOffer(oferta)" title="Editar">
+            <button class="text-[#111111] hover:text-[#C88A78] p-1" (click)="editOffer(oferta)" title="Editar">
               <mat-icon style="font-size:18px;width:18px;height:18px">edit</mat-icon>
             </button>
-            <button class="admin-btn-delete" (click)="deleteOffer(oferta)" title="Eliminar">
+            <button class="text-red-500 hover:text-red-700 p-1" (click)="deleteOffer(oferta)" title="Eliminar">
               <mat-icon style="font-size:18px;width:18px;height:18px">delete</mat-icon>
             </button>
           </td>
@@ -153,9 +152,9 @@
   </div>
 
   <ng-template #noData>
-    <div class="admin-empty-state">
-      <mat-icon>local_offer</mat-icon>
-      <p>No hay ofertas registradas.</p>
+    <div class="admin-empty-state border border-[#E5E5E5] p-12 text-center bg-white">
+      <mat-icon class="text-[#C88A78]">local_offer</mat-icon>
+      <p class="text-xs uppercase tracking-wider text-[#666666] mt-2">No hay ofertas registradas.</p>
     </div>
   </ng-template>
 </div>

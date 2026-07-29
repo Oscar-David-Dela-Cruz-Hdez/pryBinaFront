@@ -1,51 +1,48 @@
 <div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
-  <div class="mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4">
-    <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Respaldos de Base de Datos</h2>
+  <div class="mb-8 border-b border-[#E5E5E5] dark:border-[#333333] pb-4">
+    <h2 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Respaldos de Base de Datos</h2>
   </div>
-  <p class="subtitle text-[#666666] dark:text-[#A0A0A0] mb-6">Genera copias de seguridad de las colecciones activas del sistema.</p>
+  <p class="subtitle text-xs uppercase tracking-wider text-[#666666] dark:text-[#A0A0A0] mb-6">Genera copias de seguridad de las colecciones activas del sistema.</p>
 
-  <mat-card class="backup-card bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-md shadow-black/5 dark:shadow-black/40 border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+  <mat-card class="backup-card bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] shadow-none overflow-hidden">
     <mat-card-header class="p-6 pb-0">
-      <div mat-card-avatar class="header-icon p-3 rounded-xl bg-[#D4AF37]/10 dark:bg-[#E5C158]/10 border border-[#D4AF37]/30 dark:border-[#E5C158]/30">
-        <mat-icon class="text-[#D4AF37] dark:text-[#E5C158]">save</mat-icon>
+      <div mat-card-avatar class="header-icon p-3 border border-[#E5E5E5] text-[#C88A78]">
+        <mat-icon class="!text-xl">save</mat-icon>
       </div>
-      <mat-card-title class="text-xl font-semibold text-[#2C2C2C] dark:text-[#F0F0F0]">Colecciones Disponibles</mat-card-title>
-      <mat-card-subtitle class="text-[#666666] dark:text-[#A0A0A0]">Selecciona los datos que deseas exportar al archivo .zip</mat-card-subtitle>
+      <mat-card-title class="text-xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Colecciones Disponibles</mat-card-title>
+      <mat-card-subtitle class="text-xs text-[#666666] dark:text-[#A0A0A0] font-light">Selecciona los datos que deseas exportar al archivo .zip</mat-card-subtitle>
     </mat-card-header>
 
-    <mat-card-content class="p-6 pt-2">
+    <mat-card-content class="p-6 pt-4">
       <div *ngIf="isLoading" class="loading-state flex flex-col items-center justify-center gap-4 py-8">
-        <mat-spinner diameter="40" class="text-[#D4AF37] dark:text-[#E5C158]"></mat-spinner>
-        <span class="text-[#666666] dark:text-[#A0A0A0]">Cargando colecciones...</span>
+        <mat-spinner diameter="36" class="text-[#C88A78]"></mat-spinner>
+        <span class="text-xs uppercase tracking-wider text-[#666666]">Cargando colecciones...</span>
       </div>
 
       <div *ngIf="!isLoading && colecciones.length === 0" class="empty-state flex flex-col items-center justify-center gap-4 py-8">
-        <p class="text-[#666666] dark:text-[#A0A0A0]">No se encontraron colecciones disponibles.</p>
-        <button mat-stroked-button
-          class="!rounded-xl !py-2 !px-6 hover:bg-[#FAF8F5] dark:hover:bg-[#2A2A2A] transition-colors duration-300 text-[#D4AF37] dark:text-[#E5C158] border-[#D4AF37] dark:border-[#E5C158]"
-          (click)="cargarColecciones()">
+        <p class="text-xs uppercase tracking-wider text-[#666666]">No se encontraron colecciones disponibles.</p>
+        <button (click)="cargarColecciones()"
+          class="px-6 py-2.5 bg-white text-[#111111] border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-[#111111] hover:text-white transition-all cursor-pointer">
           Reintentar
         </button>
       </div>
 
       <div *ngIf="!isLoading && colecciones.length > 0" class="collections-list">
-        <div class="select-all p-4 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
+        <div class="select-all p-4 border-b border-[#E5E5E5] dark:border-[#333333]">
           <mat-checkbox
             [checked]="allSelected"
             [indeterminate]="someSelected"
             (change)="toggleAll($event)"
-            class="text-[#2C2C2C] dark:text-[#F0F0F0]"
-            color="primary">
-            <b>Seleccionar Todas</b>
+            class="text-[#111111] dark:text-[#F0F0F0]">
+            <b class="font-normal text-xs uppercase tracking-wider">Seleccionar Todas</b>
           </mat-checkbox>
         </div>
 
-        <div class="checkbox-grid p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 animate-slide-up">
+        <div class="checkbox-grid p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           <mat-checkbox
             *ngFor="let col of colecciones"
             [(ngModel)]="seleccionadas[col]"
-            class="text-[#2C2C2C] dark:text-[#F0F0F0]"
-            color="primary">
+            class="text-[#111111] dark:text-[#F0F0F0] text-sm">
             {{ col }}
           </mat-checkbox>
         </div>
@@ -53,12 +50,11 @@
     </mat-card-content>
 
     <mat-card-actions class="p-6 pt-0" *ngIf="!isLoading && colecciones.length > 0">
-      <button mat-raised-button
-        color="accent"
+      <button
         (click)="descargarRespaldo()"
         [disabled]="isDownloading"
-        class="download-btn bg-[#D4AF37] dark:bg-[#E5C158] text-white dark:text-[#0F172A] rounded-xl px-6 py-2 hover:scale-105 hover:-translate-y-1 active:scale-95 transition-all duration-300">
-        <mat-icon>cloud_download</mat-icon>
+        class="flex items-center gap-2 px-6 py-3 bg-[#111111] text-white border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all cursor-pointer">
+        <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">cloud_download</mat-icon>
         <span>{{ isDownloading ? 'Generando ZIP...' : 'Descargar Respaldo' }}</span>
       </button>
     </mat-card-actions>

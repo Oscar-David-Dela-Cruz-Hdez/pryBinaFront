@@ -8,20 +8,24 @@
 .mat-mdc-menu-panel.soft-menu {
   overflow: hidden !important;
   max-width: calc(100vw - 20px) !important;
-  border: 1px solid var(--border-soft, #eadfd9) !important;
-  border-radius: 8px !important;
-  background: var(--surface-card, #ffffff) !important;
-  box-shadow: 0 22px 55px rgba(51, 51, 51, 0.18) !important;
+  border: 1px solid #E5E5E5 !important;
+  border-radius: 0px !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
   opacity: 1 !important;
 }
 
 .mat-mdc-menu-panel .mat-mdc-menu-content,
 .mat-mdc-menu-panel .mat-mdc-menu-item {
-  background: var(--surface-card, #ffffff) !important;
+  background: #ffffff !important;
+  color: #111111 !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.5px !important;
 }
 
 .mat-mdc-menu-panel .mat-mdc-menu-item:hover {
-  background: color-mix(in srgb, var(--color-primary, #f8d8d8) 38%, #ffffff) !important;
+  background: #f7f7f7 !important;
+  color: #C88A78 !important;
 }
 
 .dark .cdk-overlay-pane .mat-mdc-menu-panel,
@@ -29,6 +33,7 @@
 .dark .mat-mdc-menu-panel .mat-mdc-menu-content,
 .dark .mat-mdc-menu-panel .mat-mdc-menu-item {
   background: #1e1e1e !important;
+  border-color: #333333 !important;
 }
 
 /* =============================================================

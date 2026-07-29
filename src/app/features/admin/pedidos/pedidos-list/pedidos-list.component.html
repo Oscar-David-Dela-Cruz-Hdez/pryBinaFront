@@ -1,77 +1,57 @@
 <div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
-  <div class="mb-8 border-b border-[#e2dcd6] dark:border-[#333333] pb-4">
-    <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Gestión de Pedidos</h2>
+  <div class="mb-8 border-b border-[#E5E5E5] dark:border-[#333333] pb-4">
+    <h2 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Gestión de Pedidos</h2>
   </div>
-
-  <section class="analytics-panel">
-    <div class="analytics-heading"><div><span>Clasificación predictiva</span><h3>Riesgo de cancelación</h3><span class="model-state" [class.demo]="!analiticaReal">{{ analiticaReal ? 'Modelo conectado' : 'Modo demostración' }}</span></div><div class="refresh-area"><p>{{ modeloRiesgo }} · Entrenado con {{ entrenamiento.pedidos }} pedidos finalizados</p><button type="button" (click)="loadPedidos()" [disabled]="actualizando"><mat-icon>refresh</mat-icon>{{ actualizando ? 'Actualizando…' : 'Actualizar ahora' }}</button><small *ngIf="ultimaActualizacion">Actualización automática cada 30 s · {{ ultimaActualizacion | date:'mediumTime' }}</small></div></div>
-    <div class="metric-grid">
-      <article><small>Pedidos analizados</small><strong>{{ resumenRiesgo.analizados }}</strong><mat-icon>analytics</mat-icon></article>
-      <article class="high"><small>Riesgo alto</small><strong>{{ resumenRiesgo.riesgoAlto }}</strong><mat-icon>priority_high</mat-icon></article>
-      <article class="medium"><small>Riesgo medio</small><strong>{{ resumenRiesgo.riesgoMedio }}</strong><mat-icon>schedule</mat-icon></article>
-      <article class="low"><small>Riesgo bajo</small><strong>{{ resumenRiesgo.riesgoBajo }}</strong><mat-icon>verified</mat-icon></article>
-    </div>
-    <p class="analytics-note">La tabla muestra exclusivamente pedidos pendientes. Los pedidos entregados y cancelados se utilizan como historial de entrenamiento, pero no aparecen en esta lista operativa.</p>
-  </section>
 
   <!-- Filtro de búsqueda -->
   <div class="field-admin mb-6">
-    <input type="text" (keyup)="applyFilter($event)" placeholder="Buscar por ID, usuario, etc." #input class="input-admin">
+    <input type="text" (keyup)="applyFilter($event)" placeholder="Buscar por ID, usuario, etc." #input class="w-full px-4 py-3 bg-[#FFFFFF] dark:bg-[#2A2A2A] border border-[#E5E5E5] dark:border-[#333333] text-[#111111] dark:text-[#F0F0F0] text-sm focus:outline-none focus:border-[#111111]">
   </div>
 
-
-  <div class="mat-elevation-z8 rounded-2xl overflow-hidden bg-[#FFFFFF] dark:bg-[#1E1E1E] border border-[#e2dcd6]/30 dark:border-[#333333]/30">
+  <div class="rounded-none overflow-hidden bg-[#FFFFFF] dark:bg-[#1E1E1E] border border-[#E5E5E5] dark:border-[#333333]">
     <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="w-full">
       <!-- ID -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">ID Pedido</th>
-        <td mat-cell *matCellDef="let row" class="p-3">{{ row._id | slice: -6 }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-xs uppercase tracking-wider text-[#111111] font-normal">ID Pedido</th>
+        <td mat-cell *matCellDef="let row" class="p-3 text-sm font-mono text-[#111111]">{{ row._id | slice: -6 }}</td>
       </ng-container>
 
       <ng-container matColumnDef="riesgo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3">Predicción</th>
-        <td mat-cell *matCellDef="let row" class="p-3">
-          <div class="risk-cell" *ngIf="row.riesgo; else knownResult"><span class="risk-pill" [ngClass]="getRiskClass(row.riesgo?.nivel)">{{ row.riesgo?.porcentaje }}% · {{ row.riesgo?.nivel }}</span><small>cancelación</small></div>
-          <ng-template #knownResult><span class="known-result">Resultado: {{ row.estado }}</span></ng-template>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-xs uppercase tracking-wider text-[#111111] font-normal">Predicción</th>
+        <td mat-cell *matCellDef="let row" class="p-3 text-sm">
+          <div class="risk-cell" *ngIf="row.riesgo; else knownResult"><span class="risk-pill text-xs font-normal" [ngClass]="getRiskClass(row.riesgo?.nivel)">{{ row.riesgo?.porcentaje }}% · {{ row.riesgo?.nivel }}</span></div>
+          <ng-template #knownResult><span class="text-xs uppercase tracking-wider text-[#666666]">Resultado: {{ row.estado }}</span></ng-template>
         </td>
       </ng-container>
 
       <!-- Usuario -->
       <ng-container matColumnDef="usuario">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">Usuario</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-xs uppercase tracking-wider text-[#111111] font-normal">Usuario</th>
         <td mat-cell *matCellDef="let row" class="p-3">
           <div class="flex flex-col">
-            <span class="font-medium text-[#2C2C2C] dark:text-[#F0F0F0]">{{ row.usuario?.nombre || 'Desconocido' }}</span>
-            <span class="text-sm text-[#666666] dark:text-[#A0A0A0]">{{ row.usuario?.email }}</span>
+            <span class="font-normal text-[#111111] dark:text-[#F0F0F0] text-sm">{{ row.usuario?.nombre || 'Desconocido' }}</span>
+            <span class="text-xs text-[#666666] font-light">{{ row.usuario?.email }}</span>
           </div>
         </td>
       </ng-container>
 
       <!-- Fecha -->
       <ng-container matColumnDef="fecha">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">Fecha</th>
-        <td mat-cell *matCellDef="let row" class="p-3">{{ row.createdAt | date:'short' }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-xs uppercase tracking-wider text-[#111111] font-normal">Fecha</th>
+        <td mat-cell *matCellDef="let row" class="p-3 text-xs text-[#666666] font-light">{{ row.createdAt | date:'short' }}</td>
       </ng-container>
 
       <!-- Total -->
       <ng-container matColumnDef="total">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">Total</th>
-        <td mat-cell *matCellDef="let row" class="p-3">{{ row.total | currency }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-xs uppercase tracking-wider text-[#111111] font-normal">Total</th>
+        <td mat-cell *matCellDef="let row" class="p-3 font-normal text-[#C88A78] text-sm">{{ row.total | currency }}</td>
       </ng-container>
 
       <!-- Estado -->
       <ng-container matColumnDef="estado">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">Estado</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3 text-xs uppercase tracking-wider text-[#111111] font-normal">Estado</th>
         <td mat-cell *matCellDef="let row" class="p-3">
-          <span class="inline-block px-3 py-1 rounded-full text-xs font-medium"
-            [class]="{
-              'bg-[#FF9800]/20 text-[#FF9800]': row.estado === 'Pendiente',
-              'bg-[#2196F3]/20 text-[#2196F3]': row.estado === 'Pagado',
-              'bg-[#4CAF50]/20 text-[#4CAF50]': row.estado === 'Enviado',
-              'bg-[#8BC34A]/20 text-[#8BC34A]': row.estado === 'Entregado',
-              'bg-[#F44336]/20 text-[#F44336]': row.estado === 'Cancelado',
-              'bg-[#9C27B0]/20 text-[#9C27B0]': row.estado === 'Devolución'
-            }">
+          <span class="inline-block px-2.5 py-1 text-[10px] uppercase tracking-wider font-normal border border-[#E5E5E5] text-[#111111]">
             {{ row.estado }}
           </span>
         </td>
@@ -79,11 +59,9 @@
 
       <!-- Acciones -->
       <ng-container matColumnDef="acciones">
-        <th mat-header-cell *matHeaderCellDef class="p-3 text-[#2C2C2C] dark:text-[#F0F0F0]">Acciones</th>
+        <th mat-header-cell *matHeaderCellDef class="p-3 text-xs uppercase tracking-wider text-[#111111] font-normal">Acciones</th>
         <td mat-cell *matCellDef="let row" class="p-3">
-          <button mat-icon-button
-            class="text-[#D4AF37] dark:text-[#E5C158] hover:-translate-y-0.5 transition-transform"
-            (click)="expandRow(row); $event.stopPropagation()">
+          <button mat-icon-button class="text-[#111111] hover:text-[#C88A78]" (click)="expandRow(row); $event.stopPropagation()">
             <mat-icon>{{ expandedElement === row ? 'expand_less' : 'expand_more' }}</mat-icon>
           </button>
         </td>
@@ -92,47 +70,38 @@
       <!-- Expanded Content -->
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length" class="p-0">
-          <div *ngIf="element == expandedElement" class="element-detail bg-[#FAF8F5]/50 dark:bg-[#2A2A2A]/50 p-6 rounded-b-xl"
-               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div *ngIf="element == expandedElement" class="element-detail bg-[#FFFFFF] p-6 border-t border-[#E5E5E5]">
             <div class="detail-container grid grid-cols-1 md:grid-cols-4 gap-6">
               <!-- Productos -->
               <div class="detail-section">
-                <h4 class="text-lg font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-4">Productos</h4>
+                <h4 class="text-lg font-serif font-light text-[#111111] mb-4">Productos</h4>
                 <ul class="space-y-2">
-                  <li *ngFor="let item of element.productos" class="flex justify-between">
+                  <li *ngFor="let item of element.productos" class="flex justify-between text-xs text-[#666666] font-light">
                     <span>{{ item.nombre }} x {{ item.cantidad }}</span>
-                    <span>{{ item.precio | currency }}</span>
+                    <span class="text-[#111111]">{{ item.precio | currency }}</span>
                   </li>
                 </ul>
-                <p class="mt-4 font-medium"><strong>Envío:</strong> {{ element.costoEnvio | currency }}</p>
-              </div>
-
-              <div class="detail-section prediction-detail" *ngIf="element.riesgo">
-                <h4 class="text-lg font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-4">¿Por qué tiene este riesgo?</h4>
-                <div class="prediction-person"><strong>{{ element.usuario?.nombre || 'Usuario desconocido' }}</strong><span>{{ element.usuario?.email }}</span></div>
-                <ul><li *ngFor="let factor of element.riesgo?.factores">{{ factor }}</li></ul>
-                <p class="suggested-action"><strong>Acción sugerida:</strong> {{ getRecommendation(element.riesgo) }}</p>
-                <small *ngIf="['Entregado', 'Cancelado'].includes(element.estado)">Resultado conocido: {{ element.estado }}. Se conserva para evaluar el modelo.</small>
+                <p class="mt-4 text-xs font-normal text-[#111111]"><strong>Envío:</strong> {{ element.costoEnvio | currency }}</p>
               </div>
 
               <!-- Dirección -->
               <div class="detail-section">
-                <h4 class="text-lg font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-4">Envío a:</h4>
-                <p class="text-[#666666] dark:text-[#A0A0A0]">
+                <h4 class="text-lg font-serif font-light text-[#111111] mb-4">Envío a:</h4>
+                <p class="text-xs text-[#666666] font-light leading-relaxed">
                   {{ element.direccionEnvio?.calle }}<br>
                   {{ element.direccionEnvio?.ciudad }}, {{ element.direccionEnvio?.estado }}<br>
                   CP: {{ element.direccionEnvio?.cp }}<br>
                   Tel: {{ element.direccionEnvio?.telefono }}
                 </p>
-                <p class="mt-2 font-medium"><strong>Método Pago:</strong> {{ element.metodoPago }}</p>
+                <p class="mt-2 text-xs font-normal text-[#111111]"><strong>Método Pago:</strong> {{ element.metodoPago }}</p>
               </div>
 
               <!-- Actualizar Estado -->
               <div class="detail-section">
-                <h4 class="text-lg font-medium text-[#2C2C2C] dark:text-[#F0F0F0] mb-4">Actualizar Estado</h4>
+                <h4 class="text-lg font-serif font-light text-[#111111] mb-4">Actualizar Estado</h4>
                 <div class="field-admin">
-                  <label class="label-admin">Nuevo Estado</label>
-                  <select class="select-admin" [(ngModel)]="element.tempEstado" (ngModelChange)="updateStatus(element, $event)">
+                  <label class="label-admin uppercase tracking-wider text-xs font-normal">Nuevo Estado</label>
+                  <select class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-xs uppercase tracking-wider text-[#111111]" [(ngModel)]="element.tempEstado" (ngModelChange)="updateStatus(element, $event)">
                     <option value="Pendiente">Pendiente</option>
                     <option value="Pagado">Pagado</option>
                     <option value="Enviado">Enviado</option>
@@ -147,18 +116,14 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="bg-[#FAF8F5]/80 dark:bg-[#1E1E1E]/80 backdrop-blur-sm"></tr>
-      <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-          class="element-row hover:bg-[#FAF8F5]/30 dark:hover:bg-[#2A2A2A]/30 transition-colors duration-200"
-          [class.expanded-row]="expandedElement === element"
-          (click)="expandRow(element)">
-      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="bg-[#FFFFFF] border-b border-[#E5E5E5]"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row hover:bg-[#F7F7F7] transition-colors duration-200" [class.expanded-row]="expandedElement === element" (click)="expandRow(element)"></tr>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell p-3 text-center" colspan="7">{{ input.value ? 'No hay pedidos pendientes que coincidan con "' + input.value + '"' : 'No hay pedidos pendientes por analizar' }}</td>
+        <td class="mat-cell p-4 text-center text-xs uppercase tracking-wider text-[#666666]" colspan="7">{{ input.value ? 'No hay pedidos pendientes que coincidan con "' + input.value + '"' : 'No hay pedidos pendientes por analizar' }}</td>
       </tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[10, 25, 50]" aria-label="Select page of orders" class="bg-[#FAF8F5] dark:bg-[#1E1E1E]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]" aria-label="Select page of orders" class="bg-[#FFFFFF] border-t border-[#E5E5E5]"></mat-paginator>
   </div>
 </div>
