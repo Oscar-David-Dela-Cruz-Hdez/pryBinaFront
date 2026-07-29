@@ -73,8 +73,9 @@
         <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
 
-      <a routerLink="/carrito" class="icon-action" title="Carrito">
-        <mat-icon [matBadge]="cartCount > 0 ? cartCount : null" matBadgeColor="warn">shopping_bag</mat-icon>
+      <a routerLink="/carrito" class="icon-action cart-action-link" title="Carrito">
+        <mat-icon>shopping_bag</mat-icon>
+        <span *ngIf="cartCount > 0" class="cart-badge-count">{{ cartCount }}</span>
       </a>
 
       <button class="account-button" [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario">

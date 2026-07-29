@@ -1755,3 +1755,58 @@ form:not(.search-box) .mat-stepper-vertical {
 [data-theme="dark"] .mat-mdc-snack-bar-container.cart-snackbar .mdc-snackbar__label {
   color: #f4f1ec !important;
 }
+
+/* Fix y diseño del badge de contador del carrito (Estilo Cosmecos) */
+.cart-action-link {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.cart-badge-count {
+  position: absolute !important;
+  top: 1px !important;
+  right: 1px !important;
+  background-color: #C88A78 !important;
+  color: #FFFFFF !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  min-width: 17px !important;
+  height: 17px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 4px !important;
+  line-height: 1 !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+  box-shadow: 0 0 0 2px #FFFFFF !important;
+}
+
+.dark .cart-badge-count {
+  box-shadow: 0 0 0 2px #121212 !important;
+}
+
+/* Angular Material MDC Badge Fallback Fix */
+.mat-badge-content {
+  background-color: #C88A78 !important;
+  color: #FFFFFF !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  width: 17px !important;
+  height: 17px !important;
+  min-width: 17px !important;
+  min-height: 17px !important;
+  line-height: 17px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  top: -4px !important;
+  right: -4px !important;
+  position: absolute !important;
+  padding: 0 !important;
+  z-index: 10 !important;
+}
