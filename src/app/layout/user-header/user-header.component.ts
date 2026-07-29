@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,7 +31,7 @@ import { SiteInfoService } from '../../core/services/admin/site-info.service';
   templateUrl: './user-header.component.html',
   styleUrls: ['./user-header.component.css']
 })
-export class UserHeaderComponent implements OnInit {
+export class UserHeaderComponent implements OnInit, OnDestroy {
   public userName$: Observable<string | null>;
 
   familias: any[] = [];
@@ -39,6 +39,13 @@ export class UserHeaderComponent implements OnInit {
   topContacts: any[] = [];
   cartCount = 0;
   searchQuery = '';
+
+  // Control del Menú Móvil
+  isMobileMenuOpen = false;
+  isMobileCatalogOpen = false;
+  isMobileCompanyOpen = false;
+
+  private routerSub?: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -58,6 +65,16 @@ export class UserHeaderComponent implements OnInit {
     this.cartService.cartItems$.subscribe(items => {
       this.cartCount = items.reduce((acc, item) => acc + item.cantidad, 0);
     });
+
+    this.routerSub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.closeMobileMenu();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.routerSub?.unsubscribe();
   }
 
   loadMenuData() {
@@ -87,10 +104,30 @@ export class UserHeaderComponent implements OnInit {
     const query = this.searchQuery.trim();
     if (query) {
       this.router.navigate(['/productos'], { queryParams: { q: query } });
+      this.closeMobileMenu();
     }
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+    this.isMobileCatalogOpen = false;
+    this.isMobileCompanyOpen = false;
+  }
+
+  toggleMobileCatalog() {
+    this.isMobileCatalogOpen = !this.isMobileCatalogOpen;
+  }
+
+  toggleMobileCompany() {
+    this.isMobileCompanyOpen = !this.isMobileCompanyOpen;
   }
 
   logout(): void {
     this.authService.logout();
+    this.closeMobileMenu();
   }
 }

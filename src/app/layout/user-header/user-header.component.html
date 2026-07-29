@@ -12,10 +12,17 @@
 
 <header class="user-header">
   <div class="user-header__inner">
-    <a routerLink="/" class="brand" aria-label="Ir al inicio">
-      <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana">
-    </a>
+    <div class="brand-group">
+      <button type="button" class="mobile-toggle-btn" (click)="toggleMobileMenu()" aria-label="Abrir menú">
+        <mat-icon>{{ isMobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+      </button>
 
+      <a routerLink="/" class="brand" aria-label="Ir al inicio" (click)="closeMobileMenu()">
+        <img src="assets/images/Panamericana.png" alt="Distribuidora Panamericana">
+      </a>
+    </div>
+
+    <!-- Menú Escritorio -->
     <nav class="main-nav" aria-label="Navegación principal">
       <button class="nav-link nav-link--button" [matMenuTriggerFor]="catalogMenu">
         Catálogo
@@ -62,8 +69,9 @@
       </mat-menu>
     </nav>
 
+    <!-- Acciones Escritorio y Móvil -->
     <div class="header-actions">
-      <form class="search-box" (ngSubmit)="onSearch()">
+      <form class="search-box desktop-only-search" (ngSubmit)="onSearch()">
         <mat-icon>search</mat-icon>
         <input type="text" name="search" placeholder="Buscar producto" [(ngModel)]="searchQuery">
       </form>
@@ -73,7 +81,7 @@
         <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
 
-      <a routerLink="/carrito" class="icon-action cart-action-link" title="Carrito">
+      <a routerLink="/carrito" class="icon-action cart-action-link" title="Carrito" (click)="closeMobileMenu()">
         <mat-icon>shopping_bag</mat-icon>
         <span *ngIf="cartCount > 0" class="cart-badge-count">{{ cartCount }}</span>
       </a>
@@ -98,3 +106,98 @@
     </div>
   </div>
 </header>
+
+<!-- MENÚ MÓVIL DESPLEGABLE (DRAWER) -->
+<div class="mobile-drawer-backdrop" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
+
+<aside class="mobile-drawer" [class.is-open]="isMobileMenuOpen">
+  <div class="mobile-drawer-header">
+    <span class="mobile-drawer-title">Menú</span>
+    <button type="button" class="mobile-drawer-close" (click)="closeMobileMenu()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="mobile-drawer-body">
+    <!-- Buscador móvil -->
+    <form class="mobile-search-form" (ngSubmit)="onSearch()">
+      <mat-icon>search</mat-icon>
+      <input type="text" name="mobileSearch" placeholder="Buscar producto..." [(ngModel)]="searchQuery">
+      <button type="submit">Buscar</button>
+    </form>
+
+    <nav class="mobile-nav-list">
+      <a routerLink="/" class="mobile-nav-item" (click)="closeMobileMenu()">
+        <mat-icon>home</mat-icon>
+        <span>Inicio</span>
+      </a>
+
+      <!-- Desplegable Catálogo Móvil -->
+      <div class="mobile-accordion">
+        <button type="button" class="mobile-nav-item mobile-accordion-header" (click)="toggleMobileCatalog()">
+          <span class="flex items-center gap-2">
+            <mat-icon>storefront</mat-icon>
+            Catálogo
+          </span>
+          <mat-icon class="accordion-arrow">{{ isMobileCatalogOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </button>
+
+        <div class="mobile-accordion-content" *ngIf="isMobileCatalogOpen">
+          <a routerLink="/productos" class="mobile-subitem" (click)="closeMobileMenu()">Todos los productos</a>
+          
+          <div class="mobile-group-title">Categorías</div>
+          <a *ngFor="let fam of familias" [routerLink]="['/productos']" [queryParams]="{ familia: fam._id }" class="mobile-subitem" (click)="closeMobileMenu()">
+            {{ fam.nombre }}
+          </a>
+
+          <div class="mobile-group-title">Marcas</div>
+          <a *ngFor="let marca of marcas" [routerLink]="['/productos']" [queryParams]="{ marca: marca._id }" class="mobile-subitem" (click)="closeMobileMenu()">
+            {{ marca.nombre }}
+          </a>
+        </div>
+      </div>
+
+      <a routerLink="/productos" class="mobile-nav-item" (click)="closeMobileMenu()">
+        <mat-icon>grid_view</mat-icon>
+        <span>Productos</span>
+      </a>
+
+      <a routerLink="/ubicacion" class="mobile-nav-item" (click)="closeMobileMenu()">
+        <mat-icon>location_on</mat-icon>
+        <span>Ubicación</span>
+      </a>
+
+      <a routerLink="/contacto" class="mobile-nav-item" (click)="closeMobileMenu()">
+        <mat-icon>contact_mail</mat-icon>
+        <span>Contacto</span>
+      </a>
+
+      <!-- Desplegable Empresa Móvil -->
+      <div class="mobile-accordion">
+        <button type="button" class="mobile-nav-item mobile-accordion-header" (click)="toggleMobileCompany()">
+          <span class="flex items-center gap-2">
+            <mat-icon>business</mat-icon>
+            Empresa
+          </span>
+          <mat-icon class="accordion-arrow">{{ isMobileCompanyOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </button>
+
+        <div class="mobile-accordion-content" *ngIf="isMobileCompanyOpen">
+          <a routerLink="/historia" class="mobile-subitem" (click)="closeMobileMenu()">Historia</a>
+          <a routerLink="/mision-vision" class="mobile-subitem" (click)="closeMobileMenu()">Misión y Visión</a>
+          <a routerLink="/ayuda" class="mobile-subitem" (click)="closeMobileMenu()">Ayuda</a>
+        </div>
+      </div>
+
+      <div class="mobile-nav-divider"></div>
+
+      <!-- Cuenta de Usuario Móvil -->
+      <div class="mobile-user-box">
+        <div class="mobile-user-name">{{ (userName$ | async) || 'Mi Cuenta' }}</div>
+        <a routerLink="/perfil" class="mobile-subitem" (click)="closeMobileMenu()">Editar Perfil</a>
+        <a routerLink="/mis-compras" class="mobile-subitem" (click)="closeMobileMenu()">Mis Compras</a>
+        <button type="button" class="mobile-subitem text-red-500 font-normal border-0 bg-transparent text-left w-full cursor-pointer mt-1" (click)="logout()">Cerrar Sesión</button>
+      </div>
+    </nav>
+  </div>
+</aside>

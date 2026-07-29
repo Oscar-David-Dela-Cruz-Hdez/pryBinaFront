@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { RouterModule, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { Subscription } from "rxjs";
 
-// CAMBIOS: Importar los módulos necesarios para el menú y los iconos
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatBadgeModule } from '@angular/material/badge'; // Importar Badge
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { CartService } from "../../../core/services/shop/cart.service";
 import { ThemeService } from "../../../core/services/theme/theme";
@@ -18,7 +18,6 @@ import { SiteInfoService } from "../../../core/services/admin/site-info.service"
 @Component({
   selector: 'app-header',
   standalone: true,
-
   imports: [
     CommonModule,
     RouterModule,
@@ -31,8 +30,7 @@ import { SiteInfoService } from "../../../core/services/admin/site-info.service"
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   cartCount = 0;
   searchQuery = '';
   
@@ -40,6 +38,13 @@ export class HeaderComponent implements OnInit {
   familias: any[] = [];
   marcas: any[] = [];
   topContacts: any[] = [];
+
+  // Control del Menú Móvil
+  isMobileMenuOpen = false;
+  isMobileCatalogOpen = false;
+  isMobileCompanyOpen = false;
+
+  private routerSub?: Subscription;
 
   constructor(
     private cartService: CartService,
@@ -55,20 +60,28 @@ export class HeaderComponent implements OnInit {
     this.cartService.cartItems$.subscribe(items => {
       this.cartCount = items.reduce((acc, item) => acc + item.cantidad, 0);
     });
+
+    // Cerrar menú móvil automáticamente al navegar
+    this.routerSub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.closeMobileMenu();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.routerSub?.unsubscribe();
   }
 
   loadMenuData() {
-    // Cargar Familias
     this.familiasService.getFamilias().subscribe(data => {
-      this.familias = (data || []).slice(0, 12); // Limitamos para no saturar el menú
+      this.familias = (data || []).slice(0, 12);
     });
 
-    // Cargar Marcas Populares
     this.productsService.getMarcas().subscribe(data => {
-      this.marcas = (data || []).slice(0, 8); // Solo las más populares
+      this.marcas = (data || []).slice(0, 8);
     });
     
-    // Cargar info de Contacto rapido para la barra superior
     this.siteInfoService.getContactos(true).subscribe(data => {
       this.topContacts = (data || []).slice(0, 3);
     });
@@ -86,6 +99,25 @@ export class HeaderComponent implements OnInit {
   onSearch() {
     if (this.searchQuery.trim()) {
       this.router.navigate(['/productos'], { queryParams: { q: this.searchQuery } });
+      this.closeMobileMenu();
     }
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+    this.isMobileCatalogOpen = false;
+    this.isMobileCompanyOpen = false;
+  }
+
+  toggleMobileCatalog() {
+    this.isMobileCatalogOpen = !this.isMobileCatalogOpen;
+  }
+
+  toggleMobileCompany() {
+    this.isMobileCompanyOpen = !this.isMobileCompanyOpen;
   }
 }
