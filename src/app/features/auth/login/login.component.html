@@ -47,7 +47,7 @@
 
           <!-- Botón Submit -->
           <button type="submit" [disabled]="loginForm.invalid || isLoading"
-            class="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 mt-2 cursor-pointer">
+            class="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#111111] text-white border border-[#111111] dark:bg-[#F0F0F0] dark:text-[#111111] dark:border-[#F0F0F0] dark:hover:bg-[#181818] dark:hover:text-[#F0F0F0] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 mt-2 cursor-pointer">
             <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
             <span *ngIf="!isLoading">Siguiente</span>
           </button>

@@ -30,10 +30,43 @@
 
 .dark .cdk-overlay-pane .mat-mdc-menu-panel,
 .dark .mat-mdc-menu-panel.soft-menu,
-.dark .mat-mdc-menu-panel .mat-mdc-menu-content,
-.dark .mat-mdc-menu-panel .mat-mdc-menu-item {
+.dark .mat-mdc-menu-panel .mat-mdc-menu-content {
   background: #1e1e1e !important;
   border-color: #333333 !important;
+}
+
+.dark .mat-mdc-menu-panel .mat-mdc-menu-item,
+.dark .mat-mdc-menu-panel .mat-mdc-menu-item .mdc-list-item__primary-text,
+.dark .mat-mdc-menu-panel .mat-mdc-menu-item mat-icon {
+  background: #1e1e1e !important;
+  color: #F0F0F0 !important;
+}
+
+.dark .mat-mdc-menu-panel .mat-mdc-menu-item:hover,
+.dark .mat-mdc-menu-panel .mat-mdc-menu-item:hover .mdc-list-item__primary-text,
+.dark .mat-mdc-menu-panel .mat-mdc-menu-item:hover mat-icon {
+  background: #2a2a2a !important;
+  color: #C88A78 !important;
+}
+
+/* Chrome/Safari Autofill Dark Mode override */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover, 
+.dark input:-webkit-autofill:focus, 
+.dark input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #2A2A2A inset !important;
+  -webkit-text-fill-color: #F0F0F0 !important;
+  caret-color: #F0F0F0 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #FFFFFF inset !important;
+  -webkit-text-fill-color: #111111 !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* =============================================================

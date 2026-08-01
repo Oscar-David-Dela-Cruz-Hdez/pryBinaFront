@@ -538,11 +538,34 @@
   color: #aaaaaa;
 }
 
+:host-context(.dark) .topbar__message {
+  color: #a0a0a0;
+}
+
+:host-context(.dark) .topbar__contact {
+  color: #f0f0f0;
+}
+
 :host-context(.dark) .catalog-menu,
 :host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-content,
-:host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-item {
+:host-context(.dark) ::ng-deep .cdk-overlay-pane .mat-mdc-menu-panel,
+:host-context(.dark) ::ng-deep .soft-menu.mat-mdc-menu-panel {
   background: #1e1e1e !important;
   border-color: #333333 !important;
+}
+
+:host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-item,
+:host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-item .mdc-list-item__primary-text,
+:host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-item mat-icon {
+  background: #1e1e1e !important;
+  color: #f0f0f0 !important;
+}
+
+:host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-item:hover,
+:host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-item:hover .mdc-list-item__primary-text,
+:host-context(.dark) ::ng-deep .soft-menu .mat-mdc-menu-item:hover mat-icon {
+  background: #2a2a2a !important;
+  color: #C88A78 !important;
 }
 
 @media (max-width: 1080px) {
