@@ -1,6 +1,65 @@
 <div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 animate-fade-in transition-all duration-300 min-h-[calc(100vh-80px)]">
-  <div class="mb-8 border-b border-[#E5E5E5] dark:border-[#333333] pb-4">
+  <div class="mb-6 border-b border-[#E5E5E5] dark:border-[#333333] pb-4">
     <h2 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Gestión de Pedidos</h2>
+  </div>
+
+  <!-- PANEL DE CLASIFICACIÓN PREDICTIVA (RIESGO DE CANCELACIÓN) -->
+  <div class="mb-8 p-6 bg-[#FFFFFF] dark:bg-[#1E1E1E] border border-[#E5E5E5] dark:border-[#333333] rounded-none shadow-none">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-[#E5E5E5] dark:border-[#333333]">
+      <div>
+        <span class="text-[10px] uppercase tracking-[1.5px] text-[#C88A78] font-medium block mb-1">Clasificación Predictiva</span>
+        <h3 class="text-xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Riesgo de Cancelación</h3>
+      </div>
+
+      <button type="button" (click)="loadPedidos(true)" [disabled]="actualizando"
+        class="px-4 py-2 bg-[#111111] dark:bg-[#F0F0F0] text-white dark:text-[#111111] text-xs uppercase tracking-wider font-normal rounded-none border border-[#111111] dark:border-[#F0F0F0] hover:bg-[#FFFFFF] hover:text-[#111111] dark:hover:bg-[#181818] dark:hover:text-[#F0F0F0] transition-colors flex items-center gap-2 cursor-pointer">
+        <mat-icon class="!w-4 !h-4 !text-base" [class.animate-spin]="actualizando">refresh</mat-icon>
+        Actualizar
+      </button>
+    </div>
+
+    <!-- Indicadores KPIs -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+      <!-- Card 1: Analizados -->
+      <div class="p-4 border border-[#E5E5E5] dark:border-[#333333] bg-[#FAFAFA] dark:bg-[#252525]">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] uppercase tracking-wider text-[#666666] dark:text-[#AAAAAA] font-normal">Pedidos analizados</span>
+          <mat-icon class="!w-4 !h-4 !text-base text-[#111111] dark:text-[#F0F0F0]">bar_chart</mat-icon>
+        </div>
+        <span class="text-2xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">{{ resumenRiesgo.analizados }}</span>
+      </div>
+
+      <!-- Card 2: Riesgo Alto -->
+      <div class="p-4 border border-[#E5E5E5] dark:border-[#333333] bg-[#FAFAFA] dark:bg-[#252525]">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] uppercase tracking-wider text-[#666666] dark:text-[#AAAAAA] font-normal">Riesgo alto</span>
+          <mat-icon class="!w-4 !h-4 !text-base text-[#C73D4D]">error_outline</mat-icon>
+        </div>
+        <span class="text-2xl font-serif font-light text-[#C73D4D]">{{ resumenRiesgo.riesgoAlto }}</span>
+      </div>
+
+      <!-- Card 3: Riesgo Medio -->
+      <div class="p-4 border border-[#E5E5E5] dark:border-[#333333] bg-[#FAFAFA] dark:bg-[#252525]">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] uppercase tracking-wider text-[#666666] dark:text-[#AAAAAA] font-normal">Riesgo medio</span>
+          <mat-icon class="!w-4 !h-4 !text-base text-[#A56612]">schedule</mat-icon>
+        </div>
+        <span class="text-2xl font-serif font-light text-[#A56612]">{{ resumenRiesgo.riesgoMedio }}</span>
+      </div>
+
+      <!-- Card 4: Riesgo Bajo -->
+      <div class="p-4 border border-[#E5E5E5] dark:border-[#333333] bg-[#FAFAFA] dark:bg-[#252525]">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] uppercase tracking-wider text-[#666666] dark:text-[#AAAAAA] font-normal">Riesgo bajo</span>
+          <mat-icon class="!w-4 !h-4 !text-base text-[#2F7D4A]">check_circle_outline</mat-icon>
+        </div>
+        <span class="text-2xl font-serif font-light text-[#2F7D4A]">{{ resumenRiesgo.riesgoBajo }}</span>
+      </div>
+    </div>
+
+    <p class="text-xs text-[#777777] dark:text-[#888888] font-light">
+      La predicción analiza pedidos registrados para ayudar a priorizar la confirmación y entrega.
+    </p>
   </div>
 
   <!-- Filtro de búsqueda -->
