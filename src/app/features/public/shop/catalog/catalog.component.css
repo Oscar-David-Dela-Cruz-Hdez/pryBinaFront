@@ -204,6 +204,28 @@
   border-bottom: 1px solid #E5E5E5;
 }
 
+.product-card__image-wrap::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 80%
+  );
+  transform: translateX(-100%) rotate(25deg);
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.product-card:hover .product-card__image-wrap::after {
+  transform: translateX(100%) rotate(25deg);
+}
+
 .product-card img {
   display: block;
   width: auto;

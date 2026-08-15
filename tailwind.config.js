@@ -79,6 +79,24 @@ module.exports = {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-4px)' },
         },
+        'cart-bounce': {
+          '0%': { transform: 'scale(0.3)', opacity: '0' },
+          '50%': { transform: 'scale(1.3)' },
+          '70%': { transform: 'scale(0.9)' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        'glass-shimmer': {
+          '0%': { transform: 'translateX(-100%) rotate(25deg)' },
+          '100%': { transform: 'translateX(200%) rotate(25deg)' },
+        },
+        'modal-pop': {
+          '0%': { transform: 'scale(0.85)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        'toast-slide': {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.4s ease-out forwards',
@@ -91,6 +109,10 @@ module.exports = {
         'shimmer': 'shimmer 2s infinite linear',
         'float': 'float 3s ease-in-out infinite',
         'bounce-soft': 'bounce-soft 2s ease-in-out infinite',
+        'cart-bounce': 'cart-bounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        'glass-shimmer': 'glass-shimmer 0.75s ease-in-out',
+        'modal-pop': 'modal-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        'toast-slide': 'toast-slide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       boxShadow: {
         'none': 'none',

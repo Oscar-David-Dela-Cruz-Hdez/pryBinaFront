@@ -2006,3 +2006,141 @@ form:not(.search-box) .mat-stepper-vertical {
     scroll-behavior: auto !important;
   }
 }
+
+/* =============================================================
+   ANIMACIONES AVANZADAS ADICIONALES (PAQUETE 2)
+   ============================================================= */
+
+/* 1. Rebote de Contador de Carrito */
+@keyframes cartBounce {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.35); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.anim-cart-bounce,
+.cart-badge-count,
+.mat-badge-content {
+  animation: cartBounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* 2. Brillo Diagonal en Imágenes (Glass Shimmer) */
+.glass-shimmer-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-shimmer-wrap::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 80%
+  );
+  transform: translateX(-100%) rotate(25deg);
+  transition: transform 0.8s ease-in-out;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.glass-shimmer-wrap:hover::after {
+  transform: translateX(100%) rotate(25deg);
+}
+
+.dark .glass-shimmer-wrap::after {
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0) 80%
+  );
+}
+
+/* 3. Entradas Escalonadas (Stagger Cascades) */
+.stagger-1 { animation-delay: 50ms !important; }
+.stagger-2 { animation-delay: 100ms !important; }
+.stagger-3 { animation-delay: 150ms !important; }
+.stagger-4 { animation-delay: 200ms !important; }
+.stagger-5 { animation-delay: 250ms !important; }
+.stagger-6 { animation-delay: 300ms !important; }
+.stagger-7 { animation-delay: 350ms !important; }
+.stagger-8 { animation-delay: 400ms !important; }
+
+/* 4. Efecto Ripple y Presionado Háptico en Botones */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+  transition: transform 150ms ease, box-shadow 150ms ease !important;
+}
+
+.btn-ripple:active {
+  transform: scale(0.96) !important;
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1s;
+  pointer-events: none;
+}
+
+.btn-ripple:active::after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+/* 5. Modales con Desenfoque de Fondo y Pop */
+.modal-backdrop-blur {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-pop-in {
+  animation: modalPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes modalPopIn {
+  0% { transform: scale(0.88); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 6. Notificaciones Flotantes (Toast Slide-in) */
+.toast-slide-in {
+  animation: toastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes toastSlideIn {
+  0% { transform: translateX(120%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* 7. Elevación 3D en Tarjetas */
+.card-3d-tilt {
+  perspective: 1000px;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease !important;
+}
+
+.card-3d-tilt:hover {
+  transform: translateY(-5px) rotateX(2deg) rotateY(-1deg) !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.dark .card-3d-tilt:hover {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35) !important;
+}
