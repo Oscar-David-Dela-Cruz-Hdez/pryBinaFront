@@ -3,15 +3,15 @@
   <div class="state" *ngIf="error">No fue posible cargar este producto.</div>
   <ng-container *ngIf="product && !loading">
     <a routerLink="/productos" class="back"><mat-icon>arrow_back</mat-icon>Volver al catálogo</a>
-    <section class="product-detail">
-      <figure><img [src]="product.imagenUrl || product.imagenUrlPrincipal || 'assets/images/no-image.png'" [alt]="product.nombre"></figure>
+    <section class="product-detail anim-fade-up">
+      <figure class="glass-shimmer-wrap"><img [src]="product.imagenUrl || product.imagenUrlPrincipal || 'assets/images/no-image.png'" [alt]="product.nombre"></figure>
       <div class="information">
         <p class="eyebrow">{{ product.marca?.nombre || 'Cosmecos' }}<span *ngIf="product.familia"> / {{ product.familia.nombre }}</span></p>
         <h1>{{ product.nombre }}</h1>
         <p class="description">{{ product.descripcion || 'Producto profesional disponible en nuestro catálogo exclusivo.' }}</p>
         <strong class="price">{{ (product.precioNormalFinal || product.precioNormal || product.precio) | currency }}</strong>
         <p class="stock" [class.low]="product.stock < 10"><mat-icon>inventory_2</mat-icon>{{ product.stock > 0 ? product.stock + ' unidades disponibles' : 'Sin existencias' }}</p>
-        <button type="button" class="btn-add-cart-detail" (click)="addToCart()" [disabled]="product.stock <= 0"><mat-icon>shopping_bag</mat-icon>Añadir al carrito</button>
+        <button type="button" class="btn-add-cart-detail btn-ripple" (click)="addToCart()" [disabled]="product.stock <= 0"><mat-icon>shopping_bag</mat-icon>Añadir al carrito</button>
         <dl><div><dt>SKU</dt><dd>{{ product.skuNormal || 'No disponible' }}</dd></div><div><dt>Mayoreo</dt><dd>{{ product.precioMayoreo | currency }}</dd></div><div><dt>Caja</dt><dd>{{ product.precioCaja | currency }}</dd></div></dl>
       </div>
     </section>

@@ -7,18 +7,18 @@
       (error)="hideBrokenHeroImage($event)"
       class="hero__image">
 
-    <div class="hero__content">
+    <div class="hero__content anim-fade-up">
       <span class="section-kicker">{{ carruseles[currentCarouselIndex]?.etiqueta || 'Promoción destacada' }}</span>
       <h1>{{ carruseles[currentCarouselIndex]?.titulo || 'Distribuidora Panamericana' }}</h1>
       <p>
         {{ carruseles[currentCarouselIndex]?.descripcion || 'Encuentra productos de belleza, barbería y cuidado personal con disponibilidad para compra rápida.' }}
       </p>
       <div class="hero__actions">
-        <a [routerLink]="carruseles[currentCarouselIndex]?.enlace || '/productos'" class="btn-primary">
+        <a [routerLink]="carruseles[currentCarouselIndex]?.enlace || '/productos'" class="btn-primary btn-ripple">
           <mat-icon>{{ carruseles[currentCarouselIndex]?.iconoBoton || 'shopping_bag' }}</mat-icon>
           {{ carruseles[currentCarouselIndex]?.textoBoton || 'Ver catálogo' }}
         </a>
-        <a routerLink="/contacto" class="btn-secondary">Solicitar atención</a>
+        <a routerLink="/contacto" class="btn-secondary btn-ripple">Solicitar atención</a>
       </div>
 
       <div class="hero__dots" *ngIf="carruseles.length > 1">
@@ -33,19 +33,19 @@
   </section>
 
   <section class="quick-links">
-    <a routerLink="/productos">
+    <a routerLink="/productos" class="btn-ripple">
       <mat-icon>inventory_2</mat-icon>
       <span>Productos</span>
     </a>
-    <a routerLink="/ubicacion">
+    <a routerLink="/ubicacion" class="btn-ripple">
       <mat-icon>location_on</mat-icon>
       <span>Ubicación</span>
     </a>
-    <a routerLink="/ayuda">
+    <a routerLink="/ayuda" class="btn-ripple">
       <mat-icon>support_agent</mat-icon>
       <span>Ayuda</span>
     </a>
-    <a routerLink="/contacto">
+    <a routerLink="/contacto" class="btn-ripple">
       <mat-icon>chat</mat-icon>
       <span>Contacto</span>
     </a>
@@ -59,8 +59,8 @@
     </div>
 
     <div class="product-grid" *ngIf="!isLoading">
-      <article class="product-card" *ngFor="let p of productosDestacados">
-        <figure>
+      <article class="product-card card-3d-tilt anim-fade-up" *ngFor="let p of productosDestacados; let i = index" [ngClass]="'stagger-' + ((i % 6) + 1)">
+        <figure class="glass-shimmer-wrap">
           <img [src]="getCover(p)" [alt]="p.nombre">
         </figure>
         <div>

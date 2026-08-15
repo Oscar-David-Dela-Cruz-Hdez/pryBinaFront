@@ -49,10 +49,10 @@
       </div>
 
       <div *ngIf="!isLoading && products.length > 0" class="products-grid">
-        <article *ngFor="let product of products" class="product-card" [routerLink]="['/productos', product._id]" tabindex="0">
-          <figure class="product-card__image-wrap">
+        <article *ngFor="let product of products; let i = index" class="product-card card-3d-tilt anim-fade-up" [ngClass]="'stagger-' + ((i % 8) + 1)" [routerLink]="['/productos', product._id]" tabindex="0">
+          <figure class="product-card__image-wrap glass-shimmer-wrap">
             <img [src]="product.imagenUrl || product.imagenUrlPrincipal || 'assets/images/no-image.png'" [alt]="product.nombre">
-            <span *ngIf="product.ofertaEspecial || product.precioOferta" class="product-card__badge">Oferta</span>
+            <span *ngIf="product.ofertaEspecial || product.precioOferta" class="product-card__badge anim-badge-pop">Oferta</span>
           </figure>
 
           <div class="product-card__body">
@@ -60,7 +60,7 @@
             <h2 [title]="product.nombre" class="product-card__title">{{ product.nombre }}</h2>
             <div class="product-card__footer">
               <strong class="product-card__price">{{ (product.precioOferta || product.precioNormal || product.precio) | currency }}</strong>
-              <button class="btn-add-cart" (click)="addToCart(product); $event.stopPropagation()">
+              <button class="btn-add-cart btn-ripple" (click)="addToCart(product); $event.stopPropagation()">
                 <mat-icon>shopping_bag</mat-icon>
                 <span>Añadir</span>
               </button>

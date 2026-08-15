@@ -83,7 +83,7 @@
 
       <a routerLink="/carrito" class="icon-action cart-action-link" title="Carrito" (click)="closeMobileMenu()">
         <mat-icon>shopping_bag</mat-icon>
-        <span *ngIf="cartCount > 0" class="cart-badge-count">{{ cartCount }}</span>
+        <span *ngIf="cartCount > 0" class="cart-badge-count anim-cart-bounce">{{ cartCount }}</span>
       </a>
 
       <button class="account-button" [matMenuTriggerFor]="userMenu" aria-label="Menú de usuario">
