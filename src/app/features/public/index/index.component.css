@@ -25,6 +25,7 @@
   border-radius: 0;
   background: #FFFFFF;
   box-shadow: none;
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero__image {
@@ -40,6 +41,7 @@
 .hero__content {
   position: relative;
   z-index: 1;
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .section-kicker {
@@ -241,12 +243,14 @@
   border-radius: 0;
   background: #FFFFFF;
   box-shadow: none;
-  transition: border-color 200ms ease;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease, box-shadow 300ms ease;
   overflow: hidden;
 }
 
 .product-card:hover {
   border-color: #111111;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 .product-card figure {
@@ -378,6 +382,12 @@
   box-shadow: none;
   display: flex;
   flex-direction: column;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease, box-shadow 300ms ease;
+}
+
+.offer-card:hover {
+  border-color: #111111;
+  transform: translateY(-3px);
 }
 
 .offer-card span {

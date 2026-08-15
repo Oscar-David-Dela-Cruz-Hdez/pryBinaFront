@@ -5,7 +5,7 @@
   background: #FFFFFF;
   border-radius: 0;
   border: 1px solid #E5E5E5;
-  transition: border-color 0.2s ease-in-out;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease-in-out, box-shadow 0.2s ease;
   padding: 2px;
 }
 
@@ -15,8 +15,9 @@
 }
 
 .thumb-img:hover {
-  border-color: #111111;
-  box-shadow: none;
+  border-color: #C88A78;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(200, 138, 120, 0.2);
 }
 
 .preview-img {

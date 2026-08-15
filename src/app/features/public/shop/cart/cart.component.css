@@ -61,12 +61,17 @@
   border-radius: 0;
   padding: 1rem;
   background: #FFFFFF;
-  transition: all 180ms ease;
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease, box-shadow 250ms ease;
+}
+
+.saved-address:hover {
+  border-color: #111111;
+  transform: translateY(-2px);
 }
 
 .saved-address.selected {
   border-color: #111111;
-  box-shadow: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
 .saved-address > span {
@@ -99,6 +104,7 @@
   letter-spacing: 1px;
   font-size: 0.75rem;
   cursor: pointer;
+  transition: all 200ms ease;
 }
 
 .checkout-next:hover {

@@ -76,7 +76,13 @@
   border-radius: 0;
   box-shadow: none;
   overflow: hidden;
-  transition: border-color 200ms ease;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease, box-shadow 300ms ease;
+}
+
+.pedido-card:hover {
+  border-color: #111111;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
 }
 
 .pedido-card.destacado {
