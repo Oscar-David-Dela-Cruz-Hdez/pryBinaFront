@@ -1,11 +1,11 @@
 <div class="min-h-screen bg-[#FFFFFF] dark:bg-[#121212] flex items-center justify-center px-4 py-12 transition-all duration-300">
   <div class="w-full max-w-md">
-    <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] overflow-hidden transition-all duration-300 animate-fade-in">
+    <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] overflow-hidden transition-all duration-300 anim-fade-up card-3d-tilt">
 
       <!-- PASO 1: Email / Contraseña -->
       <div *ngIf="step === 1; else step2Block" class="p-8">
         <div class="text-center mb-8">
-          <div class="w-12 h-12 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center mx-auto mb-4 text-[#C88A78]">
+          <div class="w-12 h-12 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center mx-auto mb-4 text-[#C88A78] hover-scale">
             <mat-icon class="!text-2xl">lock_open</mat-icon>
           </div>
           <h1 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
@@ -47,7 +47,7 @@
 
           <!-- Botón Submit -->
           <button type="submit" [disabled]="loginForm.invalid || isLoading"
-            class="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#111111] text-white border border-[#111111] dark:bg-[#F0F0F0] dark:text-[#111111] dark:border-[#F0F0F0] dark:hover:bg-[#181818] dark:hover:text-[#F0F0F0] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 mt-2 cursor-pointer">
+            class="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#111111] text-white border border-[#111111] dark:bg-[#F0F0F0] dark:text-[#111111] dark:border-[#F0F0F0] dark:hover:bg-[#181818] dark:hover:text-[#F0F0F0] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 mt-2 cursor-pointer btn-ripple">
             <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
             <span *ngIf="!isLoading">Siguiente</span>
           </button>
@@ -68,9 +68,9 @@
 
       <!-- PASO 2: Código 2FA -->
       <ng-template #step2Block>
-        <div class="p-8">
+        <div class="p-8 anim-scale-up">
           <div class="text-center mb-8">
-            <div class="w-12 h-12 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center mx-auto mb-4 text-[#C88A78]">
+            <div class="w-12 h-12 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center mx-auto mb-4 text-[#C88A78] hover-scale">
               <mat-icon class="!text-2xl">key</mat-icon>
             </div>
             <h2 class="text-2xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">
@@ -93,11 +93,11 @@
 
             <div class="flex gap-3">
               <button type="button" (click)="step = 1" [disabled]="isLoading"
-                class="flex-1 px-6 py-3 border border-[#111111] text-[#111111] dark:text-white rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-[#111111] hover:text-white transition-all duration-300 cursor-pointer">
+                class="flex-1 px-6 py-3 border border-[#111111] text-[#111111] dark:text-white rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-[#111111] hover:text-white transition-all duration-300 cursor-pointer btn-ripple">
                 Atrás
               </button>
               <button type="submit" [disabled]="codeForm.invalid || isLoading"
-                class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 cursor-pointer">
+                class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 cursor-pointer btn-ripple">
                 <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
                 <span *ngIf="!isLoading">Iniciar Sesión</span>
               </button>

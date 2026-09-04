@@ -1,11 +1,11 @@
-<div class="reportes-container p-4 md:p-8 max-w-screen-2xl mx-auto animate-fade-in">
+<div class="reportes-container p-4 md:p-8 max-w-screen-2xl mx-auto anim-fade-up">
   <!-- Header de la Herramienta -->
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
     <div>
       <h2 class="text-3xl font-bold text-[#2C2C2C] dark:text-[#F0F0F0]">Predicción de Ventas (Exponencial)</h2>
       <p class="text-[#666666] dark:text-[#A0A0A0] mt-1">Estimación de ventas futuras basada en el ritmo de crecimiento entre dos fechas.</p>
     </div>
-    <div class="flex items-center gap-2 px-4 py-2 bg-[#D4AF37]/10 dark:bg-[#E5C158]/5 rounded-xl border border-[#D4AF37]/20">
+    <div class="flex items-center gap-2 px-4 py-2 bg-[#D4AF37]/10 dark:bg-[#E5C158]/5 rounded-xl border border-[#D4AF37]/20 hover-scale">
       <mat-icon class="text-[#D4AF37] dark:text-[#E5C158]">auto_graph</mat-icon>
       <span class="text-sm font-semibold text-[#D4AF37] dark:text-[#E5C158]">MODELO DE ESTIMACIÓN IA</span>
     </div>
@@ -15,7 +15,7 @@
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
 
     <!-- KPI 1: Unidades vendidas -->
-    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden card-3d-tilt hover-lift stagger-1 anim-fade-up">
       <div class="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 to-transparent pointer-events-none rounded-2xl"></div>
       <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center">
         <mat-icon class="text-[#D4AF37] text-xl">shopping_bag</mat-icon>
@@ -28,7 +28,7 @@
     </div>
 
     <!-- KPI 2: Pedidos que contribuyeron -->
-    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden card-3d-tilt hover-lift stagger-2 anim-fade-up">
       <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none rounded-2xl"></div>
       <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center">
         <mat-icon class="text-blue-500 text-xl">receipt_long</mat-icon>
@@ -41,7 +41,7 @@
     </div>
 
     <!-- KPI 3: Promedio diario -->
-    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+    <div class="relative flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-sm border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden card-3d-tilt hover-lift stagger-3 anim-fade-up">
       <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none rounded-2xl"></div>
       <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center">
         <mat-icon class="text-emerald-500 text-xl">trending_down</mat-icon>
@@ -57,7 +57,7 @@
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
     <!-- Configuración del Simulador -->
-    <mat-card class="lg:col-span-4 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden">
+    <mat-card class="lg:col-span-4 bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-2xl shadow-sm-lg border border-[#e2dcd6]/30 dark:border-[#333333]/30 overflow-hidden card-3d-tilt">
       <mat-card-header class="bg-[#FAF8F5] dark:bg-[#2A2A2A] p-4 border-b border-[#e2dcd6]/30 dark:border-[#333333]/30">
         <mat-card-title class="text-lg font-bold flex items-center gap-2">
           <mat-icon class="text-[#D4AF37]">tune</mat-icon> Datos de mi Negocio

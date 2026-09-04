@@ -1,4 +1,4 @@
-<main class="bg-[#FFFFFF] dark:bg-[#121212] min-h-[60vh] py-16 px-6 transition-all duration-300">
+<main class="bg-[#FFFFFF] dark:bg-[#121212] min-h-[60vh] py-16 px-6 transition-all duration-300 anim-fade-up">
   <div class="max-w-4xl mx-auto">
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 text-xs uppercase tracking-wider text-[#666666] dark:text-[#A0A0A0] mb-10 font-normal">
@@ -10,7 +10,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
       <!-- Contactos -->
-      <div class="bg-white dark:bg-[#1E1E1E] rounded-none p-8 md:p-10 border border-[#E5E5E5] dark:border-[#333333]">
+      <div class="bg-white dark:bg-[#1E1E1E] rounded-none p-8 md:p-10 border border-[#E5E5E5] dark:border-[#333333] card-3d-tilt">
         <h1 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0] mb-6 flex items-center gap-4">
           Ponte en Contacto
         </h1>
@@ -24,8 +24,8 @@
         </div>
 
         <div *ngIf="!isLoading" class="flex flex-col gap-4">
-          <div *ngFor="let c of contactos" class="flex items-center gap-4 p-4 rounded-none bg-white dark:bg-[#2A2A2A] border border-[#E5E5E5] dark:border-[#333333]">
-            <div class="w-10 h-10 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78]">
+          <div *ngFor="let c of contactos; let i = index" class="flex items-center gap-4 p-4 rounded-none bg-white dark:bg-[#2A2A2A] border border-[#E5E5E5] dark:border-[#333333] hover-lift anim-fade-up" [ngClass]="'stagger-' + ((i % 5) + 1)">
+            <div class="w-10 h-10 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78] hover-scale">
               <mat-icon>{{ c.icono || getContactIcon(c.tipo) }}</mat-icon>
             </div>
             <div>
@@ -38,8 +38,8 @@
       </div>
 
       <!-- Ubicacion Fija o Textual -->
-      <div class="bg-white dark:bg-[#1E1E1E] rounded-none p-8 md:p-10 border border-[#E5E5E5] dark:border-[#333333] flex flex-col justify-center">
-        <div class="w-12 h-12 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78] mb-6">
+      <div class="bg-white dark:bg-[#1E1E1E] rounded-none p-8 md:p-10 border border-[#E5E5E5] dark:border-[#333333] flex flex-col justify-center card-3d-tilt">
+        <div class="w-12 h-12 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78] mb-6 hover-scale">
           <mat-icon class="!text-2xl !w-6 !h-6">location_on</mat-icon>
         </div>
         <h2 class="text-2xl font-serif font-light text-[#111111] dark:text-[#F0F0F0] mb-4">Nuestra Ubicación</h2>

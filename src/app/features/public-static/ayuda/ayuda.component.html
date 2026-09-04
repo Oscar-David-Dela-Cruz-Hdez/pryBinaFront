@@ -1,4 +1,4 @@
-<main class="bg-[#FFFFFF] dark:bg-[#121212] min-h-[60vh] py-16 px-6 transition-all duration-300">
+<main class="bg-[#FFFFFF] dark:bg-[#121212] min-h-[60vh] py-16 px-6 transition-all duration-300 anim-fade-up">
   <div class="max-w-3xl mx-auto">
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 text-xs uppercase tracking-wider text-[#666666] dark:text-[#A0A0A0] mb-10 font-normal">
@@ -18,7 +18,7 @@
 
     <!-- Lista de faqs -->
     <div *ngIf="!isLoading && faqs.length > 0" class="space-y-4">
-      <details *ngFor="let f of faqs" class="group bg-white dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] [&_summary::-webkit-details-marker]:hidden">
+      <details *ngFor="let f of faqs; let i = index" class="group bg-white dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] hover-lift anim-fade-up [&_summary::-webkit-details-marker]:hidden" [ngClass]="'stagger-' + ((i % 6) + 1)">
         <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 font-normal text-[#111111] dark:text-[#F0F0F0]">
           <h2 class="text-lg font-serif">{{ f.pregunta }}</h2>
           <span class="shrink-0 bg-white dark:bg-[#2A2A2A] border border-[#E5E5E5] dark:border-[#333333] p-2 text-[#C88A78]">

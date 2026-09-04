@@ -1,4 +1,4 @@
-<section class="profile-page">
+<section class="profile-page anim-fade-up">
   <div class="profile-shell">
     <aside class="profile-sidebar">
       <span class="section-kicker">Mi cuenta</span>
@@ -6,19 +6,19 @@
       <p>Administra tus datos personales, direcciones y seguridad.</p>
 
       <nav class="profile-nav" aria-label="Opciones de perfil">
-        <button type="button" (click)="selectSection('userdata')" [class.is-active]="selectedSection === 'userdata'">
+        <button type="button" (click)="selectSection('userdata')" [class.is-active]="selectedSection === 'userdata'" class="btn-ripple hover-lift">
           <mat-icon>person</mat-icon>
           <span>Datos personales</span>
         </button>
-        <button type="button" (click)="selectSection('password')" [class.is-active]="selectedSection === 'password'">
+        <button type="button" (click)="selectSection('password')" [class.is-active]="selectedSection === 'password'" class="btn-ripple hover-lift">
           <mat-icon>lock</mat-icon>
           <span>Contraseña</span>
         </button>
-        <button type="button" (click)="selectSection('direcciones')" [class.is-active]="selectedSection === 'direcciones'">
+        <button type="button" (click)="selectSection('direcciones')" [class.is-active]="selectedSection === 'direcciones'" class="btn-ripple hover-lift">
           <mat-icon>location_on</mat-icon>
           <span>Mis direcciones</span>
         </button>
-        <button type="button" (click)="selectSection('pregunta')" [class.is-active]="selectedSection === 'pregunta'">
+        <button type="button" (click)="selectSection('pregunta')" [class.is-active]="selectedSection === 'pregunta'" class="btn-ripple hover-lift">
           <mat-icon>security</mat-icon>
           <span>Pregunta secreta</span>
         </button>

@@ -1,4 +1,4 @@
-<section class="alexa-page animate-fade-in">
+<section class="alexa-page anim-fade-up">
   <header class="alexa-header">
     <div>
       <p class="section-kicker">Herramientas</p>
@@ -7,7 +7,7 @@
     </div>
   </header>
 
-  <div class="alexa-info">
+  <div class="alexa-info hover-lift">
     <mat-icon>security</mat-icon>
     <div>
       <strong>Alexa pedira este token al abrir el asistente.</strong>
@@ -16,9 +16,9 @@
   </div>
 
   <div class="alexa-list" *ngIf="!cargando; else loadingState">
-    <article class="alexa-card" *ngFor="let admin of admins">
+    <article class="alexa-card card-3d-tilt hover-lift anim-fade-up" *ngFor="let admin of admins; let i = index" [ngClass]="'stagger-' + ((i % 6) + 1)">
       <div class="admin-profile">
-        <span class="admin-avatar">{{ (admin.nombre || admin.email || 'A').charAt(0) }}</span>
+        <span class="admin-avatar hover-scale">{{ (admin.nombre || admin.email || 'A').charAt(0) }}</span>
         <div>
           <h3>{{ getNombreCompleto(admin) }}</h3>
           <p>{{ admin.email }}</p>
@@ -39,11 +39,11 @@
       </div>
 
       <div class="actions">
-        <button type="button" class="primary-action" (click)="generateToken(admin)">
+        <button type="button" class="primary-action btn-ripple" (click)="generateToken(admin)">
           <mat-icon>password</mat-icon>
           {{ admin.alexaTokenLast4 ? 'Regenerar' : 'Generar' }}
         </button>
-        <button type="button" class="danger-action" (click)="revokeToken(admin)" [disabled]="!admin.alexaTokenLast4">
+        <button type="button" class="danger-action btn-ripple" (click)="revokeToken(admin)" [disabled]="!admin.alexaTokenLast4">
           <mat-icon>block</mat-icon>
           Revocar
         </button>
