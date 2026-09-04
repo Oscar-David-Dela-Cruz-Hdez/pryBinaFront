@@ -19,6 +19,7 @@ export interface Breadcrumb {
 })
 export class BreadcrumbComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
+  isHome: boolean = false;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
@@ -27,15 +28,20 @@ export class BreadcrumbComponent implements OnInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.breadcrumbs = this.buildBreadcrumb(this.activatedRoute.root);
+        this.updateBreadcrumbs();
       });
       
     // Inicializar al cargar
+    this.updateBreadcrumbs();
+  }
+
+  private updateBreadcrumbs() {
+    const currentUrl = this.router.url.split('?')[0];
+    this.isHome = currentUrl === '/' || currentUrl === '' || currentUrl === '/home';
     this.breadcrumbs = this.buildBreadcrumb(this.activatedRoute.root);
   }
 
   private buildBreadcrumb(route: ActivatedRoute, url: string = '', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {
-    // Si no hay configuración de ruta, detener (excepto root)
     const children: ActivatedRoute[] = route.children;
 
     if (children.length === 0) {
@@ -50,16 +56,8 @@ export class BreadcrumbComponent implements OnInit {
 
       const label = child.snapshot.data['breadcrumb'];
       
-      // Lógica para evitar duplicados y "Inicio" redundante
-      if (label) {
-        // Si es "Inicio" y ya estamos en la raíz o ya existe, no lo agregamos de nuevo si ya está explícito
-        // En este caso, como "Inicio" es el primer hardcoded en HTML, podemos decidir no agregarlo al array dinámico
-        // O si preferimos manejarlo todo dinámico, quitamos el hardcoded del HTML.
-        // Vamos a mantener el hardcoded del HTML como "base" y aquí solo agregamos hijos.
-        
-        if (label !== 'Inicio' && !breadcrumbs.some(b => b.label === label)) {
-           breadcrumbs.push({ label, url });
-        }
+      if (label && label !== 'Inicio' && !breadcrumbs.some(b => b.label === label)) {
+         breadcrumbs.push({ label, url });
       }
 
       return this.buildBreadcrumb(child, url, breadcrumbs);

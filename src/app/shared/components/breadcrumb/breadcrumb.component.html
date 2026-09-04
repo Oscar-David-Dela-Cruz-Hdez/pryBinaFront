@@ -1,18 +1,21 @@
-<nav class="breadcrumb-shell" aria-label="Ruta de navegación">
-  <a routerLink="/" class="breadcrumb-link" aria-label="Ir al inicio">
-    <mat-icon>home</mat-icon>
-    <span>Inicio</span>
-  </a>
-
-  <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last">
-    <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
-
-    <a *ngIf="!last" [routerLink]="breadcrumb.url" class="breadcrumb-link">
-      {{ breadcrumb.label }}
+<div class="breadcrumb-container" *ngIf="!isHome">
+  <nav class="breadcrumb-shell" aria-label="Ruta de navegación">
+    <a routerLink="/" class="breadcrumb-link" aria-label="Ir al inicio">
+      <mat-icon class="home-icon">home</mat-icon>
+      <span>Inicio</span>
     </a>
 
-    <span *ngIf="last" class="breadcrumb-current">
-      {{ breadcrumb.label }}
-    </span>
-  </ng-container>
-</nav>
+    <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last">
+      <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
+
+      <a *ngIf="!last" [routerLink]="breadcrumb.url" class="breadcrumb-link">
+        {{ breadcrumb.label }}
+      </a>
+
+      <span *ngIf="last" class="breadcrumb-current">
+        {{ breadcrumb.label }}
+      </span>
+    </ng-container>
+  </nav>
+</div>
+
