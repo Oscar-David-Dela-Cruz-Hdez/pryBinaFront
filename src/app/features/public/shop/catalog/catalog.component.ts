@@ -35,13 +35,19 @@ import { FamiliasService } from '../../../../core/services/admin/familias.servic
 })
 export class CatalogComponent implements OnInit {
     products: any[] = [];
-    allProducts: any[] = []; // Store all to filter client-side if needed
+    allProducts: any[] = []; // Almacena todos los productos filtrados para paginación cliente
     marcas: any[] = [];
     familias: any[] = [];
     isLoading = true;
     selectedMarca: string | null = null;
     selectedFamilia: string | null = null;
     searchQuery: string = '';
+
+    // Paginación
+    currentPage: number = 1;
+    pageSize: number = 12; // 12 productos por página por defecto (se ajusta perfecto a rejilla de 3 o 4 columnas)
+    pageSizeOptions: number[] = [10, 12, 15, 24, 36, 48];
+    totalPages: number = 1;
 
     constructor(
         private productsService: ProductsService,
@@ -88,7 +94,9 @@ export class CatalogComponent implements OnInit {
 
         this.productsService.getProductos(filters).subscribe({
             next: (data) => {
-                this.products = data;
+                this.allProducts = data;
+                this.currentPage = 1;
+                this.updatePagination();
                 this.isLoading = false;
             },
             error: (err) => {
@@ -96,6 +104,80 @@ export class CatalogComponent implements OnInit {
                 this.isLoading = false;
             }
         });
+    }
+
+    updatePagination() {
+        this.totalPages = Math.ceil(this.allProducts.length / this.pageSize) || 1;
+        if (this.currentPage > this.totalPages) {
+            this.currentPage = this.totalPages;
+        }
+        if (this.currentPage < 1) {
+            this.currentPage = 1;
+        }
+        const startIndex = (this.currentPage - 1) * this.pageSize;
+        const endIndex = startIndex + this.pageSize;
+        this.products = this.allProducts.slice(startIndex, endIndex);
+    }
+
+    goToPage(page: number) {
+        if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+            this.currentPage = page;
+            this.updatePagination();
+            this.scrollToCatalogTop();
+        }
+    }
+
+    nextPage() {
+        if (this.currentPage < this.totalPages) {
+            this.currentPage++;
+            this.updatePagination();
+            this.scrollToCatalogTop();
+        }
+    }
+
+    previousPage() {
+        if (this.currentPage > 1) {
+            this.currentPage--;
+            this.updatePagination();
+            this.scrollToCatalogTop();
+        }
+    }
+
+    onPageSizeChange(newSize: any) {
+        this.pageSize = Number(newSize);
+        this.currentPage = 1;
+        this.updatePagination();
+    }
+
+    get pagesArray(): number[] {
+        const pages: number[] = [];
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = startPage + maxVisiblePages - 1;
+
+        if (endPage > this.totalPages) {
+            endPage = this.totalPages;
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(i);
+        }
+        return pages;
+    }
+
+    get startIndex(): number {
+        return this.allProducts.length === 0 ? 0 : (this.currentPage - 1) * this.pageSize + 1;
+    }
+
+    get endIndex(): number {
+        return Math.min(this.currentPage * this.pageSize, this.allProducts.length);
+    }
+
+    private scrollToCatalogTop() {
+        if (typeof window !== 'undefined') {
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+        }
     }
 
     onMarcaChange(event: any) {

@@ -36,14 +36,14 @@
           <span class="catalog-kicker">Colección Exclusiva</span>
           <h1>Catálogo de Productos</h1>
         </div>
-        <p *ngIf="!isLoading" class="catalog-count">{{ products.length }} piezas disponibles</p>
+        <p *ngIf="!isLoading" class="catalog-count">Mostrando {{ startIndex }}-{{ endIndex }} de {{ allProducts.length }} piezas</p>
       </div>
 
       <div *ngIf="isLoading" class="catalog-loading">
         <mat-spinner diameter="36" strokeWidth="2"></mat-spinner>
       </div>
 
-      <div *ngIf="!isLoading && products.length === 0" class="catalog-empty">
+      <div *ngIf="!isLoading && allProducts.length === 0" class="catalog-empty">
         <mat-icon>search_off</mat-icon>
         <p>No se encontraron productos con los filtros seleccionados.</p>
       </div>
@@ -67,6 +67,45 @@
             </div>
           </div>
         </article>
+      </div>
+
+      <!-- Paginador -->
+      <div *ngIf="!isLoading && allProducts.length > 0" class="catalog-pagination">
+        <div class="pagination-info">
+          <span>Mostrar por página:</span>
+          <select [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)" class="page-size-select">
+            <option *ngFor="let option of pageSizeOptions" [value]="option">{{ option }}</option>
+          </select>
+        </div>
+
+        <div class="pagination-controls">
+          <button 
+            type="button" 
+            class="btn-page btn-ripple" 
+            (click)="previousPage()" 
+            [disabled]="currentPage === 1"
+            title="Página anterior">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+
+          <button 
+            *ngFor="let page of pagesArray" 
+            type="button" 
+            class="btn-page btn-page-num btn-ripple" 
+            [class.is-active]="page === currentPage"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+
+          <button 
+            type="button" 
+            class="btn-page btn-ripple" 
+            (click)="nextPage()" 
+            [disabled]="currentPage === totalPages"
+            title="Página siguiente">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
       </div>
     </main>
   </div>

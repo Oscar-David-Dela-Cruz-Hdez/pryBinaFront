@@ -340,6 +340,90 @@
   font-size: 15px;
 }
 
+/* Paginación */
+.catalog-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #E5E5E5;
+  flex-wrap: wrap;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #666666;
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.page-size-select {
+  padding: 6px 12px;
+  border: 1px solid #E5E5E5;
+  background: #FFFFFF;
+  color: #111111;
+  font-size: 0.8rem;
+  font-weight: 400;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 200ms ease;
+}
+
+.page-size-select:focus {
+  border-color: #C88A78;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-page {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #E5E5E5;
+  background: #FFFFFF;
+  color: #111111;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.btn-page:hover:not(:disabled) {
+  border-color: #111111;
+  color: #C88A78;
+}
+
+.btn-page.is-active {
+  background: #111111;
+  border-color: #111111;
+  color: #FFFFFF;
+}
+
+.btn-page:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-page mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
 /* Dark mode compatibility */
 :host-context(.dark) .catalog-page,
 :host-context(.dark) .catalog-filters,
@@ -350,6 +434,36 @@
 :host-context(.dark) .catalog-empty {
   background: #121212;
   border-color: #333333;
+}
+
+:host-context(.dark) .catalog-pagination {
+  border-top-color: #333333;
+}
+
+:host-context(.dark) .pagination-info {
+  color: #A0A0A0;
+}
+
+:host-context(.dark) .page-size-select,
+:host-context(.dark) .btn-page {
+  background: #1E1E1E;
+  border-color: #333333;
+  color: #F0F0F0;
+}
+
+:host-context(.dark) .page-size-select:focus {
+  border-color: #C88A78;
+}
+
+:host-context(.dark) .btn-page:hover:not(:disabled) {
+  border-color: #F0F0F0;
+  color: #C88A78;
+}
+
+:host-context(.dark) .btn-page.is-active {
+  background: #F0F0F0;
+  border-color: #F0F0F0;
+  color: #111111;
 }
 
 :host-context(.dark) .catalog-heading h1,
@@ -388,5 +502,10 @@
 
   .products-grid {
     grid-template-columns: 1fr;
+  }
+
+  .catalog-pagination {
+    flex-direction: column;
+    align-items: center;
   }
 }
