@@ -245,6 +245,7 @@
   box-shadow: none;
   transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease, box-shadow 300ms ease;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .product-card:hover {

@@ -59,7 +59,7 @@
     </div>
 
     <div class="product-grid" *ngIf="!isLoading">
-      <article class="product-card card-3d-tilt anim-fade-up" *ngFor="let p of productosDestacados; let i = index" [ngClass]="'stagger-' + ((i % 6) + 1)">
+      <article class="product-card card-3d-tilt anim-fade-up" *ngFor="let p of productosDestacados; let i = index" [ngClass]="'stagger-' + ((i % 6) + 1)" [routerLink]="['/productos', p._id || p.id]" tabindex="0">
         <figure class="glass-shimmer-wrap">
           <img [src]="getCover(p)" [alt]="p.nombre">
         </figure>
