@@ -7,7 +7,6 @@ import { HeaderComponent } from './layout/public/header/header.component';
 import { UserHeaderComponent } from './layout/user-header/user-header.component';
 import { AdminHeaderComponent } from './layout/admin-header/admin-header.component';
 import { FooterComponent } from './layout/public/footer/footer.component';
-import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 import { AuthService } from './core/services/auth.service';
 import { ThemeService } from './core/services/theme/theme';
 
@@ -20,8 +19,7 @@ import { ThemeService } from './core/services/theme/theme';
     HeaderComponent,
     UserHeaderComponent,
     AdminHeaderComponent,
-    FooterComponent,
-    BreadcrumbComponent
+    FooterComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
