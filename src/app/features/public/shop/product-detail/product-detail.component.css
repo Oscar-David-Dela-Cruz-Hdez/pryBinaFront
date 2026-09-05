@@ -189,30 +189,69 @@ dd {
   letter-spacing: 0.5px;
 }
 
-.dark .detail-page {
+:host-context([data-theme="dark"]) .detail-page,
+:host-context(.dark) .detail-page {
   background: #121212;
   color: #F0F0F0;
 }
 
-.dark .product-detail,
-.dark figure {
+:host-context([data-theme="dark"]) .product-detail,
+:host-context(.dark) .product-detail,
+:host-context([data-theme="dark"]) figure,
+:host-context(.dark) figure,
+:host-context([data-theme="dark"]) .information,
+:host-context(.dark) .information {
   background: #1e1e1e;
   border-color: #333333;
 }
 
-.dark .information h1 {
+:host-context([data-theme="dark"]) .back,
+:host-context(.dark) .back,
+:host-context([data-theme="dark"]) .information h1,
+:host-context(.dark) .information h1,
+:host-context([data-theme="dark"]) .stock,
+:host-context(.dark) .stock,
+:host-context([data-theme="dark"]) dd,
+:host-context(.dark) dd {
   color: #F0F0F0;
 }
 
-.dark .btn-add-cart-detail {
+:host-context([data-theme="dark"]) .back:hover,
+:host-context(.dark) .back:hover {
+  color: #D4AF37;
+}
+
+:host-context([data-theme="dark"]) .description,
+:host-context(.dark) .description,
+:host-context([data-theme="dark"]) dt,
+:host-context(.dark) dt {
+  color: #A0A0A0;
+}
+
+:host-context([data-theme="dark"]) .price,
+:host-context(.dark) .price {
+  color: #D4AF37;
+}
+
+:host-context([data-theme="dark"]) .btn-add-cart-detail,
+:host-context(.dark) .btn-add-cart-detail {
+  background: #D4AF37;
+  color: #111111;
+  border-color: #D4AF37;
+}
+
+:host-context([data-theme="dark"]) .btn-add-cart-detail:hover:not(:disabled),
+:host-context(.dark) .btn-add-cart-detail:hover:not(:disabled) {
   background: #FFFFFF;
   color: #111111;
   border-color: #FFFFFF;
 }
 
-.dark .btn-add-cart-detail:hover:not(:disabled) {
-  background: #111111;
-  color: #FFFFFF;
+:host-context([data-theme="dark"]) dl,
+:host-context(.dark) dl,
+:host-context([data-theme="dark"]) dl div,
+:host-context(.dark) dl div {
+  border-color: #333333;
 }
 
 @media (max-width: 820px) {

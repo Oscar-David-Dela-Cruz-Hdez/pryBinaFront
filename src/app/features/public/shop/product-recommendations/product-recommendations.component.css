@@ -60,15 +60,23 @@
   color: #666666;
 }
 
-.dark .recommendations,
-.dark .recommendation-card {
+:host-context([data-theme="dark"]) .recommendations,
+:host-context(.dark) .recommendations,
+:host-context([data-theme="dark"]) .recommendation-card,
+:host-context(.dark) .recommendation-card {
   background: #1e1e1e;
   border-color: #333333;
 }
 
-.dark .image-link {
+:host-context([data-theme="dark"]) .image-link,
+:host-context(.dark) .image-link {
   background: #1e1e1e;
   border-color: #333333;
+}
+
+:host-context([data-theme="dark"]) .recommendation-card:hover,
+:host-context(.dark) .recommendation-card:hover {
+  border-color: #D4AF37;
 }
 
 @media (max-width: 900px) {
