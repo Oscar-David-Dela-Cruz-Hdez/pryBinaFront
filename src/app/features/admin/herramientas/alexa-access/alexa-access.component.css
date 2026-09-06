@@ -1,7 +1,15 @@
 .alexa-page {
-  padding: 28px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
   color: #111111;
-  background: #FFFFFF;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .alexa-page,
+[data-theme="dark"] .alexa-page,
+.dark .alexa-page {
+  color: #F0F0F0;
 }
 
 .alexa-header {
@@ -12,6 +20,13 @@
   margin-bottom: 22px;
   padding-bottom: 18px;
   border-bottom: 1px solid #E5E5E5;
+  transition: border-color 0.3s ease;
+}
+
+:host-context(.dark) .alexa-header,
+[data-theme="dark"] .alexa-header,
+.dark .alexa-header {
+  border-bottom-color: #333333;
 }
 
 .section-kicker {
@@ -23,12 +38,25 @@
   text-transform: uppercase;
 }
 
+:host-context(.dark) .section-kicker,
+[data-theme="dark"] .section-kicker,
+.dark .section-kicker {
+  color: #E5C158;
+}
+
 .alexa-header h2 {
   margin: 0;
   font-family: 'Cormorant Garamond', serif;
   font-size: 2rem;
   font-weight: 300;
   color: #111111;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .alexa-header h2,
+[data-theme="dark"] .alexa-header h2,
+.dark .alexa-header h2 {
+  color: #F0F0F0;
 }
 
 .section-copy {
@@ -38,6 +66,13 @@
   font-weight: 300;
   font-size: 0.9rem;
   line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .section-copy,
+[data-theme="dark"] .section-copy,
+.dark .section-copy {
+  color: #A0A0A0;
 }
 
 .alexa-info {
@@ -49,10 +84,24 @@
   border: 1px solid #E5E5E5;
   border-radius: 0;
   background: #FFFFFF;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+:host-context(.dark) .alexa-info,
+[data-theme="dark"] .alexa-info,
+.dark .alexa-info {
+  background: #1E1E1E;
+  border-color: #333333;
 }
 
 .alexa-info mat-icon {
   color: #C88A78;
+}
+
+:host-context(.dark) .alexa-info mat-icon,
+[data-theme="dark"] .alexa-info mat-icon,
+.dark .alexa-info mat-icon {
+  color: #E5C158;
 }
 
 .alexa-info strong,
@@ -64,6 +113,13 @@
   color: #111111;
   font-weight: 400;
   font-size: 0.88rem;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .alexa-info strong,
+[data-theme="dark"] .alexa-info strong,
+.dark .alexa-info strong {
+  color: #F0F0F0;
 }
 
 .alexa-info span {
@@ -71,6 +127,13 @@
   color: #666666;
   font-weight: 300;
   font-size: 0.82rem;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .alexa-info span,
+[data-theme="dark"] .alexa-info span,
+.dark .alexa-info span {
+  color: #A0A0A0;
 }
 
 .alexa-list {
@@ -89,6 +152,14 @@
   border-radius: 0;
   background: #FFFFFF;
   box-shadow: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+:host-context(.dark) .alexa-card,
+[data-theme="dark"] .alexa-card,
+.dark .alexa-card {
+  background: #1E1E1E;
+  border-color: #333333;
 }
 
 .admin-profile {
@@ -109,6 +180,15 @@
   color: #C88A78;
   font-weight: 400;
   text-transform: uppercase;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+:host-context(.dark) .admin-avatar,
+[data-theme="dark"] .admin-avatar,
+.dark .admin-avatar {
+  background: #252525;
+  border-color: #333333;
+  color: #E5C158;
 }
 
 .admin-profile h3 {
@@ -117,6 +197,13 @@
   font-size: 1.15rem;
   font-weight: 400;
   color: #111111;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .admin-profile h3,
+[data-theme="dark"] .admin-profile h3,
+.dark .admin-profile h3 {
+  color: #F0F0F0;
 }
 
 .admin-profile p {
@@ -125,6 +212,13 @@
   font-size: 0.85rem;
   font-weight: 300;
   overflow-wrap: anywhere;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .admin-profile p,
+[data-theme="dark"] .admin-profile p,
+.dark .admin-profile p {
+  color: #A0A0A0;
 }
 
 .token-status {
@@ -134,13 +228,29 @@
   padding: 14px;
   border-radius: 0;
   border: 1px solid #E5E5E5;
-  background: #FFFFFF;
+  background: #FAF8F5;
   color: #666666;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+:host-context(.dark) .token-status,
+[data-theme="dark"] .token-status,
+.dark .token-status {
+  background: #141414;
+  border-color: #333333;
+  color: #A0A0A0;
 }
 
 .token-status.has-token {
   border-color: #111111;
   color: #111111;
+}
+
+:host-context(.dark) .token-status.has-token,
+[data-theme="dark"] .token-status.has-token,
+.dark .token-status.has-token {
+  border-color: #C88A78;
+  color: #F0F0F0;
 }
 
 .token-status strong,
@@ -163,6 +273,13 @@
   color: #777777;
   font-size: 0.8rem;
   font-weight: 300;
+  transition: color 0.3s ease;
+}
+
+:host-context(.dark) .token-date,
+[data-theme="dark"] .token-date,
+.dark .token-date {
+  color: #888888;
 }
 
 .actions {
@@ -192,11 +309,27 @@
 .primary-action {
   background: #111111;
   color: #FFFFFF;
+  border-color: #111111;
 }
 
 .primary-action:hover {
   background: #FFFFFF;
   color: #111111;
+}
+
+:host-context(.dark) .primary-action,
+[data-theme="dark"] .primary-action,
+.dark .primary-action {
+  background: #C88A78;
+  color: #FFFFFF;
+  border-color: #C88A78;
+}
+
+:host-context(.dark) .primary-action:hover,
+[data-theme="dark"] .primary-action:hover,
+.dark .primary-action:hover {
+  background: #b07565;
+  color: #FFFFFF;
 }
 
 .danger-action {
@@ -210,11 +343,33 @@
   color: #FFFFFF;
 }
 
+:host-context(.dark) .danger-action,
+[data-theme="dark"] .danger-action,
+.dark .danger-action {
+  background: #1E1E1E;
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+:host-context(.dark) .danger-action:hover:not(:disabled),
+[data-theme="dark"] .danger-action:hover:not(:disabled),
+.dark .danger-action:hover:not(:disabled) {
+  background: #ef4444;
+  color: #FFFFFF;
+}
+
 .danger-action:disabled {
   cursor: not-allowed;
   opacity: 0.45;
   border-color: #E5E5E5;
   color: #aaaaaa;
+}
+
+:host-context(.dark) .danger-action:disabled,
+[data-theme="dark"] .danger-action:disabled,
+.dark .danger-action:disabled {
+  border-color: #333333;
+  color: #666666;
 }
 
 .empty-state,
@@ -229,6 +384,18 @@
   border-radius: 0;
   color: #666666;
   background: #FFFFFF;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+:host-context(.dark) .empty-state,
+:host-context(.dark) .loading-state,
+[data-theme="dark"] .empty-state,
+[data-theme="dark"] .loading-state,
+.dark .empty-state,
+.dark .loading-state {
+  background: #1E1E1E;
+  border-color: #333333;
+  color: #A0A0A0;
 }
 
 @media (max-width: 640px) {
@@ -239,3 +406,4 @@
     flex-direction: column;
   }
 }
+

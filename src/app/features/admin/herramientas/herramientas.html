@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-[#FFFFFF] dark:bg-[#121212] transition-all duration-300 px-6 py-10">
+<div class="w-full max-w-5xl mx-auto px-4 py-8 md:px-6 md:py-10 transition-all duration-300">
   <div class="max-w-4xl mx-auto">
     <!-- Page Header -->
     <div class="mb-10">
@@ -15,7 +15,7 @@
       <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] overflow-hidden transition-all duration-300">
         <div class="p-6">
           <div class="flex items-center gap-4 mb-5">
-            <div class="w-10 h-10 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center flex-shrink-0 text-[#C88A78]">
+            <div class="w-10 h-10 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center flex-shrink-0 text-[#C88A78] dark:text-[#E5C158]">
               <mat-icon class="!text-xl">inventory_2</mat-icon>
             </div>
             <div>
@@ -31,12 +31,12 @@
           <div class="flex gap-3 flex-wrap">
             <input type="file" #fileInput hidden accept=".xlsx, .xls" (change)="onFileSelectedProductos($event)">
             <button (click)="fileInput.click()" [disabled]="isImportingProducts"
-              class="flex items-center gap-2 px-4 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 cursor-pointer">
+              class="flex items-center gap-2 px-4 py-2.5 bg-[#111111] dark:bg-[#C88A78] text-white border border-[#111111] dark:border-[#C88A78] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-white hover:text-[#111111] dark:hover:bg-[#b07565] dark:hover:text-white disabled:opacity-45 transition-all duration-300 cursor-pointer">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">upload_file</mat-icon>
               {{ isImportingProducts ? 'Importando...' : 'Importar Excel' }}
             </button>
             <button (click)="exportarProductosExcel()" [disabled]="isExportingProducts"
-              class="flex items-center gap-2 px-4 py-2.5 bg-white text-[#111111] border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-[#111111] hover:text-white disabled:opacity-45 transition-all duration-300 cursor-pointer">
+              class="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-[#2A2A2A] text-[#111111] dark:text-[#F0F0F0] border border-[#111111] dark:border-[#555555] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-[#111111] hover:text-white dark:hover:bg-[#333333] disabled:opacity-45 transition-all duration-300 cursor-pointer">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">download</mat-icon>
               {{ isExportingProducts ? 'Exportando...' : 'Exportar Excel' }}
             </button>
@@ -48,7 +48,7 @@
       <div class="bg-[#FFFFFF] dark:bg-[#1E1E1E] rounded-none border border-[#E5E5E5] dark:border-[#333333] overflow-hidden transition-all duration-300">
         <div class="p-6">
           <div class="flex items-center gap-4 mb-5">
-            <div class="w-10 h-10 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center flex-shrink-0 text-[#C88A78]">
+            <div class="w-10 h-10 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center flex-shrink-0 text-[#C88A78] dark:text-[#E5C158]">
               <mat-icon class="!text-xl">local_shipping</mat-icon>
             </div>
             <div>
@@ -63,7 +63,7 @@
           </p>
           <div class="flex gap-3 flex-wrap">
             <button (click)="exportarPedidosExcel()" [disabled]="isExportingOrders"
-              class="flex items-center gap-2 px-4 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all duration-300 cursor-pointer">
+              class="flex items-center gap-2 px-4 py-2.5 bg-[#111111] dark:bg-[#C88A78] text-white border border-[#111111] dark:border-[#C88A78] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-white hover:text-[#111111] dark:hover:bg-[#b07565] dark:hover:text-white disabled:opacity-45 transition-all duration-300 cursor-pointer">
               <mat-icon class="!text-[18px] !w-[18px] !h-[18px]">download</mat-icon>
               {{ isExportingOrders ? 'Generando...' : 'Exportar Pedidos a Excel' }}
             </button>
