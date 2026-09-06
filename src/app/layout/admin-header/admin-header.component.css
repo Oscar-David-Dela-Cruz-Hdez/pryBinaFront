@@ -175,9 +175,10 @@
   color: #d32f2f;
 }
 
-:host-context(.dark) .admin-header {
-  background: #181818;
-  border-color: #333333;
+:host-context(.dark) .admin-header,
+:host-context([data-theme="dark"]) .admin-header {
+  background: #121212;
+  border-color: #2a2a2a;
 }
 
 :host-context(.dark) .admin-brand,

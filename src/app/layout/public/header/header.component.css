@@ -444,15 +444,17 @@
   margin: 12px 0;
 }
 
-:host-context(.dark) .topbar {
-  background: #121212;
-  border-color: #333333;
-  color: #f0f0f0;
+:host-context(.dark) .topbar,
+:host-context([data-theme="dark"]) .topbar {
+  background: #121212 !important;
+  border-color: #2a2a2a !important;
+  color: #f0f0f0 !important;
 }
 
-:host-context(.dark) .site-header {
-  background: #181818;
-  border-color: #333333;
+:host-context(.dark) .site-header,
+:host-context([data-theme="dark"]) .site-header {
+  background: #121212 !important;
+  border-color: #2a2a2a !important;
 }
 
 :host-context(.dark) .search-box,

@@ -497,9 +497,17 @@
   font-weight: 500;
 }
 
-:host-context(.dark) .user-header {
-  background: #181818;
-  border-color: #333333;
+:host-context(.dark) .topbar,
+:host-context([data-theme="dark"]) .topbar {
+  background: #121212 !important;
+  border-color: #2a2a2a !important;
+  color: #f0f0f0 !important;
+}
+
+:host-context(.dark) .user-header,
+:host-context([data-theme="dark"]) .user-header {
+  background: #121212 !important;
+  border-color: #2a2a2a !important;
 }
 
 :host-context(.dark) .search-box,
