@@ -1,7 +1,7 @@
 <div class="admin-container w-full max-w-6xl mx-auto p-4 md:p-6 lg:p-8 anim-fade-up transition-all duration-300 min-h-[calc(100vh-80px)]">
   <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#E5E5E5] dark:border-[#333333] pb-4 gap-4">
     <h2 class="text-3xl font-serif font-light text-[#111111] dark:text-[#F0F0F0]">Métodos de Pago</h2>
-    <button class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] transition-all cursor-pointer flex items-center gap-2 btn-ripple" (click)="toggleForm()">
+    <button class="px-5 py-2.5 bg-[#111111] dark:bg-[#C88A78] text-white border border-[#111111] dark:border-[#C88A78] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] dark:hover:bg-[#b07565] dark:hover:text-white transition-all cursor-pointer flex items-center gap-2 btn-ripple" (click)="toggleForm()">
       <mat-icon>{{ showForm ? 'remove' : 'add' }}</mat-icon>
       {{ showForm ? 'Cancelar' : 'Nuevo Método' }}
     </button>
@@ -18,22 +18,22 @@
       <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="space-y-5">
 
         <div class="field-admin">
-          <label class="label-admin uppercase tracking-wider text-xs font-normal">Nombre</label>
-          <input type="text" formControlName="nombre" placeholder="Ej: Tarjeta de Crédito" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-sm text-[#111111]">
+          <label class="label-admin uppercase tracking-wider text-xs font-normal text-[#111111] dark:text-[#F0F0F0]">Nombre</label>
+          <input type="text" formControlName="nombre" placeholder="Ej: Tarjeta de Crédito" class="w-full px-3 py-2 bg-white dark:bg-[#1E1E1E] border border-[#E5E5E5] dark:border-[#333333] text-sm text-[#111111] dark:text-[#F0F0F0]">
         </div>
 
         <div class="field-admin">
-          <label class="label-admin uppercase tracking-wider text-xs font-normal">Descripción</label>
-          <input type="text" formControlName="descripcion" placeholder="Ej: Pago seguro con tarjeta" class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-sm text-[#111111]">
+          <label class="label-admin uppercase tracking-wider text-xs font-normal text-[#111111] dark:text-[#F0F0F0]">Descripción</label>
+          <input type="text" formControlName="descripcion" placeholder="Ej: Pago seguro con tarjeta" class="w-full px-3 py-2 bg-white dark:bg-[#1E1E1E] border border-[#E5E5E5] dark:border-[#333333] text-sm text-[#111111] dark:text-[#F0F0F0]">
         </div>
 
         <div class="field-admin">
-          <label class="label-admin uppercase tracking-wider text-xs font-normal">Instrucciones (Opcional)</label>
-          <textarea formControlName="instrucciones" rows="3" placeholder="Ej: Clabe interbancaria..." class="w-full px-3 py-2 bg-white border border-[#E5E5E5] text-sm text-[#111111]"></textarea>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal text-[#111111] dark:text-[#F0F0F0]">Instrucciones (Opcional)</label>
+          <textarea formControlName="instrucciones" rows="3" placeholder="Ej: Clabe interbancaria..." class="w-full px-3 py-2 bg-white dark:bg-[#1E1E1E] border border-[#E5E5E5] dark:border-[#333333] text-sm text-[#111111] dark:text-[#F0F0F0]"></textarea>
         </div>
 
         <div class="field-admin">
-          <label class="label-admin uppercase tracking-wider text-xs font-normal">Ícono</label>
+          <label class="label-admin uppercase tracking-wider text-xs font-normal text-[#111111] dark:text-[#F0F0F0]">Ícono</label>
           <app-icon-picker
             iconSet="payment"
             [value]="paymentForm.get('icono')?.value || ''"
@@ -42,12 +42,12 @@
         </div>
 
         <div class="mb-2">
-          <mat-slide-toggle formControlName="activo" color="primary">Activo</mat-slide-toggle>
+          <mat-slide-toggle formControlName="activo" color="primary" class="text-[#111111] dark:text-[#F0F0F0]">Activo</mat-slide-toggle>
         </div>
 
         <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-[#E5E5E5] dark:border-[#333333]">
-          <button type="button" class="px-5 py-2.5 bg-white text-[#111111] border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-[#111111] hover:text-white transition-all cursor-pointer btn-ripple" (click)="toggleForm()">Cancelar</button>
-          <button type="submit" class="px-5 py-2.5 bg-[#111111] text-white border border-[#111111] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] disabled:opacity-45 transition-all cursor-pointer btn-ripple" [disabled]="paymentForm.invalid || isLoading">
+          <button type="button" class="px-5 py-2.5 bg-white dark:bg-[#2A2A2A] text-[#111111] dark:text-[#F0F0F0] border border-[#111111] dark:border-[#555555] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-[#111111] hover:text-white dark:hover:bg-[#333333] transition-all cursor-pointer btn-ripple" (click)="toggleForm()">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 bg-[#111111] dark:bg-[#C88A78] text-white border border-[#111111] dark:border-[#C88A78] rounded-none font-normal text-xs uppercase tracking-[1px] hover:bg-white hover:text-[#111111] dark:hover:bg-[#b07565] disabled:opacity-45 transition-all cursor-pointer btn-ripple" [disabled]="paymentForm.invalid || isLoading">
             {{ isLoading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
           </button>
         </div>
@@ -70,25 +70,33 @@
       <tbody>
         <tr *ngFor="let metodo of metodos" class="admin-table-row">
           <td class="admin-td">
-            <div class="w-8 h-8 border border-[#E5E5E5] flex items-center justify-center text-[#C88A78]">
+            <div class="w-8 h-8 border border-[#E5E5E5] dark:border-[#333333] flex items-center justify-center text-[#C88A78] dark:text-[#E5C158]">
               <mat-icon *ngIf="!metodo.icono?.includes('http')" style="font-size:18px;width:18px;height:18px">
                 {{ metodo.icono || 'payments' }}
               </mat-icon>
             </div>
           </td>
           <td class="admin-td">
-            <span class="font-normal text-[#111111] text-sm">{{ metodo.nombre }}</span>
+            <span class="font-normal text-[#111111] dark:text-[#F0F0F0] text-sm">{{ metodo.nombre }}</span>
           </td>
           <td class="admin-td">
-            <span class="text-xs text-[#666666] font-light">{{ metodo.descripcion || '—' }}</span>
+            <span class="text-xs text-[#666666] dark:text-[#A0A0A0] font-light">{{ metodo.descripcion || '—' }}</span>
           </td>
           <td class="admin-td text-center">
-            <span class="px-2.5 py-1 text-[10px] font-normal uppercase tracking-wider border" [class.border-[#111111]]="metodo.activo" [class.text-[#111111]]="metodo.activo" [class.border-[#E5E5E5]]="!metodo.activo" [class.text-[#888888]]="!metodo.activo">
+            <span class="px-2.5 py-1 text-[10px] font-normal uppercase tracking-wider border"
+              [class.border-[#111111]]="metodo.activo"
+              [class.dark:border-[#555555]]="metodo.activo"
+              [class.text-[#111111]]="metodo.activo"
+              [class.dark:text-[#F0F0F0]]="metodo.activo"
+              [class.border-[#E5E5E5]]="!metodo.activo"
+              [class.dark:border-[#333333]]="!metodo.activo"
+              [class.text-[#888888]]="!metodo.activo"
+              [class.dark:text-[#888888]]="!metodo.activo">
               {{ metodo.activo ? 'Activo' : 'Inactivo' }}
             </span>
           </td>
           <td class="admin-td text-right">
-            <button class="text-[#111111] hover:text-[#C88A78] p-1" (click)="editMethod(metodo)" title="Editar">
+            <button class="text-[#111111] dark:text-[#F0F0F0] hover:text-[#C88A78] dark:hover:text-[#E5C158] p-1" (click)="editMethod(metodo)" title="Editar">
               <mat-icon style="font-size:18px;width:18px;height:18px">edit</mat-icon>
             </button>
             <button class="text-red-500 hover:text-red-700 p-1" (click)="deleteMethod(metodo)" title="Eliminar">
@@ -101,9 +109,9 @@
   </div>
 
   <ng-template #noData>
-    <div class="admin-empty-state border border-[#E5E5E5] p-12 text-center bg-white">
-      <mat-icon class="text-[#C88A78]">payments</mat-icon>
-      <p class="text-xs uppercase tracking-wider text-[#666666] mt-2">No hay métodos de pago registrados.</p>
+    <div class="admin-empty-state border border-[#E5E5E5] dark:border-[#333333] p-12 text-center bg-white dark:bg-[#1E1E1E]">
+      <mat-icon class="text-[#C88A78] dark:text-[#E5C158]">payments</mat-icon>
+      <p class="text-xs uppercase tracking-wider text-[#666666] dark:text-[#A0A0A0] mt-2">No hay métodos de pago registrados.</p>
     </div>
   </ng-template>
 </div>

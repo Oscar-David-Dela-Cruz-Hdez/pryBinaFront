@@ -1,6 +1,12 @@
 .reportes-container {
   min-height: calc(100vh - 80px);
-  background: #FFFFFF;
+  background: transparent;
+}
+
+:host-context(.dark) .reportes-container,
+[data-theme="dark"] .reportes-container,
+.dark .reportes-container {
+  background: transparent;
 }
 
 .chart-line {
@@ -24,7 +30,7 @@
 }
 
 .mat-mdc-card {
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
   border: 1px solid #E5E5E5 !important;
   box-shadow: none !important;
   border-radius: 0 !important;
@@ -34,9 +40,12 @@
   border-color: #111111 !important;
 }
 
-[data-theme="dark"] .mat-mdc-card {
+:host-context(.dark) .mat-mdc-card,
+[data-theme="dark"] .mat-mdc-card,
+.dark .mat-mdc-card {
   box-shadow: none !important;
   border-color: #333333 !important;
+  background-color: #1E1E1E !important;
 }
 
 /* Scrollbar personalizado para la tabla */
@@ -54,7 +63,9 @@
   border-radius: 0;
 }
 
-[data-theme="dark"] .overflow-x-auto::-webkit-scrollbar-thumb {
+:host-context(.dark) .overflow-x-auto::-webkit-scrollbar-thumb,
+[data-theme="dark"] .overflow-x-auto::-webkit-scrollbar-thumb,
+.dark .overflow-x-auto::-webkit-scrollbar-thumb {
   background: #333333;
 }
 
@@ -73,7 +84,9 @@
   cursor: pointer;
 }
 
-[data-theme="dark"] .btn-toggle {
+:host-context(.dark) .btn-toggle,
+[data-theme="dark"] .btn-toggle,
+.dark .btn-toggle {
   color: #A0A0A0;
   border-color: #333333;
 }
@@ -83,6 +96,13 @@
   color: #111111;
 }
 
+:host-context(.dark) .btn-toggle:hover,
+[data-theme="dark"] .btn-toggle:hover,
+.dark .btn-toggle:hover {
+  border-color: #C88A78;
+  color: #F0F0F0;
+}
+
 .active-btn {
   background-color: #111111 !important;
   color: white !important;
@@ -90,8 +110,12 @@
   box-shadow: none !important;
 }
 
-[data-theme="dark"] .active-btn {
+:host-context(.dark) .active-btn,
+[data-theme="dark"] .active-btn,
+.dark .active-btn {
+  background-color: #C88A78 !important;
   color: white !important;
+  border-color: #C88A78 !important;
 }
 
 /* Estilos para el Datepicker de Material */
@@ -109,8 +133,11 @@
   transition: all 0.3s ease;
 }
 
-[data-theme="dark"] ::ng-deep .datepicker-custom .mat-mdc-text-field-wrapper {
+:host-context(.dark) ::ng-deep .datepicker-custom .mat-mdc-text-field-wrapper,
+[data-theme="dark"] ::ng-deep .datepicker-custom .mat-mdc-text-field-wrapper,
+.dark ::ng-deep .datepicker-custom .mat-mdc-text-field-wrapper {
   border-color: #333333 !important;
+  color: #F0F0F0 !important;
 }
 
 ::ng-deep .datepicker-custom .mat-mdc-text-field-wrapper:hover {
@@ -135,3 +162,4 @@
 ::ng-deep .datepicker-custom .mdc-notched-outline {
   display: none !important;
 }
+
