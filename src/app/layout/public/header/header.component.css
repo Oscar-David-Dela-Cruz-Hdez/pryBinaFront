@@ -289,7 +289,7 @@
   left: 0;
   bottom: 0;
   width: 320px;
-  max-width: 86vw;
+  max-width: calc(100vw - 32px);
   background: #FFFFFF;
   border-right: 1px solid #E5E5E5;
   z-index: 999;
@@ -306,7 +306,7 @@
 
 .mobile-drawer-header {
   height: 64px;
-  padding: 0 20px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -333,7 +333,7 @@
 }
 
 .mobile-drawer-body {
-  padding: 20px;
+  padding: 16px;
   overflow-y: auto;
   flex: 1;
 }
@@ -341,32 +341,72 @@
 .mobile-search-form {
   display: flex;
   align-items: center;
-  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
   border: 1px solid #E5E5E5;
-  padding: 6px 12px;
-  margin-bottom: 20px;
+  border-radius: 8px;
+  padding: 4px 6px 4px 10px;
+  margin-bottom: 18px;
   background: #FFFFFF;
+  overflow: hidden;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.mobile-search-form:focus-within {
+  border-color: #111111;
+}
+
+.mobile-search-form mat-icon {
+  color: #888888;
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  line-height: 18px !important;
+  flex-shrink: 0;
+  margin-right: 4px;
 }
 
 .mobile-search-form input {
-  flex: 1;
-  border: 0;
-  outline: 0;
+  flex: 1 1 0%;
+  min-width: 0;
+  width: 0;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
   font-size: 0.8rem;
   color: #111111;
-  background: transparent;
+  padding: 4px 0;
+}
+
+.mobile-search-form input:-webkit-autofill,
+.mobile-search-form input:-webkit-autofill:hover,
+.mobile-search-form input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #FFFFFF inset !important;
+  -webkit-text-fill-color: #111111 !important;
+  caret-color: #111111 !important;
 }
 
 .mobile-search-form button {
+  flex-shrink: 0;
   border: 0;
   background: #111111;
   color: #FFFFFF;
-  padding: 6px 12px;
-  font-size: 0.7rem;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 180ms ease;
 }
+
+.mobile-search-form button:hover {
+  background: #C88A78;
+}
+
 
 .mobile-nav-list {
   display: flex;
