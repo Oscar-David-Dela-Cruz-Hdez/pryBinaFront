@@ -120,10 +120,8 @@
   <div class="mobile-drawer-body">
     <!-- Buscador móvil -->
     <form class="mobile-search-form" (ngSubmit)="onSearch()">
-      <div class="mobile-search-input-wrapper">
-        <mat-icon>search</mat-icon>
-        <input type="text" name="mobileSearch" placeholder="Buscar producto..." [(ngModel)]="searchQuery">
-      </div>
+      <mat-icon class="mobile-search-icon">search</mat-icon>
+      <input type="text" name="mobileSearch" placeholder="Buscar producto..." [(ngModel)]="searchQuery" autocomplete="off">
       <button type="submit" class="mobile-search-btn">Buscar</button>
     </form>
 
