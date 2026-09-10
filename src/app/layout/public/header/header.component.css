@@ -341,32 +341,40 @@
 .mobile-search-form {
   display: flex;
   align-items: center;
+  gap: 8px;
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid #E5E5E5;
-  border-radius: 8px;
-  padding: 4px 6px 4px 10px;
   margin-bottom: 18px;
-  background: #FFFFFF;
-  overflow: hidden;
+}
+
+.mobile-search-input-wrapper {
+  flex: 1 1 0%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #FAF8F5;
+  border: 1px solid #E5E5E5;
+  border-radius: 10px;
+  padding: 6px 10px;
   transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
-.mobile-search-form:focus-within {
-  border-color: #111111;
+.mobile-search-input-wrapper:focus-within {
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
 }
 
-.mobile-search-form mat-icon {
+.mobile-search-input-wrapper mat-icon {
   color: #888888;
   font-size: 18px !important;
   width: 18px !important;
   height: 18px !important;
   line-height: 18px !important;
   flex-shrink: 0;
-  margin-right: 4px;
 }
 
-.mobile-search-form input {
+.mobile-search-input-wrapper input {
   flex: 1 1 0%;
   min-width: 0;
   width: 0;
@@ -375,36 +383,42 @@
   box-shadow: none !important;
   background: transparent !important;
   font-size: 0.8rem;
-  color: #111111;
-  padding: 4px 0;
+  color: #2C2C2C;
+  padding: 2px 0;
 }
 
-.mobile-search-form input:-webkit-autofill,
-.mobile-search-form input:-webkit-autofill:hover,
-.mobile-search-form input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 30px #FFFFFF inset !important;
-  -webkit-text-fill-color: #111111 !important;
-  caret-color: #111111 !important;
+.mobile-search-input-wrapper input:-webkit-autofill,
+.mobile-search-input-wrapper input:-webkit-autofill:hover,
+.mobile-search-input-wrapper input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #FAF8F5 inset !important;
+  -webkit-text-fill-color: #2C2C2C !important;
+  caret-color: #2C2C2C !important;
 }
 
-.mobile-search-form button {
+.mobile-search-btn {
   flex-shrink: 0;
-  border: 0;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #111111;
   background: #111111;
   color: #FFFFFF;
-  padding: 6px 10px;
-  border-radius: 4px;
-  font-size: 0.68rem;
-  font-weight: 500;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 180ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 180ms ease;
 }
 
-.mobile-search-form button:hover {
-  background: #C88A78;
+.mobile-search-btn:hover {
+  background: #D4AF37;
+  border-color: #D4AF37;
+  color: #FFFFFF;
 }
 
 
@@ -498,10 +512,47 @@
 }
 
 :host-context(.dark) .search-box,
-:host-context(.dark) .mobile-drawer,
-:host-context(.dark) .mobile-search-form {
+:host-context(.dark) .mobile-drawer {
   background: #1e1e1e;
   border-color: #333333;
+}
+
+:host-context(.dark) .mobile-search-input-wrapper {
+  background: #2A2A2A;
+  border-color: #333333;
+}
+
+:host-context(.dark) .mobile-search-input-wrapper:focus-within {
+  border-color: #E5C158;
+  box-shadow: 0 0 0 2px rgba(229, 193, 88, 0.15);
+}
+
+:host-context(.dark) .mobile-search-input-wrapper mat-icon {
+  color: #E5C158;
+}
+
+:host-context(.dark) .mobile-search-input-wrapper input {
+  color: #F0F0F0;
+}
+
+:host-context(.dark) .mobile-search-input-wrapper input:-webkit-autofill,
+:host-context(.dark) .mobile-search-input-wrapper input:-webkit-autofill:hover,
+:host-context(.dark) .mobile-search-input-wrapper input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #2A2A2A inset !important;
+  -webkit-text-fill-color: #F0F0F0 !important;
+  caret-color: #F0F0F0 !important;
+}
+
+:host-context(.dark) .mobile-search-btn {
+  background: #E5C158;
+  border-color: #E5C158;
+  color: #121212;
+}
+
+:host-context(.dark) .mobile-search-btn:hover {
+  background: #F1D170;
+  border-color: #F1D170;
+  color: #121212;
 }
 
 :host-context(.dark) .mobile-drawer-header {
@@ -511,7 +562,6 @@
 :host-context(.dark) .mobile-drawer-title,
 :host-context(.dark) .mobile-drawer-close,
 :host-context(.dark) .mobile-nav-item,
-:host-context(.dark) .mobile-search-form input,
 :host-context(.dark) .nav-link,
 :host-context(.dark) .icon-action,
 :host-context(.dark) .search-box input {
