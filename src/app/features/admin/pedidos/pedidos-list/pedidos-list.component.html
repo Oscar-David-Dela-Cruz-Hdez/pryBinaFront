@@ -67,7 +67,7 @@
     <input type="text" (keyup)="applyFilter($event)" placeholder="Buscar por ID, usuario, etc." #input class="w-full px-4 py-3 bg-[#FFFFFF] dark:bg-[#2A2A2A] border border-[#E5E5E5] dark:border-[#333333] text-[#111111] dark:text-[#F0F0F0] text-sm focus:outline-none focus:border-[#111111]">
   </div>
 
-  <div class="rounded-none overflow-hidden bg-[#FFFFFF] dark:bg-[#1E1E1E] border border-[#E5E5E5] dark:border-[#333333]">
+  <div class="rounded-none overflow-x-auto bg-[#FFFFFF] dark:bg-[#1E1E1E] border border-[#E5E5E5] dark:border-[#333333]">
     <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="w-full">
       <!-- ID -->
       <ng-container matColumnDef="id">

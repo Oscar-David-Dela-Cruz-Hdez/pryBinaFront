@@ -260,7 +260,7 @@ dd {
   }
 
   figure {
-    min-height: 360px;
+    min-height: 320px;
     border-right: 0;
     border-bottom: 1px solid #E5E5E5;
   }
@@ -269,3 +269,14 @@ dd {
     padding: 2rem;
   }
 }
+
+@media (max-width: 480px) {
+  figure {
+    min-height: 240px;
+  }
+
+  .information {
+    padding: 1.25rem 1rem;
+  }
+}
+

@@ -173,3 +173,10 @@
   color: #666666;
   font-size: 13px;
 }
+
+@media (max-width: 480px) {
+  .picker-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+

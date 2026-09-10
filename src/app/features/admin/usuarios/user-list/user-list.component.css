@@ -133,7 +133,8 @@
 }
 
 .users-table-card {
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid #E5E5E5;
   border-radius: 0;
   background: #FFFFFF;
