@@ -1,6 +1,7 @@
 <main class="home-page">
   <section class="hero">
-    <img [src]="(carruseles.length > 0 && carruseles[currentCarouselIndex]?.imagenUrl) ? carruseles[currentCarouselIndex]?.imagenUrl : 'assets/images/Panamericana.png'"
+    <img src="assets/images/Panamericana.png"
+      [src]="carruseles[currentCarouselIndex]?.imagenUrl || 'assets/images/Panamericana.png'"
       alt="Distribuidora Panamericana"
       width="1200"
       height="500"

@@ -24,7 +24,17 @@ export class IndexComponent implements OnInit, OnDestroy {
     { _id: '3', nombre: 'Crema de Peinar', marca: 'Panamericana', precioNormal: 140, imagenUrl: 'assets/images/Panamericana.png' },
     { _id: '4', nombre: 'Aceite Reparador', marca: 'Panamericana', precioNormal: 210, imagenUrl: 'assets/images/Panamericana.png' }
   ];
-  carruseles: any[] = [];
+  carruseles: any[] = [
+    {
+      _id: 'default-1',
+      etiqueta: 'Promoción destacada',
+      titulo: 'Distribuidora Panamericana',
+      descripcion: 'Encuentra productos de belleza, barbería y cuidado personal con disponibilidad para compra rápida.',
+      imagenUrl: 'assets/images/Panamericana.png',
+      textoBoton: 'Ver catálogo',
+      enlace: '/productos'
+    }
+  ];
   familias: any[] = [];
   marcas: any[] = [];
   ofertas: any[] = [];
