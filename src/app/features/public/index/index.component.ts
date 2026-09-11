@@ -120,6 +120,10 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   getCover(producto: any): string {
-    return producto?.imagenUrl || producto?.imagenUrlPrincipal || 'assets/img/shampoo.jpg';
+    let url = producto?.imagenUrl || producto?.imagenUrlPrincipal || 'assets/img/shampoo.jpg';
+    if (url.includes('res.cloudinary.com') && url.includes('/upload/') && !url.includes('f_auto')) {
+      return url.replace('/upload/', '/upload/f_auto,q_auto,w_400/');
+    }
+    return url;
   }
 }
