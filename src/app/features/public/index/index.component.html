@@ -1,9 +1,9 @@
 <main class="home-page">
   <section class="hero">
-    <img *ngIf="carruseles.length > 0 && carruseles[currentCarouselIndex]?.imagenUrl"
-      [src]="carruseles[currentCarouselIndex]?.imagenUrl"
-      alt=""
-      aria-hidden="true"
+    <img [src]="(carruseles.length > 0 && carruseles[currentCarouselIndex]?.imagenUrl) ? carruseles[currentCarouselIndex]?.imagenUrl : 'assets/images/Panamericana.png'"
+      alt="Distribuidora Panamericana"
+      fetchpriority="high"
+      decoding="async"
       (error)="hideBrokenHeroImage($event)"
       class="hero__image">
 
