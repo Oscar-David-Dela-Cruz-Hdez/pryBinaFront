@@ -8,8 +8,8 @@
       class="hero__image">
 
     <div class="hero__content anim-fade-up">
-      <span class="section-kicker">{{ carruseles[currentCarouselIndex]?.etiqueta || 'Promoción destacada' }}</span>
-      <h1>{{ carruseles[currentCarouselIndex]?.titulo || 'Distribuidora Panamericana' }}</h1>
+      <span class="section-kicker">{{ carruseles[currentCarouselIndex]?.etiqueta || carruseles[currentCarouselIndex]?.titulo || 'Promoción destacada' }}</span>
+      <h1>Distribuidora Panamericana</h1>
       <p>
         {{ carruseles[currentCarouselIndex]?.descripcion || 'Encuentra productos de belleza, barbería y cuidado personal con disponibilidad para compra rápida.' }}
       </p>
