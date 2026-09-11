@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 })
 export class SiteInfoService {
   private baseUrl = 'https://prybinaback.onrender.com/api';
+  private contactosCache$?: Observable<any>;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -96,6 +97,15 @@ export class SiteInfoService {
 
   // --- CONTACTOS ---
   getContactos(activo?: boolean): Observable<any> {
+    if (activo === true) {
+      if (!this.contactosCache$) {
+        this.contactosCache$ = this.http.get(`${this.baseUrl}/contactos?activo=true`).pipe(
+          shareReplay(1)
+        );
+      }
+      return this.contactosCache$;
+    }
+
     let url = `${this.baseUrl}/contactos`;
     if (activo !== undefined) {
       url += `?activo=${activo}`;
@@ -104,21 +114,24 @@ export class SiteInfoService {
   }
 
   addContacto(data: { tipo: string, valor: string, icono?: string, activo?: boolean }): Observable<any> {
+    this.contactosCache$ = undefined;
     return this.http.post(`${this.baseUrl}/contactos`, data, { headers: this.getAuthHeaders() });
   }
 
   updateContacto(id: string, data: any): Observable<any> {
+    this.contactosCache$ = undefined;
     return this.http.put(`${this.baseUrl}/contactos/${id}`, data, { headers: this.getAuthHeaders() });
   }
 
   deleteContacto(id: string): Observable<any> {
+    this.contactosCache$ = undefined;
     return this.http.delete(`${this.baseUrl}/contactos/${id}`, { headers: this.getAuthHeaders() });
   }
 
-  // --- DEPRECATED METHODS (for compatibility if needed, but preferably remove) ---
+  // --- DEPRECATED METHODS ---
   getInformacion(): Observable<any> {
     console.warn('getInformacion is deprecated. Use specific methods instead.');
-    return this.http.get(`${this.baseUrl}/empresa`); // Assuming this might exist or just fail
+    return this.http.get(`${this.baseUrl}/empresa`);
   }
 
   updateInformacion(data: any): Observable<any> {

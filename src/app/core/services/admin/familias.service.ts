@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 })
 export class FamiliasService {
   private apiFamilias = 'https://prybinaback.onrender.com/api/familias';
+  private familiasCache$?: Observable<any[]>;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -20,6 +21,15 @@ export class FamiliasService {
   }
 
   getFamilias(Filters?: { marca?: string }): Observable<any[]> {
+    if (!Filters?.marca) {
+      if (!this.familiasCache$) {
+        this.familiasCache$ = this.http.get<any[]>(this.apiFamilias).pipe(
+          shareReplay(1)
+        );
+      }
+      return this.familiasCache$;
+    }
+
     let url = this.apiFamilias;
     const params = [];
     if (Filters?.marca) params.push(`marca=${Filters.marca}`);
@@ -35,14 +45,17 @@ export class FamiliasService {
   }
 
   createFamilia(data: any): Observable<any> {
+    this.familiasCache$ = undefined;
     return this.http.post(this.apiFamilias, data, { headers: this.getAuthHeaders() });
   }
 
   updateFamilia(id: string, data: any): Observable<any> {
+    this.familiasCache$ = undefined;
     return this.http.put(`${this.apiFamilias}/${id}`, data, { headers: this.getAuthHeaders() });
   }
 
   deleteFamilia(id: string): Observable<any> {
+    this.familiasCache$ = undefined;
     return this.http.delete(`${this.apiFamilias}/${id}`, { headers: this.getAuthHeaders() });
   }
 }

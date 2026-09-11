@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 @Injectable({
@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
 export class ProductsService {
   private apiProductos = 'https://prybinaback.onrender.com/api/productos';
   private apiMarcas = 'https://prybinaback.onrender.com/api/marcas';
+  private marcasCache$?: Observable<any[]>;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -66,7 +67,6 @@ export class ProductsService {
     const formData = new FormData();
     formData.append('archivo', file);
     
-    // Al enviar FormData, no debemos setear 'Content-Type', el navegador lo hace automáticamente con el boundary
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `${token}`
@@ -75,9 +75,14 @@ export class ProductsService {
     return this.http.post(`${this.apiProductos}/importar/excel`, formData, { headers });
   }
 
-  // --- MARCAS (Para el selector de productos y CRUD) ---
+  // --- MARCAS ---
   getMarcas(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiMarcas);
+    if (!this.marcasCache$) {
+      this.marcasCache$ = this.http.get<any[]>(this.apiMarcas).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.marcasCache$;
   }
 
   getMarcaById(id: string): Observable<any> {
@@ -85,20 +90,17 @@ export class ProductsService {
   }
 
   createMarca(data: any): Observable<any> {
+    this.marcasCache$ = undefined;
     return this.http.post(this.apiMarcas, data, { headers: this.getAuthHeaders() });
   }
 
   updateMarca(id: string, data: any): Observable<any> {
+    this.marcasCache$ = undefined;
     return this.http.put(`${this.apiMarcas}/${id}`, data, { headers: this.getAuthHeaders() });
   }
 
   deleteMarca(id: string): Observable<any> {
+    this.marcasCache$ = undefined;
     return this.http.delete(`${this.apiMarcas}/${id}`, { headers: this.getAuthHeaders() });
   }
 }
-
-
-
-
-
-

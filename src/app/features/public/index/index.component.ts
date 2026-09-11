@@ -26,9 +26,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   metodosEnvio: any[] = [];
   metodosPago: any[] = [];
   contactos: any[] = [];
-  historia: any = null;
-  mision: any = null;
-  vision: any = null;
   currentCarouselIndex = 0;
   carouselInterval: any;
   isLoading = true;
@@ -78,7 +75,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       if (this.carruseles.length > 1) {
         this.carouselInterval = setInterval(() => {
           this.currentCarouselIndex = (this.currentCarouselIndex + 1) % this.carruseles.length;
-        }, 5000); // Cambia cada 5 segundos
+        }, 5000);
       }
     });
 
@@ -104,18 +101,6 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     this.siteInfoService.getContactos(true).subscribe(data => {
       this.contactos = (data || []).slice(0, 3);
-    });
-
-    this.siteInfoService.getHistoria().subscribe(data => {
-      this.historia = data;
-    });
-
-    this.siteInfoService.getMision().subscribe(data => {
-      this.mision = data;
-    });
-
-    this.siteInfoService.getVision().subscribe(data => {
-      this.vision = data;
     });
   }
 

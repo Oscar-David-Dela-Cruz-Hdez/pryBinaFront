@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 @Injectable({
@@ -10,6 +10,7 @@ export class SalesService {
   private apiMetodosPago = 'https://prybinaback.onrender.com/api/metodos-pago';
   private apiOfertas = 'https://prybinaback.onrender.com/api/ofertas';
   private apiCarruseles = 'https://prybinaback.onrender.com/api/carruseles';
+  private metodosPagoCache$?: Observable<any[]>;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -23,9 +24,18 @@ export class SalesService {
 
   // --- MÉTODOS DE PAGO ---
   getMetodosPago(activo?: boolean): Observable<any[]> {
+    if (activo === true) {
+      if (!this.metodosPagoCache$) {
+        this.metodosPagoCache$ = this.http.get<any[]>(`${this.apiMetodosPago}?activo=true`).pipe(
+          shareReplay(1)
+        );
+      }
+      return this.metodosPagoCache$;
+    }
+
     let url = this.apiMetodosPago;
     if (activo !== undefined) url += `?activo=${activo}`;
-    return this.http.get<any[]>(url); // Publico o Admin
+    return this.http.get<any[]>(url);
   }
 
   getMetodoPagoById(id: string): Observable<any> {
@@ -33,23 +43,25 @@ export class SalesService {
   }
 
   createMetodoPago(data: any): Observable<any> {
+    this.metodosPagoCache$ = undefined;
     return this.http.post(this.apiMetodosPago, data, { headers: this.getAuthHeaders() });
   }
 
   updateMetodoPago(id: string, data: any): Observable<any> {
+    this.metodosPagoCache$ = undefined;
     return this.http.put(`${this.apiMetodosPago}/${id}`, data, { headers: this.getAuthHeaders() });
   }
 
   deleteMetodoPago(id: string): Observable<any> {
+    this.metodosPagoCache$ = undefined;
     return this.http.delete(`${this.apiMetodosPago}/${id}`, { headers: this.getAuthHeaders() });
   }
-
 
   // --- OFERTAS ---
   getOfertas(activo?: boolean): Observable<any[]> {
     let url = this.apiOfertas;
     if (activo !== undefined) url += `?activo=${activo}`;
-    return this.http.get<any[]>(url); // Publico
+    return this.http.get<any[]>(url);
   }
 
   getOfertaById(id: string): Observable<any> {
