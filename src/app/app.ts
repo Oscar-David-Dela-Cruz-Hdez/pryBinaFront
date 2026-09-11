@@ -1,8 +1,7 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { ChangeDetectorRef } from '@angular/core';
 import { HeaderComponent } from './layout/public/header/header.component';
 import { UserHeaderComponent } from './layout/user-header/user-header.component';
 import { AdminHeaderComponent } from './layout/admin-header/admin-header.component';
@@ -28,7 +27,6 @@ export class App implements OnInit {
   isLoggedIn$: Observable<boolean>;
   userRole$: Observable<string | null>;
 
-  //codigo 2 experimental
   constructor(
     private authService: AuthService,
     private themeService: ThemeService
@@ -37,18 +35,9 @@ export class App implements OnInit {
     this.userRole$ = this.authService.userRole$;
   }
 
-  //codigo 2 experimental
   ngOnInit(): void {
     this.isLoggedIn$.subscribe(isLoggedIn => {
       console.log("Estado de login en App:", isLoggedIn);
     });
-  }
-
-  @HostListener('document:mousemove')
-  @HostListener('document:keydown')
-  resetInactivityTimer() {
-    if (localStorage.getItem('user_token')) {
-      // El temporizador se reinicia automáticamente en cada solicitud HTTP exitosa
-    }
   }
 }

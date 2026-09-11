@@ -29,21 +29,24 @@ export class FooterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.siteInfoService.getContactos(true).subscribe(data => {
-      this.contactos = data || [];
-    });
+    // Defer footer data loading by 3s so below-the-fold requests do not compete with hero/above-the-fold rendering
+    setTimeout(() => {
+      this.siteInfoService.getContactos(true).subscribe(data => {
+        this.contactos = data || [];
+      });
 
-    this.salesService.getMetodosPago(true).subscribe(data => {
-      this.metodosPago = data || [];
-    });
+      this.salesService.getMetodosPago(true).subscribe(data => {
+        this.metodosPago = data || [];
+      });
 
-    this.familiasService.getFamilias().subscribe(data => {
-      this.familias = (data || []).slice(0, 6);
-    });
+      this.familiasService.getFamilias().subscribe(data => {
+        this.familias = (data || []).slice(0, 6);
+      });
 
-    this.productsService.getMarcas().subscribe(data => {
-      this.marcas = (data || []).slice(0, 6);
-    });
+      this.productsService.getMarcas().subscribe(data => {
+        this.marcas = (data || []).slice(0, 6);
+      });
+    }, 3000);
   }
 
   getContactIcon(tipo: string): string {

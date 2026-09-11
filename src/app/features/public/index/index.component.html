@@ -2,6 +2,8 @@
   <section class="hero">
     <img [src]="(carruseles.length > 0 && carruseles[currentCarouselIndex]?.imagenUrl) ? carruseles[currentCarouselIndex]?.imagenUrl : 'assets/images/Panamericana.png'"
       alt="Distribuidora Panamericana"
+      width="1200"
+      height="500"
       fetchpriority="high"
       decoding="async"
       (error)="hideBrokenHeroImage($event)"
@@ -61,7 +63,7 @@
     <div class="product-grid" *ngIf="!isLoading">
       <article class="product-card card-3d-tilt anim-fade-up" *ngFor="let p of productosDestacados; let i = index" [ngClass]="'stagger-' + ((i % 6) + 1)" [routerLink]="['/productos', p._id || p.id]" tabindex="0">
         <figure class="glass-shimmer-wrap">
-          <img [src]="getCover(p)" [alt]="p.nombre" loading="lazy" decoding="async">
+          <img [src]="getCover(p)" [alt]="p.nombre" width="300" height="300" loading="lazy" decoding="async">
         </figure>
         <div>
           <span>{{ p.marca?.nombre || p.marca || 'Producto' }}</span>

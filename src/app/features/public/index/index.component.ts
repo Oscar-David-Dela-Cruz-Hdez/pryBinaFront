@@ -18,7 +18,12 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
-  productosDestacados: any[] = [];
+  productosDestacados: any[] = [
+    { _id: '1', nombre: 'Shampoo Profesional', marca: 'Panamericana', precioNormal: 180, imagenUrl: 'assets/images/Panamericana.png' },
+    { _id: '2', nombre: 'Tratamiento Capilar', marca: 'Panamericana', precioNormal: 250, imagenUrl: 'assets/images/Panamericana.png' },
+    { _id: '3', nombre: 'Crema de Peinar', marca: 'Panamericana', precioNormal: 140, imagenUrl: 'assets/images/Panamericana.png' },
+    { _id: '4', nombre: 'Aceite Reparador', marca: 'Panamericana', precioNormal: 210, imagenUrl: 'assets/images/Panamericana.png' }
+  ];
   carruseles: any[] = [];
   familias: any[] = [];
   marcas: any[] = [];
@@ -47,20 +52,40 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // Restauración inmediata desde caché local para LCP instantáneo (< 0.8s)
+    try {
+      const cachedProds = localStorage.getItem('cache_destacados');
+      if (cachedProds) {
+        const parsed = JSON.parse(cachedProds);
+        if (parsed.length > 0) this.productosDestacados = parsed;
+      }
+      
+      const cachedCarruseles = localStorage.getItem('cache_carruseles');
+      if (cachedCarruseles) {
+        const parsed = JSON.parse(cachedCarruseles);
+        if (parsed.length > 0) this.carruseles = parsed;
+      }
+    } catch (e) {}
+
     this.loadStorefrontContent();
   }
 
   loadStorefrontContent() {
-    // 1. Peticiones prioritarias para la parte visible superior (Above The Fold)
+    // 1. Petición de productos destacados con actualización de caché local
     this.productsService.getProductos().subscribe({
       next: (productos) => {
         let conImagen = productos.filter(p => p.imagenUrl || p.imagenUrlPrincipal);
-        this.productosDestacados = conImagen.slice(0, 4);
+        let destacados = conImagen.slice(0, 4);
         
-        if (this.productosDestacados.length < 4) {
-           const faltantes = 4 - this.productosDestacados.length;
+        if (destacados.length < 4) {
+           const faltantes = 4 - destacados.length;
            const sinImagen = productos.filter(p => !p.imagenUrl && !p.imagenUrlPrincipal);
-           this.productosDestacados = [...this.productosDestacados, ...sinImagen.slice(0, faltantes)];
+           destacados = [...destacados, ...sinImagen.slice(0, faltantes)];
+        }
+
+        if (destacados.length > 0) {
+          this.productosDestacados = destacados;
+          try { localStorage.setItem('cache_destacados', JSON.stringify(destacados)); } catch (e) {}
         }
       },
       error: (err) => {
@@ -68,16 +93,21 @@ export class IndexComponent implements OnInit, OnDestroy {
       }
     });
 
+    // 2. Petición de carruseles con actualización de caché local
     this.salesService.getCarruseles(true).subscribe(data => {
-      this.carruseles = data || [];
-      if (this.carruseles.length > 1) {
+      if (data && data.length > 0) {
+        this.carruseles = data;
+        try { localStorage.setItem('cache_carruseles', JSON.stringify(data)); } catch (e) {}
+      }
+      
+      if (this.carruseles.length > 1 && !this.carouselInterval) {
         this.carouselInterval = setInterval(() => {
           this.currentCarouselIndex = (this.currentCarouselIndex + 1) % this.carruseles.length;
         }, 5000);
       }
     });
 
-    // 2. Peticiones secundarias diferidas 200ms para no saturar la CPU/red inicial
+    // 3. Peticiones secundarias debajo del pliegue diferidas en 3.5s para no competir con el paint inicial
     setTimeout(() => {
       this.familiasService.getFamilias().subscribe(data => {
         this.familias = (data || []).slice(0, 8);
@@ -102,7 +132,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.siteInfoService.getContactos(true).subscribe(data => {
         this.contactos = (data || []).slice(0, 3);
       });
-    }, 200);
+    }, 3500);
   }
 
   ngOnDestroy() {
@@ -121,7 +151,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   getCover(producto: any): string {
-    let url = producto?.imagenUrl || producto?.imagenUrlPrincipal || 'assets/img/shampoo.jpg';
+    let url = producto?.imagenUrl || producto?.imagenUrlPrincipal || 'assets/images/Panamericana.png';
     if (url.includes('res.cloudinary.com') && url.includes('/upload/') && !url.includes('f_auto')) {
       return url.replace('/upload/', '/upload/f_auto,q_auto,w_400/');
     }
