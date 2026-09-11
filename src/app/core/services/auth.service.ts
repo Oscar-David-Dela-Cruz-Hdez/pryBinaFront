@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError, Subscription, timer, fromEvent, merge } from 'rxjs';
-import { catchError, map, throttleTime } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
-import Swal from 'sweetalert2';
-
+import { throttleTime } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +13,8 @@ export class AuthService {
   private isLoggedInSubject: BehaviorSubject<boolean>;
   private userNameSubject: BehaviorSubject<string | null>;
   private userRoleSubject: BehaviorSubject<string | null>;
-  //private apiUrl = 'http://localhost:4000/api/usuarios';
   private apiUrl = 'https://prybinaback.onrender.com/api/usuarios';
 
-  //se agrega aqui eso de la expiracion de inicio de sesion
   private inactivityTimer: Subscription | null = null;
   private warningTimer: Subscription | null = null;
   private activitySubscription: Subscription | null = null;
@@ -29,7 +26,6 @@ export class AuthService {
     private socialAuthService: SocialAuthService
   ) {
     const token = localStorage.getItem('user_token');
-
     const nombre = localStorage.getItem('user_name');
     const rol = localStorage.getItem('user_rol');
     this.isLoggedInSubject = new BehaviorSubject<boolean>(!!token);
@@ -45,7 +41,6 @@ export class AuthService {
   private initActivityListeners(): void {
     if (this.activitySubscription) return;
 
-    // Detectar cualquier interacción global: mouse, click, teclado o scroll
     const events$ = merge(
       fromEvent(document, 'mousemove'),
       fromEvent(document, 'keydown'),
@@ -53,12 +48,10 @@ export class AuthService {
       fromEvent(document, 'scroll')
     );
 
-    // Limitamos a reiniciar el contador máximo 1 vez cada 5 segundos para no saturar memoria
     this.activitySubscription = events$.pipe(
       throttleTime(5000)
     ).subscribe(() => {
-      // Si el usuario está trabajando y está logueado, reiniciamos el reloj
-      if (this.isLoggedInSubject.getValue() && !Swal.isVisible()) {
+      if (this.isLoggedInSubject.getValue() && !document.querySelector('.swal2-container')) {
         this.resetInactivityTimer();
       }
     });
@@ -67,10 +60,10 @@ export class AuthService {
   private startInactivityTimer(): void {
     this.stopInactivityTimer();
 
-    // alerta 5 segundos antes de que expire la sesión
     const warningTime = this.INACTIVITY_TIMEOUT - 60000;
 
-    this.warningTimer = timer(warningTime).subscribe(() => {
+    this.warningTimer = timer(warningTime).subscribe(async () => {
+      const Swal = (await import('sweetalert2')).default;
       Swal.fire({
         icon: 'warning',
         title: 'Sesión a punto de expirar',
@@ -88,8 +81,8 @@ export class AuthService {
       });
     });
 
-    // Cerrar sesión si no hay actividad
-    this.inactivityTimer = timer(this.INACTIVITY_TIMEOUT).subscribe(() => {
+    this.inactivityTimer = timer(this.INACTIVITY_TIMEOUT).subscribe(async () => {
+      const Swal = (await import('sweetalert2')).default;
       Swal.fire({
         icon: 'info',
         title: 'Sesión expirada',
@@ -101,7 +94,6 @@ export class AuthService {
       });
     });
   }
-
 
   private stopInactivityTimer(): void {
     if (this.inactivityTimer) {
@@ -119,15 +111,14 @@ export class AuthService {
     this.startInactivityTimer();
   }
 
-
   public checkUsernameAvailability(username: string): Observable<{ available: boolean }> {
     return this.http.post<{ available: boolean }>(`${this.apiUrl}/check-username`, { username });
   }
-  // correo
+
   public checkEmailAvailability(email: string): Observable<{ available: boolean }> {
     return this.http.post<{ available: boolean }>(`${this.apiUrl}/check-email`, { email });
   }
-  // telefono
+
   public checkPhoneAvailability(telefono: string): Observable<{ available: boolean }> {
     return this.http.post<{ available: boolean }>(`${this.apiUrl}/check-phone`, { telefono });
   }
@@ -143,20 +134,18 @@ export class AuthService {
   public get userRole$(): Observable<string | null> {
     return this.userRoleSubject.asObservable();
   }
-  //codigo 2, experimental
 
   public loginStep1_requestEmailCode(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       catchError(err => {
         if (err.status === 429) {
-          throw err; // Dejar que el componente maneje este error
+          throw err;
         }
         return throwError(() => new Error(err.error?.error || 'Error al iniciar sesión'));
       })
     );
   }
 
-  //codigo 2, experimental
   public loginStep2_verifyCode(email: string, code: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/verify-2fa`, { email, code }).pipe(
       catchError(err => {
@@ -168,13 +157,10 @@ export class AuthService {
     );
   }
 
-  // --- NUEVA FUNCIÓN PARA GOOGLE ---
   public loginWithGoogle(idToken: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/google-login`, { idToken: idToken });
   }
-  // ---------------------------------
 
-  // --- Funciones Locales de Auth ---
   login(token: string, rol: string, nombre: string): void {
     localStorage.setItem('user_token', token);
     localStorage.setItem('user_rol', rol);
@@ -182,7 +168,6 @@ export class AuthService {
     this.isLoggedInSubject.next(true);
     this.userNameSubject.next(nombre);
     this.userRoleSubject.next(rol);
-    //control de tiempo
     this.initActivityListeners();
     this.resetInactivityTimer();
   }
@@ -192,13 +177,11 @@ export class AuthService {
     localStorage.removeItem('user_token');
     localStorage.removeItem('user_rol');
     localStorage.removeItem('user_name');
-    //control de tiempo
     this.stopInactivityTimer();
     if (this.activitySubscription) {
       this.activitySubscription.unsubscribe();
       this.activitySubscription = null;
     }
-    //control de tiempo
     this.socialAuthService.signOut();
     this.isLoggedInSubject.next(false);
     this.userNameSubject.next(null);
@@ -206,7 +189,6 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  // --- Métodos de Perfil ---
   public getToken(): string | null {
     return localStorage.getItem('user_token');
   }
@@ -263,5 +245,4 @@ export class AuthService {
   updateSecret(data: { preguntaSecreta: string, respuestaSecreta: string }): Observable<any> {
     return this.http.put(`${this.apiUrl}/update-secret`, data, { headers: this.getAuthHeaders() });
   }
-
 }
