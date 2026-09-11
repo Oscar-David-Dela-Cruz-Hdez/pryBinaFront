@@ -1,56 +1,6 @@
-
-import { IndexComponent } from './features/public/index/index.component';
 import { Routes } from '@angular/router';
+import { IndexComponent } from './features/public/index/index.component';
 import { authGuard } from './core/guards/auth.guard';
-
-import { LoginComponent } from './features/auth/login/login.component';
-import { RegisterComponent } from './features/auth/register/register.component';
-import { RecupcontraComponent } from './features/auth/recupcontra/recupcontra.component';
-import { PrivacidadComponent } from './features/public-static/privacidad/privacidad.component';
-import { TerminosComponent } from './features/public-static/terminos/terminos.component';
-import { HistoriaPublicComponent } from './features/public-static/historia/historia.component';
-import { MisionVisionPublicComponent } from './features/public-static/mision-vision/mision-vision.component';
-import { AyudaPublicComponent } from './features/public-static/ayuda/ayuda.component';
-import { ContactoPublicComponent } from './features/public-static/contacto/contacto.component';
-import { UserdataComponent } from "./features/user/userdata/userdata.component";
-import { PasswordComponent } from "./features/user/password/password.component";
-import { PreguntaComponent } from "./features/user/pregunta/pregunta.component";
-import { ComprasComponent } from './features/user/compras/compras.component';
-
-import { ProfileComponent } from './features/public/profile/profile.component';
-
-
-
-import { Error400Component } from './features/public/errores/error400/error400.component';
-import { Error404Component } from './features/public/errores/error404/error404.component';
-import { Error500Component } from './features/public/errores/error500/error500.component';
-import { UbicacionComponent } from './features/public/ubicacion/ubicacion.component';
-import { MisionComponent } from './features/admin/sitio/informacion/mision/mision.component';
-import { HistoriaComponent } from './features/admin/sitio/informacion/historia/historia.component';
-import { VisionComponent } from './features/admin/sitio/informacion/vision/vision.component';
-import { PoliticasComponent } from './features/admin/sitio/informacion/politicas/politicas.component';
-import { TerminosComponent as AdminTerminosComponent } from './features/admin/sitio/informacion/terminos/terminos.component';
-import { AdminUbicacionComponent } from './features/admin/sitio/informacion/ubicacion/ubicacion.component';
-import { FaqsComponent } from './features/admin/sitio/faqs/faqs.component';
-import { ContactosComponent } from './features/admin/sitio/contactos/contactos.component';
-import { UserListComponent } from './features/admin/usuarios/user-list/user-list.component';
-import { MetodosPagoComponent } from './features/admin/ventas/metodos-pago/metodos-pago.component';
-import { DashboardComponent } from './features/admin/dashboard/dashboard.component';
-import { OfertasComponent } from './features/admin/ventas/ofertas/ofertas.component';
-import { CarruselComponent } from './features/admin/ventas/carrusel/carrusel.component';
-import { ProductsComponent } from './features/admin/inventario/productos/products.component';
-import { MarcasComponent } from './features/admin/inventario/marcas/marcas.component';
-import { FamiliasComponent } from './features/admin/inventario/familias/familias.component';
-import { MetodosEnvioComponent } from './features/admin/pedidos/metodos-envio/metodos-envio.component';
-import { PedidosComponent } from './features/admin/pedidos/pedidos-list/pedidos-list.component';
-import { CatalogComponent } from './features/public/shop/catalog/catalog.component';
-import { CartComponent } from './features/public/shop/cart/cart.component';
-import { ProductDetailComponent } from './features/public/shop/product-detail/product-detail.component';
-import { Herramientas } from './features/admin/herramientas/herramientas';
-import { Respaldos } from './features/admin/herramientas/respaldos/respaldos';
-import { MonitoreoComponent } from './features/admin/herramientas/monitoreo/monitoreo.component';
-import { ReportesComponent } from './features/admin/ventas/reportes/reportes.component';
-import { AlexaAccessComponent } from './features/admin/herramientas/alexa-access/alexa-access.component';
 
 export const routes: Routes = [
   {
@@ -59,254 +9,239 @@ export const routes: Routes = [
     data: { breadcrumb: 'Inicio' }
   },
 
-  // ... (keep existing lines until 150)
-
-  {
-    path: 'admin/pedidos/metodos-envio',
-    component: MetodosEnvioComponent,
-    canActivate: [authGuard],
-    data: { breadcrumb: 'Admin / Métodos de Envío' }
-  },
-  {
-    path: 'admin/pedidos/listado',
-    component: PedidosComponent,
-    canActivate: [authGuard],
-    data: { breadcrumb: 'Admin / Gestión de Pedidos' }
-  },
-
   {
     path: 'login',
-    component: LoginComponent,
+    loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent),
     data: { breadcrumb: 'Iniciar Sesión' }
   },
   {
     path: 'register',
-    component: RegisterComponent,
+    loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent),
     data: { breadcrumb: 'Registro' }
   },
   {
     path: 'password-recovery',
-    component: RecupcontraComponent,
+    loadComponent: () => import('./features/auth/recupcontra/recupcontra.component').then(m => m.RecupcontraComponent),
     data: { breadcrumb: 'Recuperar Contraseña' }
   },
 
   {
     path: 'perfil',
-    component: ProfileComponent,
+    loadComponent: () => import('./features/public/profile/profile.component').then(m => m.ProfileComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Mi Perfil' }
   },
 
   {
     path: 'privacidad',
-    component: PrivacidadComponent
+    loadComponent: () => import('./features/public-static/privacidad/privacidad.component').then(m => m.PrivacidadComponent)
   },
 
   {
     path: 'terminos',
-    component: TerminosComponent
+    loadComponent: () => import('./features/public-static/terminos/terminos.component').then(m => m.TerminosComponent)
   },
   {
     path: 'historia',
-    component: HistoriaPublicComponent,
+    loadComponent: () => import('./features/public-static/historia/historia.component').then(m => m.HistoriaPublicComponent),
     data: { breadcrumb: 'Historia' }
   },
   {
     path: 'mision-vision',
-    component: MisionVisionPublicComponent,
+    loadComponent: () => import('./features/public-static/mision-vision/mision-vision.component').then(m => m.MisionVisionPublicComponent),
     data: { breadcrumb: 'Misión y Visión' }
   },
   {
     path: 'ayuda',
-    component: AyudaPublicComponent,
+    loadComponent: () => import('./features/public-static/ayuda/ayuda.component').then(m => m.AyudaPublicComponent),
     data: { breadcrumb: 'Ayuda' }
   },
   {
     path: 'contacto',
-    component: ContactoPublicComponent,
+    loadComponent: () => import('./features/public-static/contacto/contacto.component').then(m => m.ContactoPublicComponent),
     data: { breadcrumb: 'Contacto' }
   },
 
   {
     path: 'datos',
-    component: UserdataComponent,
+    loadComponent: () => import('./features/user/userdata/userdata.component').then(m => m.UserdataComponent),
     data: { breadcrumb: 'Mis Datos' }
   },
   {
     path: 'password',
-    component: PasswordComponent,
+    loadComponent: () => import('./features/user/password/password.component').then(m => m.PasswordComponent),
     data: { breadcrumb: 'Cambiar Contraseña' }
   },
   {
     path: 'pregunta',
-    component: PreguntaComponent,
+    loadComponent: () => import('./features/user/pregunta/pregunta.component').then(m => m.PreguntaComponent),
     data: { breadcrumb: 'Pregunta de Seguridad' }
   },
   {
     path: 'mis-compras',
-    component: ComprasComponent,
+    loadComponent: () => import('./features/user/compras/compras.component').then(m => m.ComprasComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Mis compras' }
   },
 
   {
     path: 'ubicacion',
-    component: UbicacionComponent,
+    loadComponent: () => import('./features/public/ubicacion/ubicacion.component').then(m => m.UbicacionComponent),
     data: { breadcrumb: 'Ubicación' }
   },
   {
     path: 'productos',
-    component: CatalogComponent,
+    loadComponent: () => import('./features/public/shop/catalog/catalog.component').then(m => m.CatalogComponent),
     data: { breadcrumb: 'Catálogo' }
   },
   {
     path: 'productos/:id',
-    component: ProductDetailComponent,
+    loadComponent: () => import('./features/public/shop/product-detail/product-detail.component').then(m => m.ProductDetailComponent),
     data: { breadcrumb: 'Detalle del producto' }
   },
   {
     path: 'carrito',
-    component: CartComponent,
+    loadComponent: () => import('./features/public/shop/cart/cart.component').then(m => m.CartComponent),
     data: { breadcrumb: 'Carrito de Compras' }
   },
 
   // --- RUTAS DE ADMINISTRADOR ---
   {
     path: 'admin/dashboard',
-    component: DashboardComponent,
+    loadComponent: () => import('./features/admin/dashboard/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Dashboard' }
   },
   {
     path: 'admin/sitio/mision',
-    component: MisionComponent,
+    loadComponent: () => import('./features/admin/sitio/informacion/mision/mision.component').then(m => m.MisionComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Misión' }
   },
   {
     path: 'admin/sitio/historia',
-    component: HistoriaComponent,
+    loadComponent: () => import('./features/admin/sitio/informacion/historia/historia.component').then(m => m.HistoriaComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Historia' }
   },
   {
     path: 'admin/sitio/vision',
-    component: VisionComponent,
+    loadComponent: () => import('./features/admin/sitio/informacion/vision/vision.component').then(m => m.VisionComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Visión' }
   },
   {
     path: 'admin/sitio/politicas',
-    component: PoliticasComponent,
+    loadComponent: () => import('./features/admin/sitio/informacion/politicas/politicas.component').then(m => m.PoliticasComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Políticas' }
   },
   {
     path: 'admin/sitio/terminos',
-    component: AdminTerminosComponent,
+    loadComponent: () => import('./features/admin/sitio/informacion/terminos/terminos.component').then(m => m.TerminosComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Términos' }
   },
   {
     path: 'admin/sitio/ubicacion',
-    component: AdminUbicacionComponent,
+    loadComponent: () => import('./features/admin/sitio/informacion/ubicacion/ubicacion.component').then(m => m.AdminUbicacionComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Ubicación' }
   },
   {
     path: 'admin/sitio/faqs',
-    component: FaqsComponent,
+    loadComponent: () => import('./features/admin/sitio/faqs/faqs.component').then(m => m.FaqsComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / FAQs' }
   },
   {
     path: 'admin/sitio/contactos',
-    component: ContactosComponent,
+    loadComponent: () => import('./features/admin/sitio/contactos/contactos.component').then(m => m.ContactosComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Contactos' }
   },
   {
     path: 'admin/usuarios',
-    component: UserListComponent,
+    loadComponent: () => import('./features/admin/usuarios/user-list/user-list.component').then(m => m.UserListComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Usuarios' }
   },
   {
     path: 'admin/ventas/reportes',
-    component: ReportesComponent,
+    loadComponent: () => import('./features/admin/ventas/reportes/reportes.component').then(m => m.ReportesComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Reportes Estadísticos' }
   },
   {
     path: 'admin/ventas/metodos-pago',
-    component: MetodosPagoComponent,
+    loadComponent: () => import('./features/admin/ventas/metodos-pago/metodos-pago.component').then(m => m.MetodosPagoComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Métodos de Pago' }
   },
   {
     path: 'admin/ventas/ofertas',
-    component: OfertasComponent,
+    loadComponent: () => import('./features/admin/ventas/ofertas/ofertas.component').then(m => m.OfertasComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Ofertas' }
   },
   {
     path: 'admin/ventas/carrusel',
-    component: CarruselComponent,
+    loadComponent: () => import('./features/admin/ventas/carrusel/carrusel.component').then(m => m.CarruselComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Carrusel' }
   },
   {
     path: 'admin/inventario/productos',
-    component: ProductsComponent,
+    loadComponent: () => import('./features/admin/inventario/productos/products.component').then(m => m.ProductsComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Productos' }
   },
   {
     path: 'admin/inventario/marcas',
-    component: MarcasComponent,
+    loadComponent: () => import('./features/admin/inventario/marcas/marcas.component').then(m => m.MarcasComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Marcas' }
   },
   {
     path: 'admin/inventario/familias',
-    component: FamiliasComponent,
+    loadComponent: () => import('./features/admin/inventario/familias/familias.component').then(m => m.FamiliasComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Familias' }
   },
 
   {
     path: 'admin/pedidos/metodos-envio',
-    component: MetodosEnvioComponent,
+    loadComponent: () => import('./features/admin/pedidos/metodos-envio/metodos-envio.component').then(m => m.MetodosEnvioComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Métodos de Envío' }
   },
   {
     path: 'admin/pedidos/listado',
-    component: PedidosComponent,
+    loadComponent: () => import('./features/admin/pedidos/pedidos-list/pedidos-list.component').then(m => m.PedidosComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Gestión de Pedidos' }
   },
   {
     path: 'admin/herramientas',
-    component: Herramientas,
+    loadComponent: () => import('./features/admin/herramientas/herramientas').then(m => m.Herramientas),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Importar Exportar Datos' }
   },
   {
     path: 'admin/herramientas/respaldos',
-    component: Respaldos,
+    loadComponent: () => import('./features/admin/herramientas/respaldos/respaldos').then(m => m.Respaldos),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Respaldos BD' }
   },
   {
     path: 'admin/herramientas/monitoreo',
-    component: MonitoreoComponent,
+    loadComponent: () => import('./features/admin/herramientas/monitoreo/monitoreo.component').then(m => m.MonitoreoComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Monitor de Rendimiento' }
   },
   {
     path: 'admin/herramientas/alexa',
-    component: AlexaAccessComponent,
+    loadComponent: () => import('./features/admin/herramientas/alexa-access/alexa-access.component').then(m => m.AlexaAccessComponent),
     canActivate: [authGuard],
     data: { breadcrumb: 'Admin / Acceso de Alexa' }
   },
@@ -314,14 +249,14 @@ export const routes: Routes = [
   // Ruta Wildcard para manejar 404 (Debe ir siempre al final)
   {
     path: 'error-400',
-    component: Error400Component
+    loadComponent: () => import('./features/public/errores/error400/error400.component').then(m => m.Error400Component)
   },
   {
     path: 'error-500',
-    component: Error500Component
+    loadComponent: () => import('./features/public/errores/error500/error500.component').then(m => m.Error500Component)
   },
   {
     path: '**',
-    component: Error404Component
+    loadComponent: () => import('./features/public/errores/error404/error404.component').then(m => m.Error404Component)
   }
 ];
