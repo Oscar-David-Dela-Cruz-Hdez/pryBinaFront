@@ -28,7 +28,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   contactos: any[] = [];
   currentCarouselIndex = 0;
   carouselInterval: any;
-  isLoading = true;
+  isLoading = false;
 
   constructor(
     private authService: AuthService, 
@@ -51,6 +51,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   loadStorefrontContent() {
+    // 1. Peticiones prioritarias para la parte visible superior (Above The Fold)
     this.productsService.getProductos().subscribe({
       next: (productos) => {
         let conImagen = productos.filter(p => p.imagenUrl || p.imagenUrlPrincipal);
@@ -61,12 +62,9 @@ export class IndexComponent implements OnInit, OnDestroy {
            const sinImagen = productos.filter(p => !p.imagenUrl && !p.imagenUrlPrincipal);
            this.productosDestacados = [...this.productosDestacados, ...sinImagen.slice(0, faltantes)];
         }
-        
-        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error fetch productos:', err);
-        this.isLoading = false;
       }
     });
 
@@ -79,29 +77,32 @@ export class IndexComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.familiasService.getFamilias().subscribe(data => {
-      this.familias = (data || []).slice(0, 8);
-    });
+    // 2. Peticiones secundarias diferidas 200ms para no saturar la CPU/red inicial
+    setTimeout(() => {
+      this.familiasService.getFamilias().subscribe(data => {
+        this.familias = (data || []).slice(0, 8);
+      });
 
-    this.productsService.getMarcas().subscribe(data => {
-      this.marcas = (data || []).slice(0, 8);
-    });
+      this.productsService.getMarcas().subscribe(data => {
+        this.marcas = (data || []).slice(0, 8);
+      });
 
-    this.salesService.getOfertas(true).subscribe(data => {
-      this.ofertas = (data || []).slice(0, 3);
-    });
+      this.salesService.getOfertas(true).subscribe(data => {
+        this.ofertas = (data || []).slice(0, 3);
+      });
 
-    this.salesService.getMetodosPago(true).subscribe(data => {
-      this.metodosPago = (data || []).slice(0, 5);
-    });
+      this.salesService.getMetodosPago(true).subscribe(data => {
+        this.metodosPago = (data || []).slice(0, 5);
+      });
 
-    this.logisticsService.getMetodosEnvio(true).subscribe(data => {
-      this.metodosEnvio = (data || []).slice(0, 3);
-    });
+      this.logisticsService.getMetodosEnvio(true).subscribe(data => {
+        this.metodosEnvio = (data || []).slice(0, 3);
+      });
 
-    this.siteInfoService.getContactos(true).subscribe(data => {
-      this.contactos = (data || []).slice(0, 3);
-    });
+      this.siteInfoService.getContactos(true).subscribe(data => {
+        this.contactos = (data || []).slice(0, 3);
+      });
+    }, 200);
   }
 
   ngOnDestroy() {
