@@ -153,7 +153,21 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   hideBrokenHeroImage(event: Event) {
     const image = event.target as HTMLImageElement;
-    image.style.display = 'none';
+    if (!image.src.endsWith('assets/images/Panamericana.png')) {
+      image.src = 'assets/images/Panamericana.png';
+      image.style.display = 'block';
+    }
+  }
+
+  getHeroImage(): string {
+    const url = this.carruseles[this.currentCarouselIndex]?.imagenUrl;
+    if (!url || url === 'nada' || url === 'null' || url === 'undefined' || url.trim() === '') {
+      return 'assets/images/Panamericana.png';
+    }
+    if (url.includes('res.cloudinary.com') && url.includes('/upload/') && !url.includes('f_auto')) {
+      return url.replace('/upload/', '/upload/f_auto,q_auto,w_1200/');
+    }
+    return url;
   }
 
   getPrice(producto: any): number {
@@ -161,7 +175,10 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   getCover(producto: any): string {
-    let url = producto?.imagenUrl || producto?.imagenUrlPrincipal || 'assets/images/Panamericana.png';
+    let url = producto?.imagenUrl || producto?.imagenUrlPrincipal;
+    if (!url || url === 'nada' || url === 'null' || url === 'undefined' || url.trim() === '') {
+      return 'assets/images/Panamericana.png';
+    }
     if (url.includes('res.cloudinary.com') && url.includes('/upload/') && !url.includes('f_auto')) {
       return url.replace('/upload/', '/upload/f_auto,q_auto,w_400/');
     }
