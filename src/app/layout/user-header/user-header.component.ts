@@ -60,7 +60,10 @@ export class UserHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadMenuData();
+    // Defer menu data loading by 2.5s so header requests don't block main page FCP/LCP
+    setTimeout(() => {
+      this.loadMenuData();
+    }, 2500);
 
     this.cartService.cartItems$.subscribe(items => {
       this.cartCount = items.reduce((acc, item) => acc + item.cantidad, 0);
@@ -78,6 +81,8 @@ export class UserHeaderComponent implements OnInit, OnDestroy {
   }
 
   loadMenuData() {
+    if (this.familias.length > 0) return; // Ya cargado
+
     this.familiasService.getFamilias().subscribe(data => {
       this.familias = (data || []).slice(0, 12);
     });

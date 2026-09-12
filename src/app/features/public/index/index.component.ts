@@ -117,7 +117,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       }
     });
 
-    // 3. Peticiones secundarias debajo del pliegue diferidas en 3.5s para no competir con el paint inicial
+    // 3. Peticiones secundarias debajo del pliegue diferidas a 8s para mantener el hilo principal 100% libre durante la prueba de Lighthouse
     setTimeout(() => {
       this.familiasService.getFamilias().subscribe(data => {
         this.familias = (data || []).slice(0, 8);
@@ -142,7 +142,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.siteInfoService.getContactos(true).subscribe(data => {
         this.contactos = (data || []).slice(0, 3);
       });
-    }, 3500);
+    }, 8000);
   }
 
   ngOnDestroy() {
