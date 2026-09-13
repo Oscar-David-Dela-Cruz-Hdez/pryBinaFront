@@ -56,10 +56,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // Defer menu data loading by 2.5 seconds so header requests don't block main page FCP/LCP
-    setTimeout(() => {
-      this.loadMenuData();
-    }, 2500);
+    this.loadMenuData();
 
     this.cartService.cartItems$.subscribe(items => {
       this.cartCount = items.reduce((acc, item) => acc + item.cantidad, 0);
