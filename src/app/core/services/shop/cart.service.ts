@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PwaService } from '../pwa.service';
 
 export interface CartItem {
     _id: string;
@@ -21,7 +22,8 @@ export class CartService {
 
     constructor(
         private snackBar: MatSnackBar,
-        private router: Router
+        private router: Router,
+        private pwaService: PwaService
     ) {
         this.loadCart();
     }
@@ -54,6 +56,7 @@ export class CartService {
         if (existingItem) {
             existingItem.cantidad += quantity;
             this.saveCart([...currentItems]);
+            this.pwaService.vibrate();
             this.showCartNotification(product.nombre, true);
         } else {
             const newItem: CartItem = {
@@ -65,6 +68,7 @@ export class CartService {
                 slug: product.slug || product._id // Fallback if slug missing
             };
             this.saveCart([...currentItems, newItem]);
+            this.pwaService.vibrate();
             this.showCartNotification(product.nombre, false);
         }
     }

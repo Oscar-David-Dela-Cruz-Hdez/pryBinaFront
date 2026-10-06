@@ -12,6 +12,7 @@
         <strong class="price">{{ (product.precioNormalFinal || product.precioNormal || product.precio) | currency }}</strong>
         <p class="stock" [class.low]="product.stock < 10"><mat-icon>inventory_2</mat-icon>{{ product.stock > 0 ? product.stock + ' unidades disponibles' : 'Sin existencias' }}</p>
         <button type="button" class="btn-add-cart-detail btn-ripple" (click)="addToCart()" [disabled]="product.stock <= 0"><mat-icon>shopping_bag</mat-icon>Añadir al carrito</button>
+        <button type="button" class="btn-share-detail" (click)="compartir()" aria-label="Compartir producto"><mat-icon>share</mat-icon>Compartir</button>
         <dl><div><dt>SKU</dt><dd>{{ product.skuNormal || 'No disponible' }}</dd></div><div><dt>Mayoreo</dt><dd>{{ product.precioMayoreo | currency }}</dd></div><div><dt>Caja</dt><dd>{{ product.precioCaja | currency }}</dd></div></dl>
       </div>
     </section>

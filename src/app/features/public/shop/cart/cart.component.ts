@@ -11,6 +11,7 @@ import { CartService, CartItem } from '../../../../core/services/shop/cart.servi
 import { AuthService } from '../../../../core/services/auth.service';
 import { CheckoutService, DireccionEnvio } from '../../../../core/services/shop/checkout.service';
 import { ProductRecommendationsComponent } from '../product-recommendations/product-recommendations.component';
+import { PwaService } from '../../../../core/services/pwa.service';
 
 declare global {
     interface Window { paypal: any; }
@@ -40,7 +41,8 @@ export class CartComponent implements OnInit {
         private cartService: CartService,
         private authService: AuthService,
         private checkoutService: CheckoutService,
-        private router: Router
+        private router: Router,
+        private pwaService: PwaService
     ) {
         this.cartItems$ = this.cartService.cartItems$;
     }
@@ -141,6 +143,7 @@ export class CartComponent implements OnInit {
     }
 
     async prepararPaypal() {
+        this.pwaService.vibrate();
         if (!this.direccionCompleta()) {
             await Swal.fire('Dirección incompleta', 'Completa todos los datos de envío antes de pagar.', 'warning');
             return;

@@ -280,3 +280,25 @@ dd {
   }
 }
 
+
+/* Botón compartir (Web Share API) */
+.btn-share-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  margin-left: 12px;
+  padding: 10px 18px;
+  border: 1px solid #E5E5E5;
+  border-radius: 999px;
+  background: transparent;
+  color: #111111;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.btn-share-detail:hover {
+  background: #f5f5f5;
+  border-color: #111111;
+}

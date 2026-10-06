@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProductsService } from '../../../../core/services/admin/products.service';
 import { CartService } from '../../../../core/services/shop/cart.service';
 import { ProductRecommendationsComponent } from '../product-recommendations/product-recommendations.component';
+import { PwaService } from '../../../../core/services/pwa.service';
 
 @Component({
   selector: 'app-product-detail', standalone: true,
@@ -13,7 +14,7 @@ import { ProductRecommendationsComponent } from '../product-recommendations/prod
 })
 export class ProductDetailComponent implements OnInit {
   product: any; loading = true; error = false;
-  constructor(private route: ActivatedRoute, private productsService: ProductsService, private cartService: CartService) {}
+  constructor(private route: ActivatedRoute, private productsService: ProductsService, private cartService: CartService, private pwaService: PwaService) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const productId = params.get('id'); if (!productId) return;
@@ -25,4 +26,8 @@ export class ProductDetailComponent implements OnInit {
     });
   }
   addToCart(): void { if (this.product) this.cartService.addToCart(this.product); }
+
+  compartir(): void {
+    if (this.product) this.pwaService.shareProduct(this.product);
+  }
 }

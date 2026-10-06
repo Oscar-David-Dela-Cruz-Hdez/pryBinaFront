@@ -1,0 +1,113 @@
+# ACTIVIDAD 3 - PRÁCTICA: REPORTE DE CONFIGURACIÓN DEL ENTORNO DE DESARROLLO PWA
+
+---
+
+## 1. PORTADA
+
+- **Nombre de la Institución:** Universidad / Instituto Tecnológico
+- **Carrera / Programa:** Ingeniería en Sistemas Computacionales / Desarrollo de Software
+- **Asignatura:** Aplicaciones Web Progresivas (PWA)
+- **Nombre de la Actividad:** Actividad 3.- Práctica: Entrega de Reporte con la Configuración del Entorno de Desarrollo
+- **Nombre del Alumno:** Oscar David De la Cruz Hernández
+- **Nombre del Docente:** [Nombre del Profesor]
+- **Fecha de Entrega:** 29 de Septiembre de 2026
+- **Proyecto:** Distribuidora Panamericana PWA
+
+---
+
+## 2. INTRODUCCIÓN Y CONTEXTO DEL ENTORNO DE DESARROLLO
+
+El entorno de desarrollo para una **Aplicación Web Progresiva (PWA)** abarca el conjunto de herramientas, runtimes, controladores de versión, frameworks y archivos de configuración que permiten construir, ejecutar, compilar y auditar una aplicación web moderna capaz de comportarse como una aplicación nativa.
+
+El objetivo principal de esta configuración es garantizar que la aplicación cuente con la capacidad de **funcionar de forma offline (sin conexión a internet)**, permitiendo a los usuarios interactuar con la interfaz, consultar productos precargados y almacenar elementos en el carrito de compras sin perder su información al recuperar la conectividad.
+
+---
+
+## 3. LISTA DE HERRAMIENTAS UTILIZADAS
+
+| Categoría                 | Herramienta                  | Versión / Tipo             | Descripción y Función en el Proyecto                                                                          |
+| :------------------------ | :--------------------------- | :------------------------- | :------------------------------------------------------------------------------------------------------------ |
+| **Entorno de Ejecución**  | Node.js                      | v18+ / v20+                | Runtime de JavaScript del lado del servidor para gestionar paquetes y ejecutar el entorno local.              |
+| **Gestor de Paquetes**    | npm                          | v9+ / v10+                 | Administrador de dependencias del proyecto para instalar librerías como Angular, Material UI y RxJS.          |
+| **Framework Frontend**    | Angular                      | v18+                       | Framework SPA de base para la estructuración de la PWA basada en componentes standalone.                      |
+| **CLI de Desarrollo**     | Angular CLI                  | `@angular/cli`             | Herramienta de línea de comandos para compilar, servidor de pruebas (`ng serve`) y compilación de producción. |
+| **Editor de Código**      | Visual Studio Code           | IDE                        | Entorno de desarrollo integrado para la edición de código TypeScript, HTML, CSS y JSON.                       |
+| **Control de Versiones**  | Git & GitHub                 | VCS                        | Sistema de control de versiones distribuido para el seguimiento de cambios y repositorio remoto.              |
+| **Hosting Frontend**      | Vercel                       | Cloud Deployment           | Plataforma de despliegue continuo donde se hospeda la versión pública de la PWA.                              |
+| **Hosting Backend**       | Render.com                   | Cloud Platform             | Servidor backend que aloja la API REST desarrollada en Node.js/Express y MongoDB Atlas.                       |
+| **Auditoría & Debugging** | Chrome DevTools / Lighthouse | Herramientas del Navegador | Suite de inspección de Service Workers, almacenamiento local (`localStorage`) y auditoría PWA.                |
+
+---
+
+## 4. PARÁMETROS DE CONFIGURACIÓN DEL ENTORNO
+
+A continuación se detallan los archivos de configuración clave dentro de la estructura de la PWA y los parámetros establecidos:
+
+### 4.1. Configuración de Compilación (`angular.json`)
+
+Define los parámetros de construcción del proyecto frontend:
+
+- **`assets`**: Declara las carpetas públicas (`src/assets`, `favicon.ico`, `_redirects`) que se distribuyen estáticamente.
+- **`optimization`**:
+  - `scripts: true`: Minificación de código JavaScript.
+  - `styles.inlineCritical: true`: Inlining de CSS crítico para acelerar el renderizado inicial.
+  - `fonts.inline: true`: Optimización de fuentes de Google Fonts.
+- **`budgets`**: Establece límites de tamaño para advertencias y errores en los bundles compilados (máximo 1 MB inicial).
+
+### 4.2. Gestión de Dependencias (`package.json`)
+
+Configuración de librerías y comandos del proyecto:
+
+- **Comandos de script principales**:
+  - `npm start`: Ejecuta el servidor de desarrollo local.
+  - `npm run build`: Compila la versión optimizada de producción en la carpeta `dist/prynuevo`.
+- **Dependencias principales**: `@angular/core`, `@angular/router`, `@angular/material`, `rxjs`, `zone.js`.
+
+### 4.3. Web App Manifest (`manifest.webmanifest` / `manifest.json`)
+
+Archivo de configuración que permite la instalabilidad de la PWA en dispositivos móviles y de escritorio:
+
+- **`name`**: "Distribuidora Panamericana"
+- **`short_name`**: "Panamericana PWA"
+- **`start_url`**: `"/"` (Ruta de inicio de la aplicación)
+- **`display`**: `"standalone"` (Ejecución en ventana independiente sin barras de navegador)
+- **`theme_color`**: `"#111111"`
+- **`background_color`**: `"#FFFFFF"`
+- **`icons`**: Arreglo de íconos en resoluciones 192x192 px y 512x512 px para accesos directos en pantalla de inicio.
+
+---
+
+## 5. CONFIGURACIÓN Y FUNCIONALIDADES NATIVAS PWA IMPLEMENTADAS
+
+Para cumplir con los requerimientos de navegabilidad offline y experiencia de aplicación nativa, se integran las siguientes tecnologías y Web APIs:
+
+### 5.1. Almacenamiento Local del Carrito (`localStorage` / `CartService`)
+
+- La PWA implementa un servicio dedicado `CartService` que se suscribe a los cambios del carrito de compras.
+- Cada vez que el usuario añade, modifica o elimina un producto (estando online u offline), el estado del carrito se serializa automáticamente en formato JSON dentro de `localStorage` bajo la clave `cache_carrito`.
+- Al cerrar la pestaña o perder la conexión a internet, el carrito conserva los productos precargados. Al abrir la PWA sin internet, los productos siguen disponibles de inmediato.
+
+### 5.2. Indicador del Estado de Conexión en Tiempo Real (`navigator.onLine` / Eventos `online` y `offline`)
+
+- Se configura la detección del estado de la red mediante los eventos nativos `window.addEventListener('online')` y `window.addEventListener('offline')`.
+- Permite desplegar un banner informativo en la interfaz que notifica al usuario cuando se encuentra navegando sin internet ("Modo Offline") y confirma la reconexión al servidor cuando regresa la señal.
+
+### 5.3. Retroalimentación Háptica al Agregar al Carrito (`Vibration API`)
+
+- Mediante la Web API `navigator.vibrate()`, la aplicación ejecuta una ligera vibración táctil (50 ms) al presionar los botones de acción principal (agregar productos al carrito o confirmar pedido).
+- Ofrece una respuesta sensorial idéntica a las aplicaciones móviles nativas de Android e iOS.
+
+### 5.4. Compartido Nativo de Productos (`Web Share API`)
+
+- Integración del método `navigator.share()` en la vista de detalle de catálogo.
+- Permite al usuario compartir directamente enlaces e información de productos a aplicaciones externas (WhatsApp, Facebook, Telegram, SMS) mediante la hoja de compartido del sistema operativo.
+
+### 5.5. Indicador Numérico en el Ícono de la PWA (`App Badge API`)
+
+- Haciendo uso de `navigator.setAppBadge()`, cuando la PWA se encuentra instalada en el dispositivo del usuario, se refleja un contador dinámico en el ícono de la pantalla de inicio correspondiente a la cantidad de ítems dentro del carrito.
+
+---
+
+## 6. CONCLUSIÓN
+
+La correcta configuración del entorno de desarrollo es la base sobre la cual se construye una Aplicación Web Progresiva robusta. Gracias a la integración de herramientas como Angular CLI, Git, Vercel y DevTools, junto con archivos de configuración estandarizados (`angular.json`, `manifest.json`, `package.json`) y Web APIs modernas (`Vibration API`, `Web Share API`, `App Badge API`, `localStorage`), se garantiza un flujo de trabajo eficiente y una aplicación capaz de ofrecer alta disponibilidad, instalabilidad y tolerancia a fallos de red mediante almacenamiento local persistente.

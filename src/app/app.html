@@ -1,5 +1,6 @@
 <div class="min-h-screen flex flex-col bg-[#FFFFFF] dark:bg-[#121212] transition-all duration-300 ease-in-out text-[#2C2C2C] dark:text-[#F0F0F0]"
   [class.admin-mode]="(userRole$ | async) === 'admin'">
+  <app-offline-banner></app-offline-banner>
   <app-header *ngIf="!(isLoggedIn$ | async)"></app-header>
   <ng-container *ngIf="isLoggedIn$ | async">
     <app-admin-header *ngIf="(userRole$ | async) === 'admin'"></app-admin-header>

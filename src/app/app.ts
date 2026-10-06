@@ -8,6 +8,9 @@ import { AdminHeaderComponent } from './layout/admin-header/admin-header.compone
 import { FooterComponent } from './layout/public/footer/footer.component';
 import { AuthService } from './core/services/auth.service';
 import { ThemeService } from './core/services/theme/theme';
+import { CartService } from './core/services/shop/cart.service';
+import { PwaService } from './core/services/pwa.service';
+import { OfflineBannerComponent } from './shared/components/offline-banner/offline-banner.component';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +21,8 @@ import { ThemeService } from './core/services/theme/theme';
     HeaderComponent,
     UserHeaderComponent,
     AdminHeaderComponent,
-    FooterComponent
+    FooterComponent,
+    OfflineBannerComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
@@ -29,7 +33,9 @@ export class App implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private cartService: CartService,
+    private pwaService: PwaService
   ) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
     this.userRole$ = this.authService.userRole$;
@@ -38,6 +44,11 @@ export class App implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn$.subscribe(isLoggedIn => {
       console.log("Estado de login en App:", isLoggedIn);
+    });
+
+    // Badge de la PWA: contador de ítems del carrito en el ícono instalado
+    this.cartService.cartItems$.subscribe(() => {
+      this.pwaService.setBadge(this.cartService.getItemCount());
     });
   }
 }
