@@ -27,12 +27,14 @@ export class PwaService {
   async shareProduct(product: any): Promise<boolean> {
     if (!isPlatformBrowser(this.platformId)) return false;
 
+    // Alias `any` para evitar el narrowing de TS (Navigator no declara `share`).
+    const nav: any = navigator;
     const url = `${window.location.origin}/productos/${product._id}`;
     const text = `${product.nombre} — ${product.precioNormalFinal || product.precioNormal || product.precio || 0} Bs. en Distribuidora Panamericana`;
 
-    if ('share' in navigator) {
+    if (nav.share) {
       try {
-        await (navigator as any).share({ title: 'Distribuidora Panamericana', text, url });
+        await nav.share({ title: 'Distribuidora Panamericana', text, url });
         return true; // Compartido completado
       } catch {
         return false; // El usuario canceló la hoja de compartido
@@ -41,7 +43,7 @@ export class PwaService {
 
     // Fallback en escritorio: copiar el enlace al portapapeles
     try {
-      await navigator.clipboard.writeText(`${text} ${url}`);
+      await nav.clipboard.writeText(`${text} ${url}`);
       this.snackBar.open('Enlace copiado al portapapeles', 'Ok', { duration: 2500 });
       return true;
     } catch {
