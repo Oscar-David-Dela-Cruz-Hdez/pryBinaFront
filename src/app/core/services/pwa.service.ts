@@ -1,6 +1,11 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
+
+interface InstallPromptEvent extends Event {
+  prompt(): Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+}
 
 /**
  * Servicio de funcionalidades nativas de la PWA:
@@ -9,12 +14,103 @@ import { MatSnackBar } from '@angular/material/snack-bar';
  * - Indicador numérico en el ícono (App Badge API: navigator.setAppBadge)
  */
 @Injectable({ providedIn: 'root' })
-export class PwaService {
+export class PwaService implements OnDestroy {
+  private installEvent: InstallPromptEvent | null = null;
+  private installTimer?: ReturnType<typeof setTimeout>;
+  private installNoticeOpen = false;
+  private installed = false;
+  private promptedThisVisit = false;
+  private readonly remindAfterKey = 'pwa-install-remind-after';
+
+  private readonly onInstallAvailable = (event: Event): void => {
+    event.preventDefault();
+    this.installEvent = event as InstallPromptEvent;
+    this.scheduleInstallNotice();
+  };
+
+  private readonly onInstalled = (): void => {
+    this.installed = true;
+    this.installEvent = null;
+    clearTimeout(this.installTimer);
+    if (this.installNoticeOpen) Swal.close();
+  };
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('beforeinstallprompt', this.onInstallAvailable);
+      window.addEventListener('appinstalled', this.onInstalled);
+    }
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.installTimer);
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('beforeinstallprompt', this.onInstallAvailable);
+      window.removeEventListener('appinstalled', this.onInstalled);
+    }
+  }
+
+  private runningInstalled(): boolean {
+    return this.installed || window.matchMedia('(display-mode: standalone)').matches
+      || window.matchMedia('(display-mode: window-controls-overlay)').matches
+      || (navigator as Navigator & { standalone?: boolean }).standalone === true;
+  }
+
+  private postponeInstallNotice(): void {
+    try {
+      localStorage.setItem(this.remindAfterKey, String(Date.now() + 7 * 24 * 60 * 60 * 1000));
+    } catch { /* El aviso sigue limitado a una vez por visita sin almacenamiento. */ }
+  }
+
+  private scheduleInstallNotice(): void {
+    clearTimeout(this.installTimer);
+    if (this.runningInstalled() || this.promptedThisVisit) return;
+    try {
+      if (Number(localStorage.getItem(this.remindAfterKey)) > Date.now()) return;
+    } catch { /* El almacenamiento puede estar deshabilitado. */ }
+    this.installTimer = setTimeout(() => { void this.showInstallNotice(); }, 8000);
+  }
+
+  private async showInstallNotice(): Promise<void> {
+    if (!this.installEvent || this.runningInstalled() || this.promptedThisVisit) return;
+    // No interrumpir otros avisos ni mostrar el diálogo en una pestaña oculta.
+    if (Swal.isVisible() || document.visibilityState !== 'visible') {
+      this.scheduleInstallNotice();
+      return;
+    }
+    this.promptedThisVisit = true;
+    this.installNoticeOpen = true;
+    try {
+      const result = await Swal.fire({
+        title: '¿Instalar Panamericana?',
+        text: 'Agrega Panamericana a tu dispositivo para abrirla directamente desde su ícono y consultar contenido guardado sin conexión.',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Instalar',
+        cancelButtonText: 'Ahora no',
+        confirmButtonColor: '#111111',
+        focusCancel: true,
+        preConfirm: () => {
+          const event = this.installEvent;
+          if (!event || this.runningInstalled()) return false;
+          this.installEvent = null;
+          // Se llama dentro del clic para conservar la activación del usuario.
+          return event.prompt().catch(() => {
+            Swal.showValidationMessage('No se pudo abrir la instalación. Puedes intentarlo desde el menú del navegador.');
+            return false;
+          });
+        }
+      });
+      if (!this.installed && (!result.isConfirmed || result.value?.outcome !== 'accepted')) {
+        this.postponeInstallNotice();
+      }
+    } finally {
+      this.installNoticeOpen = false;
+    }
+  }
 
   /** Vibración táctil (50 ms por defecto) al agregar al carrito o confirmar pedido. */
   vibrate(pattern: number | number[] = 50): void {
