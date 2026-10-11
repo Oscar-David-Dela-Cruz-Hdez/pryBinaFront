@@ -30,15 +30,30 @@
   ],
   "dataGroups": [
     {
-      "name": "api-backend",
+      "name": "api-catalogo-publico",
       "urls": [
-        "https://prybinaback.onrender.com/**"
+        "https://prybinaback.onrender.com/api/productos$",
+        "https://prybinaback.onrender.com/api/productos?*$",
+        "https://prybinaback.onrender.com/api/marcas$",
+        "https://prybinaback.onrender.com/api/marcas?*$",
+        "https://prybinaback.onrender.com/api/familias$",
+        "https://prybinaback.onrender.com/api/familias?*$",
+        "https://prybinaback.onrender.com/api/ofertas$",
+        "https://prybinaback.onrender.com/api/ofertas?*$",
+        "https://prybinaback.onrender.com/api/carruseles$",
+        "https://prybinaback.onrender.com/api/carruseles?*$",
+        "https://prybinaback.onrender.com/api/productos/[0-9a-fA-F]{24}$",
+        "https://prybinaback.onrender.com/api/productos/[0-9a-fA-F]{24}?*$"
       ],
       "cacheConfig": {
         "strategy": "freshness",
         "maxSize": 100,
         "maxAge": "1d",
         "timeout": "10s"
+      },
+      "version": 2,
+      "cacheQueryOptions": {
+        "ignoreSearch": false
       }
     },
     {
