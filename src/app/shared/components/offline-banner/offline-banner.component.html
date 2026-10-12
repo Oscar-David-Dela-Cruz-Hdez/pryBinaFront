@@ -4,3 +4,7 @@
   </svg>
   <span><strong>Sin conexión</strong> — tu carrito sigue guardado. Puedes consultar contenido descargado previamente; para iniciar sesión o pagar necesitas internet.</span>
 </div>
+<div *ngIf="!offline && (connectionService.server$ | async) === 'unavailable'" class="offline-banner" role="status" aria-live="polite">
+  <span>Tu dispositivo tiene conexión, pero no podemos contactar al servidor. Puedes consultar la información guardada.</span>
+  <button type="button" (click)="connectionService.checkServer()">Reintentar</button>
+</div>

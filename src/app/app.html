@@ -8,6 +8,9 @@
   </ng-container>
 
   <main class="flex-grow animate-fade-in w-full" [class.admin-main]="(userRole$ | async) === 'admin'">
+    @defer (on idle) {
+      <app-company-offline-panel></app-company-offline-panel>
+    }
     <router-outlet></router-outlet>
   </main>
 

@@ -18,7 +18,7 @@
       <!-- Mapa -->
       <div class="w-full bg-[#FFFFFF] dark:bg-black/20 min-h-[420px] flex items-center justify-center border-b border-[#E5E5E5] dark:border-[#333333] glass-shimmer-wrap">
         <iframe
-          *ngIf="safeMapUrl"
+          *ngIf="safeMapUrl && (connectionService.online$ | async)"
           [src]="safeMapUrl"
           width="100%"
           height="420"
@@ -27,7 +27,8 @@
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
-        <div *ngIf="!safeMapUrl" class="text-[#666666] text-xs uppercase tracking-wider flex flex-col items-center gap-2">
+        <p *ngIf="!(connectionService.online$ | async)" role="status" class="p-6 text-center">La dirección y el horario guardados están disponibles abajo. El mapa interactivo necesita internet.</p>
+        <div *ngIf="!safeMapUrl && (connectionService.online$ | async)" class="text-[#666666] text-xs uppercase tracking-wider flex flex-col items-center gap-2">
           <mat-icon class="scale-150 mb-2 text-[#C88A78]">map</mat-icon>
           Cargando mapa interactivo...
         </div>

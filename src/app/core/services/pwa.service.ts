@@ -5,6 +5,7 @@ import { fromEvent, timer } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
+import { CompanyOfflineService } from './company-offline.service';
 
 interface InstallPromptEvent extends Event {
   prompt(): Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
@@ -42,13 +43,30 @@ export class PwaService implements OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object,
     private snackBar: MatSnackBar,
     private updates: SwUpdate,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private companyOffline: CompanyOfflineService
   ) {
     if (isPlatformBrowser(this.platformId)) {
       window.addEventListener('beforeinstallprompt', this.onInstallAvailable);
       window.addEventListener('appinstalled', this.onInstalled);
       this.configureUpdates();
+      this.configureCompanyOffline();
     }
+  }
+
+  private configureCompanyOffline(): void {
+    if (!this.updates.isEnabled || !('serviceWorker' in navigator)) return;
+    // Esperar al control del worker evita descargas que no entrarían en su caché.
+    fromEvent(navigator.serviceWorker, 'controllerchange').pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => void this.prefetchCompany());
+    fromEvent(window, 'online').pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => void this.prefetchCompany());
+    timer(3000).pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => void this.prefetchCompany());
+  }
+
+  private async prefetchCompany(): Promise<void> {
+    if (navigator.onLine && navigator.serviceWorker.controller) await this.companyOffline.prepare();
   }
 
   private configureUpdates(): void {

@@ -20,6 +20,14 @@ for (const path of ['/api/usuarios/perfil', '/api/usuarios/direcciones',
   assert.equal(cached(path), false, `Ruta privada en caché: ${path}`);
 }
 const images = config.dataGroups.find(group => group.name === 'imagenes-productos');
+for (const path of ['/api/contactos', '/api/contactos?activo=true', '/api/faqs',
+  '/api/faqs?activo=true', '/api/historia', '/api/mision', '/api/vision',
+  '/api/politicas', '/api/terminos', '/api/ubicacion', '/api/empresa', '/api/informacion']) {
+  assert.ok(cached(path), `Falta información pública offline: ${path}`);
+}
+for (const path of ['/api/contactos/privado', '/api/faqs/admin', '/api/empresa/admin']) {
+  assert.equal(cached(path), false, `Ruta adicional no permitida: ${path}`);
+}
 assert.ok(images?.patterns.some(pattern => new RegExp(pattern)
   .test('https://res.cloudinary.com/da8xounzu/image/upload/v1/producto.jpg')));
 assert.equal(config.dataGroups.some(group => group.name === 'api-backend'), false);

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { CompanyOfflineService } from '../company-offline.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ export class SiteInfoService {
   private baseUrl = 'https://prybinaback.onrender.com/api';
   private contactosCache$?: Observable<any>;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService,
+    private offline: CompanyOfflineService) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();
@@ -22,7 +24,7 @@ export class SiteInfoService {
 
   // --- MISION ---
   getMision(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/mision`);
+    return this.offline.get('mision');
   }
 
   updateMision(data: { texto: string }): Observable<any> {
@@ -31,7 +33,7 @@ export class SiteInfoService {
 
   // --- VISION ---
   getVision(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/vision`);
+    return this.offline.get('vision');
   }
 
   updateVision(data: { texto: string }): Observable<any> {
@@ -40,7 +42,7 @@ export class SiteInfoService {
 
   // --- POLITICAS ---
   getPoliticas(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/politicas`);
+    return this.offline.get('politicas');
   }
 
   updatePoliticas(data: { texto: string }): Observable<any> {
@@ -49,7 +51,7 @@ export class SiteInfoService {
 
   // --- TERMINOS ---
   getTerminos(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/terminos`);
+    return this.offline.get('terminos');
   }
 
   updateTerminos(data: { texto: string }): Observable<any> {
@@ -58,7 +60,7 @@ export class SiteInfoService {
 
   // --- HISTORIA ---
   getHistoria(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/historia`);
+    return this.offline.get('historia');
   }
 
   updateHistoria(data: { texto: string }): Observable<any> {
@@ -67,7 +69,7 @@ export class SiteInfoService {
 
   // --- UBICACION ---
   getUbicacion(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/ubicacion`);
+    return this.offline.get('ubicacion');
   }
 
   updateUbicacion(data: any): Observable<any> {
@@ -80,7 +82,7 @@ export class SiteInfoService {
     if (activo !== undefined) {
       url += `?activo=${activo}`;
     }
-    return this.http.get(url);
+    return activo === false ? this.http.get(url) : this.offline.get(activo === true ? 'faqs?activo=true' : 'faqs');
   }
 
   addFaq(data: { pregunta: string, respuesta: string, activo?: boolean, orden?: number }): Observable<any> {
@@ -99,9 +101,7 @@ export class SiteInfoService {
   getContactos(activo?: boolean): Observable<any> {
     if (activo === true) {
       if (!this.contactosCache$) {
-        this.contactosCache$ = this.http.get(`${this.baseUrl}/contactos?activo=true`).pipe(
-          shareReplay(1)
-        );
+        this.contactosCache$ = this.offline.get('contactos?activo=true');
       }
       return this.contactosCache$;
     }
@@ -110,7 +110,7 @@ export class SiteInfoService {
     if (activo !== undefined) {
       url += `?activo=${activo}`;
     }
-    return this.http.get(url);
+    return activo === false ? this.http.get(url) : this.offline.get('contactos');
   }
 
   addContacto(data: { tipo: string, valor: string, icono?: string, activo?: boolean }): Observable<any> {

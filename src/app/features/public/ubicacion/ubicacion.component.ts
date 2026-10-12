@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SiteInfoService } from '../../../core/services/admin/site-info.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ConnectionService } from '../../../core/services/connection.service';
 
 @Component({
   selector: 'app-ubicacion',
@@ -19,7 +20,8 @@ export class UbicacionComponent implements OnInit {
 
   constructor(
     private siteInfoService: SiteInfoService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public connectionService: ConnectionService
   ) {}
 
   ngOnInit() {

@@ -14,7 +14,7 @@ export class OfflineBannerComponent implements OnInit, OnDestroy {
   offline = false;
   private subscription!: Subscription;
 
-  constructor(private connectionService: ConnectionService) {}
+  constructor(public connectionService: ConnectionService) {}
 
   ngOnInit(): void {
     this.subscription = this.connectionService.online$.subscribe(online => {

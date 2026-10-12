@@ -114,12 +114,28 @@ Para cumplir con los requerimientos de navegabilidad offline y experiencia de ap
 
 - El service worker se registra inmediatamente en producción. En desarrollo (`npm start`) permanece desactivado.
 - Se conserva el aviso de instalación con SweetAlert2 cuando el navegador emite `beforeinstallprompt`, con espera de ocho segundos y aplazamiento de siete días al rechazarlo. La instalación y las APIs nativas dependen del navegador.
-- Se precargan los archivos de código. Los recursos locales del grupo `assets` y las imágenes externas se guardan al consultarlos. No se garantiza contenido que nunca se descargó.
+- Se precargan los archivos de código y recursos locales del grupo `assets`. Las imágenes externas se guardan al consultarlas. No se garantiza contenido que nunca se descargó.
 - La caché de catálogo permite únicamente rutas públicas GET y HEAD, con vigencia de un día, máximo 100 respuestas y espera de red de diez segundos. Perfil, direcciones, pedidos, pagos y exportaciones quedan fuera.
 - Las imágenes consultadas de `https://res.cloudinary.com/da8xounzu/image/upload/` tienen una caché de hasta 150 respuestas durante siete días. Otros proveedores requieren reglas adicionales.
 - Hay aviso de nueva versión con acción Actualizar y aviso de recuperación con acción Recargar. La recarga requiere una acción del usuario; puede perder cambios de formularios no guardados. Se comprueban actualizaciones al recuperar conexión y periódicamente.
 - El carrito persiste en `localStorage`. El checkout y la creación de órdenes requieren conexión; no se encolan pagos offline. Ante errores se debe revisar Mis compras y PayPal antes de reintentar.
 - El compartido expresa precios en MXN y dispone de alternativa mediante portapapeles. Los fallos asíncronos de la API del badge se manejan sin interrumpir la aplicación.
+
+### Información de empresa sin conexión — 12 de octubre de 2026
+
+- El grupo `empresa-publica` almacena contactos, FAQs, historia, misión, visión, políticas, términos y ubicación, incluidas las consultas públicas `activo=true`. Mantiene hasta 30 respuestas durante 30 días. Intenta actualizar desde la red y utiliza la copia guardada después de un segundo de espera o ante fallo de conexión.
+- Cuando el service worker controla la aplicación, se descargan automáticamente los apartados montados en el servidor al iniciar online y al recuperar conexión. Esto permite abrirlos posteriormente sin haber visitado cada sección. La primera descarga requiere internet y una respuesta correcta del servidor; el navegador puede desalojar datos por falta de almacenamiento.
+- También se contemplan las URLs exactas `/api/empresa` y `/api/informacion` para compatibilidad. Actualmente sus archivos de rutas existen en el backend pero no están montados en `server.js`: no se precargan ni se inventa contenido para esas rutas. La información pública actual se obtiene desde los endpoints separados.
+- Los recursos locales se precargan para disponer de logos e iconos offline. La dirección y el horario se consultan desde la copia guardada; el iframe de Google Maps se sustituye por una explicación sin conexión.
+- Para validar: abrir online, esperar la instalación/control del service worker y comprobar respuestas en Cache Storage (`empresa-publica`). Activar Offline y abrir contacto, ayuda, historia, misión/visión, privacidad, términos y ubicación. Las operaciones de administración, inicio de sesión y pagos continúan requiriendo conexión.
+
+### Panel y disponibilidad — 12 de octubre de 2026
+
+- En las páginas públicas se ofrece «Consultar información sin conexión», con botón de preparación/actualización, progreso, resultado parcial y lista de los ocho apartados. En las páginas de empresa se muestra la fecha de la copia correspondiente y un aviso si falta el contenido al estar offline o no disponible el servidor.
+- Las respuestas públicas se guardan en `panamericana-empresa-fechada-v1`, con fecha real de descarga confirmada, sin credenciales de usuario. Las consultas de estos apartados evitan el service worker y la caché HTTP para no atribuir una fecha nueva a una respuesta antigua. Ante fallo de red se utiliza la copia sin cambiar su fecha. La copia fechada se conserva hasta actualizarla o hasta que se elimine el almacenamiento del navegador; el grupo de compatibilidad del service worker conserva su límite de 30 días.
+- Las copias antiguas del grupo `empresa-publica` siguen siendo consultables; sin fecha registrada se informa «fecha no disponible». No se inventa una fecha. La información guardada puede estar desactualizada; debe actualizarse antes de tomar decisiones basadas en horarios o políticas.
+- Una comprobación de `/api/health` cada minuto, al iniciar y al reconectar distingue red offline y servidor/base de datos no disponibles, sin usar respuestas cacheadas. El aviso ofrece Reintentar. Un dispositivo conectado no garantiza acceso a internet o al servidor; el mensaje expresa que no se puede contactar al servicio.
+- Validación automatizada: `node scripts/test-company-offline.cjs` cubre fechas, lectura offline, ausencia de contenido, red fallida, almacenamiento fallido, descargas parciales y exclusión de rutas privadas. Para validar en navegador: preparar online, revisar fechas, activar Offline, abrir los ocho apartados; borrar una copia y confirmar el aviso; bloquear el backend con la red activa y confirmar el aviso del servidor.
 
 ### Comprobaciones de producción
 

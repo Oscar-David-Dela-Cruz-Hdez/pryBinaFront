@@ -18,7 +18,7 @@
     },
     {
       "name": "assets",
-      "installMode": "lazy",
+      "installMode": "prefetch",
       "updateMode": "prefetch",
       "resources": {
         "files": [
@@ -29,6 +29,31 @@
     }
   ],
   "dataGroups": [
+    {
+      "name": "empresa-publica",
+      "version": 1,
+      "urls": [
+        "https://prybinaback.onrender.com/api/contactos$",
+        "https://prybinaback.onrender.com/api/contactos?activo=true$",
+        "https://prybinaback.onrender.com/api/faqs$",
+        "https://prybinaback.onrender.com/api/faqs?activo=true$",
+        "https://prybinaback.onrender.com/api/historia$",
+        "https://prybinaback.onrender.com/api/mision$",
+        "https://prybinaback.onrender.com/api/vision$",
+        "https://prybinaback.onrender.com/api/politicas$",
+        "https://prybinaback.onrender.com/api/terminos$",
+        "https://prybinaback.onrender.com/api/ubicacion$",
+        "https://prybinaback.onrender.com/api/empresa$",
+        "https://prybinaback.onrender.com/api/informacion$"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 30,
+        "maxAge": "30d",
+        "timeout": "1s"
+      },
+      "cacheQueryOptions": { "ignoreSearch": false }
+    },
     {
       "name": "api-catalogo-publico",
       "urls": [

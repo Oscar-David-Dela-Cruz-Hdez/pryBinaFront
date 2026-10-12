@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SiteInfoService } from '../../../core/services/admin/site-info.service';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-mision-vision-public',
@@ -19,8 +19,8 @@ export class MisionVisionPublicComponent implements OnInit {
 
   ngOnInit() {
     forkJoin({
-      mision: this.siteInfoService.getMision(),
-      vision: this.siteInfoService.getVision()
+      mision: this.siteInfoService.getMision().pipe(catchError(() => of(null))),
+      vision: this.siteInfoService.getVision().pipe(catchError(() => of(null)))
     }).subscribe({
       next: (res) => {
         this.misionData = res.mision;

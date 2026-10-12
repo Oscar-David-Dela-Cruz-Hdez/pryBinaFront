@@ -11,6 +11,7 @@ import { ThemeService } from './core/services/theme/theme';
 import { CartService } from './core/services/shop/cart.service';
 import { PwaService } from './core/services/pwa.service';
 import { OfflineBannerComponent } from './shared/components/offline-banner/offline-banner.component';
+import { CompanyOfflinePanelComponent } from './shared/components/company-offline-panel.component';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ import { OfflineBannerComponent } from './shared/components/offline-banner/offli
     UserHeaderComponent,
     AdminHeaderComponent,
     FooterComponent,
-    OfflineBannerComponent
+    OfflineBannerComponent,
+    CompanyOfflinePanelComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']

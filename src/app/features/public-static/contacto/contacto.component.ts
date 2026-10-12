@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { SiteInfoService } from '../../../core/services/admin/site-info.service';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-contacto-public',
@@ -20,8 +20,8 @@ export class ContactoPublicComponent implements OnInit {
 
   ngOnInit() {
     forkJoin({
-      contactos: this.siteInfoService.getContactos(true),
-      ubicacion: this.siteInfoService.getUbicacion()
+      contactos: this.siteInfoService.getContactos(true).pipe(catchError(() => of([]))),
+      ubicacion: this.siteInfoService.getUbicacion().pipe(catchError(() => of(null)))
     }).subscribe({
       next: (res) => {
         this.contactos = res.contactos || [];
