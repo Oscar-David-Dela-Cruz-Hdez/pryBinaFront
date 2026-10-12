@@ -57,6 +57,16 @@
       }
     },
     {
+      "name": "imagenes-productos",
+      "urls": ["https://res.cloudinary.com/da8xounzu/image/upload/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 150,
+        "maxAge": "7d",
+        "cacheOpaqueResponses": true
+      }
+    },
+    {
       "name": "google-fonts",
       "urls": [
         "https://fonts.googleapis.com/**",

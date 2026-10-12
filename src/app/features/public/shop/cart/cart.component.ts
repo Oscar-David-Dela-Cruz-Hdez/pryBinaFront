@@ -12,6 +12,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { CheckoutService, DireccionEnvio } from '../../../../core/services/shop/checkout.service';
 import { ProductRecommendationsComponent } from '../product-recommendations/product-recommendations.component';
 import { PwaService } from '../../../../core/services/pwa.service';
+import { ConnectionService } from '../../../../core/services/connection.service';
 
 declare global {
     interface Window { paypal: any; }
@@ -42,7 +43,8 @@ export class CartComponent implements OnInit {
         private authService: AuthService,
         private checkoutService: CheckoutService,
         private router: Router,
-        private pwaService: PwaService
+        private pwaService: PwaService,
+        public connectionService: ConnectionService
     ) {
         this.cartItems$ = this.cartService.cartItems$;
     }
@@ -62,6 +64,7 @@ export class CartComponent implements OnInit {
     clearCart() { this.cartService.clearCart(); }
 
     checkout() {
+        if (!this.requireConnection()) return;
         if (!this.authService.getToken()) {
             Swal.fire({
                 title: 'Inicia sesión',
@@ -143,6 +146,7 @@ export class CartComponent implements OnInit {
     }
 
     async prepararPaypal() {
+        if (!this.requireConnection()) return;
         this.pwaService.vibrate();
         if (!this.direccionCompleta()) {
             await Swal.fire('Dirección incompleta', 'Completa todos los datos de envío antes de pagar.', 'warning');
@@ -184,6 +188,7 @@ export class CartComponent implements OnInit {
         window.paypal.Buttons({
             style: { layout: 'vertical', shape: 'rect', label: 'paypal' },
             createOrder: async () => {
+                if (!this.requireConnection()) throw new Error('Sin conexión para crear el pago');
                 const productos = this.cartService.getCartItems().map(item => ({ producto: item._id, cantidad: item.cantidad }));
                 const respuesta = await firstValueFrom(this.checkoutService.createPaypalOrder(productos, this.direccion));
                 this.checkoutService.rememberPendingPedido(respuesta.pedidoId);
@@ -201,12 +206,18 @@ export class CartComponent implements OnInit {
                 console.error('PayPal Checkout:', error);
                 const pedidoId = this.checkoutService.getPendingPedidoId();
                 await Swal.fire(
-                    'Pago pendiente',
-                    'No se realizó ningún cargo. El pedido quedó reservado durante una hora y puedes reintentarlo en Mis compras.',
+                    'Estado del pago por verificar',
+                    'No pudimos confirmar el estado del pago. Cuando tengas conexión, revisa Mis compras y PayPal antes de reintentar.',
                     'warning'
                 );
                 if (pedidoId) await this.router.navigate(['/mis-compras'], { queryParams: { pedido: pedidoId } });
             }
         }).render('#paypal-button-container');
+    }
+
+    private requireConnection(): boolean {
+        if (this.connectionService.isOnline()) return true;
+        void Swal.fire('Necesitas conexión', 'Tu carrito está guardado. Conéctate a internet para continuar con el pago.', 'info');
+        return false;
     }
 }

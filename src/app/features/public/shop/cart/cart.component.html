@@ -93,6 +93,7 @@
                 <span class="text-xl font-normal text-[#C88A78]">{{ total | currency }}</span>
               </div>
             </div>
+            <p *ngIf="!(connectionService.online$ | async)" role="status" class="text-sm mb-3">Tu carrito está guardado. Necesitas internet para pagar.</p>
             <button (click)="checkout()"
               class="w-full py-3 bg-[#111111] text-white border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-white hover:text-[#111111] transition-all cursor-pointer">
               Proceder al Pago
@@ -172,7 +173,8 @@
           class="w-full py-3 bg-[#111111] text-white border border-[#111111] rounded-none text-xs uppercase tracking-[1px] font-normal hover:bg-white hover:text-[#111111] disabled:opacity-45">
           {{ paypalLoading ? 'Cargando PayPal…' : 'Continuar con PayPal' }}
         </button>
-        <div id="paypal-button-container" class="min-h-[45px]"></div>
+        <p *ngIf="!(connectionService.online$ | async)" role="status">Vuelve a conectarte para continuar el pago.</p>
+        <div id="paypal-button-container" [hidden]="!(connectionService.online$ | async)" class="min-h-[45px]"></div>
         <button type="button" (click)="pasoCheckout = 2" class="checkout-back mt-3">Volver</button>
         </div>
       </div>

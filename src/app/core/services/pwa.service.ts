@@ -1,4 +1,7 @@
-import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { DestroyRef, Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SwUpdate } from '@angular/service-worker';
+import { fromEvent, timer } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
@@ -37,12 +40,41 @@ export class PwaService implements OnDestroy {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private updates: SwUpdate,
+    private destroyRef: DestroyRef
   ) {
     if (isPlatformBrowser(this.platformId)) {
       window.addEventListener('beforeinstallprompt', this.onInstallAvailable);
       window.addEventListener('appinstalled', this.onInstalled);
+      this.configureUpdates();
     }
+  }
+
+  private configureUpdates(): void {
+    if (!this.updates.isEnabled) return;
+    this.updates.versionUpdates.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(event => {
+      if (event.type === 'VERSION_READY') {
+        this.snackBar.open('Hay una nueva versión. Guarda tus cambios antes de actualizar.', 'Actualizar', { duration: 0 })
+          .onAction().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => window.location.reload());
+      } else if (event.type === 'VERSION_INSTALLATION_FAILED') {
+        console.warn('No se pudo descargar la actualización PWA', event.error);
+      }
+    });
+    this.updates.unrecoverable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      this.snackBar.open('Conéctate a internet y recarga para recuperar la aplicación.', 'Recargar', { duration: 0 })
+        .onAction().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => window.location.reload());
+    });
+    timer(60000, 6 * 60 * 60 * 1000).pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => void this.checkForUpdate());
+    fromEvent(window, 'online').pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => void this.checkForUpdate());
+  }
+
+  private async checkForUpdate(): Promise<void> {
+    if (!navigator.onLine) return;
+    try { await this.updates.checkForUpdate(); }
+    catch (error) { console.warn('No se pudo comprobar la actualización PWA', error); }
   }
 
   ngOnDestroy(): void {
@@ -126,7 +158,9 @@ export class PwaService implements OnDestroy {
     // Alias `any` para evitar el narrowing de TS (Navigator no declara `share`).
     const nav: any = navigator;
     const url = `${window.location.origin}/productos/${product._id}`;
-    const text = `${product.nombre} — ${product.precioNormalFinal || product.precioNormal || product.precio || 0} Bs. en Distribuidora Panamericana`;
+    const price = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' })
+      .format(product.precioNormalFinal ?? product.precioNormal ?? product.precio ?? 0);
+    const text = `${product.nombre} — ${price} MXN en Distribuidora Panamericana`;
 
     if (nav.share) {
       try {
@@ -153,9 +187,9 @@ export class PwaService implements OnDestroy {
     try {
       const nav: any = navigator;
       if (count > 0 && 'setAppBadge' in nav) {
-        nav.setAppBadge(count);
+        void Promise.resolve(nav.setAppBadge(count)).catch(() => {});
       } else if ('clearAppBadge' in nav) {
-        nav.clearAppBadge();
+        void Promise.resolve(nav.clearAppBadge()).catch(() => {});
       }
     } catch {
       /* PWA no instalada o API no soportada: se ignora silenciosamente */

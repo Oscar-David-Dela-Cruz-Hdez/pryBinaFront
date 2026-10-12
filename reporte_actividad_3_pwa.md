@@ -68,7 +68,7 @@ Configuración de librerías y comandos del proyecto:
 Archivo de configuración que permite la instalabilidad de la PWA en dispositivos móviles y de escritorio:
 
 - **`name`**: "Distribuidora Panamericana"
-- **`short_name`**: "Panamericana PWA"
+- **`short_name`**: "Panamericana"
 - **`start_url`**: `"/"` (Ruta de inicio de la aplicación)
 - **`display`**: `"standalone"` (Ejecución en ventana independiente sin barras de navegador)
 - **`theme_color`**: `"#111111"`
@@ -84,18 +84,18 @@ Para cumplir con los requerimientos de navegabilidad offline y experiencia de ap
 ### 5.1. Almacenamiento Local del Carrito (`localStorage` / `CartService`)
 
 - La PWA implementa un servicio dedicado `CartService` que se suscribe a los cambios del carrito de compras.
-- Cada vez que el usuario añade, modifica o elimina un producto (estando online u offline), el estado del carrito se serializa automáticamente en formato JSON dentro de `localStorage` bajo la clave `cache_carrito`.
+- Cada vez que el usuario añade, modifica o elimina un producto (estando online u offline), el estado del carrito se serializa automáticamente en formato JSON dentro de `localStorage` bajo la clave `cart`.
 - Al cerrar la pestaña o perder la conexión a internet, el carrito conserva los productos precargados. Al abrir la PWA sin internet, los productos siguen disponibles de inmediato.
 
 ### 5.2. Indicador del Estado de Conexión en Tiempo Real (`navigator.onLine` / Eventos `online` y `offline`)
 
 - Se configura la detección del estado de la red mediante los eventos nativos `window.addEventListener('online')` y `window.addEventListener('offline')`.
-- Permite desplegar un banner informativo en la interfaz que notifica al usuario cuando se encuentra navegando sin internet ("Modo Offline") y confirma la reconexión al servidor cuando regresa la señal.
+- Despliega un banner al perder conexión y lo oculta al recuperar la red. `navigator.onLine` indica conectividad del dispositivo; no garantiza que el servidor esté disponible.
 
 ### 5.3. Retroalimentación Háptica al Agregar al Carrito (`Vibration API`)
 
 - Mediante la Web API `navigator.vibrate()`, la aplicación ejecuta una ligera vibración táctil (50 ms) al presionar los botones de acción principal (agregar productos al carrito o confirmar pedido).
-- Ofrece una respuesta sensorial idéntica a las aplicaciones móviles nativas de Android e iOS.
+- La vibración depende del navegador y dispositivo; se omite cuando la API no está disponible.
 
 ### 5.4. Compartido Nativo de Productos (`Web Share API`)
 
@@ -109,5 +109,24 @@ Para cumplir con los requerimientos de navegabilidad offline y experiencia de ap
 ---
 
 ## 6. CONCLUSIÓN
+
+### Configuración actualizada — 11 de octubre de 2026
+
+- El service worker se registra inmediatamente en producción. En desarrollo (`npm start`) permanece desactivado.
+- Se conserva el aviso de instalación con SweetAlert2 cuando el navegador emite `beforeinstallprompt`, con espera de ocho segundos y aplazamiento de siete días al rechazarlo. La instalación y las APIs nativas dependen del navegador.
+- Se precargan los archivos de código. Los recursos locales del grupo `assets` y las imágenes externas se guardan al consultarlos. No se garantiza contenido que nunca se descargó.
+- La caché de catálogo permite únicamente rutas públicas GET y HEAD, con vigencia de un día, máximo 100 respuestas y espera de red de diez segundos. Perfil, direcciones, pedidos, pagos y exportaciones quedan fuera.
+- Las imágenes consultadas de `https://res.cloudinary.com/da8xounzu/image/upload/` tienen una caché de hasta 150 respuestas durante siete días. Otros proveedores requieren reglas adicionales.
+- Hay aviso de nueva versión con acción Actualizar y aviso de recuperación con acción Recargar. La recarga requiere una acción del usuario; puede perder cambios de formularios no guardados. Se comprueban actualizaciones al recuperar conexión y periódicamente.
+- El carrito persiste en `localStorage`. El checkout y la creación de órdenes requieren conexión; no se encolan pagos offline. Ante errores se debe revisar Mis compras y PayPal antes de reintentar.
+- El compartido expresa precios en MXN y dispone de alternativa mediante portapapeles. Los fallos asíncronos de la API del badge se manejan sin interrumpir la aplicación.
+
+### Comprobaciones de producción
+
+1. Ejecutar `npm run build` y `node scripts/verify-pwa.mjs` para validar exclusión de rutas privadas, recursos e iconos.
+2. Servir la compilación con HTTPS o localhost y esperar a que el service worker se active. Visitar catálogo y productos y añadir artículos al carrito.
+3. Activar Offline en DevTools y recargar: comprobar contenido previamente guardado, persistencia del carrito y aviso al intentar pagar.
+4. En un navegador compatible, comprobar instalación y apertura independiente. En una pestaña abierta publicar una segunda versión y verificar el aviso y la recarga al aceptar.
+
 
 La correcta configuración del entorno de desarrollo es la base sobre la cual se construye una Aplicación Web Progresiva robusta. Gracias a la integración de herramientas como Angular CLI, Git, Vercel y DevTools, junto con archivos de configuración estandarizados (`angular.json`, `manifest.json`, `package.json`) y Web APIs modernas (`Vibration API`, `Web Share API`, `App Badge API`, `localStorage`), se garantiza un flujo de trabajo eficiente y una aplicación capaz de ofrecer alta disponibilidad, instalabilidad y tolerancia a fallos de red mediante almacenamiento local persistente.
