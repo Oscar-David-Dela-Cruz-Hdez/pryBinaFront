@@ -99,26 +99,30 @@ export class CompanyOfflineService {
     this.update(path, { missing: true });
     throw new Error('Este contenido aún no está disponible sin conexión');
   }
-  async prepare(): Promise<void> {
+  async prepare(verifyApplication = true): Promise<void> {
     if (this.busy.value) return;
     if (!this.connection.isOnline()) {
       this.result.next('Necesitas internet para descargar o actualizar la información.'); return;
     }
-    if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) {
+    if (verifyApplication && (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller)) {
       this.result.next('Espera a que la aplicación esté lista y vuelve a intentarlo. Esta función requiere la versión de producción.'); return;
     }
     this.busy.next(true);
-    this.result.next('Verificando los archivos necesarios para abrir la aplicación…');
+    this.result.next('Guardando información de la empresa…');
     try {
-      if (!await this.shell.ensureReady()) {
-        this.result.next('La aplicación todavía no está lista para recargar sin conexión. Revisa el aviso de descarga.');
+      // La descarga de datos no debe depender de que Angular termine de instalar el shell.
+      const results = await Promise.allSettled(COMPANY_SECTIONS.map(section => {
+        const date = this.state.value[section.path]?.date;
+        if (!verifyApplication && date && Date.now() - date < 24 * 60 * 60 * 1000) return Promise.resolve();
+        return this.load(section.path, true);
+      }));
+      const count = results.filter(result => result.status === 'fulfilled').length;
+      if (verifyApplication && !await this.shell.ensureReady()) {
+        this.result.next(`Se guardaron ${count} de ${COMPANY_SECTIONS.length} apartados de empresa. La aplicación aún no está verificada para recargar sin conexión.`);
         return;
       }
-      this.result.next('Descargando información de la empresa…');
-      const results = await Promise.allSettled(COMPANY_SECTIONS.map(section => this.load(section.path, true)));
-      const count = results.filter(result => result.status === 'fulfilled').length;
       this.result.next(count === COMPANY_SECTIONS.length
-        ? 'Información lista para consultar sin conexión en este dispositivo.'
+        ? (verifyApplication ? 'Información lista para consultar sin conexión en este dispositivo.' : 'Los ocho apartados de empresa se guardaron automáticamente en este dispositivo.')
         : `Se actualizaron ${count} de ${COMPANY_SECTIONS.length} apartados. Revisa los pendientes y vuelve a intentar.`);
     } finally { this.busy.next(false); }
   }

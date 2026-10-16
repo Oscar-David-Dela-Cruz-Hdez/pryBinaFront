@@ -70,6 +70,12 @@
   </div>
 
   <div class="footer-bottom">
+    <div>
+      <button type="button" (click)="connectionAlerts.toggle()" [attr.aria-pressed]="connectionAlerts.enabled | async">
+        {{ (connectionAlerts.enabled | async) ? 'Desactivar avisos de conexión' : 'Activar avisos de conexión' }}
+      </button>
+      <p role="status" aria-live="polite">{{ connectionAlerts.message | async }}</p>
+    </div>
     <p>&copy; {{ currentYear }} Distribuidora Panamericana. Todos los derechos reservados.</p>
     <nav>
       <a routerLink="/privacidad">Privacidad</a>

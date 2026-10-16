@@ -139,6 +139,25 @@ Para cumplir con los requerimientos de navegabilidad offline y experiencia de ap
 
 ### Comprobaciones de producción
 
+### Avisos de conexión — 16 de octubre de 2026
+
+- El pie de página ofrece Activar/Desactivar avisos de conexión. El permiso se solicita solo al pulsar el botón y la preferencia se conserva localmente. Si está bloqueado o no hay soporte, los avisos dentro de la aplicación siguen disponibles.
+- Se notifica la pérdida y recuperación de conectividad del dispositivo, sin avisos al abrir la página y agrupando cambios rápidos. Se usa `showNotification` del registro activo en dispositivos móviles, con alternativa de escritorio cuando no hay worker. La reconexión muestra también un aviso temporal dentro de la aplicación.
+- No son notificaciones push del servidor ni un monitor permanente: requieren que la aplicación siga ejecutándose. El sistema puede suspenderla en segundo plano; con la PWA cerrada no se garantiza detectar cambios. La reconexión de red no confirma que el backend esté disponible.
+- Prueba: `node scripts/test-connection-notifications.cjs`. Validar además en teléfono instalado con permiso concedido y denegado, alternando Wi-Fi/datos o modo avión con la aplicación abierta.
+
+### Vista pública simplificada — 16 de octubre de 2026
+
+- Se retira el panel desplegable de preparación y reparación, sus botones y lista técnica de descargas. Solo se conservan la fecha y avisos pertinentes en las páginas de empresa; no se muestra un panel vacío en inicio o catálogo.
+- La preparación de los ocho apartados públicos se inicia en segundo plano desde la primera apertura con conexión, sin navegación por sus páginas ni botones. Reintenta pendientes cada minuto y al reconectar; las copias correctas se actualizan automáticamente después de 24 horas. La primera descarga debe completarse antes de desconectar internet.
+- La comprobación y reparación del shell se conservan en los servicios para mantenimiento, pero sus controles ya no se exponen en la vista pública.
+
+### Descarga automática independiente de datos de empresa
+
+- Los ocho apartados públicos se descargan al abrir la aplicación con conexión, sin esperar al registro o a la verificación del service worker. Se reintentan los pendientes cada minuto y al recuperar conexión. Los apartados descargados correctamente no se vuelven a solicitar automáticamente durante 24 horas; el botón manual permite actualizarlos antes.
+- La preparación manual guarda primero los datos y después verifica los archivos de la aplicación. Si la verificación falla, conserva y comunica los datos guardados, sin anunciar que toda la PWA puede recargarse offline. Esto corrige el bloqueo por el que una comprobación del shell impedía preparar Historia, Misión/Visión, FAQs, Contacto, Ubicación, Políticas y Términos.
+- La primera descarga de cada contenido requiere conexión y respuesta válida del servidor; no se incluyen textos de empresa inventados como sustituto.
+
 ### Reparación de descarga incompleta — 15 de octubre de 2026
 
 - El diagnóstico de Chrome identificó `EXISTING_CLIENTS_ONLY` tras fallar la descarga de un chunk JavaScript con 504. Tener un worker activo y muchos MB guardados no confirma que exista una versión completa de la aplicación.

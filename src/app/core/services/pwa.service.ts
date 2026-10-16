@@ -61,18 +61,15 @@ export class PwaService implements OnDestroy {
   }
 
   private configureCompanyOffline(): void {
-    if (!this.updates.isEnabled || !('serviceWorker' in navigator)) return;
-    // Esperar al control del worker evita descargas que no entrarían en su caché.
-    fromEvent(navigator.serviceWorker, 'controllerchange').pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => void this.prefetchCompany());
+    // La copia fechada utiliza su propia caché: no necesita esperar al worker.
     fromEvent(window, 'online').pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => void this.prefetchCompany());
-    timer(3000).pipe(takeUntilDestroyed(this.destroyRef))
+    timer(0, 60000).pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => void this.prefetchCompany());
   }
 
   private async prefetchCompany(): Promise<void> {
-    if (navigator.onLine && navigator.serviceWorker.controller) await this.companyOffline.prepare();
+    if (navigator.onLine) await this.companyOffline.prepare(false);
   }
 
   private configureUpdates(): void {

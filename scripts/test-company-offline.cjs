@@ -61,7 +61,16 @@ vm.runInNewContext(output, context);
   assert.ok(service.result.value.includes('Información lista'));
   shellReady = false;
   await service.prepare();
-  assert.ok(service.result.value.includes('todavía no está lista'), 'Nunca confirma si el shell está incompleto');
+  assert.ok(service.result.value.includes('aún no está verificada'), 'Nunca confirma si el shell está incompleto');
+  stores.clear();
+  service.state.next({});
+  await service.prepare(false);
+  for (const section of service.sections) {
+    assert.ok(service.state.value[section.path]?.date, 'Descarga datos aunque el shell no esté listo');
+  }
+  online = false;
+  for (const section of service.sections) await service.load(section.path);
+  online = true;
   const healthContext = {
     exports: {}, AbortSignal, navigator: { onLine: true }, window: {},
     fetch: async () => new Response(JSON.stringify({ ok: true, mongo: 'conectado' })),

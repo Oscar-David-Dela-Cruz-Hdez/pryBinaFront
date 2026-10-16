@@ -6,6 +6,7 @@ import { SiteInfoService } from '../../../core/services/admin/site-info.service'
 import { SalesService } from '../../../core/services/admin/sales.service';
 import { FamiliasService } from '../../../core/services/admin/familias.service';
 import { ProductsService } from '../../../core/services/admin/products.service';
+import { ConnectionNotificationsService } from '../../../core/services/connection-notifications.service';
 
 @Component({
   selector: 'app-footer',
@@ -25,7 +26,8 @@ export class FooterComponent implements OnInit {
     private siteInfoService: SiteInfoService,
     private salesService: SalesService,
     private familiasService: FamiliasService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    public connectionAlerts: ConnectionNotificationsService
   ) {}
 
   ngOnInit() {
