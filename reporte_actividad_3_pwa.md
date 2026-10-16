@@ -139,6 +139,16 @@ Para cumplir con los requerimientos de navegabilidad offline y experiencia de ap
 
 ### Comprobaciones de producción
 
+### Reparación de descarga incompleta — 15 de octubre de 2026
+
+- El diagnóstico de Chrome identificó `EXISTING_CLIENTS_ONLY` tras fallar la descarga de un chunk JavaScript con 504. Tener un worker activo y muchos MB guardados no confirma que exista una versión completa de la aplicación.
+- El botón de preparación comprueba primero la versión publicada, el estado NORMAL del worker y todos los recursos de los grupos `prefetch`, incluidos `index.html` y los chunks, comparando SHA-1 de las respuestas almacenadas con `ngsw.json`. No anuncia éxito si falta un archivo, su contenido está dañado o las versiones no coinciden. Después prepara los ocho apartados públicos.
+- La revisión del diagnóstico y de los nombres de caché usa el formato de Angular 20.1.x; deberá revisarse al actualizar Angular. La verificación es de solo lectura y no modifica las cachés internas del worker.
+- «Reparar descarga de la aplicación» requiere internet y confirmación en pantalla por la recarga. Comprueba primero que el HTML del sitio responde, elimina únicamente el registro y cachés Angular del alcance de la aplicación y vuelve a abrir mediante un bypass temporal. Conserva `localStorage` (carrito) y `panamericana-empresa-fechada-v1`. Después de la recarga debe completarse nuevamente la preparación antes de desconectar internet.
+- Esta revisión cambia `appData` para generar una versión nueva que Angular pueda instalar al recuperar conexión. Se añaden cabeceras de revalidación para los archivos de control en Vercel. Los cambios solo se aplican al desplegar la compilación completa.
+- Pruebas: `node scripts/test-shell-offline.cjs` cubre descarga completa, archivo faltante/dañado, estado degradado y versiones incompatibles; `node scripts/verify-pwa.mjs` verifica además las huellas de todos los archivos de la compilación.
+- Prueba de aceptación en Chrome: desplegar, abrir online, pulsar Preparar y esperar la confirmación tanto de archivos como de información; activar Offline y recargar tres veces, abrir rutas internas y reiniciar la pestaña. Para probar reparación, interrumpir una descarga en un perfil de prueba, recuperar internet y usar Reparar. No borrar almacenamiento durante la prueba offline normal. Borrar todos los datos y desconectar antes de reinstalar no puede funcionar.
+
 1. Ejecutar `npm run build` y `node scripts/verify-pwa.mjs` para validar exclusión de rutas privadas, recursos e iconos.
 2. Servir la compilación con HTTPS o localhost y esperar a que el service worker se active. Visitar catálogo y productos y añadir artículos al carrito.
 3. Activar Offline en DevTools y recargar: comprobar contenido previamente guardado, persistencia del carrito y aviso al intentar pagar.

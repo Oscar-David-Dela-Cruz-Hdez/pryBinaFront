@@ -23,10 +23,12 @@ import { ConnectionService } from '../../core/services/connection.service';
         </p>
         <details>
           <summary>Consultar información sin conexión</summary>
+          <p role="status" aria-live="polite">{{ offline.shell.status | async }}</p>
           <p>Guarda contacto, preguntas frecuentes, historia, misión, visión, políticas, términos y ubicación.</p>
           <button type="button" (click)="offline.prepare()" [disabled]="(offline.busy | async) || !(connection.online$ | async)">
             {{ (offline.busy | async) ? 'Descargando…' : 'Preparar o actualizar para usar sin conexión' }}
           </button>
+          <button type="button" (click)="offline.shell.repair()" [disabled]="(offline.busy | async) || !(connection.online$ | async)">Reparar descarga de la aplicación</button>
           <p role="status" aria-live="polite">{{ offline.result | async }}</p>
           <ul>
             <li *ngFor="let section of offline.sections">

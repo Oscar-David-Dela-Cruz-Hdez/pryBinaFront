@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { createHash } from 'node:crypto';
 
 const root = resolve(import.meta.dirname, '../dist/prynuevo/browser');
 const config = JSON.parse(readFileSync(resolve(root, 'ngsw.json'), 'utf8'));
@@ -33,6 +34,8 @@ assert.ok(images?.patterns.some(pattern => new RegExp(pattern)
 assert.equal(config.dataGroups.some(group => group.name === 'api-backend'), false);
 for (const file of Object.keys(config.hashTable)) {
   assert.ok(existsSync(resolve(root, file.slice(1))), `Falta recurso: ${file}`);
+  assert.equal(createHash('sha1').update(readFileSync(resolve(root, file.slice(1)))).digest('hex'),
+    config.hashTable[file], `La huella no coincide: ${file}`);
 }
 const manifest = JSON.parse(readFileSync(resolve(root, 'manifest.webmanifest'), 'utf8'));
 for (const icon of manifest.icons) {

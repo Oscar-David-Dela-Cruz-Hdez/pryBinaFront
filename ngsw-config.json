@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
+  "appData": { "offlineRevision": "2026-10-15-shell-verification" },
   "assetGroups": [
     {
       "name": "app",

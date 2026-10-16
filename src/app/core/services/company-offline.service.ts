@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, defer, Observable } from 'rxjs';
 import { ConnectionService } from './connection.service';
+import { ShellOfflineService } from './shell-offline.service';
 
 const BASE = 'https://prybinaback.onrender.com/api/';
 const CACHE = 'panamericana-empresa-fechada-v1';
@@ -21,7 +22,7 @@ export class CompanyOfflineService {
   readonly result = new BehaviorSubject('');
   private pending = new Map<string, Promise<any>>();
 
-  constructor(private connection: ConnectionService) { void this.inspect(); }
+  constructor(private connection: ConnectionService, public shell: ShellOfflineService) { void this.inspect(); }
 
   private allowed(path: string): boolean {
     return COMPANY_SECTIONS.some(section => section.path === path) || path === 'contactos' || path === 'faqs';
@@ -107,8 +108,13 @@ export class CompanyOfflineService {
       this.result.next('Espera a que la aplicación esté lista y vuelve a intentarlo. Esta función requiere la versión de producción.'); return;
     }
     this.busy.next(true);
-    this.result.next('Descargando información de la empresa…');
+    this.result.next('Verificando los archivos necesarios para abrir la aplicación…');
     try {
+      if (!await this.shell.ensureReady()) {
+        this.result.next('La aplicación todavía no está lista para recargar sin conexión. Revisa el aviso de descarga.');
+        return;
+      }
+      this.result.next('Descargando información de la empresa…');
       const results = await Promise.allSettled(COMPANY_SECTIONS.map(section => this.load(section.path, true)));
       const count = results.filter(result => result.status === 'fulfilled').length;
       this.result.next(count === COMPANY_SECTIONS.length

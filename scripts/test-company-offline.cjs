@@ -34,7 +34,10 @@ const context = {
 };
 vm.runInNewContext(output, context);
 (async () => {
-  const service = new context.exports.CompanyOfflineService({ isOnline: () => online, checkServer: async () => {} });
+  let shellReady = true;
+  const service = new context.exports.CompanyOfflineService({ isOnline: () => online, checkServer: async () => {} }, {
+    ensureReady: async () => shellReady
+  });
   await service.inspect();
   await service.load('historia');
   const savedAt = service.state.value.historia.date;
@@ -56,6 +59,9 @@ vm.runInNewContext(output, context);
   rejectStorage = false;
   await service.prepare();
   assert.ok(service.result.value.includes('Información lista'));
+  shellReady = false;
+  await service.prepare();
+  assert.ok(service.result.value.includes('todavía no está lista'), 'Nunca confirma si el shell está incompleto');
   const healthContext = {
     exports: {}, AbortSignal, navigator: { onLine: true }, window: {},
     fetch: async () => new Response(JSON.stringify({ ok: true, mongo: 'conectado' })),

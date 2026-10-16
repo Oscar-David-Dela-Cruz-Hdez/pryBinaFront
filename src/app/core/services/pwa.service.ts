@@ -47,6 +47,12 @@ export class PwaService implements OnDestroy {
     private companyOffline: CompanyOfflineService
   ) {
     if (isPlatformBrowser(this.platformId)) {
+      // El bypass se usa solo para recuperar la primera carga tras reparar.
+      const url = new URL(window.location.href);
+      if (url.searchParams.has('ngsw-bypass')) {
+        url.searchParams.delete('ngsw-bypass');
+        window.history.replaceState(window.history.state, '', url.href);
+      }
       window.addEventListener('beforeinstallprompt', this.onInstallAvailable);
       window.addEventListener('appinstalled', this.onInstalled);
       this.configureUpdates();
